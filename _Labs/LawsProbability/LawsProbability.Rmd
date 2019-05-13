@@ -7,7 +7,7 @@ output:
     theme: paper
 ---
 
-<!script src="../../_HeadersEtc/hideOutput.js"></script>
+<script src="../../_HeadersEtc/hideOutput.js"></script>
 
 <img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
 
