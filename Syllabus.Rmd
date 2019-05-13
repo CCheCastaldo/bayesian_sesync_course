@@ -1,0 +1,104 @@
+---
+output:
+  html_document:
+    highlight: kate
+    theme: paper
+---
+
+<br>
+
+##### **Day 1: (6/3) Probability**
+
+1. Participant and Course Introduction
+2. [What Sets Bayes Apart?](content/lectures/WhatSetsBayesApart.pdf)
+3. Confidence intervals defined
+4. Laws of Probability & [Probability Lab I-V](content/labs/LawsProbability.html)
+5. Probability Concepts and Notation & Probability Lab VI
+6. Probability Distributions & Probability Lab VII
+
+Review Hobbs and Hooten chapters 1-3.
+
+<br>
+
+##### **Day 2: (6/4) Likelihood & Bayes' Theorem**
+
+1. Marginal Distributions & Probability Lab VIII
+2. Moment Matching & Moment Matching Probability Lab
+3. Likelihood & Likelihood Problem Set
+
+Review Hobbs and Hooten chapters 4-6.
+
+<br>
+
+##### **Day 3: (6/5) Intro to Bayesian Statistics**
+
+1. Bayes' Theorem & Bayes' Theorem Lab 
+2. More about Priors & Priors Lab
+3. MCMC Overview & MCMC Lab (optional)
+
+
+<br>
+
+##### **Day 4: (6/6) Markov Chain Monte Carlo**
+
+1. JAGS Primer Work & Exercises
+2. Inference From a Single Model
+3. Islands Lab
+4. Happy Hour at SESYNC 
+
+Review Hobbs and Hooten chapter 7.
+
+<br>
+
+##### **Day 5: (6/7) Modeling Practice**
+
+1. Bayesian Regression & Lab
+2. Vague Priors in Non-Linear Models
+3. Designed Experiments & Lab
+
+Review Hobbs and Hooten chapter 8.
+
+<br>
+
+##### **Day 6: (6/8) Off**
+
+<br>
+
+##### **Day 7: (6/9) Bayesian Regression & Multi-Level Modeling**
+
+1. Multi-Level Modeling & Multi-Level Modeling Lab
+
+Review Hobbs and Hooten chapters 9-12.
+
+<br>
+
+##### **Day 8: (6/10) Multi-Level Modeling, Model Checking, & Designed Experiments**
+
+1. Introduction to Hierarchical Models & Hierarchical Modeling Board Work 
+2. Model Checking
+3. Multi-Level Modeling Lab Revisited
+
+
+<br>
+
+##### **Day 9: (6/11) Advanced Topics**
+
+1. Dynamic Models & Lynx Lab
+2. Ordinal Modeling Lab
+3. Mixture Models, Zero Inflation, & Occupancy & Swiss Birds Lab
+4. Model Selection Lab Lab
+
+<br>
+
+##### **Day 10: (6/12) Spatial Modeling & Individual Projects**
+
+1. Participant Project Work
+2. Spatial Modeling & Lab
+3. Bayesian Modeling Practicalities
+
+<br>
+
+##### **Day 11: (6/13) Presentation Day (ALL DAY)**
+
+1. Course Evaluation Survey
+2. Participant Project Presentations and Feedback 

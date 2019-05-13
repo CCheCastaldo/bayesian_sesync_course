@@ -1,0 +1,4 @@
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\lhead{SESYNC Modeling Course}
+\rhead{June 3-11 2019}

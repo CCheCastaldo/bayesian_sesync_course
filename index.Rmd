@@ -1,0 +1,72 @@
+---
+output:
+  html_document:
+    highlight: kate
+    theme: paper
+---
+
+<br>
+
+#### 2019 Bayesian Modeling for Socio-Environmental Data Short Course
+
+Solutions to pressing environmental problems require understanding connections between human and natural systems. Analysis of these systems requires a model that can deal with complexity, is able to exploit data from multiple sources, and is honest about the uncertainty from multiple sources. Synthesis of results from multiple studies is often required. Bayesian hierarchical models provide a powerful approach to analysis of socio-environmental problems.
+
+Past participants of this short course have worked on research questions including the use of network analyses to understand measurement uncertainly in the context of extreme weather events, the study of governance effectiveness and fisheries biomass, the effect of changing climate on population dynamics of polar bears, and the relationship between advocacy group compositions and estuarine quality.
+
+The goals of the course are to:
+
+1. Provide a principles-based understanding of Bayesian methods needed to train students, evaluate papers and proposals, and solve research problems.
+
+2. Communicate the statistical concepts and vocabulary needed to foster collaboration between ecologists, social scientists, and statisticians.
+
+3. Provide the conceptual foundations and quantitative confidence needed for self-teaching modern analytic methods.
+
+<br>
+
+#### Short Course Overview
+
+The course will include lectures and laboratory exercises. Labs will emphasize problem solving requiring programming in R and JAGS. The course will enable participants to:
+
+1. Explain key principles of Bayesian statistics, including the concepts of joint, conditional, and marginal probabilities; posterior and prior distributions; likelihood; conjugacy; and the relationship between Bayesian and maximum likelihood approaches to inference.
+
+2. Use basic statistical distributions (e.g., binomial, Poisson, normal, log normal, multinomial, beta, Dirichlet, gamma, multivariate normal) to write joint and conditional posterior distributions for hierarchical Bayesian models that couple models of socio-ecological processes, models of data, and random effects.
+
+3. Explain how Markov chain Monte Carlo (MCMC) methods can be used to estimate the posterior distributions of parameters.
+
+4. Write algorithms and computer code in R implementing MCMC methods to estimate parameters in simple models. 
+
+5. Use JAGS software to implement MCMC methods for estimating posterior distributions of parameters, latent states, and derived quantities.
+
+6. Evaluate model convergence and assess goodness of fit of models to data.
+
+7. Develop and implement hierarchical models that explicitly partition uncertainties.
+
+8. Understand the basis for statistical inference from single and multiple Bayesian models.
+
+9. Use Bayesian methods to synthesize results from multiple scientific studies.
+
+10. Understand Bayesian methods for modeling spatially structured data.
+
+<br>
+
+#### Instructor Biographies
+
+Dr. Tom Hobbs has taught ecological modeling at Colorado State University for 16 years. His course has evolved over time; during the last eight years, it has emphasized Bayesian methods for gaining insight from models and data. He has also taught short courses for the U.S. Geological Survey, Conservation Science Partners, the Woods Hole Research Center, the Grimsö Wildlife Research Institute, and the Department of Ecology, Swedish Agricultural University.  He is the author, with Mevin Hooten, of *Bayesian models: A statistical primer for ecologists* from Princeton University Press. Dr. Hobbs takes special pride in making challenging, quantitative concepts clear and accessible to students who never considered themselves to be particularly adept with mathematics and statistics.
+
+Dr. Mary Collins is an environmental social scientist and Assistant Professor of Environmental Health at the College of Environmental Science and Forestry at the State University of New York (SUNY-ESF). Dr. Collins uses hierarchical Bayesian models to assess inequalities in pollution generation between US-based industrial facilities and potential human health impacts. Currently, she is working on the temporal dimensions of hazardous waste generation as it relates to links between specific chemical exposures and rare cancers in New York State. Since participating in an earlier version of this course, she has been a co-instructor since 2015 and is specifically interested in the translation of concepts across disciplinary boundaries.
+
+Dr. Christian Che-Castaldo is an ecologist and Research Scientist with the Pacific Northwest Research Station and Mount St. Helens Institute. Dr. Che-Castaldo uses hierarchical Bayesian models to explain and forecast the occupancy and population dynamics of the amphibian and small mammal species recolonizing Mount St. Helens after the 1980 eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he has been a co-instructor since 2015 and served as an external reviewer for *Bayesian models: A statistical primer for ecologists*. 
+
+<br>
+
+#### Special Thanks to SESYNC
+
+We would like to thank the [National Socio-Environmental Synthesis Center (SESYNC)](https://www.sesync.org) for hosting this course and for all their logistical and financial support. Without their generosity, this course would not be possible.
+
+<br>
+
+#### Questions?
+
+Please email Dr. Mary Collins at: mbcollin@esf.edu or Dr. Che-Castaldo at: chrischecastaldo@icloud.com
+
+

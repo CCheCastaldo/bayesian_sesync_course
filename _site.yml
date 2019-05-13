@@ -1,0 +1,9 @@
+name: "SESYNCBayes2019"
+output_dir: "docs"
+navbar:
+  title: "SESYNCBayes2019"
+  left:
+    - text: "Syllabus"
+      href: Syllabus.html
+    - text: "Logistics"
+      href: Logistics.html

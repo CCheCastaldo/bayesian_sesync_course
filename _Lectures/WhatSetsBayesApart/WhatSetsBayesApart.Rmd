@@ -1,0 +1,200 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "Introduction to Course"
+author: "Chris Che-Castaldo, Mary B. Collins, N. Thompson Hobbs"
+date: "June 2019"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+subtitle: Bayesian Modeling for Socio-Environmental Data
+latex_engine: xelatex
+transition: fastest
+---
+
+# Welcome and Logistics
+
+## Housekeeping
+
+- Introductions
+- GitHub for course materials
+- Pulling notes just in time
+- Daily schedule
+- Lecture / exercise mix
+- Working in groups
+- Individual modeling projects
+
+## Readings
+
+\begin{center}
+\includegraphics[width=0.3\paperwidth]{../../_Graphics/HobbsHootenBookCover.png}
+\end{center}
+
+Errata and explanations can be found \href{http://www.stat.colostate.edu/~hooten/papers/pdf/Hobbs_Hooten_Bayesian_Models_2015_errata.pdf}{\beamerbutton{here}}
+
+# Motivation
+
+## Exercise
+
+What do statements made by journalists, attorneys, and scientists have in common? What sets the statements of scientists apart? 
+
+## What is this course about?
+
+\center\includegraphics[width=0.95\paperwidth]{../../_Graphics/ConceptsTheory.png}
+
+## What is this course about?
+
+Building models of socio-ecological processes:
+
+$$[z_{i}\mid\bm{\theta_{p}}]$$
+
+and linking those models to data:
+
+$$ [y_{i} \mid z_{i},\bm{\theta}_{d}] $$
+
+using Bayesian methods.
+
+## Why this course?
+
+\vspace {-1cm}
+
+\center\includegraphics[width=0.85\paperwidth]{../../_Graphics/SokalRohlf.pdf}
+
+## Why this course?
+
+\center\includegraphics[width=0.4\paperwidth]{../../_Graphics/pValues.png}
+
+## Why this course?
+
+\begin{columns}[T]
+
+\begin{column}[T]{8cm}
+\center\includegraphics[width=0.95\columnwidth]{../../_Graphics/CedarCreek.jpg}
+\end{column}
+
+\begin{column}[T]{5cm}
+\center\includegraphics[width=.8\columnwidth]{../../_Graphics/BlockedDesign.pdf}
+\end{column}
+
+\end{columns}
+
+## Why this course?
+
+Problems poorly suited to traditional approaches:
+
+- Multiple sources of data
+- Multiple sources of uncertainty
+- Inference across scales
+- Unobservable quantities
+- Multimodal data
+- Derived quantities
+- Forecasting
+
+## Why this course?
+
+SESYNC is dedicated to fostering synthetic, actionable science related to the structure, functioning, and sustainability of socio-environmental systems.
+
+\center \includegraphics[width=0.25\paperwidth]{../../_HeadersEtc/SESYNCBayes/logo.png}
+
+# Goals
+
+## Goals
+
+- Provide *principles* based understanding
+- Enhance intellectual satisfaction
+- Foster collaboration
+- Build a foundation for self-teaching
+
+## Learning outcomes
+
+\center\includegraphics[width=0.95\columnwidth]{../../_Graphics/BayesianModelingSteps.png}
+
+## Learning outcomes
+
+\center\includegraphics[width=0.35\columnwidth]{../../_Graphics/HobbsModelingProcess.pdf}
+
+## Learning outcomes
+
+- Explain basic principles of Bayesian inference.
+- Diagram and write out mathematically correct posterior and joint distributions for Bayesian models.
+- Explain basics of the Markov chain Monte Carlo (MCMC) algorithm. 
+- Use software for implementing MCMC. 
+- Develop and implement hierarchical models. 
+- Evaluate model fit.
+- Appreciate possibilities for model selection.
+- Understand papers and proposals using Bayesian methods.
+
+# Content
+
+## Topics
+
+\center\includegraphics[width=0.9\paperwidth]{../../_Graphics/CourseTopics.png}
+
+## Cross cutting theme
+
+\begin{columns}[T]
+
+\begin{column}[T]{4cm}
+\includegraphics[width=1\columnwidth]{../../_Graphics/FirstDAG.png}
+\end{column}
+
+\begin{column}[T]{9cm} 
+\begin{eqnarray*}
+\mu_{i} & = & \frac{mx_{i}^{a}}{h^{a}+x_{i}^{a}}\\
+{[}a, h, m, \sigma^{2} \mid \bm{y}{]} &\propto &  \prod_{i=1}^{n}{[}y_{i} \mid \mu_{i},\sigma^{2}{]}{[}a{]}{[}h{]}{[}m{]}{[}\sigma^{2}{]}
+\end{eqnarray*}
+\end{column}
+
+\end{columns}
+
+\footnotesize
+``` {r, eval = FALSE, echo = TRUE}
+model{
+  a ~ dnorm(0, .0001)
+  m ~ dgamma(.01, .01)
+  h ~ dgamma(.01, .01)
+  sigma ~ dunif(0, 5)
+  for (i in 1:length(y)){
+    mu[i] <- (m * x[i]^a) / (h^a + x[i]^a)
+    y[i] ~ dgamma(mu[i]^2 / sigma^2, mu[i] / sigma^2)
+  }
+}
+```
+
+# What sets Bayes apart?
+
+## Exercise
+
+Describe how Bayesian analysis differs from other types of statistical analysis.
+
+## Some notation
+
+- $y$ data
+- $\theta$ a parameter or other unknown quantity of interest
+- $[y\mid\theta]$ The probability distribution of $y$ conditional on $\theta$
+- $[\theta\mid y]$ The probability distribution of $\theta$ conditional on $y$
+- $P(y\mid\theta)=p(y\mid\theta)=[y\mid\theta]=f(y\mid\theta)=f(y,\theta)$, different notation that means the same thing.
+
+## Confidence envelopes
+
+I am going to do this on the board. The board notes for this are in the lecture folder.
+
+## What do we do in Bayesian modeling?
+
+- We divide the world into things that are observed $(y)$ and things that unobserved $(\theta)$.
+- The unobserved quantities $(\theta)$ are random variables. 
+- The data are random variables before they are observed and fixed after they have been observed.
+- We seek to understand the probability distribution of $\theta$ using fixed observations, i.e., $[\theta\mid y]$.
+- Those distributions quantify our uncertainty about $\theta$.
+
+## You can understand it
+
+- Rules of probability
+    + Conditioning and independence
+    + Law of total probability
+    + The chain rule of probability
+- Distribution theory
+- Markov chain Monte Carlo
+
+\center\includegraphics[width=0.85\paperwidth]{../../_Graphics/ConceptsTheory.png}
