@@ -34,7 +34,7 @@ Review Hobbs and Hooten chapters 4-6.
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & Bayes' Theorem Lab 
 2. [More about Priors](content/lectures/MoreAboutPriors.pdf) & Priors Lab
-3. MCMC Overview & MCMC Lab (optional)
+3. [MCMC Overview](content/lectures/MCMCOverview.pdf) & MCMC Lab (optional)
 
 <br>
 

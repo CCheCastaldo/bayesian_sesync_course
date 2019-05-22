@@ -1,0 +1,3681 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+%\usepackage[makeroom]{cancel}
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+\usepackage{bm}
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Markov chain Monte Carlo I}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/Logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What is this course about?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/ConceptsAndTheory.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+You can understand it.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size larger
+Rules of probability
+\size default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Conditioning and independence
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Law of total probability
+\end_layout
+
+\begin_layout Itemize
+Factoring joint probabilities
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\size larger
+Distribution theory
+\end_layout
+
+\begin_layout Itemize
+
+\size larger
+Markov chain Monte Carlo
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/ConceptsAndTheory.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The Bayesian method
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-1cm} 
+\backslash
+hspace{2cm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Hobbs01ModelingProcess.pdf
+	width 1.8in
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The MCMC algorithm 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Why MCMC?
+\end_layout
+
+\begin_layout Itemize
+Some intuition about how it works for a single parameter model
+\end_layout
+
+\begin_layout Itemize
+MCMC for multiple parameter models
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Full-conditional distributions (today)
+\end_layout
+
+\begin_layout Itemize
+Gibbs sampling (today and lab next week)
+\end_layout
+
+\begin_layout Itemize
+Metropolis-Hastings algorithm (Thursday)
+\end_layout
+
+\begin_layout Itemize
+MCMC software (JAGS, week after next)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MCMC learning outcomes
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Develop a big picture understanding of how MCMC allows us to approximate
+ the marginal posterior distributions of parameters and latent quantities.
+\end_layout
+
+\begin_layout Enumerate
+Understand and be able to code a simple MCMC algorithm.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Appreciate the different methods that can be used within MCMC algorithms
+ to make draws from the posterior distribution.
+ 
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Metropolis 
+\end_layout
+
+\begin_layout Enumerate
+Metropolis-Hastings 
+\end_layout
+
+\begin_layout Enumerate
+Gibbs 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Understand concepts of burn-in and convergence.
+\end_layout
+
+\begin_layout Enumerate
+Understand and be able to write full-conditional distributions.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Why MCMC?
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Remember the marginal distribution of the data
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/WikleDistributions.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We have simple solutions for the posterior for simple models:
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+[\phi|y]={\rm {beta}}\left({\underbrace{\overbrace{\alpha}^{\text{The prior }\alpha}+y}_{\text{The new }\alpha},\underbrace{\overbrace{\beta}^{\text{The prior}\beta}+n-y}_{\text{The new }\beta}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Problems of high dimension do not have simple solutions:
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{gather*}
+[\theta_{1},\theta_{2,}\theta_{3},\theta_{4},\mathbf{z}\mid\mathbf{y},\mathbf{u}]=\\
+\frac{\prod_{i=1}^{n}[y_{i}|\theta_{1}z_{i}][u_{i}|\theta_{2},z_{i}][z_{i}|\theta_{3},\theta_{4}][\theta_{1}][\theta_{2}][\theta_{3}][\theta_{4}]}{\int....\int\prod_{i=1}^{n}[y_{i}|\theta_{1}z_{i}][u_{i}|\theta_{2},z_{i}][z_{i}|\theta_{3},\theta_{4}][\theta_{1}][\theta_{2}][\theta_{3}][\theta_{4}]dz_{i}d\theta_{1}d\theta_{2}d\theta_{3}d\theta_{4}}
+\end{gather*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Intuition
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What we are doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Recall that the posterior distribution is proportional to the joint:
+\begin_inset Formula 
+\begin{equation}
+[\theta|y]\propto[y|\theta][\theta],
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+because the marginal distribution of the data 
+\begin_inset Formula $\int[y|\theta][\theta]d\theta$
+\end_inset
+
+ is a constant after the data have been observed.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What we are doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/LikelihoodProfileAndPosterior.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What we are doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/RugHistogram.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What are we doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The posterior distribution is unknown, but the likelihood is known as a
+ likelihood profile and we know the priors.
+ 
+\end_layout
+
+\begin_layout Itemize
+We want to accumulate many, many values that represent random samples proportion
+ate to their density in the 
+\emph on
+marginal
+\emph default
+ posterior distribution.
+ 
+\end_layout
+
+\begin_layout Itemize
+MCMC generates these samples using the likelihood and the priors to decide
+ which samples to keep and which to throw away.
+\end_layout
+
+\begin_layout Itemize
+We can then use these samples to calculate statistics describing the distributio
+n: means, medians, variances, credible intervals etc.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What are we doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The marginal posterior distribution of each unobserved quantity is approximated
+ by samples accumulated in the chain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/HistogramWithMCMCsamples.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What are we doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Hobbs721MCMCHeuristicCollage.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We keep the more probable members of the posterior distribution by comparing
+ a proposal with the current value in the chain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{-1 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccccccccc}
+k & 1 & 2\\
+{{\rm {Proposal\,}}{\theta^{*}}^{k+1}} & {} & {{\theta^{*}}^{\,2}}\\
+{\rm {Test}} & {} & {P({\theta^{*}}^{\,2})>P\left({{\theta^{1}}_{}}\right)}\\
+{{\rm {Chain(}}{\theta^{k}}_{}{\rm {)}}} & {\theta^{1}} & {{\theta^{2}}_{}={\theta^{*}}^{\,2}} &  &  &  &  & {} & {}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We keep the more probable members of the posterior distribution by comparing
+ a proposal with the current value in the chain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{-1 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccccccccc}
+k & 1 & 2 & 3\\
+{{\rm {Proposal\,}}{\theta^{*}}^{k+1}} & {} & {{\theta^{*}}^{\,2}} & {{\theta^{*}}{{^{\,3}}_{}}}\\
+{\rm {Test}} & {} & {P({\theta^{*}}^{\,2})>P\left({{\theta^{1}}_{}}\right)} & {P({\theta^{2}}_{})>P\left({{\theta^{*}}^{\,3}}\right)}\\
+{{\rm {Chain(}}{\theta^{k}}_{}{\rm {)}}} & {\theta^{1}} & {{\theta^{2}}_{}={\theta^{*}}^{\,2}} & {{\theta^{3}}_{}={\theta^{2}}}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We keep the more probable members of the posterior distribution by comparing
+ a proposal with the current value in the chain.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+tiny
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{-2.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccccccccc}
+k & 1 & 2 & 3 & 4 & {} & {} & {} & K\\
+{{\rm {Proposal\,}}{\theta^{*}}^{k+1}} & {} & {{\theta^{*}}^{\,2}} & {{\theta^{*}}{{^{\,3}}_{}}} & {{\theta^{*}}^{\,4}} & . & . & . & .\\
+{\rm {Test}} & {} & {P({\theta^{*}}^{\,2})>P\left({{\theta^{1}}_{}}\right)} & {P({\theta^{2}}_{})>P\left({{\theta^{*}}^{\,3}}\right)} & {P({\theta^{3}}_{})>P\left({{\theta^{*}}^{\,4}}\right)} & . & . & . & .\\
+{{\rm {Chain(}}{\theta^{k}}_{}{\rm {)}}} & {\theta^{1}} & {{\theta^{2}}_{}={\theta^{*}}^{\,2}} & {{\theta^{3}}_{}={\theta^{2}}} & {{\theta_{4}}={\theta_{3}}} & {} & {} & {} & {}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{l}
+[{\theta^{*k+1}}|y]=\frac{{\overbrace{[y|{\theta^{*}}^{k+1}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{*}}^{k+1}]}^{{\rm {prior}}}}}{{\int{[y|\theta][\theta]d\theta}}}\\
+{}[{\theta^{k}}|y]=\frac{{\overbrace{[y|{\theta^{k}}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{k}}]}^{{\rm {prior}}}}}{{\int{[y|\theta][\theta]d\theta}}}\\
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The cunning idea behind Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{l}
+[{\theta^{*}}^{k+1}|y]=\frac{{\overbrace{[y|{\theta^{*}}^{k+1}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{*}}^{k+1}]}^{{\rm {prior}}}}}{\cancel{\int{[y|\theta][\theta]d\theta}}}\\
+{}[{\theta^{k}}|y]=\frac{{\overbrace{[y|{\theta^{k}}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{k}}]}^{{\rm {prior}}}}}{\cancel{\int{[y|\theta][\theta]d\theta}}}\\
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When do we keep the proposal?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{R}=\min(1,R)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Keep 
+\begin_inset Formula $\theta{}^{*k+1}$
+\end_inset
+
+ as the next value in the chain with probability 
+\begin_inset Formula $P_{R}$
+\end_inset
+
+ and keep 
+\begin_inset Formula $\theta^{k}$
+\end_inset
+
+ with probability 
+\begin_inset Formula $1-P_{R}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When do we keep the proposal?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $R$
+\end_inset
+
+ based on likelihoods and priors.
+\end_layout
+
+\begin_layout Enumerate
+Draw a random number, 
+\begin_inset Formula $U$
+\end_inset
+
+ from uniform distribution 0,1 If 
+\begin_inset Formula $R>U$
+\end_inset
+
+, we keep the proposal 
+\begin_inset Formula $\theta{}^{*k+1}$
+\end_inset
+
+ as the next value in the chain.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Otherwise, we retain 
+\begin_inset Formula $\theta^{k}$
+\end_inset
+
+ as the next value.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+A simple example for one parameter
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Tawni is interested in estimating the prevalence of bacterial kidney disease
+\emph on
+ 
+\emph default
+in a population of trout in Colorado.
+ 
+\end_layout
+
+\begin_layout Itemize
+She is a bit lazy, so she only samples 12 fish, 3 of which have the disease.
+ 
+\end_layout
+
+\begin_layout Itemize
+How could she calculate the parameters of the posterior distribution of
+ prevalence on the back of a cocktail napkin? 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+[\phi|y]\propto\text{binomial(}y|n,\phi)\text{beta}(\phi|1,1)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/SimulatedCalculated1.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/SimulatedCalculated2.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/SimulatedCalculated3.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/SimulatedCalculated4.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/PosteriorOnSide.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/PosteriorOnSide.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The chain has 
+\emph on
+converged
+\emph default
+ when adding more samples does not change the shape of the posterior distributio
+n.
+ We throw away samples that are accumulated before convergence (burn-in).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Start Tuesday Lecture here with some review.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The Bayesian method
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-1cm} 
+\backslash
+hspace{2cm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Hobbs01ModelingProcess.pdf
+	width 1.8in
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The MCMC algorithm 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Why MCMC?
+\end_layout
+
+\begin_layout Itemize
+Some intuition about how it works for a single parameter model
+\end_layout
+
+\begin_layout Itemize
+MCMC for multiple parameter models
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Full-conditional distributions (today)
+\end_layout
+
+\begin_layout Itemize
+Gibbs sampling (today and lab next week)
+\end_layout
+
+\begin_layout Itemize
+Metropolis-Hastings algorithm (Thursday)
+\end_layout
+
+\begin_layout Itemize
+MCMC software (JAGS, week after next)
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MCMC learning outcomes
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Develop a big picture understanding of how MCMC allows us to approximate
+ the marginal posterior distributions of parameters and latent quantities.
+\end_layout
+
+\begin_layout Enumerate
+Understand and be able to code a simple MCMC algorithm.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Appreciate the different methods that can be used within MCMC algorithms
+ to make draws from the posterior distribution.
+ 
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Metropolis 
+\end_layout
+
+\begin_layout Enumerate
+Metropolis-Hastings 
+\end_layout
+
+\begin_layout Enumerate
+Gibbs 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Understand concepts of burn-in and convergence.
+\end_layout
+
+\begin_layout Enumerate
+Understand and be able to write full-conditional distributions.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What are we doing in MCMC?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Hobbs721MCMCHeuristicCollage.pdf
+	width 45col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{l}
+[{\theta^{*k+1}}|y]=\frac{{\overbrace{[y|{\theta^{*}}^{k+1}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{*}}^{k+1}]}^{{\rm {prior}}}}}{{\int{[y|\theta][\theta]d\theta}}}\\
+{}[{\theta^{k}}|y]=\frac{{\overbrace{[y|{\theta^{k}}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{k}}]}^{{\rm {prior}}}}}{{\int{[y|\theta][\theta]d\theta}}}\\
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The cunning idea behind Metropolis updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{l}
+[{\theta^{*}}^{k+1}|y]=\frac{{\overbrace{[y|{\theta^{*}}^{k+1}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{*}}^{k+1}]}^{{\rm {prior}}}}}{\cancel{\int{[y|\theta][\theta]d\theta}}}\\
+{}[{\theta^{k}}|y]=\frac{{\overbrace{[y|{\theta^{k}}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{k}}]}^{{\rm {prior}}}}}{\cancel{\int{[y|\theta][\theta]d\theta}}}\\
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When do we keep the proposal?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{R}=\min(1,R)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Keep 
+\begin_inset Formula $\theta{}^{*k+1}$
+\end_inset
+
+ as the next value in the chain with probability 
+\begin_inset Formula $P_{R}$
+\end_inset
+
+ and keep 
+\begin_inset Formula $\theta^{k}$
+\end_inset
+
+ with probability 
+\begin_inset Formula $1-P_{R}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/SimulatedCalculated4.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Intuition for MCMC for multi-parameter models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/DAGAndEqSimpleRegression.pdf
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Intuition for MCMC for multi-parameter models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\size small
+\begin_inset Formula 
+\begin{eqnarray*}
+[\beta_{0},\beta_{1},\sigma^{2}\mid\mathbf{y}] & \propto & \prod_{i=1}^{n}\text{normal}(y_{i}|g(\beta_{0},\beta_{1},x_{i}),\sigma^{2})\\
+ & \times & \text{normal}(\beta_{0}\mid0,10000)\text{normal}(\beta_{1}\mid0,10000)\text{uniform}(\sigma^{2}\mid0,100)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Set initial values for 
+\begin_inset Formula $\beta_{0},\beta_{1},\sigma^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Assume 
+\begin_inset Formula $\beta_{1},\sigma^{2}$
+\end_inset
+
+ are known and constant.
+ Make a draw for 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+.
+ Store the draw.
+\end_layout
+
+\begin_layout Enumerate
+Assume 
+\begin_inset Formula $\beta_{0},\sigma^{2}$
+\end_inset
+
+ are known and constant.
+ Make a draw for 
+\begin_inset Formula $\beta_{1}$
+\end_inset
+
+.
+ Store the draw.
+\end_layout
+
+\begin_layout Enumerate
+Assume 
+\begin_inset Formula $\beta_{0},\beta_{1}$
+\end_inset
+
+ are known and constant.
+ Make a draw for 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+.
+ Store the draw.
+\end_layout
+
+\begin_layout Enumerate
+Do this many times.
+ The stored values for each parameter approximate its marginal posterior
+ distribution after convergence.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implementing MCMC for multiple parameters and latent quantities
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Write an expression for the posterior and joint distribution using a DAG
+ as a guide.
+ Always.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+If you are using MCMC software (e.g.
+ JAGS) use expression for the posterior and joint distribution as template
+ for writing code.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+If you are writing your own MCMC sampler:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Decompose the expression of the multivariate joint distribution into a series
+ of univariate distributions called 
+\emph on
+full-conditional distributions
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Choose a sampling method for each full-conditional distribution.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Cycle through each unobserved quantity, sampling from its full-conditional
+ distribution, treating the others as if they were known and constant.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+The accumulated samples approximate the marginal posterior distribution
+ of each unobserved quantity.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Note that this takes a complex, multivariate problem and turns it into a
+ series of simple, univariate problems that we solve, as in the example
+ above, one at a time.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Full conditional distributions
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition of full-conditional distribution
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+Let $
+\backslash
+bm{
+\backslash
+theta}$ be a vector of length $k$ containing all of the unobserved quantities
+ we seek to understand.
+ Let $
+\backslash
+bm{
+\backslash
+theta
+\backslash
+_}_j$ be a vector of length $k-1$ that contains all of the unobserved  quantitie
+s 
+\backslash
+emph{except} $
+\backslash
+theta_j$.
+ The full-conditional distribution of $
+\backslash
+theta_j$ is 
+\backslash
+begin{equation*}[
+\backslash
+theta_j|
+\backslash
+bm{y,
+\backslash
+theta
+\backslash
+_}_j],
+\backslash
+end{equation*} which we notate as 
+\backslash
+begin{equation*} [
+\backslash
+theta_j|
+\backslash
+cdot].
+ 
+\backslash
+end{equation*} 
+\backslash
+newline It is the posterior distribution of $
+\backslash
+theta_j$ conditional on all of the 
+\backslash
+newline other parameters and the data, which we assume are 
+\backslash
+emph{known}.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Writing full-conditional distributions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+You will have one full-conditional for each unobserved quantity in the posterior.
+\end_layout
+
+\begin_layout Itemize
+For each unobserved quantity, write the distributions where it appears.
+\end_layout
+
+\begin_layout Itemize
+Ignore the other distributions.
+\end_layout
+
+\begin_layout Itemize
+Simple.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Clark 2003 considered the problem of modeling fecundity of spotted owls
+ and the implication of individual variation in fecundity for population
+ growth rate.
+\end_layout
+
+\begin_layout Itemize
+Data were number of offspring produced by per pair of owls with sample size
+ 
+\begin_inset Formula $n=197$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {2cm}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+tiny 
+\end_layout
+
+\end_inset
+
+Clark, J.
+ S.
+ 2003.
+ Uncertainty and variability in demography and population growth: A hierarchical
+ approach.
+ Ecology 84:1370-1381.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/owlsHierarchy.pdf
+	width 2.5cm
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[{\bm{\lambda},\alpha,\beta|{\mathbf{y}}}\right] & \propto & \prod\limits _{i=1}^{n}{{\text{Poisson}}\left({y_{i}|\lambda_{i}}\right){\text{gamma}}\left({\lambda_{i}|\alpha,\beta}\right)\;}\\
+ & \times & {\text{gamma}}\left({\alpha|.001,.001}\right){\text{gamma}}\left({\beta|.001,.001}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Full-conditionals
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/FullConditional0.pdf
+	width 100col%
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+There are 197 + 2 full conditionals
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Writing full-conditional distributions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+You will have one full-conditional for each unobserved quantity in the posterior.
+\end_layout
+
+\begin_layout Itemize
+For each unobserved quantity, write the distributions (including products)
+ where it appears.
+\end_layout
+
+\begin_layout Itemize
+Ignore the other distributions.
+\end_layout
+
+\begin_layout Itemize
+Simple.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Full-conditional for each 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/FullConditional1.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Full-conditional for 
+\begin_inset Formula $\beta$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/FullConditional2.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Full-conditional for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/FullConditional3.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Full-conditionals for the model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Posterior and joint:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[{\bm{\lambda},\alpha,\beta|{\mathbf{y}}}\right] & \propto & \prod\limits _{i=1}^{n}{{\text{Poisson}}\left({y_{i}|\lambda_{i}}\right){\text{gamma}}\left({\lambda_{i}|\alpha,\beta}\right)\;}\\
+ & \times & {\text{gamma}}\left({\alpha|.001,.001}\right){\text{gamma}}\left({\beta|.001,.001}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Full conditionals:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{gathered}\left[{\lambda_{i}|.}\right]\propto{\text{Poisson}}\left({y_{i}|\lambda_{i}}\right){\text{gamma}}\left({\lambda_{i}|\alpha,\beta}\right){}\hfill\\
+\left[{\beta|.}\right]\propto\prod\limits _{i=1}^{n}{{\text{gamma}}\left({\lambda_{i}|\alpha,\beta}\right){\text{gamma}}\left({\beta|.001,.001}\right)}\hfill\\
+\left[{\alpha|.}\right]\propto\prod\limits _{i=1}^{n}{{\text{gamma}}\left({\lambda_{i}|\alpha,\beta}\right){\text{gamma}}\left({\alpha|.001,.001}\right)}\hfill
+\end{gathered}
+$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Ask how many full conditionals? 199, one for each 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+ , one for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and one for 
+\begin_inset Formula $\beta$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Gibbs sampling
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implementing MCMC for multiple parameters and latent quantities
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+\color lightgray
+Write an expression for the posterior and joint distribution using a DAG
+ as a guide.
+ Always.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color lightgray
+If you are using MCMC software (e.g.
+ JAGS) use expression for posterior and joint as template for writing code.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color lightgray
+If you are writing your own MCMC sampler:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+\color lightgray
+Decompose the expression of the multivariate joint distribution into a series
+ of univariate distributions called 
+\emph on
+full-conditional distributions
+\emph default
+.
+
+\color darkgray
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Choose a sampling method for each full-conditional distribution.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Cycle through each unobserved quantity, sampling from the its full-conditional
+ distribution, treating the others as if they were known and constant.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Note that this takes a complex, multivariate problem and turns it into a
+ series of simple, univariate problems that we solve, as in the example
+ above, one at a time.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Choosing a sampling method
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Accept-reject:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Metropolis: requires a symmetric proposal distribution (e.g., normal, uniform).
+ This is what we used above in the
+\emph on
+ 
+\emph default
+example for one parameter.
+\end_layout
+
+\begin_layout Enumerate
+Metropolis-Hastings: allows asymmetric proposal distributions (e.g., beta,
+ gamma, lognormal).
+ Thursday.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Gibbs: accepts all proposals because they are especially well chosen.
+ Now.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Why do you need to understand conjugate priors?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A easy way to find parameters of posterior distributions for simple problems.
+\end_layout
+
+\begin_layout Itemize
+Critical to understanding Gibbs updates in Markov chain Monte Carlo as you
+ are about to learn.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What are conjugate priors?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{l}
+{\text{Assume we have a likelihood and a prior:}}\\
+\overbrace{[\theta|y]}^{{\rm {posterior}}}=\frac{{\overbrace{[y|\theta]}^{{\rm {likelihood}}}\overbrace{[\theta]}^{{\rm {prior}}}}}{{[y]}}.\\
+{\text{If the form of the distribution of the posterior }}\\
+{\rm {[}}\theta|y]\\
+{\text{is the same as the form of the distribution of the prior,}}\\
+{\rm {[}}\theta]\\
+{\text{then the likelihood and the prior are said to be conjugates}}\\
+\underbrace{[y|\theta][\theta]}_{{\rm {congugates}}}\\
+{\text{and the prior is called a conjugate prior for }}\theta.
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Gibbs updates
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+When priors and likelihoods are conjugate, we 
+\emph on
+know
+\emph default
+ all but one of the parameters of the full-conditional because they are
+\emph on
+ assumed to be known
+\emph default
+ at each iteration.
+ We make a draw of the single unknown 
+\emph on
+directly 
+\emph default
+from its posterior distribution as if the other parameters were fixed.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Wickedly clever.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Gamma-Poisson conjugate relationship for 
+\begin_inset Formula $\lambda$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The conjugate prior distribution for a Poisson likelihood is 
+\begin_inset Formula $\text{gamma}(\lambda|\alpha,\beta)$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $n$
+\end_inset
+
+ observations 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ of new data, the posterior distribution of 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+[\lambda|{\bf {y}}]={\rm {gamma}}\left({\underbrace{\overbrace{\alpha_{0}}^{{\text{The prior }}\alpha}+\sum\limits _{i=1}^{n}{y_{i}}}_{{\text{The new }}\alpha},\underbrace{\overbrace{\beta_{0}}^{{\text{The prior }}\beta}+\,n}_{{\text{The new }}\beta}}\right).
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the Poisson-gamma conjugate:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Full conditional:
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Formula 
+\begin{equation}
+[\lambda_{i}\mid.]\propto\text{Poisson}(y_{i}\mid\lambda_{i})\text{gamma}(\lambda_{i}\mid\alpha,\beta)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Gibbs sample:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+[\lambda_{i}^{k}|y_{i}]=\text{gamma}\left(\overbrace{\alpha^{k-1}}^{\text{The current}\alpha}+y_{i},\overbrace{\beta^{k-1}}^{\text{The current \beta}}+1\right).
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+In R, this would be:
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+shape[k] = alpha[k-1] + y_i
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+rate[k] = beta[k-1] + 1
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+lambda[k,i] = rgamma(1, shape[k], rate[k])
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Gamma-gamma conjugate relationship
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The conjugate prior distribution for the 
+\begin_inset Formula $\beta$
+\end_inset
+
+ parameter (rate) in a gamma likelihood 
+\begin_inset Formula $\text{gamma}(y_{i}|\alpha,\beta)$
+\end_inset
+
+ is a gamma distribution 
+\begin_inset Formula $\text{gamma}\{\beta\mid\alpha_{0},\beta_{0})$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $n$
+\end_inset
+
+ observations 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ of new data, the posterior distribution of 
+\begin_inset Formula $\beta$
+\end_inset
+
+ (assuming that 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ (shape) is known) is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+[\beta|{\bf {y}}]={\rm {gamma}}\left({\underbrace{\overbrace{\alpha_{0}}^{{\text{The prior }}\alpha}+n\alpha}_{{\text{The new }}\alpha},\underbrace{\overbrace{\beta_{o}}^{{\text{The prior }}\beta}+\,\sum_{i=1}^{n}}_{{\text{The new }}\beta}y_{i}}\right).
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+We can substitute any 
+\begin_inset Quotes eld
+\end_inset
+
+known
+\begin_inset Quotes erd
+\end_inset
+
+ quantity for 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+, e.g., 
+\begin_inset Formula $\bm{\lambda}$
+\end_inset
+
+ in MCMC.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sampling from the gamma-gamma conjugate:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The full conditional:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left[{\beta|.}\right]\propto\prod\limits _{i=1}^{n}{{\text{gamma}}\left({\lambda_{i}|\alpha,\beta}\right){\text{gamma}}\left({\beta|.001,.001}\right)}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Gibbs sample:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\beta^{k}\sim\text{{gamma}}\left({.001+n\alpha^{k-1},\,.001+\sum\limits _{i=1}^{n}\lambda_{i}^{k}}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+In R this would be:
+\end_layout
+
+\begin_layout Plain Layout
+shape[k] = .001 + length(y) * alpha[k-1]
+\end_layout
+
+\begin_layout Plain Layout
+rate[k] = .001 + sum(lambda[,k])
+\end_layout
+
+\begin_layout Plain Layout
+beta[k] = rgamma(1, shape[k], rate[k])
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MCMC algorithm 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\size scriptsize
+Iterate over 
+\begin_inset Formula $i=1...197$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\size scriptsize
+At each 
+\begin_inset Formula $i$
+\end_inset
+
+, make a draw from
+\begin_inset Formula 
+\begin{eqnarray}
+\lambda_{i}^{k} & \sim & \underbrace{\text{{gamma}}\left({\alpha^{k-1}+y_{i},\,\beta^{k-1}+1}\right)}_{{\text{Gibbs update using gamma - Poisson conjugate for \emph{each}}}\,\lambda_{i}}\\
+\beta^{k} & \sim & \underbrace{\text{{gamma}}\left({.001+\alpha^{k-1}n,\,.001+\sum\limits _{i=1}^{n}\lambda_{i}^{k}}\right)\;}_{{\text{Gibbs update using gamma - gamma conjugate for \beta}}}\\
+\alpha^{k} & \propto & \underbrace{\prod\limits _{i=1}^{n}{{\text{gamma}}\left({\lambda_{i}^{k}|\alpha^{k-1},\beta^{k}}\right)}\;{\text{gamma}}\left({\alpha^{k-1}|.001,.001}\right)}_{{\text{No conguate for }}\alpha.{\text{ Use Metropolis - Hastings update}}}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\size scriptsize
+Repeat for 
+\begin_inset Formula $k=1...K$
+\end_inset
+
+ iterations, storing 
+\begin_inset Formula $\lambda_{i}^{k},\alpha^{k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta^{k}$
+\end_inset
+
+.
+ Store the value of each parameter at each iteration in a vector.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\size scriptsize
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Inference from MCMC 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Make inference on each unobserved quantity using the elements of their vectors
+ stored after convergence.
+ These post-convergence vectors, (i.e., the 
+\begin_inset Quotes eld
+\end_inset
+
+rug
+\begin_inset Quotes erd
+\end_inset
+
+ described above) approximate the marginal posterior distributions of unobserved
+ quantities.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Why use Gibbs updates?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+We exploit conjugate relationships to sample from the posterior because
+ they are easier to code and because they are faster than accept-reject
+ methods like like Metropolis or Metropolis-Hastings.
+ However, accept-reject methods will produce the same result.
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\end_body
+\end_document
