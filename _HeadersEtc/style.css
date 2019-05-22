@@ -5,9 +5,12 @@
 
 /* Whole document: */
 body{
-  font-size: 12pt;
+  font-size: 11pt;
+  color: black;
 }
 /* Headers */
 h1,h2,h3,h4,h5,h6{
   font-size: 16pt;
 }
+
+ol { padding-left: 1.2em; }

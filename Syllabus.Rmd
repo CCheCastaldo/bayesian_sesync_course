@@ -12,9 +12,9 @@ output:
 1. Participant and Course Introduction
 2. [What Sets Bayes Apart?](content/lectures/WhatSetsBayesApart.pdf)
 3. Confidence intervals defined
-4. Laws of Probability & [Probability Lab I-V](content/labs/LawsProbability.html)
-5. Probability Concepts and Notation & Probability Lab VI
-6. Probability Distributions & Probability Lab VII
+4. [Rules of Probability](content/lectures/RulesProbability.pdf) & [Probability Lab 1](content/labs/ProbabilityLab1.html)
+5. Probability Concepts and Notation 
+6. Probability Distributions & [Probability Lab 2](content/labs/ProbabilityLab2.html)
 
 Review Hobbs and Hooten chapters 1-3.
 
@@ -32,10 +32,9 @@ Review Hobbs and Hooten chapters 4-6.
 
 ##### **Day 3: (6/5) Intro to Bayesian Statistics**
 
-1. Bayes' Theorem & Bayes' Theorem Lab 
+1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & Bayes' Theorem Lab 
 2. More about Priors & Priors Lab
 3. MCMC Overview & MCMC Lab (optional)
-
 
 <br>
 

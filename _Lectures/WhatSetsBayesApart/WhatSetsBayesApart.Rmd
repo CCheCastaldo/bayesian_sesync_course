@@ -1,7 +1,7 @@
 ---
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
-title: "Introduction to Course"
-author: "Chris Che-Castaldo, Mary B. Collins, N. Thompson Hobbs"
+title: "What Sets Bayes Apart?"
+author: `r fileName="../../_HeadersEtc/SESYNCBayes/Authors.txt";readChar(fileName,file.info(fileName)$size)`
 date: "June 2019"
 output: 
   beamer_presentation:
@@ -47,11 +47,11 @@ What do statements made by journalists, attorneys, and scientists have in common
 
 Building models of socio-ecological processes:
 
-$$[z_{i}\mid\bm{\theta_{p}}]$$
+$$[z_{i}\mid \theta_{p}]$$
 
 and linking those models to data:
 
-$$ [y_{i} \mid z_{i},\bm{\theta}_{d}] $$
+$$ [y_{i} \mid z_{i},\theta_{d}] $$
 
 using Bayesian methods.
 

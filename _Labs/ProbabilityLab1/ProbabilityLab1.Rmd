@@ -1,0 +1,207 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r fileName="../../_HeadersEtc/SESYNCBayes/Title.txt";readChar(fileName,file.info(fileName)$size)`
+
+##### Probability Lab 1: Chain rule, joints distributions, and DAGs
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+### {.tabset .tabset-fade .tabset-pills}
+
+```{r preliminaries, include = FALSE}
+
+library(knitr)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+```
+
+#### Motivation
+
+----
+
+Bayesian analysis is predicated on the idea that we learn about unobserved quantities from quantities we are able to observe.  All unobserved quantities (i.e. parameters, latent states, missing data, and even the data themselves before they are observed) are treated as random variables in the Bayesian approach.  All Bayesian analysis extends from the laws of probability, that is, from the "mathematics of random variables."
+
+Random variables are quantities whose value is determined by chance.  Statistical distributions represent how "chance" works by specifying the probability that a random variable takes on a value (in the discrete case) or falls within a range of values (in the continuous case).  The goal of Bayesian analysis is to discover the characteristics of probability distributions that govern the behavior of random variables of interest, for example, the size of a population, the rate of nitrogen accumulation in a stream, the diversity of plants on a landscape, the change in lifetime income that occurs with changing level of education, the stress levels of juvenile elephants, the political party that will win a congressional district, etc.
+
+It follows that, understanding the laws of probability and statistical distributions provides the foundation for Bayesian analysis. Keep in mind the following learning objectives
+
+- Understand the concepts of conditional and independent random variables.
+- Be able to write out joint distributions of random variables given Bayesian networks (directed acyclic graphs).
+- Become familiar with frequently used statistical distributions representing discrete and continuous random variables.
+- Learn R functions for calculating properties of distributions and for sampling from them.
+- Understand discrete and continuous marginal distributions.
+- Use moment matching, a procedure key to linking models to data in the Bayesian framework.
+
+<br>
+
+#### Chain rule
+
+---
+
+1\. Use the chain rule of probability to factor the joint distribution $\Pr(\theta_1,\theta_2, \theta_3,\theta_4)$ into a joint conditional distribution.
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
+
+<div id="myDIV1", style="display:none">
+
+\begin{align}
+\Pr\big(\theta_1,\theta_2,\theta_3,\theta_4\big)=\\
+&\times\Pr\big(\theta_1 \mid \theta_2,\theta_3,\theta_4\big)\\
+&\times\Pr\big(\theta_2 \mid \theta_3,\theta_4\big)\\
+&\times\Pr\big(\theta_3 \mid \theta_4\big)\\
+&\times\Pr\big(\theta_4\big)
+\end{align}
+
+The order doesn't matter. The following is also correct:
+
+\begin{align}
+\Pr\big(\theta_1,\theta_2,\theta_3,\theta_4\big)=\\
+&\times\Pr\big(\theta_4 \mid \theta_2,\theta_3,\theta_1\big)\\
+&\times\Pr\big(\theta_2 \mid \theta_3,\theta_1\big)\\
+&\times\Pr\big(\theta_3 \mid \theta_1\big)\\
+&\times\Pr\big(\theta_1\big)
+\end{align}
+
+as are many other variations.
+
+</div>
+
+<br>
+
+2\. Consider the following factored joint distribution:
+$$\Pr\big(\theta,w,\eta,\alpha\big)=\Pr\big(\alpha \mid w,\eta,\theta\big)\Pr\big(w \mid \eta,\theta\big)\Pr\big(\eta \mid \theta\big)\Pr\big(\theta\big)$$
+Simplify this equation using the knowledge that $\eta$ and $\theta$ are independent and that $w$ and $\theta$ are independent.
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
+
+<div id="myDIV2", style="display:none">
+
+$$\Pr\big(\theta,w,\eta,\alpha\big)=\Pr\big(\alpha \mid w,\eta,\theta\big)\Pr\big(w \mid \eta\big)\Pr\big(\eta\big)\Pr\big(\theta\big)$$
+
+</div>
+
+<br>
+
+#### DAGs to joint distributions
+
+----
+
+1. Write out the joint and conditional distributions for the following Bayesian networks.
+
+<br>
+
+<img src="../../_Graphics/DAG1.png" style="float: left; width: 25%; margin-right: 5%; margin-left: 0%; margin-bottom: 0.5em;">
+<img src="../../_Graphics/DAG2.png" style="float: left; width: 25%; margin-right: 5%; margin-bottom: 0.5em;">
+<img src="../../_Graphics/DAG3.png" style="float: left; width: 34%; margin-right: 5%; margin-bottom: 0.5em;">
+<p style="clear: both;">
+
+<br>
+
+<img src="../../_Graphics/DAG4.png" style="float: left; width: 34%; margin-right: 5%; margin-left: 15%; margin-bottom: 0.5em;">
+<img src="../../_Graphics/DAG5.png" style="float: left; width: 34%; margin-right: 5%; margin-bottom: 0.5em;">
+<p style="clear: both;">
+
+<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
+
+<br>
+
+<div id="myDIV3", style="display:none">
+
+\begin{eqnarray}
+& &\textrm{1.}\quad\Pr\big(a,b,c,d,e\big)  = 
+\Pr\big(a \mid b,c\big)\Pr\big(b\mid d,e\big)\Pr\big(c\big)\Pr\big(d\big)\Pr\big(e\big) \\[1em]
+& &\textrm{2.}\quad\Pr\big(y,z,\beta_1,\beta_2,\theta_p,\theta_d\big)  = \Pr\big(y\mid z,\theta_d\big)\Pr\big(z \mid \theta_p\big)\Pr\big(\theta_d\mid\beta_1,\beta_2\big)\Pr\big(\theta_p\big)\Pr\big(\beta_1\big)\Pr\big(\beta_2\big)\\[1em]
+& &\textrm{3.}\quad\Pr\big(y,x,\mu,\phi_1,\phi_2,\sigma,z \big) = \Pr\big(y\mid x, z \big) \Pr\big(x \mid \mu, \sigma \big)\Pr\big(z \mid \phi_1,\phi_2\big)\Pr\big(\sigma\big)\Pr\big(\phi_1\big)\Pr\big(\phi_2\big)\Pr\big(\mu\big)\\[1em]
+& &\textrm{4.}\quad\Pr\big(y_1,y_2,z,\theta_1,\theta_2,\gamma_1,\gamma_2,\gamma_3\big) = \Pr\big(y_1\mid\theta_1,z\big)\Pr\big(y_2\mid \theta_2,z\big)\Pr\big(z\mid\gamma_1,\gamma_2,\gamma_3\big)\Pr\big(\theta_1\big)\Pr\big(\theta_2\big)\Pr\big(\gamma_1\big)\Pr\big(\gamma_2\big)
+\Pr\big(\gamma_3\big)\\[1em]
+& &\textrm{5.}\quad\Pr\big(A,B,D,E,F,H\big) = \Pr\big(A \mid D,E\,\big)\Pr\big(D \mid H\big)\Pr\big(B \mid H,F\big)\Pr\big(E\big)\Pr\big(H\big)\Pr\big(F\big)
+\end{eqnarray}
+
+</div>
+
+<br>
+
+#### Joint distributions to DAGs
+
+---
+
+1. Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
+
+\begin{eqnarray}
+& &\textrm{I.}\quad \Pr\big(A,B\big)  =  \Pr\big(A\mid B\big)\Pr\big(B\big)\\[1em]
+& &\textrm{II.}\quad \Pr\big(A,B,C\big)  =  \Pr\big(A \mid B,C\big)\Pr\big(B\mid C\big)\Pr\big(C\big)\\[1em]
+& &\textrm{III.}\quad \Pr\big(A,B,C,D\big)  =  \Pr\big(A \mid C\big)\Pr\big(B \mid C\big)\Pr\big(C \mid D\big)\Pr\big(D\big)\\[1em]
+& &\textrm{IV.}\quad \Pr\big(A,B,C,D,E\big)  =  \Pr\big(A \mid C\big)\Pr\big(B\mid C\big)
+ \Pr\big(C \mid D,E\big)\Pr\big(D\big)\Pr\big(E\big)\\[1em]
+& &\textrm{V.}\quad \Pr\big(A,B,C,D\big)  =  \Pr\big(A \mid B,C,D\big)\Pr\big(B \mid C,D\big)\Pr\big(C \mid D\big)\Pr\big(D\big)\\[1em]
+& &\textrm{VI.}\quad \Pr\big(A,B,C,D\big)  =  \Pr\big(A \mid B,C,D\big)\Pr\big(C \mid D\big)\Pr\big(B\big)\Pr\big(D\big)\\[1em]
+\end{eqnarray}
+
+<br>
+
+<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
+
+<br>
+
+<div id="myDIV4", style="display:none">
+
+<center>
+![](../../_Graphics/DAGS.png)
+</center>
+
+</div>
+  
+<br>
+
+#### Simplifying
+
+----
+
+1. Simplify the expression below, given that $z_2$ and $z_3$ are independent random variables. 
+$$ \Pr\big(z_1,z_2,z_3\big)=\Pr\big(z_1\mid z_2,z_3\big)\Pr\big(z_2 \mid z_3\big)\Pr\big(z_3\big)$$
+
+<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
+
+<br>
+
+<div id="myDIV5", style="display:none">
+
+The expression simplifies to 
+$$ \Pr\big(z_1,z_2,z_3\big)=\Pr(z_1\mid z_2,z_3\big)\Pr\big(z_2\big)\Pr\big(z_3\big)$$
+because $\Pr\big(z_2\mid z_3\big) = \Pr\big(z_2\big)$ if $z_2$ and $z_3$ are independent.
+
+</div>
+
+#### Factoring
+
+----
+
+1. The probability of an observation $y$ depends on a true ecological state of interest, $z$, and the parameters in a data model, $\boldsymbol\theta_d$. The probability of the true state $z$ depends on the parameters in an ecological process model, $\boldsymbol\theta_p$. We know that $\boldsymbol\theta_d$ and $\boldsymbol\theta_p$ are independent.  Write out a factored expression for the joint distribution, $\Pr\big(y,z,\boldsymbol\theta_d,\boldsymbol\theta_p\big)$. Drawing a Bayesian network will help.
+
+<button class="button" onclick="toggle_visibility('myDIV6');">Answer</button>
+
+<br>
+
+<div id="myDIV6", style="display:none">
+
+$$\Pr\big(y,z,\boldsymbol\theta_d,\boldsymbol\theta_p\big) = \Pr\big(y \mid z,\boldsymbol\theta_d\big)\Pr\big(z \mid \boldsymbol\theta_p\big)\Pr\big(\theta_d\big)\Pr\big(\boldsymbol\theta_p\big)$$
+<div style="width:200px; height=200px; margin:0 auto;">
+<center>
+![](../../_Graphics/DAG6.png)
+</center>
+
+</div>
+
+<br>

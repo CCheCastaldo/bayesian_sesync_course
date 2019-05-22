@@ -1,0 +1,211 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r fileName="../../_HeadersEtc/SESYNCBayes/Title.txt";readChar(fileName,file.info(fileName)$size)`
+
+##### Probability Lab 2: Probability Distributions
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+
+library(knitr)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+```
+
+----
+
+1. We commonly represent the following general framework for linking models to data:
+
+$$\big[y_i \mid g\big(\mathbf\theta,x_i\big),\sigma^2\big],$$
+
+which represents the probability of obtaining the observation $y_i$ given that our model predicts the mean of a distribution $g(\mathbf\theta,x_i)$ with variance $\sigma^2$. Assume we have count data. What distribution would be a logical choice to model these data? Write out a model for the data.    
+
+<button class="button" onclick="toggle_visibility('myDIV7');">Answer</button>
+
+<div id="myDIV7", style="display:none">
+
+<br>
+
+The Poisson is a logical choice. We predict the mean of the Poisson for each $x_i$, i.e. $\lambda_i = g\big(\mathbf\theta,x_i\big)$, which also controls the uncertainty because in the Poisson distribution the variance equals the mean.A model for the data is:
+
+$$ y_i \sim \textrm{Poisson}\big(g\big(\mathbf\theta,x_i\big)\big).$$
+</div>
+
+<br>
+
+2. Choose the appropriate distribution for the types of data shown below and justify your decision.
+
+* The mass of carbon in above ground biomass in square m plot.
+* The number of seals on a haul-out beach in the gulf of AK.
+* Presence or absence of an invasive species in forest patches.
+* The probability that a white male will vote republican in a presidential election.
+* The number of individuals in four mutually exclusive income categories.
+* The number of diseased individuals in a sample of 100.
+* The political party affiliation (democrat, republican, independent) of a voter. 
+
+<button class="button" onclick="toggle_visibility('myDIV8');">Answer</button>
+
+<br>
+
+<div id="myDIV8", style="display:none">
+
+<center>
+Random variable  | Distribution | Justification 
+|------------------------------|-----------------|---------------------------------------------------------
+The mass of carbon in above ground biomass in square m plot.| gamma or lognormal | continuous and non-negative
+The number of seals on a haul-out beach in the gulf of AK. | Poisson or negative binomial | counts
+Presence or absence of an invasive species in forest patches. | Bernoulli | zero or one
+The probability that a white male will vote republican in a presidential election. | beta | zero to one
+The number of individuals in four mutually exclusive income categories. | multinomial | counts in more than two categories
+The number of diseased individuals in a sample of 100. | binomial | counts in two categories, number of successes on a given number of trials.
+The political party affiliation (democrat, republican, independent) of a voter. | multinomial | counts in more than two categories
+</center>
+</div>
+
+<br>
+
+3. Find the mean, variance, and 95% quantiles of 10000 random draws from a Poisson distribution with $\lambda=33$.
+
+<button class="button" onclick="toggle_visibility('myDIV14');">Answer</button>
+
+<div id="myDIV14", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, include = TRUE}
+lambda <- 33
+n <- 10000
+y <- rpois(n, lambda)
+mean(y)
+var(y)
+quantile (y, c(0.025, 0.975))
+```
+
+</div>
+
+<br>
+
+4. The average above ground biomass in a 1 km^2^ of sagebrush grassland is 103 g/m^2^, with a standard deviation of 23. You clip a 1 m^2^ plot. Write out the model for the probability density of the data point.  What is the probability density of an observation of 94 assuming the data are normally distributed? Is there a problem using normal distribution?  What is the probability that your plot will contain between 90 and 110 gm of biomass?
+
+<button class="button" onclick="toggle_visibility('myDIV9');">Answer</button>
+
+<div id="myDIV9", style="display:none">
+
+<br>
+
+The normal distribution isn't an ideal choice because it extends below 0, which isn't possible for measurements of above ground biomass. Nonetheless:
+
+$$y_i \sim \textrm{normal}(103, 23^{2})$$
+``` {r, eval = TRUE, echo = TRUE, include = TRUE}
+x <- 94 
+mean <- 103
+sd <- 23
+dnorm(x, mean, sd)
+
+q <- c(110, 90) 
+p.bound <- pnorm(q, mean = mean, sd = sd)
+p.bound[1] - p.bound[2]
+```
+
+</div>
+
+<br>
+
+5. The prevalence of a disease in a population is the proportion of the population that is infected with the disease. The prevalence of chronic wasting disease in male mule deer on winter range near Fort Collins, CO is 12 percent. A sample of 24 male deer included 4 infected individuals. Write out a model that represents how the data arise. What is the probability of obtaining these data conditional on the given prevalence (p=0.12)?
+
+<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
+
+<div id="myDIV10", style="display:none">
+
+<br>
+
+$$y_i \sim \textrm{binomial}(24, 0.12)$$
+
+
+``` {r, eval = TRUE, echo = TRUE, include = TRUE}
+x <- 4 
+size <- 24
+p <- 0.12
+dbinom(x, size, p)
+```
+
+</div>
+
+<br>
+
+----
+
+#### ADVANCED
+
+----
+
+6. The Poisson distribution is often used for count data, despite the fact that one must assume the mean and variance are equal. The negative binomial distribution is a more robust alternative, allowing the variance to differ from the mean. There are two parameterizations for the negative binomial. The first is more frequently used by ecologists: 
+
+$$
+\big[z\mid\lambda,r\big] = 
+\cfrac{\Gamma\big(z + r\big)}{\Gamma\big(r\big)z!}\Big(\cfrac{r}{r+\lambda}\Big)^r
+\Big(\cfrac{\lambda}{r+\lambda}\Big)^z\textrm{,}
+$$
+
+where $z$ is a discrete random variable, $\lambda$ is the mean of the distribution, and $r$ is the *dispersion parameter*. The variance of $z$ equals $\lambda + \cfrac{\lambda^{2}}{r}$.
+
+The second parameterization is more often implemented in coding environments (i.e. JAGS):
+
+$$
+\big[z \mid r,\phi \big] = \cfrac{\Gamma\big(z+r\big)}{\Gamma\big(r\big)z!}\phi^r\big(1-\phi\big)^z\textrm{,}
+$$
+
+where $z$ is the discrete random variable representing the number of failures that occur in a sequence of Bernoulli trials before $r$ successes are obtained. The parameter $\phi$ is the probability of success on a given trial. Note that $\phi=\cfrac{r}{\big(\lambda+r\big)}$.
+
+Simulate $100,000$ observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
+
+<button class="button" onclick="toggle_visibility('myDIV19');">Answer</button>
+
+<div id="myDIV19", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
+n <- 100000
+lambda <- 100
+sigma2 <- 400
+r <- lambda^2/(sigma2 - lambda)
+z1 <- rnbinom(n, mu = lambda, size = r)
+mean(z1)
+var(z1)
+```
+
+``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.width = 6, fig.height = 5, fig.align = 'center'}
+n <- 100000
+lambda <- 100
+sigma2 <- 400
+r <- lambda^2/(sigma2 - lambda)
+phi <- r/(r + lambda)
+z2 <- rnbinom(n, prob = phi ,size = r)
+mean(z2)
+var(z2)
+```
+
+``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+par(mfrow = c(1, 2))
+hist(z1, col = "gray")
+hist(z2, col = "gray")
+```
+
+</div>
+
+<br>
+
