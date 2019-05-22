@@ -1,0 +1,166 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "More About Priors"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+latex_engine: xelatex
+transition: fastest
+---
+
+## 
+
+The posterior distribution uses information from both the likelihood and prior distributions.  _An informative prior is more influential than an vague prior_. 
+
+\centerline{\includegraphics[height=2in]{../../_Graphics/componentsPosterior.pdf}}
+
+## Outline
+
+- Informative priors
+- Vague priors
+- Conjugate priors
+
+## Why use informative priors?
+
+- They speed up convergence
+- They reduce problems with identifiability
+- They can allow you to estimate difficult/impossible quantities 
+
+## Why don't we find people using informative priors more often?
+
+- _Cultural_: "All studies stand alone" argument
+- Texts often use vague priors (including H&H)
+- Hard work!
+- Concerns about "excessive subjectivity"
+
+## If you wanted to use an informative prior, how would you do it?
+
+- Strong scholarship is the basis for strong priors
+- Moment match, converting means and standard deviations to usable parameters
+- Pilot studies
+- Allometric relationships
+- Deterministic models with parameters that have specific meaning 
+
+## How much does an informative prior influence the posterior?
+
+\includegraphics[height=2.5in]{../../_Graphics/comparingPriors}
+
+## Communicating your use of informative priors
+
+\includegraphics[height=1.25in]{../../_Graphics/HobbsetAl}
+
+## Communicating your use of informative priors
+
+\includegraphics[height=2.5in]{../../_Graphics/presentingPriors}
+
+## Communicating your use of informative priors
+
+\includegraphics[height=2.5in]{../../_Graphics/plottingInformativePriors}
+
+## Vague Priors
+
+_A vague prior is a distribution with a range of uncertainty that is clearly wider than the range of reasonable values for the parameter_ (Gelman and Hill 2007:347).
+
+## Vague Priors
+
+- Avoid calling a prior "uninformative" or "non-informative" rather:
+    + difuse
+    + flat
+    + automatic
+    + nonsubjective
+    + locally uniform
+    + objective
+
+## Issues With Vague Priors
+
+- Computational: failure to converge, slicer errors, failure to calculate log density, etc.
+- Sensitivity: changes in parameters of "vague" priors meaningfully changes the posterior when data sets are small or when they have high variance (e.g. $\tau \sim \operatorname{gamma}(.001,.001)$ can really be problematic, this will come up in the multilevel modeling lab)
+
+## Conjugacy
+
+- In special cases the posterior, $[\theta|y]$, has the same distributional form as the prior, $[\theta]$. 
+    + For example, if you had a prior, $\operatorname{gamma}(\alpha, \beta)$, your posterior would be $\operatorname{gamma}(\alpha_{new}, \beta_{new})$ 
+- In these cases, the prior and the posterior are said to be *conjugate*.
+
+## Conjugacy is important for two reasons:
+
+1. Conjugacy minimizes computational work and, in more complicated cases, allows us to break down calculations into manageable chunks.
+2. Conjugacy plays an important role in Markov chain Monte Carlo (more on this later).
+
+## Deriving the Beta-Binomial Conjugacy Relationship
+
+We know that the beta distribution is a conjugate prior for the binomial likelihood.
+
+- Consider calculating the posterior distribution for the parameter $\theta$.
+- $\theta$ is the probability of a success conditional on $n$ trials and $y$ observed successes.
+
+## Deriving the Beta-Binomial Conjugacy Relationship
+
+Using Bayes theorem:
+
+$$[\phi \mid y,n] \propto \underbrace{{\binom{n}{y}} \phi^y (1- \phi)^{n-y} }_\text{binomial likelihood} \underbrace{\frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1}}_\text{beta prior}$$
+
+where $\alpha$ and $\beta$ are beta prior parameters.
+
+## Deriving the Beta-Binomial Conjugacy Relationship
+
+$$[\phi \mid y,n] \propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1}$$
+
+## Deriving the Beta-Binomial Conjugacy Relationship
+
+\begin{align}
+[\phi\mid y,n] &\propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber \\[10pt]
+[\phi\mid y,n] &\propto \phi^y (1- \phi)^{n-y} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber
+\end{align}
+
+## Deriving the Beta- Binomial Conjugacy Relationship
+
+\begin{align}
+[\phi \mid y,n] &\propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber \\[10pt]
+[\phi \mid y,n] &\propto \phi^y (1- \phi)^{n-y} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber\\[10pt]
+[\phi \mid y,n] &\propto \phi^{y+\alpha-1}(1-\phi)^{\beta+n-y-1} \nonumber
+\end{align}
+
+## Deriving the Beta-Binomial Conjugacy Relationship
+
+$$[\phi \mid y,n] \propto \phi^{y+\alpha-1}(1-\phi)^{\beta+n-y-1}$$
+
+Let $\alpha_{new} = y + \alpha$ and $\beta_{new} = \beta + n-y$. Multiply by normalizing constant: 
+
+$$\frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})},$$
+
+and the posterior of $\phi$ is a beta distribution:
+
+$$[\phi\mid y,n] = \frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})}\phi^{\alpha_{new}-1}(1-\phi)^{\beta_{new}-1},$$
+
+with parameters $\alpha_{new}$ and $\beta_{new}$.
+
+## Conjugate priors
+
+\includegraphics[height=2.25in]{../../_Graphics/CPTable.png}
+
+##
+
+\includegraphics[height=2.25in]{../../_Graphics/napkinCalc}
+
+## Why Use Conjugacy 
+
+- It is not necessary, conjugate priors will accelerate MCMC.
+- For simple models, you can use conjugate priors to obtain the posterior distribution in closed form, without any simulation.
+
+## Things to remember
+
+- There is no such thing as a uninformative prior, but certain priors influence the posterior distribution more than others.
+- Informative priors, when properly justified, can be useful.
+- Strong data overwhelms a prior.
+- Priors represent current knowledge (or lack of), which is updated with data. 
+- We encourage you to think of vague priors as a provisional starting point.
+
+## 
+
+Lab exercises.
