@@ -11,7 +11,7 @@ output:
 
 <img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
 
-##### `r fileName="../../_HeadersEtc/SESYNCBayes/Title.txt";readChar(fileName,file.info(fileName)$size)`
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
 
 ##### Probability Lab 2: Probability Distributions
 
