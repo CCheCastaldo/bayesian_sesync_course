@@ -24,3 +24,5 @@
 **/*.data.plist
 **/.netrc
 **/.urs_cookies
+*.lyx~
+**/*.lyx~
