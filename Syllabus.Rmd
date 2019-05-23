@@ -34,7 +34,7 @@ Review Hobbs and Hooten chapters 4-6.
 ##### **Day 3: (6/5) Intro to Bayesian Statistics**
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Lab](content/labs/BayesTheorem.html) 
-2. [More about Priors](content/lectures/MoreAboutPriors.pdf) & Priors Lab
+2. [More about Priors](content/lectures/MoreAboutPriors.pdf) & [Lab](content/labs/ConjugatePriors.html) 
 3. [MCMC Overview](content/lectures/MCMCOverview.pdf) & MCMC Lab (optional)
 
 <br>
