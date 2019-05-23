@@ -13,32 +13,37 @@ latex_engine: xelatex
 transition: fastest
 ---
 
-## Road map
+## A line of inference
 
+\includegraphics[height=.75in]{../../_Graphics/ConceptsTheory.png}
+
+##Insight in science
+
+\includegraphics[height=2in]{../../_Graphics/ScientificInference.png}
+
+## Road map for today
 - Rules of probability
-    + Conditional probability
-    + Chain rule 
-    + Independence
-    + The law of total probability
 - Factoring joint probabilities
+- Directed acyclic graphs (a.k.a. Bayesian networks)
 
-## Why do we need to know this stuff?
+## *All* of Bayesian inference extends from three rules of probability
 
-1. **Conditional probability** foundational for all the inferences that we make.
-2. **The law of total probability** is the denominator of Bayes' Theorem.
-3. **Factoring** joint distributions is how we deal with complexity, reducing high dimensional problems (the chain rule allows us to do this).
-4. **Independence** allows us to simplify fully factored joint distributions.
+1. Conditional probability (and independence)
+2. The law of total probability
+3. The chain rule of probability
 
+## Random variables
 
-## _Random variables_
-- are quantities governed by chance.
-- have a specific value called an _events_ or _outcomes_.
-- are summarized by probability distributions. 
-- _Bayesians treat every unobserved quantity as a random variable_.
+The world can be divided into things that are observed and things that are unobserved.  
+
+1. Bayesians treat all unobserved quantities as *random varialbes*.
+2. The values of random variables are governed by chance.
+3. Probability distributions describe "governed by chance."
+4. A specific value of a random variable is called an event or an outcome.
 
 ## S=Sample Space
 
-- The set of all possible events or outcomes of an experiment or survey.
+- The set of all possible values of a random variable. 
 - The sample space, $S$ has a specific area.
 
 \includegraphics[height=1.25in]{../../_Graphics/S.png}
@@ -46,7 +51,7 @@ transition: fastest
 ## Events in S
 
 - Can define and event, $A$.
-- The area of event $A$ is less than $S$.
+- The area of event $A$ is less than or equal to $S$.
 
 \includegraphics[height=1.25in]{../../_Graphics/eventA.png}
 
@@ -62,31 +67,43 @@ $\Pr(A) = \frac{\text{Area of}~A}{\text{Area of}~S}$
 
 \includegraphics[height=1.25in]{../../_Graphics/eventB.png}
 
-## What is the probability of event $B$, given that event $A$ has occurred?
+## Conditional Probability
+
+What is the probability of event $B$, given that event $A$ has occurred?
+
+BE PREPRED FOR CONCRETE EXAMPLE!
 
 \includegraphics[height=1.25in]{../../_Graphics/eventB.png}
 
 $\Pr(B|A)$ = probability of $B$ conditional on knowing $A$ has occurred
 
-## What is the probability of event $B$, given that event $A$ has occurred?
+$Pr(B|A) = \frac{\text{Joint Probability}}{\text{Probability of A}}=\frac{\Pr(A,B)} {\Pr(A)}$
+
+## Conditional Probability
+
+What is the probability of event $A$, given that event $B$ has occurred?
 
 \includegraphics[height=1.25in]{../../_Graphics/eventB.png}
 
-$Pr(B|A) = \frac{\text{Joint Probability}}{\text{Probability of A}}=\frac{\Pr(A,B)} {\Pr(A)}$
+## Independence
 
-## If the occurance of event A does not tell us anything about event B?
+Event $A$ and $B$ are *independent* If the occurrence of event A does not tell us anything about event B.
 
-_In this case, events A and B are said to be **independent**_
-
-## Events are independent if and only if...
+Events are independent if and only if:
 
 $\Pr(A|B) = \Pr(A)$
 
-## Assuming independence, the joint probability of event A and event B
+$\Pr(B|A) = \Pr(B)$
+
+## Independence
 
 \includegraphics[height=2.25in]{../../_Graphics/rect3823.png}
 
-$\Pr(A,B) = \Pr(A) \Pr(B)$
+$\Pr(A|B) = \frac{\text{area of A and B}}{\text{area of B}}=\frac{\text{area of A}}{\text{area of S}}$
+
+##Independence
+
+Show that  $\Pr(A,B)=Pr(A)Pr(B)$ if $A$ and $B$ are indepdenent events.
 
 ## The Law of Total Probability
 
@@ -102,8 +119,13 @@ $\Pr(A) = \sum_n \Pr(A|B_n)\Pr(B_n)$ (discrete case)
 
 $\Pr(A) = \int \Pr(A|B)\Pr(B) dB$ (continuous case)
 
+##Chain rule of probability
+
+Board work
+
 ## The Chain Rule of Probability 
-The chain rule of probability allows us to calculate any number of joint distributions using only conditional probabilities.
+
+The chain rule of probability allows us to write joint distributions as a product of conditional distributions.
 
 \vspace{.5cm}
 
@@ -114,57 +136,33 @@ $$\Pr(z_1,z_2,...,z_n) = \Pr(z_n|z_{n-1},...,z_1) ... \Pr(z_3|z_2,z_1)\Pr(z_2|z_
 Notice the pattern here.
 
 - z’s can be scalars or vectors.
-- Sequence of conditioning doesn’t matter.
+- Sequence of conditioning does not matter.
 - When we build models, we choose a sequence that makes sense.
 
-##
-Chain rule of probability board work and independence
 
 ## Factoring joint probabilities
 
 Why is factoring useful?
 
-- The rules of probability allow us to simplify complicated joint distributions, breaking them down into chunks.
+- Factoring joint distributions is how we build Bayesian models. 
+- The rules of probability allow us to simplify complicated joint. distributions, breaking them down into chunks.
 - Chunks can be analyzed one at a time.
-- Provide a usable graphical and mathematical foundation, _critical_ for the model specification step.
 
-## Consider a Bayesian Network (represented by a directed acyclic graph or DAG)
+## Consider a factored joint distribution represented by a directed acyclic graph (DAG)
 
-\centerline{\includegraphics[height=.8in]{../../_Graphics/factoringI}}
+\centerline{\includegraphics[height=.6in]{../../_Graphics/DAGDist.png}}
 
- - Bayesian networks specify how joint distributions are factored into conditional distributions using nodes to represent RV's and arrows to represent dependencies.
+ - Directed acyclic graphs (aka Bayesian networks) specify how joint distributions are factored into conditional distributions using nodes to represent RV's and arrows to represent dependencies.
 - Nodes at the heads of arrows _must_ be on the left hand side of the conditioning symbols;
 - Nodes at the tails of arrows are on the right hand side of the conditioning symbols.
 - Any node at the tail of an arrow without and arrow leading into it must be expressed unconditionally.
+- Nodes at heads of arrows are called "children"; at tails, "parents."
 
-##
-Factoring with DAGs at the board
+## Factoring joint probabilities
 
-<!-- ## Factoring with DAGs -->
-
-<!-- \centerline{\includegraphics[height=.8in]{factoringI}} -->
-
-<!-- $\Pr(A,B) =$ -->
-
-<!-- ## Factoring with DAGs -->
-
-<!-- \centerline{\includegraphics[height=.8in]{factoringI}} -->
-
-<!-- $\Pr(A,B) = \Pr(A|B) \Pr(B)$ -->
-
-<!-- ## Factoring with DAGs -->
-
-<!-- \centerline{\includegraphics[height=.8in]{abcDag}} -->
-
-<!-- $\Pr(A,B,C) =$ -->
-
-<!-- ## Factoring with DAGs -->
-
-<!-- \centerline{\includegraphics[height=.8in]{abcDag}} -->
-
-<!-- $\Pr(A,B,C) = \Pr(A|B,C)\Pr(B|C)\Pr(C)$ -->
+Illustrate with simple regression model on board.
 
 ## Work on lab
 
-Complete Probability Lab 1
+Complete Probability Lab #1
 

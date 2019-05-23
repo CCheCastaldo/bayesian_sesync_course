@@ -23,9 +23,13 @@ library(knitr)
 
 knitr::opts_chunk$set(cache = FALSE)
 
+set.seed(10)
+
 ```
 
 ----
+
+Please enter `set.seed(10)` at the R console before doing any of the R coding below.  This will assure that your answers are the same as ours for random numbers.
 
 1. We commonly represent the following general framework for linking models to data:
 
@@ -98,7 +102,33 @@ quantile (y, c(0.025, 0.975))
 
 <br>
 
-4. The average above ground biomass in a 1 km^2^ of sagebrush grassland is 103 g/m^2^, with a standard deviation of 23. You clip a 1 m^2^ plot. Write out the model for the probability density of the data point.  What is the probability density of an observation of 94 assuming the data are normally distributed? Is there a problem using normal distribution?  What is the probability that your plot will contain between 90 and 110 gm of biomass?
+4. Simulate *one* observation of survey data with five categories on a Likert scale, i.e. strongly disagree to strongly agree.  Assume a sample of 80 respondents and the following probabilities:
+
+a.  Strongly disagree = 0.07
+b.  Disagree = .13
+c.  Neither agree nor disagree = .15
+d.  Agree = .23
+e.  Strongly agree = .42
+
+<button class="button" onclick="toggle_visibility('myDIV9a');">Answer</button>
+
+<div id="myDIV9a", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+
+prob <- c(.07,.13,.15,.23,.42)
+size <- 80 
+n <- 1 
+rmultinom(n, size, prob)
+```
+
+</div>
+
+<br>
+
+5. The average above ground biomass in a 1 km^2^ of sagebrush grassland is 103 g/m^2^, with a standard deviation of 23. You clip a 1 m^2^ plot. Write out the model for the probability density of the data point.  What is the probability density of an observation of 94 assuming the data are normally distributed? Is there a problem using normal distribution?  What is the probability that your plot will contain between 90 and 110 gm of biomass?
 
 <button class="button" onclick="toggle_visibility('myDIV9');">Answer</button>
 
@@ -124,7 +154,7 @@ p.bound[1] - p.bound[2]
 
 <br>
 
-5. The prevalence of a disease in a population is the proportion of the population that is infected with the disease. The prevalence of chronic wasting disease in male mule deer on winter range near Fort Collins, CO is 12 percent. A sample of 24 male deer included 4 infected individuals. Write out a model that represents how the data arise. What is the probability of obtaining these data conditional on the given prevalence (p=0.12)?
+6. The prevalence of a disease in a population is the proportion of the population that is infected with the disease. The prevalence of chronic wasting disease in male mule deer on winter range near Fort Collins, CO is 12 percent. A sample of 24 male deer included 4 infected individuals. Write out a model that represents how the data arise. What is the probability of obtaining these data conditional on the given prevalence (p=0.12)?
 
 <button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
 
@@ -146,13 +176,56 @@ dbinom(x, size, p)
 
 <br>
 
+7. Researchers know that the true proportion of related age-sex classifications for elk in Rocky Mountain National Park are: *Adult females* (p = 0.56), *Yearling males* (p = 0.06), *Bulls* (p = 0.16), and *Calves* (p = 0.22). What is the probability of obtaining the classification data conditional on the known sex-age population proportions given the following counts?
+
+a.  Adult females (count = 65)
+b.  Yearling males (count = 4)
+c.  Bulls (count = 25)
+d.  Calves (count = 26)
+
+<button class="button" onclick="toggle_visibility('myDIV9b');">Answer</button>
+
+<div id="myDIV9b", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+p <- c(0.56, 0.06, 0.16, 0.22)
+y <- c(65, 4, 25, 26)
+
+dmultinom(x = y, prob = p)
+```
+
+</div>
+
+<br>
+
+8. Nitrogen fixation by free-living bacteria occurs at a rate of 1.9 g/N/ha/yr with a standard deviation ($\sigma$) of 1.4. What is the lowest fixation rate that exceeds 2.5% of the distribution?  Use a normal distribution for this problem, but discuss why this might not be a good choice. 
+
+<button class="button" onclick="toggle_visibility('myDIV9c');">Answer</button>
+
+<div id="myDIV9c", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+mu <- 1.9
+sigma <- 1.4
+p <- 0.025
+qnorm(p, mu, sigma)
+```
+
+The normal distribution isn't an ideal choice because it extends below 0, which isn't possible for measurements of nitrogen fixation.
+
+</div>
+
 ----
 
 #### ADVANCED
 
 ----
 
-6. The Poisson distribution is often used for count data, despite the fact that one must assume the mean and variance are equal. The negative binomial distribution is a more robust alternative, allowing the variance to differ from the mean. There are two parameterizations for the negative binomial. The first is more frequently used by ecologists: 
+9. The Poisson distribution is often used for count data, despite the fact that one must assume the mean and variance are equal. The negative binomial distribution is a more robust alternative, allowing the variance to differ from the mean. There are two parameterizations for the negative binomial. The first is more frequently used by ecologists: 
 
 $$
 \big[z\mid\lambda,r\big] = 
@@ -170,7 +243,7 @@ $$
 
 where $z$ is the discrete random variable representing the number of failures that occur in a sequence of Bernoulli trials before $r$ successes are obtained. The parameter $\phi$ is the probability of success on a given trial. Note that $\phi=\cfrac{r}{\big(\lambda+r\big)}$.
 
-Simulate $100,000$ observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
+Simulate 100,000 observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
 
 <button class="button" onclick="toggle_visibility('myDIV19');">Answer</button>
 

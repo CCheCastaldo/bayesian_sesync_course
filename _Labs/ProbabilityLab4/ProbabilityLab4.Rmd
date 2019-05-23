@@ -1,0 +1,248 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
+
+##### Probability Lab 4: Moment Matching
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+
+library(knitr)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+set.seed(10)
+
+```
+
+----
+
+Please enter `set.seed(10)` at the R console before doing any of the R coding below.  This will assure that your answers are the same as ours for random numbers.
+
+When we say *support*, we are referring to the values of a random variable for which probability density or probability exceed 0 and are defined.  The support of  lognormal distribution is continuous and strictly non-negative, which makes it particularly useful in ecology and the social sciences.  Moreover, it is often useful because it is asymmetric, allowing for values that are extreme in the positive direction.  Finally, it is useful for representing products of random variables.  The central limit theorem would predict that the distribution of sums of random variables will be normal, no matter how each is individually distributed. The products of random variables will be lognormally distributed regardless of their individual distributions.
+
+If a random variable is lognormally distributed then the log of that random variable is normally distributed (conversely, if you exponentiate a normal random variable it generates a lognormal random variable). The first parameter of the lognormal distribution is the mean of the random variable on the log scale (i.e., $\alpha$ on cheat sheet, meanlog in R) and the second parameter is the variance (or sometimes the standard deviation) of the random variable on the log scale (i.e., $\beta$ on cheatsheet, sdlog in R). We often predict the median of the distribution with our deterministic model, which means that we can use the log of the median as the first parameter because
+
+\begin{eqnarray}
+z \sim  \textrm{lognormal}\big(\alpha,\beta\big)\\
+\textrm{median}\big(z\big) = e^{\alpha}\\
+\textrm{log}\big(\textrm{median}\big(z\big)\big) = \alpha
+\end{eqnarray}
+
+<br>
+
+1. Simulate 10,000 data points from a normal distribution with mean 0 and standard deviation 1 and another 10,000 data points from a log normal distribution with first parameter (the mean of the random variable on the log scale) = 0 and second parameter (the standard deviation of the parameter on the log scale) = 1. Display side-by-side histograms scaled to the density. Find the mean and variance of the lognormal distribution using moment matching. Check your moment-matched values empirically with the simulated data. The moment-matched values and the empirical values are close for the mean, but less so for the variance.  Why?  What happens when you increase the number or draws? Explore the two distributions by repeating with different means and standard deviations of your choice.
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
+
+<div id="myDIV1", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
+par(mfrow = c(1, 2))
+
+mean.var <- 0
+sd.var <- 1
+n <- 100000
+log.y <- rnorm(n, mean = mean.var, sd = sd.var)
+hist(log.y, breaks = 50, prob = TRUE, main = "") 
+
+x  <- seq(-4, 4, .01)
+z <- dnorm(x, mean = mean.var, sd = sd.var)
+lines(x, z, col = "red", lwd = 2)
+y <- rlnorm(n, meanlog = mean.var, sdlog = sd.var)
+hist(y, ylim = c(0, .7), breaks = 250, prob = TRUE, xlim = c(0, 10), main = "") 
+x <- seq(0, 50, .01)
+z <- dlnorm(x, meanlog = mean.var, sdlog = sd.var)
+lines(x, z, col = "red", lwd = 2)
+```
+
+``` {r, eval = TRUE, echo = TRUE}
+mean(log.y)
+
+var(log.y)
+
+(mean.y <- exp(mean.var + sd.var^2/2))
+
+(mean(y))
+
+(var.y <- (exp(sd.var^2) - 1) * exp(2 * mean.var + sd.var^2))
+
+(var(y))
+
+```
+
+</div>
+
+<br>
+
+2. The average above ground biomass in a 1 km^2^ of sagebrush grassland is 103 g/m^2^, with a standard deviation of 23. You clip a 1 m^2^ plot. You assumed a normal distribution for this problem in Probability Lab #2. Now redo the problem with a more appropriate distribution. Write out the model for the probability density of the data point. What is the probability density of an observation of 94 assuming the data are normally distributed? What is the probability that your plot will contain between 90 and 110 gm of biomass? 
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
+
+<div id="myDIV2", style="display:none">
+
+<br>
+
+$$y_i \sim \textrm{gamma}(\frac{103^{2}}{23^{2}}, \frac{103}{23^{2}})$$
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+x <- 94 
+mu <- 103
+sd <- 23
+shape <- mu**2/sd**2
+rate <- mu/sd**2
+dgamma(x, shape, rate)
+
+q <- c(110, 90)
+p.bound <- pgamma(q, shape, rate)
+p.bound[1] - p.bound[2]
+```
+
+</div>
+
+<br>
+
+3. We are interested in the proportion ($\phi$) of Maryland counties that contain a coal fired power plant. Existing literature shows that that this proportion has a mean of $\mu = 0.04$ with a standard deviation of $\sigma = 0.01$. Write out a model for the distribution of $\phi$, conditional on $\mu$ and $\sigma$. The challenge here is to use moment matching for a random variable with support between 0-1. Plot the probability distribution of $\phi$.  
+
+<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
+
+<div id="myDIV3", style="display:none">
+
+$$
+\begin{align}
+\alpha &=\cfrac{\big(\mu^2 - \mu^3 - \mu\sigma^2\big)}{\sigma^2}\\
+\beta &=\cfrac{\big(\mu - 2\mu^2 + \mu^3 - \sigma^2 + \mu\sigma^2\big)}{\sigma^2}\\
+\phi &\sim \textrm{beta}\big(\alpha,\beta\big)
+\end{align}
+$$
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 6, fig.height = 5, fig.align = 'center'}
+shapeit <- function(mu, sigma){
+  a <- (mu^2 - mu^3 - mu * sigma^2)/sigma^2
+  b <- (mu - 2 * mu^2 + mu^3 - sigma^2 + mu * sigma^2)/sigma^2
+  shape_ps <- c(a, b)
+  return(shape_ps)
+}
+
+betaParms <- shapeit(mu = .04, sigma = .01)
+x <- seq(0, .2, .001)
+y <- dbeta(x, betaParms[1], betaParms[2])
+
+plot(x, y,type = 'l', ylab = expression(paste("[",phi,"]")), xlab = expression(phi), 
+  xlim = c(0, 0.1), lwd = 2)
+```
+
+</div>
+
+----
+
+#### ADVANCED
+
+----
+
+4. You are modeling the relationship between plant growth rate and soil water. Represent plant growth ($\mu_i$) as a linear function of soil water, $\mu_i = \beta_{0} + \beta_{1}x_{i}$. Write out the model for the data. Simulate a data set of $20$, strictly non-negative pairs of$y$ and $x$ values. Plot the data and overlay the generating model. Assume that:
+
+- Soil water, the $x$ value, varies randomly and uniformly between $0.01$ and $0.2$ 
+- $\beta_0 = 0.01$ and $\beta_1 = 0.9$ and the standard deviation of the model prediction is $\sigma = 0.03$  
+
+<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
+
+<div id="myDIV4", style="display:none">
+
+\begin{eqnarray}
+\mu_i &=& \beta_0 + \beta_1x_1\\
+\alpha_i &=& \cfrac{\mu_i^2}{\sigma^2}\\
+\beta_i &=& \cfrac{\mu_i}{\sigma^2}\\
+y_i &\sim& \textrm{gamma}\big(\alpha_i,\beta_i\big)\\
+\end{eqnarray}
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 6, fig.height = 5, fig.align = 'center'}
+x <- runif(20, 0.01, 0.2)
+mu <- 0.01 + 0.9 * x
+sigma <- 0.03
+alpha <- mu^2/sigma^2
+beta <- mu/sigma^2
+y <- rgamma(length(x), alpha, beta)
+plot(x, y, xlab = "Soil Moisture", ylab = "Growth Rate", pch = 16, col = "red", cex = 1.5)
+lines(x, mu, lwd = 2)
+```
+
+</div>
+
+<br>
+
+5. The Poisson distribution is often used for count data, despite the fact that one must assume the mean and variance are equal. The negative binomial distribution is a more robust alternative, allowing the variance to differ from the mean. There are two parameterizations for the negative binomial. The first is more frequently used by ecologists: 
+
+$$
+\big[z\mid\lambda,r\big] = 
+\cfrac{\Gamma\big(z + r\big)}{\Gamma\big(r\big)z!}\Big(\cfrac{r}{r+\lambda}\Big)^r
+\Big(\cfrac{\lambda}{r+\lambda}\Big)^z\textrm{,}
+$$
+
+where $z$ is a discrete random variable, $\lambda$ is the mean of the distribution, and $r$ is the *dispersion parameter*. The variance of $z$ equals $\lambda + \cfrac{\lambda^{2}}{r}$.
+
+The second parameterization is more often implemented in coding environments (i.e. JAGS):
+
+$$
+\big[z \mid r,\phi \big] = \cfrac{\Gamma\big(z+r\big)}{\Gamma\big(r\big)z!}\phi^r\big(1-\phi\big)^z\textrm{,}
+$$
+
+where $z$ is the discrete random variable representing the number of failures that occur in a sequence of Bernoulli trials before $r$ successes are obtained. The parameter $\phi$ is the probability of success on a given trial. Note that $\phi=\cfrac{r}{\big(\lambda+r\big)}$.
+
+Simulate $100,000$ observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
+
+<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
+
+<div id="myDIV5", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
+n <- 100000
+lambda <- 100
+sigma2 <- 400
+r <- lambda^2/(sigma2 - lambda)
+z1 <- rnbinom(n, mu = lambda, size = r)
+mean(z1)
+var(z1)
+```
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 6, fig.height = 5, fig.align = 'center'}
+n <- 100000
+lambda <- 100
+sigma2 <- 400
+r <- lambda^2/(sigma2 - lambda)
+phi <- r/(r + lambda)
+z2 <- rnbinom(n, prob = phi ,size = r)
+mean(z2)
+var(z2)
+```
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+par(mfrow = c(1, 2))
+hist(z1, col = "gray")
+hist(z2, col = "gray")
+```
+
+</div>
+
+<br>
