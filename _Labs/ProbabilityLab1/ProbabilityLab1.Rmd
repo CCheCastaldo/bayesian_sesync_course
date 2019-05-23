@@ -17,8 +17,6 @@ output:
 
 ##### `r format(Sys.Date(), format="%B %d, %Y")`
 
-### {.tabset .tabset-fade .tabset-pills}
-
 ```{r preliminaries, include = FALSE}
 
 library(knitr)
@@ -27,9 +25,10 @@ knitr::opts_chunk$set(cache = FALSE)
 
 ```
 
-#### Motivation
-
 ----
+
+### **Motivation**
+
 
 Bayesian analysis is predicated on the idea that we learn about unobserved quantities from quantities we are able to observe.  All observed quantities (i.e. parameters, latent states, missing data, and even the data themselves before they are observed) are treated as random variables in the Bayesian approach.  All Bayesian analysis extends from the laws of probability, that is, from the "mathematics of random variables."
 
@@ -46,9 +45,9 @@ It follows that understanding the laws of probability and statistical distributi
 
 <br>
 
-#### Chain rule
-
 ---
+
+### **Chain rule**
 
 1\. Use the chain rule of probability to factor the joint distribution $\Pr(\theta_1,\theta_2, \theta_3,\theta_4)$ into a joint conditional distribution.
 
@@ -94,9 +93,9 @@ $$\Pr\big(\theta,w,\eta,\alpha\big)=\Pr\big(\alpha \mid w,\eta,\theta\big)\Pr\bi
 
 <br>
 
-#### DAGs to joint distributions
+---
 
-----
+### **DAGs to joint distributions**
 
 Write the joint and conditional distributions for the following Bayesian networks. For discrete random variables, $\big[A\big]$ is equivalent to $\Pr\big(A\big)$. For continuous random variables $\big[A\big]$ is the probability density of $A$.
 
@@ -133,9 +132,9 @@ Write the joint and conditional distributions for the following Bayesian network
 
 <br>
 
-#### Joint distributions to DAGs
-
 ---
+
+### **Joint distributions to DAGs**
 
 Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
 
@@ -165,9 +164,9 @@ Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
   
 <br>
 
-#### Simplifying
+---
 
-----
+### **Simplifying**
 
 Simplify the expression below, given that $z_2$ and $z_3$ are independent random variables. 
 $$ \Pr\big(z_1,z_2,z_3\big)=\Pr\big(z_1\mid z_2,z_3\big)\Pr\big(z_2 \mid z_3\big)\Pr\big(z_3\big)$$
@@ -184,9 +183,9 @@ because $\Pr\big(z_2\mid z_3\big) = \Pr\big(z_2\big)$ if $z_2$ and $z_3$ are ind
 
 </div>
 
-#### Factoring
+---
 
-----
+###  **Factoring**
 
 The probability of an observation $y$ depends on a true ecological state of interest, $z$, and the parameters in a data model, $\pmb\theta_d$. The probability of the true state $z$ depends on the parameters in an ecological process model, $\pmb\theta_p$. We know that $\pmb\theta_d$ and $\pmb\theta_p$ are independent.  Write out a factored expression for the joint distribution, $\Pr\big(y,z,\pmb\theta_d,\pmb\theta_p\big)$. Drawing a Bayesian network will help.
 
