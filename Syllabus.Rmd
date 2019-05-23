@@ -40,7 +40,7 @@ Review Hobbs and Hooten chapters 4-6.
 
 ##### **Day 4: (6/6) Markov Chain Monte Carlo**
 
-1. JAGS Primer Work & Exercises
+1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf)
 2. Inference From a Single Model
 3. Islands Lab
 4. Happy Hour at SESYNC 
