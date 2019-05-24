@@ -1,0 +1,10 @@
+Package: SESYNCBayes
+Type: Package
+Title: Bayesian Modeling for Socio-Environmental Data Package
+Version: 0.3.0
+Author: Tom Hobbs, Mary Collins, and Christian Che-Castaldo
+Maintainer: Christian Che-Castaldo <checastaldo@icloud.com>
+Description: Contains datasets and functions used in course labs and lectures.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true

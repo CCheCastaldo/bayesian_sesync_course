@@ -27,7 +27,7 @@ We will be starting at 9am each day. We will usually end at 5 or 5:30.
 
 Remember that lunch will be served at SESYNC each day during the course.
 
-Course materials will be distributed throughout the course via [GitHub](https://github.com/CCheCastaldo/SESYNCBayes).
+Course materials will be distributed throughout the course via our course website on [GitHub](https://cchecastaldo.github.io/BayesianShortCourse/Syllabus.html).
 
 <br>
 
@@ -35,13 +35,15 @@ Course materials will be distributed throughout the course via [GitHub](https://
 
 We have prepared an R package that contains all the data you will need to complete our lab exercises.  The package is part of the course materials that you now have on your local machine. You will need to do an initial install of this package and do periodic updates throughout the course. For both the install and update the commands are the same.
 
-1. Open R or RStudio run the following line of code to install the `SESYNCBayes` package from source. Remember to change `<pathtoSESYNCBayes>` to the path to the directory where you cloned the SESYNCBayes course repository.
+1. Download the R package [SESYNCBayes](content/package/SESYNCBayes_0.3.0.tar.gz) to your computer.
+
+2. Open R or RStudio run the following line of code to install the `SESYNCBayes` package from source. Remember to change `<pathtoSESYNCBayes>` to the path to the directory where you cloned the SESYNCBayes course repository.
 
 ``` {r, eval = FALSE, echo = TRUE, include = TRUE}
-install.packages("<pathtoSESYNCBayes>/Packages/SESYNCBayes_0.2.0.tar.gz", repos = NULL, type = "source")
+install.packages("<pathtoSESYNCBayes>/Packages/SESYNCBayes_0.3.0.tar.gz", repos = NULL, type = "source")
 ```
 
-2. When working in RStudio you load the library like any other R library:
+3. When working in RStudio you load the library like any other R library:
 
 ``` {r, eval = FALSE, echo = TRUE, include = TRUE}
 library(SESYNCBayes)
