@@ -1,13 +1,14 @@
 ---
 output:
   html_document:
-    highlight: kate
+    css: style.css
+    highlight: default
     theme: paper
 ---
 
 <br>
 
-#### 2019 Bayesian Modeling for Socio-Environmental Data Short Course
+#### **2019 Bayesian Modeling for Socio-Environmental Data Short Course**
 
 Solutions to pressing environmental problems require understanding connections between human and natural systems. Analysis of these systems requires a model that can deal with complexity, is able to exploit data from multiple sources, and is honest about the uncertainty from multiple sources. Synthesis of results from multiple studies is often required. Bayesian hierarchical models provide a powerful approach to analysis of socio-environmental problems.
 
@@ -23,7 +24,7 @@ The goals of the course are to:
 
 <br>
 
-#### Short Course Overview
+#### **Short Course Overview**
 
 The course will include lectures and laboratory exercises. Labs will emphasize problem solving requiring programming in R and JAGS. The course will enable participants to:
 
@@ -49,7 +50,7 @@ The course will include lectures and laboratory exercises. Labs will emphasize p
 
 <br>
 
-#### Instructor Biographies
+#### **Instructor Biographies**
 
 Dr. Tom Hobbs has taught ecological modeling at Colorado State University for 16 years. His course has evolved over time; during the last eight years, it has emphasized Bayesian methods for gaining insight from models and data. He has also taught short courses for the U.S. Geological Survey, Conservation Science Partners, the Woods Hole Research Center, the Grimsö Wildlife Research Institute, and the Department of Ecology, Swedish Agricultural University.  He is the author, with Mevin Hooten, of *Bayesian models: A statistical primer for ecologists* from Princeton University Press. Dr. Hobbs takes special pride in making challenging, quantitative concepts clear and accessible to students who never considered themselves to be particularly adept with mathematics and statistics.
 
@@ -59,13 +60,13 @@ Dr. Christian Che-Castaldo is an ecologist and Research Scientist with the Pacif
 
 <br>
 
-#### Special Thanks to SESYNC
+#### **Special Thanks to SESYNC**
 
 We would like to thank the [National Socio-Environmental Synthesis Center (SESYNC)](https://www.sesync.org) for hosting this course and for all their logistical and financial support. Without their generosity, this course would not be possible.
 
 <br>
 
-#### Questions?
+#### **Questions?**
 
 Please email Dr. Mary Collins at: mbcollin@esf.edu or Dr. Che-Castaldo at: chrischecastaldo@icloud.com
 

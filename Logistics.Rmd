@@ -1,13 +1,14 @@
 ---
 output:
   html_document:
-    highlight: kate
+    css: style.css
+    highlight: default
     theme: paper
 ---
 
 <br>
 
-#### Course Preparation
+#### **Course Preparation**
 
 R is a crucial skill for success in this course. Considering reviewing Tom's R Primer, and head over to [Quick-R](http://www.statmethods.net/index.html), which gives a nice overview of basic R functionality. We ask that you are fluent with the following topics from Quick-R:
 
@@ -21,7 +22,7 @@ We strongly recommend purchasing [Hobbs & Hooten 2015](https://www.amazon.com/Ba
 
 <br>
 
-#### Course Logistics
+#### **Course Logistics**
 
 We will be starting at 9am each day. We will usually end at 5 or 5:30.  
 
@@ -31,7 +32,7 @@ Course materials will be distributed throughout the course via our course websit
 
 <br>
 
-#### Install course-specific R package `SESYNCBayes` 
+#### **Install course R package `SESYNCBayes`**
 
 We have prepared an R package that contains all the data you will need to complete our lab exercises.  The package is part of the course materials that you now have on your local machine. You will need to do an initial install of this package and do periodic updates throughout the course. For both the install and update the commands are the same.
 
