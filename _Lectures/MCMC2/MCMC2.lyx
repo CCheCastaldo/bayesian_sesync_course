@@ -1,0 +1,1088 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Markov chain Monte Carlo II}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/Logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Housekeeping
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Bayes lab: 
+\begin_inset Quotes eld
+\end_inset
+
+The likelihood profile for 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is based on the data but it shows much less dispersion than the distribution
+ of the data shown in the histogram you constructed.
+ Why?
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Schedule through spring recess
+\end_layout
+
+\begin_layout Itemize
+Review deterministic models lecture and re-read chapter 2 in Hobbs and Hooten
+ before Tuesday.
+\end_layout
+
+\begin_layout Itemize
+Bring cheatsheet on Tuesday.
+\end_layout
+
+\begin_layout Itemize
+Read 6.2.1 and 6.2.2 before Thursday.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The MCMC algorithm 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\color lightgray
+Some intuition
+\end_layout
+
+\begin_layout Itemize
+
+\color lightgray
+Accept-reject sampling with Metropolis algorithm
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\color lightgray
+Introduction to full-conditional distributions
+\end_layout
+
+\begin_layout Itemize
+
+\color lightgray
+Gibbs sampling 
+\end_layout
+
+\begin_layout Itemize
+Metropolis-Hastings algorithm
+\end_layout
+
+\begin_layout Itemize
+Implementing accept-reject sampling
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implementing MCMC for multiple parameters and latent quantities
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Write an expression for the posterior and joint distribution using a DAG
+ as a guide.
+ Always.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+If you are using MCMC software (e.g.
+ JAGS) use the expression for the posterior and joint distribution as template
+ for writing code.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+If you are writing your own MCMC sampler:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Decompose the expression of the multivariate joint distribution into a series
+ of univariate distributions called 
+\emph on
+full-conditional distributions
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Choose a sampling method for each full-conditional distribution.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Cycle through each unobserved quantity, sampling from its full-conditional
+ distribution, treating the others as if they were known and constant.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+The accumulated samples approximate the marginal posterior distribution
+ of each unobserved quantity.
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+\color black
+Note that this takes a complex, multivariate problem and turns it into a
+ series of simple, univariate problems that we solve, as in the example
+ above, one at a time.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Choosing a sampling method
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Accept-reject:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Metropolis
+\end_layout
+
+\begin_layout Enumerate
+Metropolis-Hastings
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Gibbs: accepts all proposals because they are especially well chosen.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When is accept-reject update mandatory?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+We need to use Metropolis, Metropolis-Hastings or some other accept reject
+ methods whenever
+\end_layout
+
+\begin_layout Enumerate
+A conjugate relationship does not exist for the full-conditional distribution
+ of a parameter, for example, for the shape parameter in the gamma distribution.
+\end_layout
+
+\begin_layout Enumerate
+The deterministic model is non-linear, which almost always means a conjugate
+ doesn't exist for its parameters.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When is a model linear?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A model is linear if it can be written as the sum of products of coefficients
+ and predictor variables, i.e.
+ 
+\begin_inset Formula $\mu_{i}=\beta_{0}+\beta_{1}x_{1,i}+....+\beta_{n}x_{n,i}$
+\end_inset
+
+ or in matrix form 
+\begin_inset Formula $\mu_{i}=\mathbf{x}_{i}\beta$
+\end_inset
+
+.
+ We can take powers and products of the 
+\begin_inset Formula $x$
+\end_inset
+
+ and the model remains linear.
+ We often transform models to linearize them using link functions (i.e., log,
+ logit, probit).
+ 
+\end_layout
+
+\begin_layout Itemize
+A model is non-linear if it cannot be written this way.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis Updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{l}
+[{\theta^{*}}^{k+1}|y]=\frac{{\overbrace{[y|{\theta^{*}}^{k+1}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{*}}^{k+1}]}^{{\rm {prior}}}}}{\cancel{\int{[y|\theta][\theta]d\theta}}}\\
+{}[{\theta^{k}}|y]=\frac{{\overbrace{[y|{\theta^{k}}]}^{{\rm {likelihood}}}\overbrace{[{\theta^{k}}]}^{{\rm {prior}}}}}{\cancel{\int{[y|\theta][\theta]d\theta}}}\\
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}\\
+\\
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Proposal distributions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Independent chains have proposal distributions that do not depend on the
+ current value 
+\begin_inset Formula $(\theta^{k})$
+\end_inset
+
+ in the chain.
+ This is what we used in the fish disease
+\emph on
+ 
+\emph default
+example.
+\end_layout
+
+\begin_layout Itemize
+Dependent chains, as you might expect, have proposal distributions that
+ 
+\emph on
+do
+\emph default
+ depend on the current value of the chain 
+\begin_inset Formula $(\theta^{k}).$
+\end_inset
+
+ In this case we draw from
+\begin_inset Formula 
+\begin{equation}
+[\theta{}^{*k+1}|\theta^{k},\sigma]
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is a tuning parameter that we specify to obtain an acceptance rate of about
+ 40%.
+ Note that my notation and notation of others simplifies this distribution
+ to 
+\begin_inset Formula $[\theta{}^{*k+1}|\theta^{k}]$
+\end_inset
+
+ The 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is implicit because it is a constant, not a random variable.
+\end_layout
+
+\begin_layout Itemize
+Why are dependent chains usually more efficient that independent chains?
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Proposal distributions for dependent chains
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/proposal_distributions.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis-Hastings updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Metropolis updates require symmetric proposal distributions (e.g., uniform,
+ normal).
+\end_layout
+
+\begin_layout Itemize
+Metropolis-Hastings updates allow use of asymmetric (e.g., beta, gamma, lognormal).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition of symmetry
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+A proposal distribution is symmetric if and only if
+\begin_inset Formula 
+\begin{equation}
+[\theta{}^{*k+1}|\theta^{k}]=[\theta^{k}|\theta{}^{*k+1}].
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Normal and uniform are symmetric.
+ Gamma, beta, lognormal are not.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Illustrating with code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size small
+#symmetric example
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+sigma=1
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+x = .8
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+z=rnorm(1,mean=x,sd=sigma);z
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+#[z|x]
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+dnorm(z,mean=x,sd=sigma)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+#[x|z]
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+dnorm(x,mean=z,sd=sigma)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+#asymmetric example
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+sigma=1
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+x = .8
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+a.x=x^2/sigma^2; b.x=x/sigma^2
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+z=rgamma(1,shape=a.x,rate=b.x);z
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+a.z=z^2/sigma^2; b.z=z/sigma^2
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+#[z|x]
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+dgamma(z,shape=a.x,rate=b.x)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+#[x|z]
+\end_layout
+
+\begin_layout LyX-Code
+
+\size small
+dgamma(x,shape=a.z,rate=b.z)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Metropolis-Hastings updates
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Metropolis R:
+\begin_inset Formula 
+\begin{equation}
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Metropolis-Hastings R:
+\begin_inset Formula 
+\begin{equation}
+R=\frac{{[{{\theta^{*}}^{k+1}}|y]}}{{[{\theta^{k}}|y]}}\frac{\overbrace{[\theta^{k}|\theta^{*k+1}]}^{\text{Proposal distribution}}}{\underbrace{[\theta^{*k+1}|\theta^{k}]}_{\text{Proposal distribution}}},
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+which is the same as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R=\frac{\overbrace{[y|\theta^{*k+1}]}^{\text{Likelihood}}\overbrace{[\theta^{*k+1}]}^{\text{Prior}}\overbrace{[\theta^{k}|\theta^{*k+1}]}^{\text{Proposal distribution}}}{\underbrace{[y|\theta^{k}]}_{\text{Likelihood}}\underbrace{[\theta^{k}]}_{\text{Prior}}\underbrace{[\theta^{*k+1}|\theta^{k}]}_{\text{Proposal distribution}}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example using beta proposal distribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Current value of parameter, 
+\begin_inset Formula $\theta^{k}=.42$
+\end_inset
+
+, tuning parameter set at 
+\begin_inset Formula $\sigma=.10$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Make a draw from 
+\begin_inset Formula $\theta*^{k+1}\sim\text{beta}(m(.42,.10))$
+\end_inset
+
+, where 
+\begin_inset Formula $m$
+\end_inset
+
+ is moment matching function.
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $R=\frac{\overbrace{[y\mid\theta^{*k+1}]}^{\text{Likelihood}}\overbrace{[\theta^{*k+1}]}^{\text{Prior}}\overbrace{[.42|\mid m(\theta^{*k+1},.10)]}^{\text{beta proposal}}}{\underbrace{[y\mid\theta^{k}]}_{\text{Likelihood}}\underbrace{[\theta^{k}]}_{\text{Prior}}\underbrace{[\theta^{*k+1}\mid m(.42,.10)]}_{\text{beta proposal}}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Choose proposed or current value based on 
+\begin_inset Formula $R$
+\end_inset
+
+ as we did with Metropolis.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+MCMC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Methods based on the Markov chain Monte Carlo algorithm allow us to approximate
+ marginal posterior distributions of unobserved quantities without analytical
+ integration.
+ 
+\end_layout
+
+\begin_layout Itemize
+This makes it possible to estimate models that have many parameters, have
+ multiple sources of uncertainty, and include latent quantities.
+ 
+\end_layout
+
+\begin_layout Itemize
+We will learn a tool, JAGS, that simplifies the implementation of MCMC methods.
+ 
+\end_layout
+
+\begin_layout Itemize
+Will will put this tool to use in building models that include nested levels
+ in space, errors in the observations, differences among groups and processes
+ that unfold over time.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
