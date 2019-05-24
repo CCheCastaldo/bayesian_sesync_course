@@ -1,0 +1,611 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
+
+##### Islands Lab
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+
+library(knitr)
+library(rjags)
+library(MCMCvis)
+library(HDInterval)
+library(SESYNCBayes)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+set.seed(10)
+
+```
+
+-----
+
+### **Motivation**
+
+JAGS allows you to implement models of high dimension once you master its syntax and logic.  It is a great tool for ecological analysis. The problems that follow challenge you to:
+
+* Write joint distributions as a basis for writing JAGS code.
+* Write JAGS code to approximate marginal posterior distributions of derived quantities. 
+* Plot model output in revealing ways.
+* Understand the effect of vague priors on parameters and on predictions of non-linear models.
+
+<br>
+
+---
+
+### **Derived quantities with the logisic**
+
+One of the most useful features of MCMC is its equivariance property which means that any quantity that is a function of a random variable in the MCMC algorithm becomes a random variable. Consider two quantities of interest that are functions of our estimates of the random variables $r$ and $K$:
+ 
+* The maximum rate of population growth, $\frac{K}{2}$
+* The rate of population growth, $\frac{dN}{dt} = rN\big(1-\frac{N}{K}\big)$
+
+You will now do a series of problems to estimate these quantities of interest. Some hints for the problems below:
+
+* Include expressions for each derived quantity in your JAGS code. 
+* You will need to give JAGS a vector of $N$ values to plot $\frac{dN}{dt}$ vs $N$.
+* Use a JAGS object for plotting the rate of population growth.
+* Look into using the ``ecdf()`` function on a JAGS object. It is covered in the JAGS primer.
+
+<br>
+
+1. Approximate the marginal posterior distribution the maximum rate of growth and plot its posterior density. You may use the work you have already done in the JAGS Primer to speed this along.
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
+
+<div id="myDIV1", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("LogisticJAGS.R")
+cat(" 
+model {
+
+  # priors
+
+  K ~ dunif(0, 4000)
+  r ~ dunif (0, 2)
+  sigma ~ dunif(0, .5) 
+  tau <- 1/sigma^2
+  
+  # likelihood
+  
+  for(i in 1:n) {
+    mu[i] <- r - r/K * x[i]
+    y[i] ~ dnorm(mu[i], tau)
+  }
+
+  # derived quantities	
+
+  # calculate maximum growth rate	
+  maxdNdt <- K/2
+  
+  # calculate growth rate over range of N values. N must be read in as data:
+  for (j in 1:length(N)) {
+    dNdt[j] <- r * N[j] * (1 - N[j]/K)
+  }
+} 
+",fill = TRUE)
+sink()
+} # Extra bracket needed only for R markdown files
+```
+
+``` {r, eval = TRUE, echo = TRUE}
+
+set.seed(10)
+
+Logistic <- Logistic[order(Logistic$PopulationSize),]
+
+inits = list(
+  list(K = 1500, r = .2, sigma = .01),
+  list(K = 1000, r = .15, sigma = .5),
+  list(K = 900, r = .3, sigma = .01))
+
+N <- seq(0,1500,10)
+N[1] <- 1
+
+data = list(
+  n = nrow(Logistic),
+  x = as.double(Logistic$PopulationSize),
+  y = as.double(Logistic$GrowthRate),
+  N = N)
+
+n.adapt = 5000
+n.update = 10000
+n.iter = 20000
+
+jm = jags.model("LogisticJAGS.R", data = data, inits = inits, n.chains = length(inits), n.adapt = n.adapt)
+update(jm, n.iter = n.update)
+zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "maxdNdt", "dNdt"), n.iter = n.iter, n.thin = 1)
+```
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 5, fig.height = 5, fig.align = 'center'}
+maxdNdt = MCMCchains(zm, params = c("maxdNdt"))
+plot(density(maxdNdt), main = "", xlab ="Maximum population growth rate", ylab = "Proability density")
+rug(maxdNdt, col = "red")
+```
+
+</div>
+
+<br>
+
+2. Plot the median growth rate of the *population* (not the per-capita rate) rate and a 95% highest posterior density interval as a function of $N$. What does this curve tell you about the difficulty of sustaining harvest of populations?
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
+
+<div id="myDIV2", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 5, fig.height = 5, fig.align = 'center'}
+HPDI <-  MCMCpstr(zm, params = c("dNdt"), func = function(x) hdi(x, .95))
+medN <- MCMCpstr(zm, params = c("dNdt"), func = median)
+plot(N, medN$dNdt,  ylab = "Population growth rate dN/dt", xlab = "Population size N", type = "l", ylim = c(-40, 80))
+lines(N, HPDI$dNdt[,1], lty = "dashed")
+lines(N, HPDI$dNdt[,2], lty = "dashed")
+```
+
+<br>
+
+There is far greater uncertainty about the population growth rate when the population is much larger for large populations.  It might prove difficult to set a harvest rate that was sustainable in the face of this uncertainty.
+
+</div>
+
+<br>
+
+3. What is the probability that the intrinsic rate of increase $(r)$ exceeds 0.22? What is the probability that $r$ falls between 0.18 and 0.22? 
+
+<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
+
+<div id="myDIV3", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+r = MCMCchains(zm, "r")
+1 - ecdf(r)(.22)
+ecdf(r)(.22) - ecdf(r)(.18)
+```
+</div>
+
+<br>
+
+----
+
+### **Lizards on islands**
+
+This problem is courtesy of McCarthy (2007). Polis et al. (1998) analyzed the probability of occupancy of islands $p$ by lizards as a function of the ratio of the islands’ perimeter to area ratios. The data from this investigation are available in the data frame ``IslandsLizards``. The response data, as you will see, are 0 or 1, 0 if there were no lizards found on the island, 1 if there were 1 or more lizards observed. You are heroically assuming that if you fail to find a lizard, none are present on the island. 
+
+1. Construct a simple Bayesian model that represents the probability of occupancy as: 
+
+$$g(a,b,x_i)=\frac{e^{a+bx_i}}{1+e^{a+bx_i}},$$
+
+where $x_{i}$ is the perimeter to area ratio of the $i^{th}$ island. So, now that you have the deterministic model, the challenge is to choose the proper likelihood to link the data to the model. How do the data arise? What likelihood function is needed to represent the data? 
+
+<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
+
+<div id="myDIV4", style="display:none">
+
+<br>
+
+The data arise as presence/absence draws from a Bernoulli distribution whose probability of presence is a function of the perimeter to area ratio as specified above.
+
+</div>
+
+<br>
+
+2. Write the expression for the posterior and joint distribution of the parameters and data, as we have learned how to do in lecture. Use the joint distribution as a basis for JAGS code needed to estimate the posterior distribution of $a$ and $b$.  Assume vague priors on the intercept and slope, e.g., $\beta_0 \sim \text{normal}(0,10000),\, \beta_1 \sim \text{normal}(0,10000)$.  Draw a DAG if you like.  There doesn't appear to be any variance term in this model. How can that be?
+
+<button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
+
+<div id="myDIV5", style="display:none">
+
+\begin{align}
+\big[a, b \mid \textbf{y}\big] & \propto 
+\prod_{i = 1}^{19}\textrm{Bernoulli}\big(y_{i}\mid g(a,b,x_i)\big)\,\textrm{normal}\big(a\mid,0,10000\big)
+\textrm{normal}\big(b\mid 0,10000\big)\\\
+p&=g(a,b,x_i)  = \textrm{inverse logit}\big(a + bx_{i}\big) = \frac{\exp{\big(a + bx_{i}\big)}}{1+\exp\big(a + bx_{i}\big)}
+\end{align}
+
+The variance of a Bernoulli distribution is $p(1-p)$. It is implicit in the model in the same way that variance is implicit in the Poisson distribution. 
+
+``` {r, eval = TRUE, echo = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("IslandJAGS.R")
+cat("
+model{
+
+  # priors
+  
+  a ~ dnorm(0, 1.0E-6) 
+  b ~ dnorm(0, 1.0E-6) 
+
+  # likelihood
+  
+  for (i in 1:n) {
+    logit(p[i]) <- a + b*x[i] 
+    y[i] ~ dbern(p[i])
+  }
+
+} #end of model
+",fill = TRUE)
+sink()
+} # Extra bracket needed only for R markdown files
+```
+
+</div>
+
+<br>
+
+3. Using JAGS, run MCMC for three chains for the parameters $a$ and $b$ and the derived quantity $p_i$, the probability of occupancy. JAGS has a function, `ilogit` for the inverse logit that you might find helpful.Selecting initial conditions can be a bit tricky with the type of likelihood you will use here. You may get the message:
+
+>Error in jags.model("IslandsJags.R", data = data, inits, n.chains = length(inits), : 
+Error in node y[4] Observed node inconsistent with unobserved parents at initialization. 
+>
+
+To overcome this, try the following:
+
+* Standardize the the perimeter to area ratio covariate using the ``scale`` function in R, which subtracts the mean of the data from every data point and divides by the standard deviation of the data.  You want the default arguments for `center` and `scale` in this function.
+* Choose initial values for $a$ and $b$ so that $\textrm{inverse logit}\big(a + b\,\text{standardized}(x_{i})\big)$ is between .01 and .99. 
+
+<button class="button" onclick="toggle_visibility('myDIV6');">Answers</button>
+
+<div id="myDIV6", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+data(IslandsLizards)
+set.seed(10)
+
+inits = list(
+  list(a = runif(1, -2, 2), b = runif(1, -2, 2)),
+  list(a = runif(1, -2, 2), b = runif(1, -2, 2)),
+  list(a = runif(1, -2, 2), b = runif(1, -2, 2)))
+
+data = list(
+  n = nrow(IslandsLizards),
+  x = as.double(scale(IslandsLizards$perimeterAreaRatio)),
+  y = as.double(IslandsLizards$presence))
+
+n.adapt = 5000
+n.update = 10000
+n.iter = 10000
+
+jm = jags.model("IslandJAGS.R", data = data, inits = inits, n.chains = length(inits), n.adapt = n.adapt)
+update(jm, n.iter = n.update)
+zm = coda.samples(jm, variable.names = c("a", "b"), n.iter = n.iter, n.thin = 1)
+```
+
+</div>
+
+<br>
+
+4. Do a summary table, a plot of the marginal posterior densities of  of the posterior density and a trace of the chain for parameters $a$ and $b$. Does the trace indicate convergence? How can you tell? Use Gelman and Heidel diagnostics to check for convergence.
+
+<button class="button" onclick="toggle_visibility('myDIV7');">Answers</button>
+
+<div id="myDIV7", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+MCMCsummary(zm)
+MCMCtrace(zm, pdf = FALSE)
+gelman.diag(zm, multivariate = FALSE)
+heidel.diag(zm)
+```
+
+</div>
+
+<br>
+
+5. Plot the data as points. Overlay a line plot of the median and 95% highest posterior density intervals of the predicted probability of occurrence as a function of island perimeter to area ratios ranging from 1-60. Hint--create a vector of 1-60 in R, and use it as $x$ values for an equation making predictions in your JAGS code. The curve is jumpy if you simply plot the predictions at the island perimeter to area data points. Remember, however, that the x's have been standardized to fit the coefficients, so you need to make predictions using standardized values in the sequence you create.  You may plot these predictions against the un-standardized perimeter to area ratios, a plot that is more easily interpreted than plotting against the standardized ratios. 
+
+<button class="button" onclick="toggle_visibility('myDIV8');">Answers</button>
+
+<div id="myDIV8", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("IslandJAGS.R")
+cat("
+model{
+
+  # priors
+  
+  a ~ dnorm(0, 1.0E-6) 
+  b ~ dnorm(0, 1.0E-6) 
+
+  # likelihood
+  
+  for (i in 1:n) {
+    logit(p[i]) <- a + b*x[i] 
+    y[i] ~ dbern(p[i])
+  }
+
+  # derived quantities
+  
+  for (j in 1:length(PA)) {
+  	pHat[j] <- ilogit(a + b*PA[j])
+  }
+
+} #end of model
+",fill = TRUE)
+sink()
+} # Extra bracket needed only for R markdown files
+```
+
+
+``` {r, eval = TRUE, echo = TRUE}
+inits = list(
+  list(a = runif(1, -2, 2), b = runif(1, -2, 2)),
+  list(a = runif(1, -2, 2), b = runif(1, -2, 2)),
+  list(a = runif(1, -2, 2), b = runif(1, -2, 2)))
+
+x <- scale(IslandsLizards$perimeterAreaRatio)
+mu.PA = mean(IslandsLizards$perimeterAreaRatio)
+sd.PA = sd(IslandsLizards$perimeterAreaRatio)
+PA <- (seq(1,60,.5) - mu.PA)/sd.PA  #This is a sequence useful for plottig
+
+data = list(
+  n = nrow(IslandsLizards),
+  x = as.double(x),
+  y = as.double(IslandsLizards$presence),
+  PA = as.double(PA))
+    
+n.adapt = 5000
+n.update = 10000
+n.iter = 10000
+
+jm = jags.model("IslandJAGS.R", data = data, inits = inits, n.chains = length(inits), n.adapt = n.adapt)
+update(jm, n.iter = n.update)
+zm = coda.samples(jm, variable.names = c("pHat"), n.iter = n.iter, n.thin = 1)
+```
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+pHat = MCMCpstr(zm, params = "pHat", func = median)
+pHPDI = MCMCpstr(zm, params = "pHat", func = function(x) hdi(x,.95))
+plot(IslandsLizards$perimeterAreaRatio, IslandsLizards$presence, xlab = "Perimeter to Area Ratio", ylab = "Probability Occupied", pch = 16, col = "red")
+lines(seq(1,60,.5), pHat$pHat, type = 'l')
+lines(seq(1,60,.5), pHPDI$pHat[,1], lty = "dashed")
+lines(seq(1,60,.5), pHPDI$pHat[,2], lty = "dashed")
+```
+
+</div>
+
+<br>
+
+6. Assume you are interested in 2 islands, one that has a perimeter to area ratio of 10, the other that has a perimeter to area ratio of 20. What is the 95% highest posterior density interval on the difference in the probability of occupancy of the two islands based on the analysis you did above? What is the probability that the difference exceeds 0? Remember that the data are standardized when you do this computation.
+
+<button class="button" onclick="toggle_visibility('myDIV9');">Answers</button>
+
+<div id="myDIV9", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("IslandJAGS.R")
+cat("
+model{
+
+  # priors
+  
+  a ~ dnorm(0, 1.0E-6) 
+  b ~ dnorm(0, 1.0E-6) 
+
+  # likelihood
+  
+  for (i in 1:n) {
+    logit(p[i]) <- a + b*x[i] 
+    y[i] ~ dbern(p[i])
+  }
+
+  # derived quantities
+  
+  for (j in 1:length(PA)) {
+  	pHat[j] <- ilogit(a + b*PA[j])
+  }
+
+  p10 <- exp(a + b*(10 - mu)/sd) / (1 + exp(a + b*(10 - mu)/sd))
+  p20 <- exp(a + b*(20 - mu)/sd) / (1 + exp(a + b*(20 - mu)/sd))
+  diff <- p10 - p20
+
+} #end of model
+",fill = TRUE)
+sink()
+} # Extra bracket needed only for R markdown files
+```
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+#note the scaling functions for x and PA above
+data = list(
+  n = nrow(IslandsLizards),
+  x = as.double(x),
+  y = as.double(IslandsLizards$presence),
+  PA = as.double(PA),
+  mu = mu.PA,
+  sd = sd.PA)
+
+jm = jags.model("IslandJAGS.R", data = data, inits = inits, n.chains = length(inits), n.adapt = n.adapt)
+update(jm, n.iter = n.update)
+zm = coda.samples(jm, variable.names = c("diff", "pHat"), n.iter = n.iter, n.thin = 1)
+diff = MCMCchains(zm, params = "diff")
+print("HPDI on difference in probability of occupancy")
+hdi(diff, .95)
+p_diff_gt_0 = 1 - ecdf(diff)(0)
+print("P(difference > 0")
+p_diff_gt_0
+plot(density(diff), main = "", xlab = "Difference between PA ratio 10 - 20", ylab = "Probability Density")
+```
+
+</div>
+
+<br>
+
+7. What fundamentally important source of error are we sweeping under the rug in all of these fancy calculations? What are the consequences of failing to consider this error for our estimates? Do you have some ideas about how we might cope with this problem? 
+
+<button class="button" onclick="toggle_visibility('myDIV10');">Answers</button>
+
+<div id="myDIV10", style="display:none">
+
+<br>
+
+We are ignoring detection, which can bias p upwards if detection < 1 or bias $a$ and $b$ if detection depends on island's perimeter to area ratio. If you have replicated lizard surveys at each island within a time frame where you can assume "true" lizard presence or absence does not change (this is called the closure assumption) or you have informed priors on detection rates, you can use latent states to model the detection process simultaneously with the occupancy process. We will do this later in the course so stay tuned.
+
+</div>
+
+<br>
+
+----
+
+ADVANCED
+
+----
+
+### **Vague priors in non-linear models**
+
+The priors you chose above were vague for the intercept and slope in the logistic regression but they were *not* vague for  $p_{i}$.  This is generally true for the output of nonlinear functions like the inverse logit (Lunn et al., 2012; Seaman et al., 2012), so you need to be careful about inference on the output of these non-linear function. See Hobbs and Hooten (2015) section 5.4.1 for an explanation of priors in logistic regression. It is prudent to to explore the effect of different values for priors on the shape of a the "prior" for quantities that are non-linear functions of model parameters, as demonstrated in the following exercise
+
+1. Write a function that takes an argument for the variance $\sigma^2$.  The function should 1) simulate 10000 draws from a normal distribution with mean 0 and variance $\sigma^2$ representing a prior on $a$, remembering, of course, that the argument to `rnorm` is the standard deviation. 2) Plot histograms of the draws for $a$.  3) Plot a histogram of the inverse logit of the random draws, representing a "prior" on $p$ at the mean of $x$ (i.e., where the scaled value of x = 0). Plotting these in side by side panels will facilitate comparison. Use your function to explore the effect of different variances ranging from 1 to 10000 on the priors for $a$ and $p$. Find a value for the variance that produces a flat "prior" on $p$. The `boot` library contains an inverse logit function or you can write your own.
+
+<button class="button" onclick="toggle_visibility('myDIV11');">Answers</button>
+
+<div id="myDIV11", style="display:none">
+
+<br>
+
+```{r, eval=TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+library(boot)
+
+hist_p = function(var, breaks1, breaks2) { 
+  z = rnorm(10000, 0, sqrt(var))
+  hist(z, xlim = c(-100, 100), freq = FALSE, xlab = expression(beta[0]), main = paste("var = ", var), breaks = breaks1)
+  hist(inv.logit(z), freq = FALSE, main=paste("var = ", var), breaks = breaks2, xlab = "p")
+}
+
+par(mfrow = c(2, 2))
+hist_p(var = 10000, 50, 50)
+hist_p(var = 2.71, 50, 50)
+```
+
+</div>
+
+<br>
+
+2. Rerun your analysis using priors on the coefficients that are vague for inference on $p$ based on what you learned in Hobbs and Hooten section 5.4.1 and in the previous exercise.  (Be careful to convert variances to precision)  Plot the probability of occupancy as a function of perimeter to area ratio using these priors and compare with the plot you obtained in exercise 5, above. You will see that the means of the $p_{i}$ changes and uncertainty about $p_{i}$ increases when you use appropriately vague priors for $p$.
+
+<button class="button" onclick="toggle_visibility('myDIV12');">Answers</button>
+
+<div id="myDIV12", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("IslandJAGS2.R")
+cat("
+model{
+
+  # priors
+  
+  a ~ dnorm(0, .39) 
+  b ~ dnorm(0, .39) 
+
+  # likelihood
+  
+  for (i in 1:n) {
+    logit(p[i]) <- a + b*x[i] 
+    y[i] ~ dbern(p[i])
+  }
+
+  # derived quantities
+  
+  for (j in 1:length(PA)) {
+  	pHat[j] <- ilogit(a + b*PA[j])
+  }
+
+} #end of model
+",fill = TRUE)
+sink()
+} # Extra bracket needed only for R markdown files
+```
+
+
+``` {r, eval = TRUE, echo = TRUE}
+jm2 = jags.model("IslandJAGS2.R", data = data, inits = inits, n.chains = length(inits), n.adapt = n.adapt)
+update(jm2, n.iter = n.update)
+zm2 = coda.samples(jm2, variable.names = c("pHat"), n.iter = n.iter, n.thin = 1)
+```
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
+par(mfrow = c(1, 1))
+
+plotHPDI = function(object, param, x, y, xlab = "x", ylab = "y", col = "black", overlay = FALSE) {
+  med = unlist(MCMCpstr(object, params = param, func = median))
+  HPDI = MCMCpstr(object, params = param, func = function(x) hdi(x, .95))
+  if(overlay) points(x, y, xlab = xlab, ylab = ylab, pch = 16, col = "red") 
+  else plot(x, y, xlab = xlab, ylab = ylab, pch = 16, col = "red")
+  lines(seq(1,length(med)), med,  col = col)
+  lines(seq(1, length(med)), HPDI[[1]][,2], lty = "dashed", col=col)
+  lines(seq(1,length(med)), HPDI[[1]][,1], lty = "dashed", col = col)
+}
+
+plotHPDI(zm2, param="pHat", x = IslandsLizards$perimeterAreaRatio, y = IslandsLizards$presence, 
+  xlab = "Perimeter to Area Ratio", ylab = "Probability Occupied")
+
+plotHPDI(zm, param="pHat", x = IslandsLizards$perimeterAreaRatio, y = IslandsLizards$presence,
+  xlab = "Perimeter to Area Ratio", ylab = "Probability Occupied", col="blue", overlay = TRUE)
+
+```
+
+</div>
+
+<br>
+
+These is conflict between priors that are vague for the parameters and vague for the predictions of the model. If your primary inference is on $p$ then you want to choose values for the priors on $a$ and $b$ that are minimally informative for $p$.  The simulation exercise above shows a way to do that. However, what if you need inference on $a$, $b$, and $p$?  There are two possibilities.  First, get more data so that the influence of the prior becomes negligible. The best way to assure priors are vague is to collect lots of high quality data.
+
+Second, use informative priors on the coefficients, even weakly informative ones. For example, you *know* that the slope should be negative and you *know* something about the probability of occupancy when islands are large. Centering the slope on a negative value  rather than 0 makes sense because we know from many other studies that the probability of occupancy goes down as islands get smaller. Moreover, you could center the prior on the intercept on 3 using the reasoning that large islands are almost certainly occupied (when intercept = 3, p = .95 at PA = 0). Centering the priors on reasonable values (rather than 0) will make the results more precise and far less sensitive to the variance (or precision) chosen for the prior. Informative priors, even weakly informative ones, are helpful in many ways.  We should use them.
+
+You could explore these solutions on a Sunday afternoon using the code your wrote above. 
+
+<br>
+
+----
+### **References**
+
+McCarthy, M.A. 2007. *Bayesian Methods for Ecology*. Cambridge University Press, Cambridge, United Kingdom.
+
+Polis, G.A., S.D. Hurd, C.T. Jackson, and F. Sanchez-Pinero, 1998. Multifactor population limitation: Variable spatial and temporal control of spiders on gulf of California islands. Ecology 79:490–502.
+
+Seaman III, J.W., J.W. Seaman Jr., and J.D. Stamey. 2012. Hidden dangers of specifying noninformative priors. The American Statistician 66, 77-84
+
+Hobbs, N. T. and M. B. Hooten. 2015. *Bayesian models: A statistical primer for ecologists*. Princeton University Press, Princeton, New Jersey, USA.
+
+Lunn, D., C. Jackson, N. Best, A. Thomas, and D. Spiegelhalter. 2012. *The BUGS book: A practical introduction to Bayesian analysis*. CRC Press, Boca Raton, Florida, USA.
+
+```{r echo = FALSE}
+unlink("IslandJAGS.R", recursive = FALSE, force = FALSE)
+unlink("IslandJAGS2.R", recursive = FALSE, force = FALSE)
+unlink("LogisticJAGS.R", recursive = FALSE, force = FALSE)
+```
