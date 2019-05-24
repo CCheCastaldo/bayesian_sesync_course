@@ -62,4 +62,8 @@ library(SESYNCBayes)
 data(LynxFamilies)
 ```
 
+<br>
 
+#### **Licensing**
+
+All material on this website is licensed under GPLv3.
