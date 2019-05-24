@@ -34,7 +34,7 @@ Review Hobbs and Hooten chapters 4-6.
 ##### **Day 3: (6/5) Intro to Bayesian Statistics**
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
-2. [More about Priors](content/lectures/MoreAboutPriors.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
+2. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
 3. [MCMC Gibbs](content/lectures/MCMC1.pdf) & MCMC Lab 1 (optional)
 3. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & MCMC Lab 2 (optional)
 
@@ -53,9 +53,9 @@ Review Hobbs and Hooten chapter 7.
 
 ##### **Day 5: (6/7) Modeling Practice**
 
-1. Bayesian Regression & Lab
-2. Vague Priors in Non-Linear Models
-3. Designed Experiments & Lab
+1. Bayesian Regression
+2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf)
+3. Analysis of Designed Experiments
 
 Review Hobbs and Hooten chapter 8.
 

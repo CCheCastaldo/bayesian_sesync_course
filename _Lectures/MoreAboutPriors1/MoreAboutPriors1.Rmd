@@ -1,6 +1,6 @@
 ---
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
-title: "More About Priors"
+title: "More About Priors I"
 author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
 subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
 date: "`r format(Sys.time(), '%B %d, %Y')`"

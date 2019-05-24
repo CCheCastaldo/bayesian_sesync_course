@@ -1,0 +1,2833 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{More about priors II}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+References for this lecture
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Hobbs and Hooten 2015, Section 5.4
+\end_layout
+
+\begin_layout Itemize
+Seaman III, J.
+ W.
+ and Seaman Jr., J.
+ W.
+ and Stamey, J.
+ D.
+ 2012 Hidden dangers of specifying noninformative priors, The American Statistic
+ian 66, 77-84 (2012)
+\end_layout
+
+\begin_layout Itemize
+Northrup, J.
+ M., and B.
+ D.
+ Gerber.
+ 2018.
+ A comment on priors for Bayesian occupancy models.
+ PLoS ONE 13.
+ 
+\end_layout
+
+\begin_layout Itemize
+Gelman, A.
+ 2006.
+ Prior distributions for variance parameters in hierarchical models.
+ Bayesian Analysis 1:1-19.
+ 
+\end_layout
+
+\begin_layout Itemize
+Gelman, A., A.
+ Jakulin, M.
+ G.
+ Pittau, and Y.
+ S.
+ Su.
+ 2008.
+ A weakly informative default prior distribution for logistic and other
+ regression models.
+ Annals of Applied Statistics 2:1360-1383.
+ 
+\end_layout
+
+\begin_layout Itemize
+Gelman, A., and J.
+ Hill.
+ 2009.
+ Data analysis using regression and multilevel / hierarchical models.
+ Cambridge University Press, Cambridge, UK.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Topics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Priors for group-level variances in hierarchical models
+\end_layout
+
+\begin_layout Itemize
+Priors for non-linear models illustrated with the inverse logit
+\end_layout
+
+\begin_layout Itemize
+Priors for models where each group has intercept and >1 slope.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Review
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Recall that the posterior distribution represents a balance between the
+ information contained in the likelihood and the information contained in
+ the prior distribution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/componentsPosterior.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+An informative prior influences the posterior distribution.
+ A vague prior exerts minimal influence.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Influence of data and prior information
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{beta}\left(\phi|y\right)=\frac{\text{binomial}\left(y|\phi,n\right)\text{beta}\left(\phi|\alpha_{prior},\beta_{prior}\right)}{\left[y\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\alpha_{posterior}=\alpha_{prior}+y$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\beta_{posterior}=\beta_{prior}+n-y$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Influence of data and prior information
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{gamma}\left(\lambda|\mathbf{y}\right)=\frac{\prod_{i=1}^{4}\text{Poisson}\left(y_{i}|\lambda\right)\text{gamma}\left(\lambda|\alpha_{prior},\beta_{prior}\right)}{\left[\mathbf{y}\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\alpha_{posterior}=\alpha_{prior}+\sum_{i=1}^{4}y_{i}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula $\beta_{posterior}=\beta_{prior}+n$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+A vague prior is a distribution with a range of uncertainty that is clearly
+ wider than the range of reasonable values for the parameter (Gelman and
+ Hill 2007:347).
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip 
+\end_layout
+
+\end_inset
+
+Also called: diffuse, flat, automatic, nonsubjective, locally uniform, objective
+, and, incorrectly, 
+\begin_inset Quotes eld
+\end_inset
+
+non-informative.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Vague priors are 
+\family sans
+\emph on
+provisional 
+\emph default
+in two ways:
+\end_layout
+
+\begin_layout Enumerate
+Operationally provisional: We try one.
+ Does the output make sense? Are the posteriors sensitive to changes in
+ parameters? Are there values in the posterior that are simply unreasonable?
+ We may need to try another type of prior.
+\end_layout
+
+\begin_layout Enumerate
+Strategically provisional: We use vague priors until we can get informative
+ ones, which we prefer to use.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Problems with excessively vague priors
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Computational: failure to converge, slicer errors, failure to calculate
+ log density, etc.
+\end_layout
+
+\begin_layout Itemize
+Cause pathological behavior in posterior distribution, i.e, values are included
+ that are unreasonable.
+\end_layout
+
+\begin_layout Itemize
+Sensitivity: changing the parameters of 
+\begin_inset Quotes eld
+\end_inset
+
+vague
+\begin_inset Quotes erd
+\end_inset
+
+ priors meaningfully changes the posterior.
+\end_layout
+
+\begin_layout Itemize
+Non-linear functions of parameters with vague priors have informative priors.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Group level variances
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Priors on group-level variances in hierarchical models
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The schools data 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+school
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+estimate
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+sd
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+28
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+15
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+16
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+D
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+E
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+F
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+11
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+G
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+10
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+H
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+18
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Hierarchical model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\theta_{j} & = & \mu+\eta_{j}\\
+y_{j} & \sim & \text{normal}(\theta_{j},\text{sd}_{j})\\
+\eta_{j} & \sim & \text{normal(0},\sigma_{\theta}^{2})\\
+\mu & \sim & \text{normal(0,100000)}\\
+\sigma_{\theta}^{2} & \sim & ?
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Note that this is identical to:
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+y_{j} & \sim & \text{normal}(\theta_{j},\text{sd}_{j})\\
+\theta_{j} & \sim & \text{normal(\mu},\sigma_{\theta}^{2})\\
+\mu & \sim & \text{normal(0,100000)}\\
+\sigma_{\theta}^{2} & \sim & ?
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+If we had data on individual test scores...
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\theta_{j} & = & \mu+\eta_{j}\\
+y_{ij} & \sim & \text{normal}(\theta_{j},\sigma_{j}^{2})\\
+\eta_{j} & \sim & \text{normal(0},\sigma_{\theta}^{2})\\
+\mu & \sim & \text{normal(0,100000)}\\
+\sigma_{\theta}^{2} & \sim & ?
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sigma_{\theta}\sim\text{uniform}(0,100),\:\tau=\frac{1}{\sigma^{2}}$
+\end_inset
+
+, 8 schools
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Uniform_8_schools.pdf
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tau\sim\text{gamma}(.001,.001)$
+\end_inset
+
+, 8 schools
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Gamma_8_schools.pdf
+	width 70col%
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Finally, the rightmost histogram in Figure 1 shows the corresponding result
+ with an inverse-gamma(0.001, 0.001) prior distribution for 2 .
+ This prior distribution is even more sharply peaked near zero and further
+ distorts posterior inferences, with the problem arising because the marginal
+ likelihood for remains high near zero.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\sigma_{\theta}\sim\text{uniform}(0,100),\:\tau=\frac{1}{\sigma^{2}}$
+\end_inset
+
+, 3 schools
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/Uniform_3_schools.pdf
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The Cauchy distribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/cauchy.png
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $[z|\gamma,z_{0}]=\frac{1}{\pi\gamma\,\left[1+\left({\frac{z-z_{0}}{\gamma}}\right)^{2}\right]}\!$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $z_{0}$
+\end_inset
+
+ = location
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $\gamma$
+\end_inset
+
+ = scale
+\end_layout
+
+\begin_layout Frame
+Represents ratio of two normally distributed random variables
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+A weakly informative prior on 
+\begin_inset Formula $\sigma_{\theta}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+half-Cauchy prior:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\sigma_{\theta} & \sim & \text{Cauchy}(0,\gamma)\text{T}(0,)
+\end{eqnarray*}
+
+\end_inset
+
+The scale parameter 
+\begin_inset Formula $\text{\gamma}$
+\end_inset
+
+ is chosen based on experience to be a bit higher than we would expect for
+ the standard deviation of the underlying 
+\begin_inset Formula $\theta_{j}$
+\end_inset
+
+'s.
+ This puts a weak constraint on 
+\begin_inset Formula $\sigma_{\theta}$
+\end_inset
+
+.
+ An equivalent formulation is the half t distribution,
+\begin_inset Formula 
+\begin{equation}
+\sigma_{\theta}\sim t(0,\gamma^{2},1)\text{T}(0,)
+\end{equation}
+
+\end_inset
+
+which can be coded in JAGS using
+\end_layout
+
+\begin_layout LyX-Code
+simga_theta ~ dt(0,1/gamma^2,1)(T,)
+\end_layout
+
+\begin_layout Standard
+or, alternatively, 
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+tau_theta
+\family default
+ 
+\family typewriter
+~ dscaled.gamma(gamma,1)
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+sigma_theta = 1/sqrt(tau_theta)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+A more reasonable posterior
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This slide is missing a link to a graphic.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Guidance
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Uniform priors on 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ are recommended over gamma priors on group level variances in hierarchical
+ models with at least 4-5 groups.
+\end_layout
+
+\begin_layout Itemize
+When groups are 
+\begin_inset Formula $\le$
+\end_inset
+
+ 4, a half-Cauchy prior can usefully constrain the posterior of group level
+ 
+\begin_inset Formula $\sigma$
+\end_inset
+
+'s.
+\end_layout
+
+\begin_layout Itemize
+This illustrates that it can be useful to use weakly informative priors
+ when vague priors produce posteriors with unreasonable values.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Nonlinear models
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Priors
+\begin_inset Quotes erd
+\end_inset
+
+ on nonlinear functions of parameters
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+p_{i}=g(\bm{\beta},x_{i}) & = & \frac{e^{\beta_{0}+\beta_{1}x_{i}}}{1+e^{\beta_{0}+\beta_{1}x_{i}}}\\
+{}[\bm{\beta}|\mathbf{y}] & \propto & \prod_{i=1}^{n}\text{Bernoulli}(y_{i}|g(\bm{\beta},x_{i}))\times\\
+ &  & \text{normal}(\beta_{0}|0,10000)\text{normal}(\beta_{1}|0,10000)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/Beta_vs_p_plot1.pdf
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/Beta_vs_p_plot2.pdf
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Islands data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Vague priors for probability of occupancy
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Remember these are variances.
+ JAGS needs precisions, 
+\begin_inset Formula $\tau=.37$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray}
+\beta_{0} & \sim & \text{normal}(0,2.7)\\
+\beta_{1} & \sim & \text{normal}(0,2.7)
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Vague priors for parameters
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Remember these are variances.
+ JAGS needs precisions, 
+\begin_inset Formula $\tau=\text{\text{1e-6}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray}
+\beta_{0} & \sim & \text{normal}(0,\text{1e+6})\\
+\beta_{1} & \sim & \text{normal}(0,\text{1e+6})
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Islands data
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.75cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/var_comp_unscaled.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Islands data x 4
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.75cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/var_more_data.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Standardize the original data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.75cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/var_comp_scaled.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+ 
+\emph on
+Slightly
+\emph default
+ more informed priors with original data
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\beta_{0} & \sim & \text{normal}(3,\sigma_{\beta_{0}}^{2})\\
+\beta_{1} & \sim & \text{normal}(-1,\sigma_{\beta_{1}}^{2})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We center 
+\begin_inset Formula $\beta_{0}$
+\end_inset
+
+ on 3 using the reasoning that large islands are almost certainly (p=.95
+ at PA = 0) occupied.
+ Choosing a negative value for the slope make sense because we 
+\emph on
+know
+\emph default
+ the probability of occupancy goes down as islands get smaller.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Weakly informative priors on parameters
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.75cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/var_comp_reasonable_means.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Guidance
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Know that priors that are vague for parameters can influence non-linear
+ functions of parameters.
+ 
+\end_layout
+
+\begin_layout Itemize
+Explore sensitivity of all non-linear models to priors.
+ 
+\end_layout
+
+\begin_layout Itemize
+Always use informative priors when you can.
+ 
+\end_layout
+
+\begin_layout Itemize
+Always standardize data for non-linear models.
+\end_layout
+
+\begin_layout Itemize
+Set variance 
+\begin_inset Formula $\approxeq$
+\end_inset
+
+2.7 for normal priors on parameters in inverse logit models (precision 
+\begin_inset Formula $\approxeq.37)$
+\end_inset
+
+.
+ Set means at 
+\begin_inset Quotes eld
+\end_inset
+
+reasonable
+\begin_inset Quotes erd
+\end_inset
+
+ values if possible.
+\end_layout
+
+\begin_layout Itemize
+Use Cauchy prior on the coefficients, i.e.,
+\begin_inset Formula $\beta_{i}\sim\text{Cauchy}(0,2.5)$
+\end_inset
+
+ on standardized data.
+ Implemented in JAGS using 
+\family typewriter
+beta[i] ~ dt(0, 1/2.5^2, 1).
+\family default
+See Gelman et al.
+ 2008 for details.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\size tiny
+Gelman, A., A.
+ Jakulin, M.
+ G.
+ Pittau, and Y.
+ S.
+ Su.
+ 2008.
+ A weakly informative default prior distribution for logistic and other
+ regression models.
+ Annals of Applied Statistics 2:1360-1383.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Multiple slopes
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Covariance matrix for two parameter model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Imagine that we have 
+\begin_inset Formula $j=1,...,J$
+\end_inset
+
+ groups with multiple observations within groups and we fit a two parameter
+ linear model to each group, finding 
+\begin_inset Formula $J$
+\end_inset
+
+ intercepts and slopes.
+ We denote the vector of intercepts as 
+\begin_inset Formula $\bm{\alpha}$
+\end_inset
+
+ and the vector of slopes as 
+\begin_inset Formula $\bm{\beta}.$
+\end_inset
+
+ It is easy to see that we can calculate the variance for each vector 
+\begin_inset Formula $(\sigma_{\alpha}^{2},\sigma_{\beta}^{2})$
+\end_inset
+
+ as well as the correlation between the vectors 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ The variance covariance matrix is thus:
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{equation}
+\bm{\Sigma}=\left(\begin{array}{cc}
+\sigma_{\alpha}^{2} & \text{Cov}(\bm{\alpha},\bm{\beta})\\
+\text{Cov}(\bm{\beta},\bm{\alpha}) & \sigma_{\beta}^{2}
+\end{array}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+where 
+\begin_inset Formula $\text{Cov}(\bm{\alpha},\bm{\beta})=\text{Cov}(\bm{\beta},\bm{\alpha})=\rho\sigma_{\alpha}\sigma_{\beta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts 
+\emph on
+and 
+\emph default
+slopes
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_slope_and_intercept.pdf
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(\begin{array}{c}
+\alpha_{j}\\
+\beta_{j}
+\end{array}\right)\sim\text{multivariate normal}\left(\left(\begin{array}{c}
+\mu_{\alpha}\\
+\mu_{\beta}
+\end{array}\right),\bm{\Sigma}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\bm{\Sigma}=\left(\begin{array}{cc}
+\sigma_{\alpha}^{2} & \rho\sigma_{\alpha}\sigma_{\beta}\\
+\rho\sigma_{\alpha}\sigma_{\beta} & \sigma_{\beta}^{2}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts 
+\emph on
+and
+\emph default
+ slopes
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[\bm{\alpha},\bm{\beta},\mu_{\alpha},\mu_{\beta},\sigma_{\text{reg}}^{2},\sigma_{\alpha}^{2},\sigma_{\beta}^{2},\rho\vert\mathbf{y}\right] & \propto & \prod_{j=1}^{J}\prod_{i=1}^{n_{j}}\text{normal}(y_{ij}\vert\alpha_{j}+\beta_{j}x_{ij},\sigma_{\text{reg}}^{2})\\
+ & \times & \text{MVN}\left(\left(\begin{array}{c}
+\alpha_{j}\\
+\beta_{j}
+\end{array}\right)\biggm|\left(\begin{array}{c}
+\mu_{\alpha}\\
+\mu_{\beta}
+\end{array}\right),\bm{\Sigma}\right)\\
+ & \times & \text{priors on }\mu_{\alpha},\mu_{\beta},\sigma_{\text{reg}}^{2},\sigma_{\alpha}^{2},\sigma_{\beta}^{2},\rho
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts 
+\emph on
+and
+\emph default
+ slopes for more than one slope
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[\bm{\beta},\bm{\mu}_{\beta},\sigma_{\text{reg}}^{2},\vert\mathbf{y}\right] & \propto & \prod_{j=1}^{J}\prod_{i=1}^{n_{j}}\text{normal}(y_{ij}\vert\mathbf{x'}_{ij}\bm{\beta}_{j},\sigma_{\text{reg}}^{2})\\
+ & \times & \text{MVN}\left(\left(\begin{array}{c}
+\beta_{0j}\\
+\beta_{1j}\\
+\beta_{2j}\\
+\vdots\\
+\beta_{mj}
+\end{array}\right)\biggm|\left(\begin{array}{c}
+\mu_{\beta_{0_{j}}}\\
+\mu_{\beta_{1}}\\
+\mu_{\beta_{2}}\\
+\vdots\\
+\mu_{\beta_{m}}
+\end{array}\right),\bm{\Sigma}\right)\\
+ & \times & \text{priors on }\bm{\mu}_{\beta},\sigma_{\text{reg}}^{2},\bm{\Sigma}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts and slopes for > 1 slope
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The Wishart distribution:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/wishart.png
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A vague prior on 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bm{\Sigma}\sim\text{Wishart}(\mathbf{S},m+1)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of coefficients including the intercept and 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+ is an 
+\begin_inset Formula $m\times m$
+\end_inset
+
+ matrix with ones on the diagonal and zeros on the off diagonals.
+ 
+\end_layout
+
+\begin_layout Standard
+Example code: 
+\family typewriter
+Sigma ~ dwish(S,y.Nvar + 1)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Compute 
+\begin_inset Formula $\sigma's$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ as derived quantities of the elements of 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+.
+ Remember, the 
+\family typewriter
+Sigma
+\family default
+ in JAGS uses precisions not variances.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Guidance
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Wishart distribution is an easy, useful way to impose reasonably vague
+ priors on covariance matrices.
+\end_layout
+
+\begin_layout Itemize
+My experience with simulated data is that these priors are vague for the
+ means but weakly informative for the variances and for the correlation.
+\end_layout
+
+\begin_layout Itemize
+STAN has an distribution for priors on covariance matrices that appears
+ to be superior to the Wishart, although the Wishart is widely used and
+ recommended.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Guidance overall
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Always use informed priors when you can.
+ 
+\end_layout
+
+\begin_layout Itemize
+Group level variances for fewer than four or five groups will often need
+ sensibly informed half-Cauchy priors.
+\end_layout
+
+\begin_layout Itemize
+Vague priors for non-linear models should be centered on reasonable values.
+ Always examine sensitivity of marginal posteriors to variation in priors
+ for non-linear models.
+\end_layout
+
+\begin_layout Itemize
+Wishart priors can be used for covariance matrices when the number of coefficien
+ts > 2.
+ Use the approach we learned for two parameter models.
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
