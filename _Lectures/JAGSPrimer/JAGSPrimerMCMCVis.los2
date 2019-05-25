@@ -2,10 +2,10 @@
 \contentsline {exercise}{\numberline {2}{\ignorespaces Can you improve these priors?\relax }}{13}{exercise.caption.6}
 \contentsline {exercise}{\numberline {3}{\ignorespaces Using \texttt {for} loops}}{16}{exercise.caption.7}
 \contentsline {exercise}{\numberline {4}{\ignorespaces Coding the model}}{23}{exercise.caption.11}
-\contentsline {exercise}{\numberline {5}{\ignorespaces Coding the logistic regression to run in parallel}}{28}{exercise.caption.13}
-\contentsline {exercise}{\numberline {6}{\ignorespaces Understanding coda objects}}{32}{exercise.caption.14}
-\contentsline {exercise}{\numberline {7}{\ignorespaces Using \texttt {MCMCsummary} to summarize \texttt {zm}}}{37}{exercise.caption.15}
-\contentsline {exercise}{\numberline {8}{\ignorespaces Using \texttt {MCMCchains} to manipulate chains from \texttt {zm}}}{38}{exercise.caption.16}
-\contentsline {exercise}{\numberline {9}{\ignorespaces Plotting model predictions and data using the \texttt {MCMCpstr} formatting}}{41}{exercise.caption.17}
-\contentsline {exercise}{\numberline {10}{\ignorespaces Creating caterpillar plots with \texttt {MCMCplot}}}{42}{exercise.caption.18}
-\contentsline {exercise}{\numberline {11}{\ignorespaces Assessing convergence}}{45}{exercise.caption.19}
+\contentsline {exercise}{\numberline {5}{\ignorespaces Coding the logistic regression to run in parallel}}{31}{exercise.caption.14}
+\contentsline {exercise}{\numberline {6}{\ignorespaces Understanding coda objects}}{34}{exercise.caption.15}
+\contentsline {exercise}{\numberline {7}{\ignorespaces Using \texttt {MCMCsummary} to summarize \texttt {zm}}}{37}{exercise.caption.16}
+\contentsline {exercise}{\numberline {8}{\ignorespaces Using \texttt {MCMCchains} to manipulate chains from \texttt {zm}}}{39}{exercise.caption.17}
+\contentsline {exercise}{\numberline {9}{\ignorespaces Plotting model predictions and data using the \texttt {MCMCpstr} formatting}}{42}{exercise.caption.18}
+\contentsline {exercise}{\numberline {10}{\ignorespaces Creating caterpillar plots with \texttt {MCMCplot}}}{42}{exercise.caption.19}
+\contentsline {exercise}{\numberline {11}{\ignorespaces Assessing convergence}}{45}{exercise.caption.20}
