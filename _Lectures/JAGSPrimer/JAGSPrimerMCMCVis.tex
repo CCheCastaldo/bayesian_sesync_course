@@ -492,9 +492,375 @@ sink()
 \end{exercise}
 \belowcaptionskip=0pt
 
-\newpage
 
-\subsubsection{Parallelizing your JAGS run (optional)}
+\section{Output from JAGS}
+
+\subsection{coda objects}
+
+The \texttt{coda.samples} function in \texttt{rjags} package produces output in the form of an mcmc.list object, sometimes referred to as a coda object (in reference to the \texttt{coda} package \citep{Plummer2016coda}, recalling the final movements of symphonies). 
+
+
+\subsubsection{The structure of coda objects}
+
+The \texttt{zm} object produced by the statement:
+
+\begin{Verbatim}
+zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
+n.iter = n.iter, thin = 1)
+\end{Verbatim}
+
+\noindent is a coda object (more precisely, an mcmc.list object). But what is a coda object? For the first chain, it looks something like this\footnote{Don't worry if your output doesn't match this exactly. The example here was run with a different set of priors and initial values.}:
+
+\begin{Verbatim}[fontsize=\small]
+[[1]]
+Markov Chain Monte Carlo (MCMC) output:
+Start = 15001
+End = 15007
+Thinning interval = 1
+            K         r      sigma       tau
+[1,] 1177.867 0.1871039 0.02207365 2052.3520
+[2,] 1317.527 0.1984132 0.03435912  847.0633
+[3,] 1205.740 0.2029698 0.03561197  788.5114
+[4,] 1219.347 0.2025454 0.02059334 2358.0146
+...
+as many rows as you have thinned iterations
+\end{Verbatim}
+
+\noindent So, the output of coda is a list of matrices where each matrix contains the output of a single chain for all parameters being estimated. Parameter values are stored in the columns of the matrix; values for one iteration of the chain are stored in each row. If we had 2 chains, 5 iterations each, the coda object would look like:
+
+\begin{Verbatim}[fontsize=\small]
+[[1]]
+Markov Chain Monte Carlo (MCMC) output:
+Start = 10001
+End = 10005
+Thinning interval = 1
+           K          r      sigma
+[1,] 1070.013 0.2126878 0.02652204
+[2,] 1085.438 0.2279789 0.02488036
+[3,] 1170.086 0.2259743 0.02331958
+[4,] 1094.564 0.2228788 0.02137309
+[5,] 1053.495 0.2368199 0.03209893
+[[2]]
+Markov Chain Monte Carlo (MCMC) output:
+Start = 10001
+End = 10005
+Thinning interval = 1
+            K         r      sigma
+[1,] 1137.501 0.2657460 0.04093364
+[2,] 1257.340 0.1332901 0.04397191
+[3,] 1073.023 0.2043738 0.03355776
+[4,] 1159.732 0.2339060 0.02857740
+[5,] 1368.568 0.2021042 0.05954259
+attr(,"class")
+[1] "mcmc.list"
+\end{Verbatim}
+
+\belowcaptionskip=-30pt
+\begin{exercise}
+%\end{exercise}
+
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 5: Understanding coda objects.}
+\begin{enumerate}
+\item Convert the coda object \texttt{zm}, into a data frame using \texttt{df = as.data.frame(rbind(zm[[1]], zm[[2]], zm[[3]]))}  Note the double brackets, which effectively unlist each element of zm, allowing them to be combined. Another way to do this is \texttt{do.call(rbind,zm)}.
+\item Look at the first six rows of the data frame.
+\item Find the maximum value of \texttt{sigma}.
+\item Find the mean of \texttt{r} for the first 1000 iterations.
+\item Find the mean of \texttt{r} after the first 1000 iterations.
+\item Make two publication quality plots of the marginal posterior density of \texttt{K}, one as a smooth curve and the other as a histogram.
+\item Compute the probability that \texttt{K} < 1600. Hint: what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function \texttt{ecdf()}.
+\item Compute the probability that 1000 < \texttt{K} < 1300.
+\item Compute the .025 and .975 quantiles of \texttt{K}.  Hint--use the R \texttt{quantile()} function. This is an equal-tailed Bayesian credible interval on K.
+\end{enumerate}
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Understanding coda objects]{Understanding coda objects.}
+\label{ex:coda understanding}
+\end{exercise}
+\belowcaptionskip=0pt
+
+It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is describe in Box 1.
+
+\begin{mdframed}[frametitle={Box 1: Using R to calculate derived quantities from MCMC objects}, backgroundcolor=black!10]
+One of the most powerful benefits of Bayesian analysis using MCMC is the ability to make inference on \emph{derived} quantities using what is called the equivariance principle (Hobbs and Hooten \citeyearpar{hobbs2015bayesian} page 194), which simply says that any function of a random variable becomes a random variable with its own marginal posterior distribution. This principle allows you to write simple functions in your JAGS code and make inference on quantities that are calculated from the random variables included in the model (e.g., $r$, $K$, $\sigma)$ as you will soon see in the exercises associated with this lab. 
+
+\noindent However, what can you do if the function you need to apply is too complex to write out in JAGS? A good example in Tom's work is finding the dominant eigenvalue and eigenvector of projection matrices. What do you do if you need to use a function like R's \texttt{eigen()}? This is where knowing how to ``get under the hood'' with MCMC output stored in coda objects is critical. You simply take output from each iteration, apply the function, and store the result, enabling you to make inference on the stored results in the same way you make inferences on the output from the MCMC itself by creating a ``derived'' chain. This is covered nicely in Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 8.3.
+
+\end{mdframed}  
+
+\subsubsection{Summarizing coda objects with the \texttt{MCMCvis} package}
+
+Manipulating and summarizing coda objects manually can be tedious work prone to coding errors. Fortunately there are existing tools to help out with these tasks. The \texttt{MCMCvis} package \citep{youngflesh2018}\footnote{Casey Youngflesh took our Bayesian short course at SESYNC in 2016. He has obviously made lots of progress since then!} provides a series of functions to summarize, manipulate, and visualize model output.  You should get the package  \texttt{MCMCvis} and load the library.
+
+This is the first year we have used \texttt{MCMCvis} in teaching, although Chris has used it in his work for some time now.  We are adopting it for two reasons.  First, it will work with coda objects produced by any of the flavors of MCMC software, JAGS, OpenBUGS, WinBUGS and Stan, or for matrices produce from your own MCMC samplers. It allows you to run chains in parallel and make useful inference on the parallel output, which must be a coda object.  A related advantage is the you will need to produce only a single inferential object while the past, we produced two (coda objects and jags objects), almost doubling the computation time.
+
+We cover the essential elements here, but you should must work through the  full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
+
+ \texttt{MCMCvis} includes five functions that we will use a lot:
+\begin{itemize}
+\item \texttt{MCMCsummary} - summarize MCMC output for particular parameters of interest
+\item \texttt{MCMCpstr} - summarize MCMC output and extract posterior chains for particular parameters of interest while preserving parameter structure
+\item \texttt{MCMCtrace} - create trace and density plots of MCMC chains for particular parameters of interest
+\item \texttt{MCMCchains} - easily extract posterior chains from MCMC output for particular parameters of interest
+\item \texttt{MCMCplot} - create caterpillar plots from MCMC output for particular parameters of interest 
+\end{itemize}
+
+\subsubsection{Tabular summaries with \texttt{MCMCsummary}}
+
+You can obtain a summary of statistics from MCMC chains contained in a coda object by loading the \texttt{MCMCvis} package (using \texttt{library(MCMCvis)}) and then running \texttt{MCMCsummary(co)} (where \texttt{co} is a coda object produced from your model run). All of the variables in the \texttt{variable.names = c( )} argument to the \texttt{coda.samples} function will be summarized. For the example here, \texttt{MCMCsummary(zm)} produces:
+
+\begin{Verbatim}[fontsize=\small]
+         mean     sd    2.5%     50%   97.5% Rhat
+K     1238.19  62.97 1129.05 1233.29 1377.56    1
+r        0.20   0.01    0.18    0.20    0.22    1
+sigma    0.03   0.00    0.02    0.03    0.04    1
+tau   1259.39 258.98  804.20 1242.71 1809.77    1
+\end{Verbatim}
+
+\noindent A few things deserve note. First, it is imperative that you understand that the \texttt{sd} in this table is the standard deviation of the marginal distribution of the parameter, analogous to the standard error of the mean. The 2.5\%, 50\%, and 95.5\% quantiles are given for each parameter, as is the Rhat value (used to assess convergence, which we will discuss later).
+
+\noindent The table above has the properties of a matrix. You can output the cells of these tables using syntax as follows. To get the mean and standard deviation of $r$,
+
+\begin{Verbatim}
+> MCMCsummary(zm)[2, 1:2]
+mean   sd 
+0.20 0.01 
+\end{Verbatim}
+
+\noindent To get the upper and lower 95\% quantiles on $K$ from the tabular summary: 
+
+\begin{Verbatim}
+> MCMCsummary(zm)[1, c(1, 5)]
+   mean   97.5% 
+1238.19 1377.56
+\end{Verbatim}
+We will learn easier, less error-prone ways to do this below.
+
+\noindent  The parameter name of interest can be passed directly to the \texttt{params} argument of the \texttt{MCMCsummary} function to more easily summarize output. For example, to see statistics for the marginal posterior distribution of $\sigma$,
+
+\begin{Verbatim}
+> MCMCsummary(zm, params = 'sigma')
+      mean sd 2.5%  50% 97.5% Rhat
+sigma 0.03  0 0.02 0.03  0.04    1
+\end{Verbatim}
+
+There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{signif = }) or the number of decimal places (\texttt{round =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
+
+\bigskip
+\belowcaptionskip=-20pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 6: Using \texttt{MCMCsummary}} 
+\begin{enumerate}
+\item Summarize the coda output from the logistic model with 4 significant digits.  Include Rhat and effective sample size diagnostics (more about these soon). 
+\item Summarize the coda output for  \texttt{r} alone.  
+\end{enumerate}
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Using \texttt{MCMCsummary} to summarize \texttt{zm}]{Using \texttt{MCMCsummary} to summarize \texttt{zm}.}
+\label{ex:MCMCsummary}
+\end{exercise}
+\belowcaptionskip=0pt
+
+\subsubsection{Extracting portions of coda object with \texttt{MCMCchains}}
+
+\texttt{MCMCchains} can be used to extract chains from coda object.  These can then be summarized using the usual R functions. For example
+
+\begin{Verbatim}
+> r.ex = MCMCchains(zm, params="r")
+> dim(r.ex)
+[1] 30000     1
+> head(r.ex)
+             r
+[1,] 0.1840311
+[2,] 0.1993270
+[3,] 0.1914906
+[4,] 0.1930457
+[5,] 0.1862841
+[6,] 0.1897411
+> mean(r.ex)
+[1] 0.2007835
+> ecdf(r.ex)(.18)
+[1] 0.01743333
+> quantile(r.ex,c(.025,.975))
+     2.5%     97.5% 
+0.1816953 0.2201085
+ \end{Verbatim}
+
+\bigskip
+\belowcaptionskip=-20pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 7: Using \texttt{MCMCchains}} 
+\begin{enumerate}
+\item Extract the chains for \texttt{r} and \texttt{sigma} as a data frame using \texttt{MCMCchains} and compute their .025 and .975 quantiles from the extracted object.  Display three significant digits.
+\item Make a publication quality histogram for the chain for \texttt{sigma}. Indicate the .025 and .975 Bayesian equal-tailed credible interval value with  vertical red lines.
+\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDinterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
+\end{enumerate}
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Using \texttt{MCMCchains} to manipulate chains from \texttt{zm}]{Using \texttt{MCMCchains} to manipulate chains from \texttt{zm}.}
+\label{ex:MCMCchains}
+\end{exercise}
+\belowcaptionskip=0pt
+
+\subsubsection{Extracting portions of coda objects while preserving their structure using  \texttt{MCMCpstr}}
+
+The coda object is strictly tabular -- it is a list of matrices with the number of elements of the list equal to the number of chains. So, for example three chains will produce a list of three matrices.  The columns of  each matrix include the variables specified in the \texttt{variable.names = ...} argument of \texttt{coda.samples}. The rows hold the output of individual iterations. This is fine when the parameters you are estimating are entirely scalar, but sometimes you want posterior distributions for all of the elements of vectors or matrices and in this case, the coda object can be quite cumbersome because the elements of vectors and matrices loose their structure, being shoe-horned into rows an a matrix.
+
+We have been working with scalars, \texttt{r, K,} and \texttt{sigma} up to now.  We will often seek inference on vectors, particularly when we want to make predictions.  These predictions can be made at the in-sample $x's$ of for out-of-sample $x's$ that we specify. For example, take a look at your JAGS model.  The quantity \texttt{mu[i]} is a the prediction of our deterministic model for each of the \texttt{x[i]}.  The quantity \texttt{mu} is a vector, a \emph{derived quantity}.  We call it a derived quantity because it is a function of random variables in the model. The equivariance property of MCMC means that any quantity that is a function of random variables becomes a random variable with its own marginal posterior distribution.
+
+Presume you would like to get posterior distributions on the \emph{predictions} of your regression model for each of the \texttt{x} values. Note in the JAGS code that we make this prediction as \texttt{ mu[i] <- r - r / K * x[i]}. Making predictions requires no more than adding \texttt{mu} to the list of random variables being monitored by changing your \texttt{coda.samples} statement to read:
+
+\begin{Verbatim}
+zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "mu"), 
+  n.iter = n.iter, thin = 1)
+\end{Verbatim}
+
+\noindent Instead of using \texttt{MCMCsummary} to summarize your data, use \texttt{MCMCpstr}, to preserve the structure of the \texttt{mu} parameter a vector of length equal to the number of data points. \texttt{MCMCsummary} returns the mean of each parameter by default, but any function can be specified using the \texttt{func} argument. The format is a list, with each parameter listed as a separate element in that list.  Any parameter of interest can be specified, as with the other functions in the \texttt{MCMCvis} package. Use the following general syntax  to summarize the coda object while preserving the parameter structure:
+\begin{Verbatim}
+MCMCpstr(co, params = 'PARAMS', func = FUN)
+\end{Verbatim}
+
+\noindent where \texttt{co} is a coda object, \texttt{PARAMS} are the parameters of interest (all parameters by default), and \texttt{FUN} is the function of interest (mean by default). Only one function can be applied at a given time. The most useful of these are illustrated here, but there are an infinite number of possibilities, including functions that you write.
+
+\begin{Verbatim}
+> BCI <- MCMCpstr(zm, params = "mu",  func = function(x)
+   quantile(x, probs = c(.025,.5,.975)))  
+> BCI
+$mu
+              2.5%        50%      97.5%
+mu[1]  0.172880664 0.19043630 0.20734240
+mu[2]  0.171524527 0.18881415 0.20546368
+mu[3]  0.165875964 0.18213155 0.19775789
+.
+.
+.
+mu[48] 0.018303545 0.03273251 0.04706730
+mu[49] 0.016248511 0.03093309 0.04551707
+mu[50] 0.006896648 0.02279023 0.03858062
+\end{Verbatim}
+
+Be sure you understand that \texttt{MCMCpstr()} returns a \emph{list}, not a vector or matrix. Each element of the list is named for the parameters listed in the \texttt{params = option}. Obtaining the matrices computed above requires \texttt{BCI\$mu}. Here is an example for more than one variable:
+
+\begin{Verbatim}
+library(HDInterval)
+> HPDI <-  MCMCpstr(zm, params = c("r", "K"), func = function(x) 
+  hdi(x, .95))  
+> HPDI
+$r
+      lower     upper
+r 0.1827305 0.2202985
+$K
+     lower    upper
+K 1117.529 1357.458
+\end{Verbatim}
+
+\belowcaptionskip=-40pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 8: Plotting model predictions using the MCMCpstr formatting.} 
+
+\begin{enumerate}
+\item Plot the observations of per-capita growth rate as a function of observed population size. Be sure that the population size data are sorted from lowest to highest as described above
+\item Overlay the median of the model predictions as a solid black line. 
+\item Overlay the 95\% credible intervals as dashed lines in red.  
+\item Overlay the 95\% highest posterior density intervals as dashed lines in blue.
+\item What do you note about these two intervals? Will this always be the case? Why or why not?
+\item What do the dashed lines represent?  What inferential statement can we make about \texttt{mu} relative these lines?
+\end{enumerate}
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Plotting model predictions and data using the \texttt{MCMCpstr} formatting]{Plotting model predictions and data using the \texttt{MCMCpstr} formatting.}
+\label{ex:plotting objects}
+\end{exercise}
+\belowcaptionskip=0pt
+
+\subsubsection{Visualizing model output}
+
+Posterior densities (representing the model estimate for each parameter and their uncertainty) can be easily visualized with caterpillar plots produced with the \texttt{MCMCplot} function. Once again, the coda object and parameters are fed directly to the function:
+
+\begin{Verbatim}
+MCMCplot(co, params = c('alpha, 'beta''))
+\end{Verbatim}
+
+\belowcaptionskip=-40pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 9: Creating caterpillar plots with \texttt{MCMCplot}.} Use the \texttt{MCMCplot} function to create caterpillar plots to visualize the posterior densities for \texttt{mu} using the coda object \texttt{zm} from earlier.  Then use \texttt{?MCMCplot} to explore different plotting options.  There are \textbf{lots} of these options, including ways to make the plots publication quality, show overlap with zero, etc.
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Creating caterpillar plots with \texttt{MCMCplot}]{Creating caterpillar plots with \texttt{MCMCplot}.}
+\label{ex:caterpillar plots MCMCplot}
+\end{exercise}
+\belowcaptionskip=0pt
+
+\section{Checking convergence}
+
+Recall from lecture that MCMC output will provide a reliable approximation of the marginal posterior distribution of unobserved quantities only after convergence, which means that adding more iterations will not appreciably change the shape of  marginal posterior distributions. Both \texttt{MCMCvis} and the \texttt{coda} packages contains tools for evaluating and manipulating MCMC chains produced in coda objects. We urge you to look at the package documentation in R Help, because we will use only a few of the tools it offers. There are several ways to check convergence, but we will use four here: 1) visual inspection of density and trace plots 2) Gelman and Rubin diagnostics, 3) Heidelberger and Welch diagnostics, and 4) Raftery diagnostics. Also see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.
+
+
+\subsection{Trace and density plots}
+
+Trace plots (showing parameter estimates at each iteration in the chain over time) as well as posterior density plots can be plotted with \texttt{MCMCtrace}. The \texttt{type} argument can be used to specify which types of plots should be generated (trace, density, or both). As with other function in the \texttt{MCMCvis} package, parameters of interest can be specified. Trace plots indicate convergence if they are horizontal bands with all chains mixed within the band.
+
+\texttt{MCMCtrace} is an exceptionally useful function allowing you to overlay priors and marginal posteriors (computing their \%overlap) as well as overlaying marginal posteriors on values of parameters used to generate simulated data.  Look at the \texttt{MCMCvis} vignette to learn more about these useful capabilities. 
+
+\subsection{Gelman and Rubin diagnostics (Rhat)\label{Gelman}}
+
+The standard method for assuring convergence is the Gelman and Rubin diagnostic\index{Gelman and Rubin diagnostic} \citep{Gelman_Rubin}, which \enquote{determines when the chains have forgotten their initial values, and the output from all chains is indistinguishable} \citep{R-Core-Team:2015fk}. This is also commonly referred to as Rhat. It requires at least 2 chains to work. For a complete treatment of how this works, see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.3.4.2. We can be sure of convergence if all values for point estimates and 97.5\% quantiles approach 1. More iterations should be run if the 95\% quantile $> 1.05$. \texttt{MCMCsummary} displays Rhat values by default for each parameter. It can be calculated with the following:
+
+\begin{Verbatim}
+MCMCsummary(codaObject)
+\end{Verbatim}
+
+Reliable inference from the Gelman and Rubin diagnostic requires initial values that are diffuse relative to marginal posterior distribution, that is, that are in the extreme tails of the distribution. How do you set these values? Run a single chain until things look right. Then choose initial values that are on well in the tails of the distribution on either side of the mean.
+
+The effective sample size \texttt{n.eff} is a particularly useful quantity, not reported by most MCMC software.  Think about it this way.  Imagine you have 10,000 iterations.  You might think that the sample size for computing statistics is, well, 10,000 and, yes, in fact, when you compute a mean it is based on n = 10,000.  However, the information about that mean is less than 10,000 when chains are autocorrelated, that is when a value at iteration $k$ is more similar to the value a $k+1$ than to the value at $k+10$.  Therefore, the \emph{effective} sample size can be far less than 10,000.  This is what \texttt{n.eff} is telling you.  You may have a converged chain but will want more iterations to simply increase the accuracy of numeric approximations of statistics.
+
+\subsection{Heidelberger and Welch diagnostics}
+
+The Heidelberger and Welch diagnostic\index{Heidelberger and Welch diagnostic} \citep{Heidelberger_and_Welch} works for a single chain, which can be useful during early stages of model development before you have initialized multiple chains. The diagnostic tests for stationary in the distribution and also tests if the mean of the distribution is accurately estimated. The function \texttt{heidel.diag} in the \texttt{coda} package can be used to calculated this metric. For details do \texttt{?heidel.diag\index{heidel.diag@\texttt{heidel.diag}}} and read the part on Details. We can be confident of convergence if out all chains and all parameters pass the test for stationarity and half width mean. We can be sure that the chain converged from the first iteration (i.e, burn in was sufficiently long) if the start iteration = 1. If it is greater than 1, the burn in should be longer, or \texttt{1:start.iteration} should be discarded from the chain. The synatx is:
+
+\begin{Verbatim}
+heidel.diag(codaObject)
+\end{Verbatim}
+
+\subsection{Raftery diagnostic}
+
+The Raftery diagnostic\index{Raftery diagnostic} \citet{Raftery_et_al1995} is useful for planning how many iterations to run for each chain. It is used early in the analysis with a relatively short chain, say 10,000 iterations. It returns an estimate of the number of iterations required for convergence for each of the parameters being estimated. The \texttt{raftery.diag} function in the \texttt{coda} package can be used in this case. The syntax is:
+
+\bigskip
+\noindent\texttt{raftery.diag(codaObject)}\index{raftery.diag@\texttt{raftery.diag}}
+
+\bigskip
+\belowcaptionskip=-40pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 10: Assessing convergence.} Rerun the logistic model with \texttt{n.adapt = 100}. Then do the following:
+\begin{enumerate}
+\item Keep the next 500 iterations. Assess convergence visually with \texttt{MCMCtrace} and with the Gelman-Rubin, Heidelberger and Welch, and Raftery diagnostics.
+\item Update another 500 iterations and then keep 500 more iterations. Repeat your assessment of convergence. 
+\item Repeat steps 1 and 2 until you feel you have reached convergence.
+\item Change the adapt phase to zero and repeat steps 1 -- 4. What happens?
+\end{enumerate}
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Assessing convergence]{Assessing convergence.}
+\label{ex:assessing convergence}
+\end{exercise}
+\belowcaptionskip=0pt
+
+\subsection{Effective sample size (n.eff)\label{n.eff}}
+MCMC chains will almost always have some degree of autocorrelation, which is to say samples that are close to each other in the chain will be more similar than samples that are far apart.  One hundred samples that are highly correlated may only contain as much information about the marginal posterior as 20 samples that are truly independent.  This lead to the concept of effective sample size, abbreviated by MCMCsummary as \texttt{n.eff}.  The effective sample size is an estimate of the number of samples drawn that are independent.  It is $$\text{ESS} = \frac{n}{1+2\sum_1^\infty \rho(k)}$$ where $\rho(k)$ is the correlation between samples at lag $k$.
+
+\section{Parallelizing your JAGS run (optional)}
 
 This section is completely optional and you can safely ignore it for the entire course. However, at some point in the future you will likely want to parallelize a JAGS run, either on your own computer or on a high performance cluster or cloud computing service such as AWS, and this can be confusing. We suggest either revisiting this section when you are ready to do that or if you have completed the rest of the primer and are looking to tackle something a bit more challenging.
 
@@ -511,7 +877,7 @@ Instead of using fixed initial values as we did in \ref{sssec:Stepping through a
 \begin{Verbatim}
 initsP = function() {list(K = runif(1, 10, 4000), r = runif(1, .01, 2), 
   sigma = runif(1, 0, 2),  .RNG.name = "base::Mersenne-Twister", 
-  .RNG.seed = runif(1, 1, 2000))
+  .RNG.seed = runif(1, 1, 2000))}
 }\end{Verbatim}
 
 \noindent There are a few things worth noting in this function, so study it carefully. The usual \texttt{inits} list has been replaced with a a function that uses \texttt{runif()} to generate random initial values. You need to specify the parameters to be initialized here and some reasonable ranges for their starting values (this is done with the parameters governing the \texttt{runif()} functions themselves). Every time \texttt{initP()} is invoked, it will produce a new set of initial values. 
@@ -551,7 +917,7 @@ cl <- makeCluster(3)
 
 initsP = function() {list(K = runif(1, 10, 4000), r = runif(1, .01, 2), 
   sigma = runif(1, 0, 2),  .RNG.name = "base::Mersenne-Twister", 
-  .RNG.seed = runif(1, 1, 2000))
+  .RNG.seed = runif(1, 1, 2000))}
 
 parallel::clusterExport(cl, c("data", "initsP", "n.adapt", "n.update", 
   "n.iter"))
@@ -627,7 +993,9 @@ out <- clusterEvalQ(cl, {
 }) 
 \end{Verbatim} 
  
-\noindent This is equivalent to asking all the workers line up in a row alphabetically by name before handing them individual tasks depending on their position in line. 
+\noindent This is equivalent to asking all the workers to line up in a row alphabetically by name before handing them individual tasks depending on their position in line. 
+
+\vspace{2.5cm}
 
 \begin{algorithm}
 \begin{Verbatim}[frame=single]
@@ -669,388 +1037,12 @@ zmP = mcmc.list(out)
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 5: Coding the logistic regression to run in parallel.}  Append R code (algorithm \ref{alg:R code for parallel jags run}) to the script you made in exercise \ref{ex:logistic regression sequential} to run the JAGS model (algorithm \ref{alg:Linear regression example 2}) in parallel and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. Use the \texttt{proc.time} function in R to compare the time required for the sequential and parallel JAGS run. If your computer has 3 threads, try running only 2 chains in parallel when doing this exercise. If you have fewer than 3 threads, work with a classmate that has at least 3 threads. What happens when you set the seed inside of each R worker prior to running the JAGS code? Repeat this exercise with fixed initial values using algorithm \ref{alg:R code for parallel jags run fixed}. What happens when you use the same seed for each chain? \end{mdframed}
+\textbf{Exercise 11: Coding the logistic regression to run in parallel.}  Append R code (algorithm \ref{alg:R code for parallel jags run}) to the script you made in exercise \ref{ex:logistic regression sequential} to run the JAGS model (algorithm \ref{alg:Linear regression example 2}) in parallel and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. Use the \texttt{proc.time} function in R to compare the time required for the sequential and parallel JAGS run. If your computer has 3 threads, try running only 2 chains in parallel when doing this exercise. If you have fewer than 3 threads, work with a classmate that has at least 3 threads. You might be very tempted, in the name of reproducible science, to set the seed inside each worker to the same value. What happens when you do this? Compare the results from this run to the previous run using \texttt{MCMCsummary()} and \texttt{MCMC(trace)}. What happens when you do this? Repeat this exercise with fixed initial values using algorithm \ref{alg:R code for parallel jags run fixed}. \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
 \caption[Coding the logistic regression to run in parallel]{Coding the logistic regression to run in parallel.}
 \label{ex:logistic regression parallel}
 \end{exercise}
 \belowcaptionskip=0pt
-
-\section{Output from JAGS}
-
-\subsection{coda objects}
-
-The \texttt{coda.samples} function in \texttt{rjags} package produces output in the form of an mcmc.list object, sometimes referred to as a coda object (in reference to the \texttt{coda} package \citep{Plummer2016coda}, recalling the final movements of symphonies). 
-
-
-\subsubsection{The structure of coda objects}
-
-The \texttt{zm} object produced by the statement:
-
-\begin{Verbatim}
-zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
-n.iter = n.iter, thin = 1)
-\end{Verbatim}
-
-\noindent is a coda object (more precisely, an mcmc.list object). But what is a coda object? For the first chain, it looks something like this\footnote{Don't worry if your output doesn't match this exactly. The example here was run with a different set of priors and initial values.}:
-
-\begin{Verbatim}[fontsize=\small]
-[[1]]
-Markov Chain Monte Carlo (MCMC) output:
-Start = 15001
-End = 15007
-Thinning interval = 1
-            K         r      sigma       tau
-[1,] 1177.867 0.1871039 0.02207365 2052.3520
-[2,] 1317.527 0.1984132 0.03435912  847.0633
-[3,] 1205.740 0.2029698 0.03561197  788.5114
-[4,] 1219.347 0.2025454 0.02059334 2358.0146
-[5,] 1334.068 0.2028072 0.02342167 1822.9062
-[6,] 1297.067 0.1916264 0.01886448 2810.0267
-[7,] 1319.495 0.2063581 0.01723530 3366.3722
-...
-as many rows as you have thinned iterations
-\end{Verbatim}
-
-\noindent So, the output of coda is a list of matrices where each matrix contains the output of a single chain for all parameters being estimated. Parameter values are stored in the columns of the matrix; values for one iteration of the chain are stored in each row. If we had 2 chains, 5 iterations each, the coda object would look like:
-
-\begin{Verbatim}[fontsize=\small]
-[[1]]
-Markov Chain Monte Carlo (MCMC) output:
-Start = 10001
-End = 10005
-Thinning interval = 1
-           K          r      sigma
-[1,] 1070.013 0.2126878 0.02652204
-[2,] 1085.438 0.2279789 0.02488036
-[3,] 1170.086 0.2259743 0.02331958
-[4,] 1094.564 0.2228788 0.02137309
-[5,] 1053.495 0.2368199 0.03209893
-[[2]]
-Markov Chain Monte Carlo (MCMC) output:
-Start = 10001
-End = 10005
-Thinning interval = 1
-            K         r      sigma
-[1,] 1137.501 0.2657460 0.04093364
-[2,] 1257.340 0.1332901 0.04397191
-[3,] 1073.023 0.2043738 0.03355776
-[4,] 1159.732 0.2339060 0.02857740
-[5,] 1368.568 0.2021042 0.05954259
-attr(,"class")
-[1] "mcmc.list"
-\end{Verbatim}
-
-\belowcaptionskip=-30pt
-\begin{exercise}
-%\end{exercise}
-
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 6: Understanding coda objects.}
-\begin{enumerate}
-\item Convert the coda object \texttt{zm}, into a data frame using \texttt{df = as.data.frame(rbind(zm[[1]], zm[[2]], zm[[3]]))}  Note the double brackets, which effectively unlist each element of zm, allowing them to be combined. Another way to do this is \texttt{do.call(rbind,zm)}.
-\item Look at the first six rows of the data frame.
-\item Find the maximum value of \texttt{sigma}.
-\item Find the mean of \texttt{r} for the first 1000 iterations.
-\item Find the mean of \texttt{r} after the first 1000 iterations.
-\item Make two publication quality plots of the marginal posterior density of \texttt{K}, one as a smooth curve and the other as a histogram.
-\item Compute the probability that \texttt{K} < 1600. (Hint-- what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function \texttt{ecdf()} ).
-\item Compute the probability that 1000 < \texttt{K} < 1300.
-\item Compute the .025 and .975 quantiles of \texttt{K}.  Hint--use the R \texttt{quantile()} function. This is an equal-tailed Bayesian credible interval on K.
-\end{enumerate}
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Understanding coda objects]{Understanding coda objects.}
-\label{ex:coda understanding}
-\end{exercise}
-\belowcaptionskip=0pt
-
-It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is describe in Box 1.
-
-\subsubsection{Summarizing coda objects with the \texttt{MCMCvis} package}
-
-Manipulating and summarizing coda objects manually can be tedious work prone to coding errors. Fortunately there are existing tools to help out with these tasks. The \texttt{MCMCvis} package \citep{youngflesh2018}\footnote{Casey Youngflesh took our Bayesian short course at SESYNC in 2016. He has obviously made lots of progress since then!} provides a series of functions to summarize, manipulate, and visualize model output.  You should get the package  \texttt{MCMCvis} and load the library.
-
-This is the first year we have used \texttt{MCMCvis} in teaching, although Chris has used it in his work for some time now.  We are adopting it for two reasons.  First, it will work with coda objects produced by any of the flavors of MCMC software, JAGS, OpenBUGS, WinBUGS and Stan, or for matrices produce from your own MCMC samplers. It allows you to run chains in parallel and make useful inference on the parallel output, which must be a coda object.  A related advantage is the you will need to produce only a single inferential object while the past, we produced two (coda objects and jags objects), almost doubling the computation time.
-
-\newpage
-
-We cover the essential elements here, but you should must work through the  full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
-
-\vspace{.2cm}
-
-\begin{mdframed}[frametitle={Box 1: Using R to calculate derived quantities from MCMC objects}, backgroundcolor=black!10]
-One of the most powerful benefits of Bayesian analysis using MCMC is the ability to make inference on \emph{derived} quantities using what is called the equivariance principle (Hobbs and Hooten \citeyearpar{hobbs2015bayesian} page 194), which simply says that any function of a random variable becomes a random variable with its own marginal posterior distribution. This principle allows you to write simple functions in your JAGS code and make inference on quantities that are calculated from the random variables included in the model (e.g., $r$, $K$, $\sigma)$ as you will soon see in the exercises associated with this lab. 
-
-\noindent However, what can you do if the function you need to apply is too complex to write out in JAGS? A good example in Tom's work is finding the dominant eigenvalue and eigenvector of projection matrices. What do you do if you need to use a function like R's \texttt{eigen()}? This is where knowing how to ``get under the hood'' with MCMC output stored in coda objects is critical. You simply take output from each iteration, apply the function, and store the result, enabling you to make inference on the stored results in the same way you make inferences on the output from the MCMC itself by creating a ``derived'' chain. This is covered nicely in Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 8.3.
-
-\end{mdframed}  
-
- \texttt{MCMCvis} includes five functions that we will use a lot:
-\begin{itemize}
-\item \texttt{MCMCsummary} - summarize MCMC output for particular parameters of interest
-\item \texttt{MCMCpstr} - summarize MCMC output and extract posterior chains for particular parameters of interest while preserving parameter structure
-\item \texttt{MCMCtrace} - create trace and density plots of MCMC chains for particular parameters of interest
-\item \texttt{MCMCchains} - easily extract posterior chains from MCMC output for particular parameters of interest
-\item \texttt{MCMCplot} - create caterpillar plots from MCMC output for particular parameters of interest 
-\end{itemize}
-
-\subsubsection{Tabular summaries with \texttt{MCMCsummary}}
-
-You can obtain a summary of statistics from MCMC chains contained in a coda object by loading the \texttt{MCMCvis} package (using \texttt{library(MCMCvis)}) and then running \texttt{MCMCsummary(co)} (where \texttt{co} is a coda object produced from your model run). All of the variables in the \texttt{variable.names = c( )} argument to the \texttt{coda.samples} function will be summarized. For the example here, \texttt{MCMCsummary(zm)} produces:
-
-\begin{Verbatim}[fontsize=\small]
-         mean     sd    2.5%     50%   97.5% Rhat
-K     1238.19  62.97 1129.05 1233.29 1377.56    1
-r        0.20   0.01    0.18    0.20    0.22    1
-sigma    0.03   0.00    0.02    0.03    0.04    1
-tau   1259.39 258.98  804.20 1242.71 1809.77    1
-\end{Verbatim}
-
-\noindent A few things deserve note. First, it is imperative that you understand that the \texttt{sd} in this table is the standard deviation of the marginal distribution of the parameter, analogous to the standard error of the mean. The 2.5\%, 50\%, and 95.5\% quantiles are given for each parameter, as is the Rhat value (used to assess convergence, which we will discuss later).
-
-\noindent The table above has the properties of a matrix. You can output the cells of these tables using syntax as follows. To get the mean and standard deviation of $r$,
-
-\begin{Verbatim}
-> MCMCsummary(zm)[2, 1:2]
-mean   sd 
-0.20 0.01 
-\end{Verbatim}
-
-\noindent To get the upper and lower 95\% quantiles on $K$ from the tabular summary: 
-
-\begin{Verbatim}
-> MCMCsummary(zm)[1, c(1, 5)]
-   mean   97.5% 
-1238.19 1377.56
-\end{Verbatim}
-We will learn easier, less error-prone ways to do this below.
-
-\noindent  The parameter name of interest can be passed directly to the \texttt{params} argument of the \texttt{MCMCsummary} function to more easily summarize output. For example, to see statistics for the marginal posterior distribution of $\sigma$,
-
-\begin{Verbatim}
-> MCMCsummary(zm, params = 'sigma')
-      mean sd 2.5%  50% 97.5% Rhat
-sigma 0.03  0 0.02 0.03  0.04    1
-\end{Verbatim}
-
-There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{signif = }) or the number of decimal places (\texttt{round =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
-
-\bigskip
-\belowcaptionskip=-20pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 7: Using \texttt{MCMCsummary}} 
-\begin{enumerate}
-\item Summarize the coda output from the logistic model with 4 significant digits.  Include Rhat and effective sample size diagnostics (more about these soon). 
-\item Summarize the coda output for  \texttt{r} alone.  
-\end{enumerate}
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Using \texttt{MCMCsummary} to summarize \texttt{zm}]{Using \texttt{MCMCsummary} to summarize \texttt{zm}.}
-\label{ex:MCMCsummary}
-\end{exercise}
-\belowcaptionskip=0pt
-
-\subsubsection{Extracting portions of coda object with \texttt{MCMCchains}}
-
-\texttt{MCMCchains} can be used to extract chains from coda object.  These can then be summarized using the usual R functions. For example
-
-\begin{Verbatim}
-> r.ex = MCMCchains(zm, params="r")
-> dim(r.ex)
-[1] 30000     1
-> head(r.ex)
-             r
-[1,] 0.1840311
-[2,] 0.1993270
-[3,] 0.1914906
-[4,] 0.1930457
-[5,] 0.1862841
-[6,] 0.1897411
-> mean(r.ex)
-[1] 0.2007835
-> ecdf(r.ex)(.18)
-[1] 0.01743333
-> quantile(r.ex,c(.025,.975))
-     2.5%     97.5% 
-0.1816953 0.2201085
- \end{Verbatim}
-
-\bigskip
-\belowcaptionskip=-20pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 8: Using \texttt{MCMCchains}} 
-\begin{enumerate}
-\item Extract the chains for \texttt{r} and \texttt{sigma} as a data frame using \texttt{MCMCchains} and compute their .025 and .975 quantiles from the extracted object.  Display three significant digits.
-\item Make a publication quality histogram for the chain for \texttt{sigma}. Indicate the .025 and .975 Bayesian equal-tailed credible interval value with  vertical red lines.
-\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDinterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
-\end{enumerate}
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Using \texttt{MCMCchains} to manipulate chains from \texttt{zm}]{Using \texttt{MCMCchains} to manipulate chains from \texttt{zm}.}
-\label{ex:MCMCchains}
-\end{exercise}
-\belowcaptionskip=0pt
-
-\subsubsection{Extracting portions of coda objects while preserving their structure using  \texttt{MCMCpstr}}
-
-The coda object is strictly tabular -- it is a list of matrices with the number of elements of the list equal to the number of chains. So, for example three chains will produce a list of three matrices.  The columns of  each matrix include the variables specified in the \texttt{variable.names = ...} argument of \texttt{coda.samples}. The rows hold the output of individual iterations. This is fine when the parameters you are estimating are entirely scalar, but sometimes you want posterior distributions for all of the elements of vectors or matrices and in this case, the coda object can be quite cumbersome because the elements of vectors and matrices loose their structure, being shoe-horned into rows an a matrix.
-
-We have been working with scalars, \texttt{r, K,} and \texttt{sigma} up to now.  We will often seek inference on vectors, particularly when we want to make predictions.  These predictions can be made at the in-sample $x's$ of for out-of-sample $x's$ that we specify. For example, take a look at your JAGS model.  The quantity \texttt{mu[i]} is a the prediction of our deterministic model for each of the \texttt{x[i]}.  The quantity \texttt{mu} is a vector, a \emph{derived quantity}.  We call it a derived quantity because it is a function of random variables in the model. The equivariance property of MCMC means that any quantity that is a function of random variables becomes a random variable with its own marginal posterior distribution.
-
-Presume you would like to get posterior distributions on the \emph{predictions} of your regression model for each of the \texttt{x} values. Note in the JAGS code that we make this prediction as \texttt{ mu[i] <- r - r / K * x[i]}. Making predictions requires no more than adding \texttt{mu} to the list of random variables being monitored by changing your \texttt{coda.samples} statement to read:
-
-\begin{Verbatim}
-zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "mu"), 
-  n.iter = n.iter, thin = 1)
-\end{Verbatim}
-
-\noindent Instead of using \texttt{MCMCsummary} to summarize your data, use \texttt{MCMCpstr}, to preserve the structure of the \texttt{mu} parameter a vector of length equal to the number of data points. \texttt{MCMCsummary} returns the mean of each parameter by default, but any function can be specified using the \texttt{func} argument. The format is a list, with each parameter listed as a separate element in that list.  Any parameter of interest can be specified, as with the other functions in the \texttt{MCMCvis} package. Use the following general syntax  to summarize the coda object while preserving the parameter structure:
-\begin{Verbatim}
-MCMCpstr(co, params = 'PARAMS', func = FUN)
-\end{Verbatim}
-
-\noindent where \texttt{co} is a coda object, \texttt{PARAMS} are the parameters of interest (all parameters by default), and \texttt{FUN} is the function of interest (mean by default). Only one function can be applied at a given time. The most useful of these are illustrated here, but there are an infinite number of possibilities, including functions that you write.
-
-\begin{Verbatim}
-> BCI <- MCMCpstr(zm, params = "mu",  func = function(x)
-   quantile(x, probs = c(.025,.5,.975)))  
-> BCI
-$mu
-              2.5%        50%      97.5%
-mu[1]  0.172880664 0.19043630 0.20734240
-mu[2]  0.171524527 0.18881415 0.20546368
-mu[3]  0.165875964 0.18213155 0.19775789
-.
-.
-.
-mu[48] 0.018303545 0.03273251 0.04706730
-mu[49] 0.016248511 0.03093309 0.04551707
-mu[50] 0.006896648 0.02279023 0.03858062
-\end{Verbatim}
-
-Be sure you understand that \texttt{MCMCpstr()} returns a \emph{list}, not a vector or matrix. Each element of the list is named for the parameters listed in the \texttt{params = option}. Obtaining the matrices computed above requires \texttt{BCI\$mu}. Here is an example for more than one variable:
-
-\begin{Verbatim}
-library(HDInterval)
-> HPDI <-  MCMCpstr(zm, params = c("r", "K"), func = function(x) 
-  hdi(x, .95))  
-> HPDI
-$r
-      lower     upper
-r 0.1827305 0.2202985
-$K
-     lower    upper
-K 1117.529 1357.458
-\end{Verbatim}
-
-\belowcaptionskip=-40pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 9: Plotting model predictions using the MCMCpstr formatting.} 
-
-\begin{enumerate}
-\item Plot the observations of per-capita growth rate as a function of observed population size. Be sure that the population size data are sorted from lowest to highest as described above
-\item Overlay the median of the model predictions as a solid black line. 
-\item Overlay the 95\% credible intervals as dashed lines in red.  
-\item Overlay the 95\% highest posterior density intervals as dashed lines in blue.
-\item What do you note about these two intervals? Will this always be the case? Why or why not?
-\item What do the dashed lines represent?  What inferential statement can we make about \texttt{mu} relative these lines?
-\end{enumerate}
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Plotting model predictions and data using the \texttt{MCMCpstr} formatting]{Plotting model predictions and data using the \texttt{MCMCpstr} formatting.}
-\label{ex:plotting objects}
-\end{exercise}
-\belowcaptionskip=0pt
-
-\subsubsection{Visualizing model output}
-
-Posterior densities (representing the model estimate for each parameter and their uncertainty) can be easily visualized with caterpillar plots produced with the \texttt{MCMCplot} function. Once again, the coda object and parameters are fed directly to the function:
-
-\begin{Verbatim}
-MCMCplot(co, params = c('alpha, 'beta''))
-\end{Verbatim}
-
-\belowcaptionskip=-40pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 10: Creating caterpillar plots with \texttt{MCMCplot}.} Use the \texttt{MCMCplot} function to create caterpillar plots to visualize the posterior densities for \texttt{r}, and \texttt{sigma} using the coda object \texttt{zm} from earlier.  Then use \texttt{?MCMCplot} to explore different plotting options.  There are \textbf{lots} of these options, including ways to make the plots publication quality, show overlap with zero, etc.
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Creating caterpillar plots with \texttt{MCMCplot}]{Creating caterpillar plots with \texttt{MCMCplot}.}
-\label{ex:caterpillar plots MCMCplot}
-\end{exercise}
-\belowcaptionskip=0pt
-
-\section{Checking convergence}
-
-Recall from lecture that MCMC output will provide a reliable approximation of the marginal posterior distribution of unobserved quantities only after convergence, which means that adding more iterations will not appreciably change the shape of  marginal posterior distributions. Both \texttt{MCMCvis} and the \texttt{coda} packages contains tools for evaluating and manipulating MCMC chains produced in coda objects. We urge you to look at the package documentation in R Help, because we will use only a few of the tools it offers. There are several ways to check convergence, but we will use four here: 1) visual inspection of density and trace plots 2) Gelman and Rubin diagnostics, 3) Heidelberger and Welch diagnostics, and 4) Raftery diagnostics. Also see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.
-
-
-\subsection{Trace and density plots}
-
-Trace plots (showing parameter estimates at each iteration in the chain over time) as well as posterior density plots can be plotted with \texttt{MCMCtrace}. The \texttt{type} argument can be used to specify which types of plots should be generated (trace, density, or both). As with other function in the \texttt{MCMCvis} package, parameters of interest can be specified. Trace plots indicate convergence if they are horizontal bands with all chains mixed within the band.
-
-\texttt{MCMCtrace} is an exceptionally useful function allowing you to overlay priors and marginal posteriors (computing their \%overlap) as well as overlaying marginal posteriors on values of parameters used to generate simulated data.  Look at the \texttt{MCMCvis} vignette to learn more about these useful capabilities. 
-
-\subsection{Gelman and Rubin diagnostics (Rhat)\label{Gelman}}
-
-The standard method for assuring convergence is the Gelman and Rubin diagnostic\index{Gelman and Rubin diagnostic} \citep{Gelman_Rubin}, which \enquote{determines when the chains have forgotten their initial values, and the output from all chains is indistinguishable} \citep{R-Core-Team:2015fk}. This is also commonly referred to as Rhat. It requires at least 2 chains to work. For a complete treatment of how this works, see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.3.4.2. We can be sure of convergence if all values for point estimates and 97.5\% quantiles approach 1. More iterations should be run if the 95\% quantile $> 1.05$. \texttt{MCMCsummary} displays Rhat values by default for each parameter. It can be calculated with the following:
-
-\begin{Verbatim}
-MCMCsummary(codaObject)
-\end{Verbatim}
-
-\newpage
-
-Reliable inference from the Gelman and Rubin diagnostic requires initial values that are diffuse relative to marginal posterior distribution, that is, that are in the extreme tails of the distribution. How do you set these values? Run a single chain until things look right. Then choose initial values that are on well in the tails of the distribution on either side of the mean.
-
-The effective sample size \texttt{n.eff} is a particularly useful quantity, not reported by most MCMC software.  Think about it this way.  Imagine you have 10,000 iterations.  You might think that the sample size for computing statistics is, well, 10,000 and, yes, in fact, when you compute a mean it is based on n = 10,000.  However, the information about that mean is less than 10,000 when chains are autocorrelated, that is when a value at iteration $k$ is more similar to the value a $k+1$ than to the value at $k+10$.  Therefore, the \emph{effective} sample size can be far less than 10,000.  This is what \texttt{n.eff} is telling you.  You may have a converged chain but will want more iterations to simply increase the accuracy of numeric approximations of statistics.
-
-\subsection{Heidelberger and Welch diagnostics}
-
-The Heidelberger and Welch diagnostic\index{Heidelberger and Welch diagnostic} \citep{Heidelberger_and_Welch} works for a single chain, which can be useful during early stages of model development before you have initialized multiple chains. The diagnostic tests for stationary in the distribution and also tests if the mean of the distribution is accurately estimated. The function \texttt{heidel.diag} in the \texttt{coda} package can be used to calculated this metric. For details do \texttt{?heidel.diag\index{heidel.diag@\texttt{heidel.diag}}} and read the part on Details. We can be confident of convergence if out all chains and all parameters pass the test for stationarity and half width mean. We can be sure that the chain converged from the first iteration (i.e, burn in was sufficiently long) if the start iteration = 1. If it is greater than 1, the burn in should be longer, or \texttt{1:start.iteration} should be discarded from the chain. The synatx is:
-
-\begin{Verbatim}
-heidel.diag(codaObject)
-\end{Verbatim}
-
-\subsection{Raftery diagnostic}
-
-The Raftery diagnostic\index{Raftery diagnostic} \citet{Raftery_et_al1995} is useful for planning how many iterations to run for each chain. It is used early in the analysis with a relatively short chain, say 10,000 iterations. It returns an estimate of the number of iterations required for convergence for each of the parameters being estimated. The \texttt{raftery.diag} function in the \texttt{coda} package can be used in this case. The syntax is:
-
-\bigskip
-\noindent\texttt{raftery.diag(codaObject)}\index{raftery.diag@\texttt{raftery.diag}}
-
-\bigskip
-\belowcaptionskip=-40pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 11: Assessing convergence.} Rerun the logistic model with \texttt{n.adapt = 100}. Then do the following:
-\begin{enumerate}
-\item Keep the next 500 iterations. Assess convergence visually with \texttt{MCMCtrace} and with the Gelman-Rubin, Heidelberger and Welch, and Raftery diagnostics.
-\item Update another 500 iterations and then keep 500 more iterations. Repeat your assessment of convergence. 
-\item Repeat steps 1 and 2 until you feel you have reached convergence.
-\item Change the adapt phase to zero and repeat steps 1 -- 4. What happens?
-\end{enumerate}
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Assessing convergence]{Assessing convergence.}
-\label{ex:assessing convergence}
-\end{exercise}
-\belowcaptionskip=0pt
-
-\subsection{Effective sample size (n.eff)\label{n.eff}}
-MCMC chains will almost always have some degree of autocorrelation, which is to say samples that are close to each other in the chain will be more similar than samples that are far apart.  One hundred samples that are highly correlated may only contain as much information about the marginal posterior as 20 samples that are truly independent.  This lead to the concept of effective sample size, abbreviated by MCMCsummary as \texttt{n.eff}.  The effective sample size is an estimate of the number of samples drawn that are independent.  It is $$\text{ESS} = \frac{n}{1+2\sum_1^\infty \rho(k)}$$ where $\rho(k)$ is the correlation between samples at lag $k$.
 
 \section{Monitoring deviance and calculating DIC}
 
