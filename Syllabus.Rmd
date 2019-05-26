@@ -44,7 +44,7 @@ Review Hobbs and Hooten chapters 4-6.
 
 ##### **Day 4: (6/6) Markov Chain Monte Carlo**
 
-1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & Lab Answers
+1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab](content/labs/JAGSPrimerLab.html)
 2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
 3. [Islands Lab](content/labs/IslandsLab.html) 
 4. Happy Hour at SESYNC 
@@ -76,7 +76,7 @@ Review Hobbs and Hooten chapters 9-12.
 
 <br>
 
-##### **Day 8: (6/10) Multi-Level Modeling, Model Checking, & Designed Experiments**
+##### **Day 8: (6/10) Multi-Level Modeling, Model Checking**
 
 1. Introduction to Hierarchical Models
 2. Model Checking
