@@ -36,9 +36,9 @@ Review Hobbs and Hooten chapters 4-6.
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
 2. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
-3. [MCMC Gibbs](content/lectures/MCMC1.pdf) & [MCMC Lab 1](content/labs/MCMC1Lab.html)  (optional)
-4. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & MCMC Lab 2 (optional)
-5. [MCMC Using Gibbs Sampling Math](content/handouts/MCMC1Math.pdf)
+3. [MCMC Gibbs](content/lectures/MCMC1.pdf) & [MCMC Lab 1](content/labs/MCMCLab1.html)  (optional)
+4. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & [MCMC Lab 2](content/labs/MCMCLab2.html)  (optional)
+5. [MCMC Using Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
 
 <br>
 
