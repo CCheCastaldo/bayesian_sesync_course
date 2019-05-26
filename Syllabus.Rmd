@@ -69,8 +69,8 @@ Review Hobbs and Hooten chapter 8.
 
 ##### **Day 7: (6/9) Bayesian Regression & Multi-Level Modeling**
 
-1. Multi-Level Modeling
-2. Multi-Level Modeling Lab
+1. [Multi-Level Regression](content/lectures/MultiLevelRegression.pdf)
+2. Multi-Level Regression Lab
 
 Review Hobbs and Hooten chapters 9-12.
 
@@ -80,7 +80,7 @@ Review Hobbs and Hooten chapters 9-12.
 
 1. Introduction to Hierarchical Models
 2. Model Checking
-3. Multi-Level Modeling Lab Revisited
+3. Multi-Level Regression Lab Revisited
 
 
 <br>
