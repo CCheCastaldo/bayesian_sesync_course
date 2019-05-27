@@ -1,0 +1,1310 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\branch Answers
+\selected 0
+\filename_suffix 0
+\color #ffffff
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Bayesian Multi-level Regression}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Lecture material 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Background
+\end_layout
+
+\begin_layout Itemize
+Bayesian, multilevel models for grouped data
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+group level intercepts 
+\end_layout
+
+\begin_layout Itemize
+group level intercepts with group level covariate
+\end_layout
+
+\begin_layout Itemize
+group level slopes and intercepts
+\end_layout
+
+\begin_layout Itemize
+an essential coding trick
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Priors on group level variances
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Big picture
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The simple, Bayesian set-up
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Deterministic model: 
+\begin_inset Formula 
+\[
+g(\bm{\theta},x_{i})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Stochastic model:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $ $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underbrace{[\bm{\theta},\sigma^{2}|y_{i}]}_{\text{posterior}}\propto\overbrace{\underbrace{[y_{i}|g(\bm{\theta},x_{i}),\sigma^{2}]}_{\text{likelihood}}\underbrace{[\bm{\theta}][\sigma^{2}]}_{\text{priors}}}^{\text{joint}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Recall that
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underbrace{[\bm{\theta},\sigma^{2}|y_{i}]}_{\text{posterior}}\propto\overbrace{[y_{i},\bm{\theta},\sigma^{2}]}^{\text{joint}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Hierarchical models: 
+\begin_inset Quotes eld
+\end_inset
+
+modeling parameters
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+[\theta_{1},\bm{\theta}_{2},\bm{\alpha},\bm{\sigma}^{2}\mid y_{ij}] & \propto & [\theta_{1},\bm{\theta}_{2},\bm{\alpha},\bm{\sigma}^{2},y_{ij}]\\{}
+[\theta_{1},\bm{\theta}_{2},\bm{\alpha},\bm{\sigma}^{2}\mid y_{ij}] & \propto & [y_{ij}|g(\theta_{1,}\theta_{2,j},x_{ij}),\sigma_{1}^{2}]\\
+ & \times & [\theta_{2,j}|h(\alpha_{1,}\alpha_{2},u_{j}),\sigma_{2}^{2}]\\
+ & \times & [\theta_{1}],[\alpha_{1}],[\alpha_{2}][\sigma_{1}^{2}][\sigma_{2}^{2}]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Draw the DAG.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Multi-level models
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The problem
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/Groups.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We can model the intercept (or slope):
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_intercept.pdf
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{l}
+\begin{array}{l}
+\left[{\beta,\bm{\alpha},\sigma^{2},{\mu_{\alpha}},{\varsigma^{2}},|{\bf {y}}}\right]\propto\prod\limits _{i=1}^{n_{j}}\prod\limits _{j=1}^{J}{{\mathop{{\rm normal}}\nolimits}\left({{y_{ij}}|\alpha_{j}+\beta{x_{ij}},{\sigma^{2}}}\right)}\\
+{\times\text{{\rm {normal}}}{\left({{\alpha_{j}}|{\mu_{\alpha}},{\varsigma^{2}}}\right)}}\\
+\times{\mathop{{\rm normal}}\nolimits}\left({\beta|0,10000}\right){\mathop{{\rm normal}}\nolimits}\left({{\mu_{\alpha}}|0,1000}\right)\\
+\times{\rm {inverse\,gamma}}\left({{\sigma^{2}}|.001,.001}\right){\rm {inverse\,gamma}}\left({{\varsigma^{2}}|.001,.001}\right)
+\end{array}\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We seek to understand the distribution of intercepts.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/multi-level_plot.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Some notation
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Random_effect_notation.pdf
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Include data on groups.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/groups_with_covariate.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We can model the intercept (or slope) as a function of group level data:
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_groups_with_data.pdf
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{l}
+\left[{{\bm{\alpha}},\beta,{\sigma^{2}},\mathbf{g},{\varsigma^{2}},|{\bf {y}}}\right]\propto\prod\limits _{i=1}^{n_{j}}\prod\limits _{j=1}^{J}{{\mathop{{\rm normal}}\nolimits}\left({{y_{ij}}|{\alpha_{j}}+\beta{x_{ij}},{\sigma^{2}}}\right)}\\
+\times{{\mathop{{\rm normal}}\nolimits}\left({{\alpha_{j}}|{g_{0}}+{g_{1}}{u_{j}},{\varsigma^{2}}}\right)}\\
+\times{\mathop{{\rm normal}}\nolimits}\left({\beta|0,.001}\right){\mathop{{\rm normal}}\nolimits}\left({{g_{0}}|0,1000}\right){\mathop{{\rm normal}}\nolimits}\left({{g_{1}}|0,1000}\right)\\
+\times{\rm {inverse\,gamma}}\left({{\sigma^{2}}|.001,.001}\right){\rm {inverse\,gamma}}\left({{\varsigma^{2}}|.001,.001}\right)
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts and slopes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+A correlation matrix:
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Correlation_matrix.png
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\size scriptsize
+http://www.theanalysisfactor.com/covariance-matrices/
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Frame
+If we multiply this correlation matrix times 
+\begin_inset Formula $\sigma_{i}\sigma_{j}$
+\end_inset
+
+ we obtain a 
+\emph on
+covariance 
+\emph default
+matrix.
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\size largest
+\color blue
+Modeling intercepts and slopes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Imagine a vector of 3 random variables, 
+\begin_inset Formula $(z_{i,}z_{2},z_{3})'$
+\end_inset
+
+ The covariance between any two of these random variables is simply an unstandar
+dized version of the correlation between them– it is correlation measured
+ in the units of the random variables.
+ The covariance matrix (aka variance covariance matrix) of the random variable
+ is:
+\begin_inset Formula 
+\begin{equation}
+\mathbf{\bm{\Sigma}=}\left(\begin{array}{ccc}
+\sigma_{1}^{2} & \text{Cov}_{1,2} & \text{Cov}_{1,3}\\
+\text{Cov}_{2,1} & \sigma_{2}^{2} & \text{Cov}_{2,3}\\
+\text{Cov}_{3,1} & \text{Cov}_{3,2} & \sigma_{3}^{2}
+\end{array}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Generalizing, a 
+\begin_inset Formula $m\times m$
+\end_inset
+
+ covariance matrix has the variances of the random variable on the diagonal
+ and the covariance on the off diagonal.
+ The covariance between random variable 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ is 
+\begin_inset Formula $\text{Cov}_{ij}=\rho\sigma_{i}\sigma_{j}$
+\end_inset
+
+ where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the correlation coefficient, which takes on values between 
+\begin_inset Formula $-1$
+\end_inset
+
+ and 
+\begin_inset Formula $1.$
+\end_inset
+
+ Covariance can take on values between 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $+\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Covariance matrix for two parameter model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Imagine that we have 
+\begin_inset Formula $j=1,...,J$
+\end_inset
+
+ groups with multiple observations within groups and we fit a two parameter
+ linear model to each group, finding 
+\begin_inset Formula $J$
+\end_inset
+
+ intercepts and slopes.
+ We denote the vector of intercepts as 
+\begin_inset Formula $\bm{\alpha}$
+\end_inset
+
+ and the vector of slopes as 
+\begin_inset Formula $\bm{\beta}.$
+\end_inset
+
+ It is easy to see that we can calculate the variance for each vector 
+\begin_inset Formula $(\sigma_{\alpha}^{2},\sigma_{\beta}^{2})$
+\end_inset
+
+ as well as the correlation between the vectors 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ The variance covariance matrix is thus:
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{equation}
+\bm{\Sigma}=\left(\begin{array}{cc}
+\sigma_{\alpha}^{2} & \text{Cov}(\bm{\alpha},\bm{\beta})\\
+\text{Cov}(\bm{\beta},\bm{\alpha}) & \sigma_{\beta}^{2}
+\end{array}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+where 
+\begin_inset Formula $\text{Cov}(\bm{\alpha},\bm{\beta})=\text{Cov}(\bm{\beta},\bm{\alpha})=\rho\sigma_{\alpha}\sigma_{\beta}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts 
+\emph on
+and 
+\emph default
+slopes
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_slope_and_intercept.pdf
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(\begin{array}{c}
+\alpha_{j}\\
+\beta_{j}
+\end{array}\right)\sim\text{multivariate normal}\left(\left(\begin{array}{c}
+\mu_{\alpha}\\
+\mu_{\beta}
+\end{array}\right),\bm{\Sigma}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\bm{\Sigma}=\left(\begin{array}{cc}
+\sigma_{\alpha}^{2} & \rho\sigma_{\alpha}\sigma_{\beta}\\
+\rho\sigma_{\alpha}\sigma_{\beta} & \sigma_{\beta}^{2}
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts 
+\emph on
+and
+\emph default
+ slopes
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[\bm{\alpha},\bm{\beta},\mu_{\alpha},\mu_{\beta},\sigma_{\text{reg}}^{2},\sigma_{\alpha}^{2},\sigma_{\beta}^{2},\rho\vert\mathbf{y}\right] & \propto & \prod_{j=1}^{J}\prod_{i=1}^{n_{j}}\text{normal}(y_{ij}\vert\alpha_{j}+\beta_{j}x_{ij},\sigma_{\text{reg}}^{2})\\
+ & \times & \text{MVN}\left(\left(\begin{array}{c}
+\alpha_{j}\\
+\beta_{j}
+\end{array}\right)\biggm|\left(\begin{array}{c}
+\mu_{\alpha}\\
+\mu_{\beta}
+\end{array}\right),\bm{\Sigma}\right)\\
+ & \times & \text{priors on }\mu_{\alpha},\mu_{\beta},\sigma_{\text{reg}}^{2},\sigma_{\alpha}^{2},\sigma_{\beta}^{2},\rho
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts and slopes for > 1 slope
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+See Gelman and Hill 2009, pages 376-380 
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Some special notation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We assume that there is a single variance for all random variables such
+ that 
+\begin_inset Formula $\bm{\Sigma}=\sigma^{2}\mathbf{\mathbf{I}}$
+\end_inset
+
+, where 
+\begin_inset Formula $\mathbf{I}$
+\end_inset
+
+ is the identity matrix with ones on the diagonal and zeros elsewhere.
+\end_layout
+
+\begin_layout Itemize
+We assume that each random variable has its own variance 
+\begin_inset Formula $\sigma_{i}^{2}$
+\end_inset
+
+ and the random variables are uncorrelated such that 
+\begin_inset Formula $\bm{\Sigma=\mathbf{I}\bm{\sigma}^{2'}}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+A coding trick
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+An essential coding trick: Indexing groups
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_groups_with_data.pdf
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{l}
+\left[{{\bm{\alpha}},\beta,,{\sigma^{2}},\mathbf{g},{\varsigma^{2}},|{\bf {y}}}\right]\propto\prod\limits _{i=1}^{n_{j}}\prod\limits _{j=1}^{J}{{\mathop{{\rm normal}}\nolimits}\left({{y_{ij}}|{\alpha_{j}}+\beta{x_{ij}},{\sigma^{2}}}\right)}\\
+\times{{\mathop{{\rm normal}}\nolimits}\left({{\alpha_{j}}|{g_{0}}+{g_{1}}{u_{j}},{\varsigma^{2}}}\right)}\\
+\times{\mathop{{\rm normal}}\nolimits}\left({\beta|0,.001}\right){\mathop{{\rm normal}}\nolimits}\left({{g_{0}}|0,1000}\right)\times{\mathop{{\rm normal}}\nolimits}\left({{g_{1}}|0,1000}\right)\\
+\times{\rm {inverse\,gamma}}\left({{\sigma^{2}}|.001,.001}\right){\rm {inverse\,gamma}}\left({{\varsigma^{2}}|.001,.001}\right)
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Indexing groups
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/group_index_data_layout.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Indexing groups
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/group_index_code.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

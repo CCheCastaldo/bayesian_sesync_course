@@ -20,7 +20,8 @@
 \usepackage{authblk}
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{multicol}
-
+\usepackage{amsmath}
+\usepackage{tcolorbox}
 % Configuration
 \geometry{verbose, tmargin=1in, bmargin=1in, lmargin=1in, rmargin=1in, footskip=1cm, footnotesep=1.25\baselineskip}
 \doublespacing
@@ -61,51 +62,68 @@
 
 \section{Aim}
 
-The purpose of this Primer is to teach the programming skills needed to approximate the marginal posterior distributions of parameters and derived quantities of interest using software implementing Markov chain Monte Carlo methods. Along the way, we will reinforce some of the ideas and principles that we have learned in lecture. The Primer is organized primarily as a tutorial and contains only a modicum of reference material.\footnote{Other good references on the BUGS language include \citet{McCarthy_Bayes_book} and \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual}. The JAGS manual can be a bit confusing because it is written as if you were going to use the software stand alone, that is, from a UNIX command line, which is one of the reasons we wrote this tutorial. However, it contains very useful information on functions and distributions that is not covered in detail here. You need a copy of \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual} to supplement the material here.}  You will need to study the JAGS manual at some point to become a fully competant programmer. 
+The purpose of this Primer is to teach the programming skills needed to approximate the marginal posterior distributions of parameters, latent variables, and derived quantities of interest using software implementing Markov chain Monte Carlo methods. Along the way, we will reinforce some of the ideas and principles that we have learned in lecture. The Primer is organized primarily as a tutorial and contains only a modicum of reference material.\footnote{Other good references on the BUGS language include \citet{McCarthy_Bayes_book} and \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual}. The JAGS manual can be a bit confusing because it is written as if you were going to use the software stand alone, that is, from a UNIX command line, which is one of the reasons we wrote this tutorial. However, it contains very useful information on functions and distributions that is not covered in detail here. You need a copy of \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual} to supplement the material here.}  You will need to study the JAGS manual at some point to become a fully competent programmer. 
 
 \section{Introducing MCMC Samplers}
 
 WinBugs, OpenBUGS, and JAGS are three systems of software that implement Markov chain Monte Carlo sampling using the BUGS language. BUGS stands for Bayesian Analysis Using Gibbs Sampling, so you can get an idea what this language does from its name. Imagine that you took the MCMC code you wrote for a Gibbs sampler and tried to turn it into an R function for building chains of parameter estimates. Actually, you know enough now to construct a very general tool that would do this. However, you are probably delighted to know that you can accomplish the same thing with less time and effort using the BUGS language. 
 
-The BUGS language is currently implemented in three flavors of software: OpenBUGS, WinBUGS, and JAGS. OpenBUGS and WinBUGS run on Windows operating systems, while JAGS was specifically constructed to run multiple platforms, including macOS and Linux. Although all three programs use essentially the same syntax, OpenBUGS and WinBUGS run in an elaborate graphical user interface, while JAGS only runs from the command line of a Unix shell or from R. However, all three can be easily called from R, and this is the approach we will teach. Our experience is that the GUI involves far too much tedious pointing and clicking and doesn't provide the flexibility that is needed for serious work. 
+OpenBUGS and WinBUGS run on Windows operating systems, while JAGS was specifically constructed to run multiple platforms, including macOS and Linux. Although all three programs use essentially the same syntax, OpenBUGS and WinBUGS run in an elaborate graphical user interface, while JAGS only runs from the command line of a Unix shell or from R. However, all three can be easily called from R, and this is the approach we will teach. Our experience is that the GUI involves far too much tedious pointing and clicking and doesn't provide the flexibility that is needed for serious work. 
 
-There are two other options for software to approximate marginal posterior distributions, both of which are reported to be faster than any of the BUGS implementations. The first is \href{http://mc-stan.org/}{Stan} which is definitely worth looking at after you have become comfortable with JAGS. We don't teach it because it uses an algorithm (Hamiltonian MCMC), which is more difficult to understand than conventional MCMC and because most published books on Bayesian analysis use some form of the BUGS language.\footnote{Very recent ones give examples in both languages.} The general conclusion on the street is that JAGS is easier to implement for simple problems, Stan faster for more complex ones. Once you have learned JAGS it is easy to migrate to Stan if it proves attractive to you. 
+There are two other options for software to approximate marginal posterior distributions, which are  faster than any of the BUGS implementations. The first is \href{http://mc-stan.org/}{Stan}, which is definitely worth looking at after you have become comfortable with JAGS. We don't teach it because it uses an algorithm (Hamiltonian MCMC), that is more difficult to understand than conventional MCMC and because most published books on Bayesian analysis use some form of the BUGS language.\footnote{The most recent ones give examples in both languages.} The general conclusion on the street is that JAGS is easier to implement for simple problems; Stan is faster for more complex ones. Once you have learned JAGS it is easy to migrate to Stan if it proves attractive to you. 
 
-The other option is \href{http://www.r-inla.org/}{INLA}, which is dramatically faster than any MCMC method because it doesn't use sampling, but rather approximates the marginal distribution of the data. It is not for the new initiate to Bayesian analysis and applies to a somewhat restricted set of problems.
+The other option is \href{http://www.r-inla.org/}{INLA}, which is dramatically faster than any MCMC method because it doesn't use sampling, but rather approximates the marginal distribution of the data. It is not for the new initiate to Bayesian analysis. It applies to a somewhat restricted set of problems.
 
 \section{Introducing JAGS}
 
-In this course we will use JAGS, which stands somewhat whimsically for \enquote{Just Another Gibbs Sampler}. There are three reasons for unsing JAGS as the language for this course. First and most important, is because my experience is that JAGS is less fussy than WinBUGS (or OpenBUGS) which can be notoriously difficult to debug. Second is that JAGS runs on all platforms, which makes collaboration easier. Finally, JAGS has some terrific features and functions that are absent from other implementations of the BUGS language. That said, if you learn JAGS you will have no problem interpreting code written for WinBugs or OpenBUGS (for example, the programs written in \citealt{McCarthy_Bayes_book}). The languages are almost identical except that JAGS is better.\footnote{There is a nice section in \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual} on differences between WinBUGS and JAGS. There is also software called GeoBUGS (its manual can be found \href{http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml}{here}) that is specifically developed for spatial models, but we know virtually nothing about it. However, if you are interested in landscape ecology otherwise have an interest in spatial modeling, we urge you to look into it after completing this tutorial.}
+We will use JAGS, which stands somewhat whimsically for \enquote{Just Another Gibbs Sampler}. There are three reasons for using JAGS as the language for this course. First and most important, is because our experience is that JAGS is less fussy than WinBUGS (or OpenBUGS), which can be notoriously difficult to debug.  JAGS runs on all platforms, which makes collaboration easier. JAGS has some terrific features and functions that are absent from other implementations of the BUGS language. That said, if you learn JAGS you will have no problem interpreting code written for WinBugs or OpenBUGS (for example, the programs written in \citealt{McCarthy_Bayes_book}). The languages are almost identical except that JAGS is better.\footnote{There is a nice section in \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual} on differences between WinBUGS and JAGS. There is also software called \href{http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml}{GeoBUGS}) that is specifically developed for spatial models, but we know virtually nothing about it. However, if you are interested in landscape or spatial ecology, we urge you to look into it.}
 
-\newpage 
+This tutorial will use a simple example of linear regression as a starting point for teaching the BUGS language implemented in JAGS and associated R commands. Although the problem starts simply, it builds to include some fairly sophisticated analysis in the problem set you will do after completing the tutorial. 
 
-This tutorial will use a simple example of regression as a starting point for teaching the BUGS language implemented in JAGS and associated R commands. Although the problem starts simply, it builds to include some fairly sophisticated analysis. The model that we will use is the a linear relationship between the per-capita rate of population growth and the size a population, which, as you know, is the starting point for deriving the logistic equation. For the ecosystem scientists among you, this problem is easily recast as the mass specific rate of accumulation of nitrogen in the soil; see for example \citet{Knops_Tilman}. Happily, both the population example and the ecosystem example can use the symbol N to represent the state variable of interest. Social scientists will be delighted to know that the logistic equation was originally applied to portray human population growth (see \href{http://monkeysuncle.stanford.edu/?p=933}{here}). 
+The model that we will use is the linear relationship between the per-capita rate of population growth and the size a population, which, as you know, is the starting point for deriving the logistic equation\footnote{Any of you claiming to be population ecologists must be able to derive the familiar, differential equation for population growth rate $\frac{dN}{dt}=rN(1-\frac{N}{K}$ from equation 1.}. For the ecosystem scientists among you, this problem is easily recast as the mass specific rate of accumulation of nitrogen in the soil; see for example \citet{Knops_Tilman}. Both the population example and the ecosystem example can happily use the symbol N to represent the state variable of interest. Social scientists will be delighted to know that the logistic equation was originally applied to portray human population growth (see \href{http://monkeysuncle.stanford.edu/?p=933}{here}). 
 
-Consider a model \footnote{This is the starting point for the derivation of the logistic equation $\frac{dN}{dt}=rN\big(1-\frac{N}{K}\big)$.}
-predicting the per-capita rate of population growth (or the mass specific rate of nitrogen accumulation),
+Consider a model predicting the per-capita rate of population growth (or the mass specific rate of nitrogen accumulation),
 \begin{equation}
 \frac{1}{N}\frac{dN}{dt}=r-\frac{r}{K}N,
 \end{equation}
 
 \noindent which, of course, is a linear model with intercept $r$ and slope $\frac{r}{K}$. Note that these quantities enjoy a sturdy biological interpretation in population ecology; $r$ is the intrinsic rate of increase\footnote{Defined as the per capita rate of increase when population size is near 0, such that there is no competition for resources. The quantity $r$ is a characteristic of the physiology and life history of the organism.}, $\frac{r}{K}$ is the strength of the feedback from population size to population growth rate, and $K$ is the carrying capacity, that is, the population size (o.k., o.k., the gm $N$ per gm soil for the ecosystem scientists) at which $\frac{}{}$$\frac{dN}{dt}=0$. Presume we have some data consisting of observations of per capita rate of growth paired with observations of $N$. The vector $\mathbf{y}$ contains values for the rate and the vector $\mathbf{x}$ contains aligned data on $N$, i.e., $y_{i}=\frac{1}{N_{i}}\frac{dN_{i}}{dt},\, x_{i}=N_{i}$. To keep things simple, we start out by assuming that the $x_{i}$ are measured without error. A simple Bayesian model specifies the joint distribution of the parameters and data as: 
-
+\vspace{-.6 cm}
 \begin{eqnarray}
 \mu_{i} & = & r-\frac{rx_{i}}{K}\textrm{,}\\
-\left[\,r,K,\tau\mid\mathbf{y}\right] & \propto & \prod_{i=1}^{n}\left[\,y_{i}\mid\mu_{i},\tau\right]\left[r\right]\left[K\right]\left[\tau\right]\textrm{,}\nonumber \\
-\left[r,K,\tau\mid\mathbf{y}\right] & \propto & \prod_{i=1}^{n}\textrm{normal}\left(y_{i}\mid\mu_{i},\tau\right)\times\label{eq:conditional} \textrm{gamma}\left(K\mid.001,.001\right)\\
+\left[\,r,K,\tau\mid\mathbf{y}\right] & \propto & \prod_{i=1}^{n}\left[\,y_{i}\mid\mu_{i},\tau\right]\left[r\right]\left[K\right]\left[\tau\right]\textrm{,}\\
+\left[r,K,\tau\mid\mathbf{y}\right] & \propto & \prod_{i=1}^{n}\textrm{normal}\left(y_{i}\mid\mu_{i},\tau\right)\times\label{eq:conditional} \textrm{gamma}\left(K\mid.001,.001\right)\label{eq:notation_used}\\
  &  &\textrm{gamma}\left(\tau\mid.001,.001\right)\textrm{gamma}\left(r\mid.001,.001\right),\nonumber 
 \end{eqnarray}
 
+\begin{tcolorbox}
+
+Note that equation \ref{eq:notation_used} has meaning identical to:
+\begin{align}
+g(r,K,x_i)& =  r-\frac{rx_{i}}{K}\textrm{,}\\
+\left[r,K,\tau\mid\mathbf{y}\right]  &\propto  \prod_{i=1}^{n}\textrm{normal}\left(y_{i}\mid g(r,K,x_i),\tau\right) \textrm{gamma}\left(K\mid.001,.001\right) \nonumber \\ 
+& \times \textrm{gamma}\left(\tau\mid.001,.001\right)\textrm{gamma}\left(r\mid.001,.001\right)\nonumber
+\end{align}
+which is the same as 
+
+\begin{align}
+\left[r,K,\tau\mid\mathbf{y}\right]  &\propto  \prod_{i=1}^{n}\textrm{normal}\left(y_{i}\mid r,K,\tau\right)\times\label{eq:conditional} \textrm{gamma}\left(K\mid.001,.001\right) \nonumber \\
+ &\times \textrm{gamma}\left(\tau\mid.001,.001\right)\textrm{gamma}\left(r\mid.001,.001\right) \nonumber
+\end{align}
+We will use the notation in equation  \ref{eq:notation_used} because it has a nice correspondence with the JAGS code, but you must remember that $\mu_i$ is simply a stand-in for $g(r,K,x_i)$.
 
 
-\noindent where the priors are vague distributions for quantities that must, by definition, be positive. Note that we have used the precision $(\tau)$ as an argument to the normal distribution rather than the variance $\left(\tau=\frac{1}{\sigma^{2}}\right)$ to keep things consistent with the code below, a requirement of the BUGS language.\footnote{And also a source of suffering when you forget to use precision rather than variance.} Now, we have full, abiding confidence that with a couple of hours worth of work, perhaps less, you could knock out a Gibbs sampler to estimate $r,K,$ and $\tau$. However, we are all for doing things nimbly in 15 minutes that might otherwise take a sweaty hour of hard labor, so, consider the code in algorithm \ref{alg:Linear regression example}, below. Note also that we have used \enquote{generic} vague priors, (i.e., flat gamma distributions), which may not be such a good idea. However, it suffices as a place to start without requiring a bunch of explanation.
+\end{tcolorbox}
+
+
+\noindent where the priors are vague distributions for quantities that must, by definition, be positive. Note that we have used the precision $(\tau)$ as an argument to the normal distribution rather than the variance $\left(\tau=\frac{1}{\sigma^{2}}\right)$ to keep things consistent with the code below, a requirement of the BUGS language.\footnote{And also a source of suffering when you forget to use precision rather than variance.} Now, we have full, abiding confidence that with a couple of hours worth of work, perhaps less, you could knock out a Gibbs sampler to estimate $r,K,$ and $\tau$. However, we are all for doing things nimbly in 15 minutes that might otherwise take  sweaty hours of hard labor, so, consider the code in algorithm \ref{alg:Linear regression example}, below. Note also that we have used \enquote{generic} vague priors, (i.e., flat gamma distributions), which may not be such a good idea. However, it suffices as a place to start without requiring a bunch of explanation.
 
 \bigskip
 \belowcaptionskip=-40pt
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 1: Writing a DAG.} There is no $x$ in the posterior distribution. What does this mean? Draw the Bayesian network, or DAG, for this model.
+\textbf{Exercise 1:  Factoring} There is no $\mathbf{x}$ in the posterior distribution in equation \ref{eq:notation_used}. What are assuming if $\mathbf{x}$ is absent? Draw the Bayesian network, or DAG, for this model. Use the chain rule to fully factor the joint distribution into sensible parts, then simplify by assuming that $r,K$ and $\tau$ are independent.
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
 \caption{Writing a DAG}
@@ -113,7 +131,7 @@ predicting the per-capita rate of population growth (or the mass specific rate o
 \end{exercise}
 \belowcaptionskip=0pt
 
-This code illustrates the purpose of JAGS (and other BUGS software): to translate the numerator of Bayes theorem (a.k.a., the joint distribution, e.g., equation) into a specification of an MCMC sampler. It is important for you to see the correspondence between the model (equation) and the code. JAGS parses this code, sets up proposal distributions and steps in the MCMC algorithm returns the MCMC chain for each parameter. These chains form the basis for approximating posterior distributions and associated statistics (i.e., means, medians, standard deviations, and quantiles). As we will soon learn, it easy to derive chains for other quantities of interest and their posterior distributions, for example, $K/2$ (by the way, what is $K/2$?), $N$ as a function of time or $dN/dt$ as a function of $N$. It is easy to construct comparisons between of the growth parameters of two populations or among ten of them. It is straightforward to modify your model and code to incorporate errors in the observations of population growth rate or population size. If this seems as if it might be useful to you, continue reading. 
+This code illustrates the purpose of JAGS (and other BUGS software): to translate the numerator of Bayes theorem (a.k.a., the joint distribution, e.g., equation \ref{eq:notation_used} ) into a specification of an MCMC sampler. It is important for you to see the correspondence between the model (equation \ref{eq:notation_used}) and the code. JAGS parses this code, sets up proposal distributions and samplers in the MCMC algorithm, chooses values of tuning parameters if needed, and returns the MCMC chain for each parameter. These chains form the basis for approximating posterior distributions and associated statistics (e.g., means, medians, standard deviations, and quantiles). As we will soon learn, it easy to derive chains for other quantities of interest and their posterior distributions, for example, $K/2$ (by the way, what is $K/2$?), $N$ as a function of time or $dN/dt$ as a function of $N$. It is easy to construct comparisons between the growth parameters of two populations or among ten of them. It is straightforward to modify your model and code to incorporate errors in the observations of population growth rate or population size. If this seems as if it might be useful to you, continue reading, remembering that what you learn will apply to any quantity of interest: grams of N mineralized, height of trees, composition of landscapes, number of votes cast for a candidate.
 
 \begin{algorithm}
 \begin{Verbatim}[frame=single]
@@ -135,11 +153,13 @@ model{
 \label{alg:Linear regression example}
 \end{algorithm}
 
-JAGS is a compact language that includes a lean but useful set of scalar and vector functions for creating deterministic models as well as a full range of distributions for constructing stochastic models. The syntax closely resembles R, but there are differences and of course, JAGS is far more limited. Detailed tables of functions and distributions can be found \href{JAGSUserManualPages.pdf}{here}, taken from the JAGS manual \citep{Plummer_mannual}. Rather than focus on these details, this tutorial presents a general introduction to JAGS models, how to call them from R, how to summarize their output, and how to check convergence. However, it necessary to read the \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual} at some point as well, particulalry the sections on functions, distributions, and differences between JAGS and WinBUGS.
+JAGS is a compact language that includes a lean but useful set of scalar and vector functions for creating deterministic models as well as a full range of distributions for constructing stochastic models. The syntax closely resembles R\footnote{With a few irritating exceptions.}, but there are differences and of course; JAGS is far more limited in what it does. Details of distributions used to fit models are found in section 9.2 of the JAGS manual \citep{Plummer_mannual} and are summarized in the distribution cheat sheet. Rather than focus on these details, this tutorial presents a general introduction to JAGS models, how to call them from R, how to summarize their output, and how to check convergence. However, it necessary to read the \href{https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/}{the JAGS manual} at some point as well, particularly the sections on functions, distributions, and differences between JAGS and WinBUGS.
 
 \section{Installing JAGS}
 
-Mac and Windows users, update your version of R to the most recent one. Go to the package installer under \textsf{Packages and Data} on the toolbar and check the box in the lower right corner for \textsf{install dependencies}. Install the \texttt{rjags} package \citep{Plummer2016rjags} from a CRAN mirror of your choice. Check the version number of \texttt{rjags} -- it should be 4-6. 
+Mac and Windows users, update your version of R to the most recent one. Go to the package installer under \textsf{Packages and Data} on the toolbar and check the box in the lower right corner for \textsf{install dependencies}. Install the \texttt{rjags} package \citep{Plummer2016rjags} from a CRAN mirror of your choice. Check the version number of \texttt{rjags} -- it should be 4-8. 
+
+The site for downloading the JAGS files occasionally gives security error messages that sound frightening.  Try again a few times if you get one of these.  My experience is that thye go away after a couple of tries.
 
 \subsection{Mac OS}
 
@@ -147,7 +167,7 @@ Go to \href{https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/Mac}{Sourc
 
 \subsection{Windows}
 
-Go to \href{https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/Windows}{SourceForge} and download \texttt{JAGS-4.3.0.exe}. Occasionally, Windows users have problems loading \texttt{rjags} from R after everything has been installed properly. In all cases we have encountered, this problem occurs because they have more than one version of R resident on their computers (wisely, Mac OS will not allow that). So, if you can't seem to get \texttt{rjags} to run after a proper install, then uninstall all versions of R, reinstall the latest version, install the latest version of \texttt{rjags} and the version of JAGS that matches it. 
+Go to \href{https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/Windows}{SourceForge} and download \texttt{JAGS-4.3.0.exe}. Occasionally, Windows users have problems loading \texttt{rjags} from R after everything has been installed properly.  This problem usually occurs because they have more than one version of R resident on their computers (wisely, Mac OS will not allow that). So, if you can't seem to get \texttt{rjags} to run after a proper install, then uninstall all versions of R, reinstall the latest version, install the latest version of \texttt{rjags} and the version of JAGS that matches it. 
 
 \subsection{Linux}
 
@@ -162,7 +182,7 @@ There is a link to the path for binaries found \href{http://mcmc-jags.sourceforg
 
 \subsection{The JAGS model}
 
-Study the relationship between the numerator of Bayes theorem (equation \ref{eq:conditional}) and the code (algorithm \ref{alg:Linear regression example}). Although this model is a simple one, it has the same general structure as all Bayesian models in JAGS:
+Study the relationship between the numerator of Bayes theorem (equation \ref{eq:notation_used}) and the code (algorithm \ref{alg:Linear regression example}). Although this model is a simple one, it has the same general structure as all Bayesian models in JAGS:
 
 \begin{enumerate}
 \item code for priors,
@@ -200,7 +220,7 @@ model{
 
 \subsubsection{\texttt{for loops\index{for loops@\texttt{for loops}}}}
 
-Notice that the for loop replaces the $\prod_{i=1}^{n}$in the likelihood. Recall that when we specify an \emph{individual} likelihood, we ask, what is the probability (or probability density) that we would obtain this data point conditional on the value of the parameter(s) of interest? The total likelihood is the product of the individual likelihoods. Recall in the Excel example for the light limitation of trees that you had an entire column of likelihoods adjacent to a column of deterministic predictions of our model. If you were to duplicate these \enquote{columns} in JAGS you would write:
+Notice that the for loop replaces the $\prod_{i=1}^{n}$in the likelihood. \footnote{It is vital to understand that JAGS is \emph{not} a procedural language like R.  It is not a set of instructions to be executed sequentially. Instead it is a way to translate a mathematical statement into syntax that determine the MCMC sampler that JAGS composes "behind the scenes." } Recall that when we specify an \emph{individual} likelihood, we ask, what is the probability (or probability density) that we would obtain this data point conditional on the value of the parameter(s) of interest? The total likelihood is the product of the individual likelihoods. Recall in the Excel example for the light limitation of trees that you had an entire column of likelihoods adjacent to a column of deterministic predictions of our model. If you were to duplicate these \enquote{columns} in JAGS you would write:
 
 \begin{Verbatim}
 mu[1] <- r - r/K * x[1]
@@ -258,7 +278,7 @@ for (i in 1:n){
 } #end of i loop
 \end{Verbatim}
 
-\noindent The key is to look at the index of the quantity of interest and be sure that the \texttt{for} expressions span all values of the subscript. As an alternative to giving an explicit argument for the number of iterations (e.g., \texttt{n} and \texttt{m} above), you can use the \texttt{length()\index{length()@\texttt{length()}}} function. For example we could use:
+\noindent The key is to look at the index of the quantity of interest and be sure that the \texttt{for} expressions span all values of the subscript.  You can use the \texttt{length() \index{length()@\texttt{length()}}} function as an alternative to giving an explicit argument for the number of iterations (e.g., \texttt{n} and \texttt{m} above),. For example we could use:
 
 \begin{Verbatim}
 for (1 in 1:length(x[])){
@@ -287,7 +307,7 @@ We specify priors in JAGS as:
 randomVariable ~ distribution(parameter1, parameter2)
 \end{Verbatim}
 
-\noindent See the JAGS manual for available distributions. Note that in algorithm \ref{alg:Linear regression example}, the second argument to the normal density function is \texttt{tau}, which is the precision, defined as the reciprocal of the variance. This means that we must calculate \texttt{sigma} from \texttt{tau} if we want a posterior distribution on \texttt{sigma}. Be very careful about this -- it is easy to forget that you must use the precision rather than the standard deviation as an argument to \texttt{dnorm} or \texttt{dlnorm}. Failing to do this is a source of immense suffering. (We know from experience.) For the lognormal, it is the precision\index{precision} on the log scale. If you would like, you can express priors on $\sigma$ rather than $\tau$ using code like this:
+\noindent See the JAGS manual for available distributions. Note that in algorithm \ref{alg:Linear regression example}, the second argument to the normal density function is \texttt{tau}, which is the precision, defined as the reciprocal of the variance. This means that we must calculate \texttt{sigma} from \texttt{tau} if we want a posterior distribution on \texttt{sigma}. Be very careful about this -- it is easy to forget that you must use the precision rather than the standard deviation as an argument to \texttt{dnorm} or \texttt{dlnorm}. Failing to do this is a source of immense suffering. (We know from experience.) For the lognormal, it is the precision\index{precision} on the log scale. We usually express priors on $\sigma$ rather than $\tau$ using code like this:
 
 \begin{Verbatim}
 # presuming 0-100 is far greater than the tails of the posterior of sigma
@@ -297,13 +317,13 @@ tau <- 1/sigma^2
 
 \noindent This is what we normally do for two reasons. We can \emph{think} about standard deviations but precisions are bewildering to us. This allows us to put reasonable constraints on $\sigma$, which we can then convert into $\tau$. In addition, it can be very difficult to get $\tau$ to converge using the flat prior $\textrm{gamma}(\,\tau \mid .001,.001)$, especially if models are hierarchical. But we are getting ahead of ourselves.
 
-\subsubsection{The \texttt{<-} operator}
+\subsubsection{The assignment operator, \texttt{<-} or \texttt{=}}
 
-Note that, unlike R, you do not have the option in JAGS to use the \texttt{=} sign in an assignment statement. You must use \texttt{<-}. 
+It used to be that you were required to use \texttt{<-} as the assignment operator in JAGS. You can now use \texttt{<-} or \texttt{=}  to accomplish the same thing.  So, \texttt{a <- 4} and \texttt{a = 4} can be used to assign the value 4 to \texttt{a}.  This corresponds with syntax in R.
 
 \subsubsection{Vector operations}
 
-We don't use any vector operations in algorithm \ref{alg:Linear regression example}, but JAGS supports a rich collection of operations on vectors. You have already seen the \texttt{length()} function -- other examples include means, variances, standard deviations, quantiles, etc. See the JAGS manual. However, you cannot form vectors using syntax like \texttt{c()\index{c()@\texttt{c()}}}. If you need a specific-valued vector in JAGS, assign elements directly, something like:
+We don't use any vector operations in algorithm \ref{alg:Linear regression example}, but JAGS supports a rich collection of operations on vectors. You have already seen the \texttt{length()} function -- other examples include means, variances, standard deviations, quantiles, etc. See the JAGS manual. However, you cannot form vectors using syntax like R's concatenate function, \texttt{c()\index{c()@\texttt{c()}}}. If you need a specific-valued vector in JAGS, assign elements directly, something like:
 
 \begin{Verbatim}
 v[1] <- 7.8
@@ -321,7 +341,7 @@ Remember that all of the variables you are estimating will be sampled from a bro
 
 \subsubsection{Stepping through a JAGS run} \label{sssec:Stepping through a JAGS run}
 
-First, we transfer the code in the Logistic example (algorithm \ref{alg:Linear regression example 2}) into an R script. Note that we have changed the priors to reflect the answer to exercise \ref{ex:ImprovePriors} and the discussion above regarding precision versus variance. You may save this code in any directory that you like and may name it anything you like. Here we save the file as \texttt{LogisticJAGS.R}. In algorithm \ref{alg:Inserting JAGS code in R} we show you how to create \texttt{LogisticJAGS.R} directly using the \texttt{sink} function in the same R script you use to run the JAGS model itself. Either method will work so try both.
+First, we transfer the code in the Logistic example (algorithm \ref{alg:Linear regression example 2}) into an R script. Note that we have changed the priors to reflect the answer to exercise \ref{ex:ImprovePriors} and the discussion above regarding precision versus variance. You may save this code in any directory that you like and may name it anything you like. Here we save the file as \texttt{LogisticJAGS.R}. In algorithm \ref{alg:Inserting JAGS code in R} we show you how to create \texttt{LogisticJAGS.R} directly using the \texttt{sink} function in the same R script you use to run the JAGS model itself. Either method will work so try both. \footnote{We prefer using a separate file for two reasons. Changes can be made and saved much more quickly if the JAGS code is in its own file. Error messages produce line numbers that mean something when the code is in a file. IWuse the  \texttt{sink} approach only with very small models.}
 
 \begin{algorithm}
 \begin{Verbatim}[frame=single]
@@ -343,12 +363,12 @@ model{
 \label{alg:Linear regression example 2}
 \end{algorithm}
 
-We implement our model in R using algorithm \ref{alg:R-code-for}. We will go through the R code step by step. We start by loading the package \texttt{SESYNCBayes} which has the data frame \texttt{Logistic}, which we then order by \texttt{PopulationSize}.\footnote{It would be very instructive for you to omit this ordering after you have successfully completed exercises \ref{ex:coda conversion} and \ref{ex:plotting jags object}. See what you get in your plots using unordered data. Then change all of the \texttt{lines} functions to \texttt{points}. Think this over and explain it. It is worth the effort. You will see it again, we promise.} Next, we specify the initial conditions for the MCMC chain in the statement \texttt{inits}. This is exactly the same thing as you did when you wrote you MCMC code and assigned a guess to the first element in the chain. 
+We implement our model in R using algorithm \ref{alg:R-code-for}. We will go through the R code step by step. We start by loading the package \texttt{ESS575} which has the data frame \texttt{Logistic}, which we then order by \texttt{PopulationSize}.\footnote{It would be very instructive for you to omit this ordering after you have successfully completed exercises \ref{ex:coda conversion} and \ref{ex:plotting jags object}. See what you get in your plots using unordered data. Then change all of the \texttt{lines} functions to \texttt{points}. Think this over and explain it. It is worth the effort. You will see it again, we promise.} Next, we specify the initial conditions for the MCMC chain in the statement \texttt{inits}. This is exactly the same thing as you did when you wrote MCMC code and assigned a guess to the first element in the chain. 
 
 \begin{algorithm}
 \begin{Verbatim}[frame=single]
 rm(list = ls())
-library(SESYNCBayes)
+library(ESS575)
 library(rjags)
 Logistic  = Logistic[order(Logistic$PopulationSize),]
 
@@ -363,19 +383,19 @@ data = list(
   x = as.double(Logistic$PopulationSize),
   y = as.double(Logistic$GrowthRate))
 
-n.adapt = 5000
+n.adapt = 1000
 n.update = 10000
 n.iter = 10000
 
 # Call to JAGS
 set.seed(1)
 jm = jags.model("LogisticJAGS.R", data = data, inits = inits, 
-n.chains = length(inits), n.adapt = n.adapt)
+n.chains = length(inits), n.adapt = )
 update(jm, n.iter = n.update)
 zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"),
 n.iter = n.iter, n.thin = 1)
 \end{Verbatim}
-\caption{R code for running logisitics JAGS script}
+\caption{R code for running logistics JAGS script}
 \label{alg:R-code-for}
 \end{algorithm}
 
@@ -385,7 +405,7 @@ Initial conditions must be specified as as \enquote{list of lists}, as you can s
 inits = list(K = 1500, r = .5, tau = 2500) # WRONG
 \end{Verbatim}
 
-\noindent you will get an error message when you execute the \texttt{jags.model} statement and your code will not run. Second, this statement allows you to set up multiple chains,\footnote{We start my work with a single chain. Once everything seems to be running, we add additional ones.} which are needed for some tests of convergence and to calculate DIC (more about these tasks later). For example, if you want three chains, you would use:
+\noindent you will get an error message when you execute the \texttt{jags.model} statement and your code will not run. Second, this statement allows you to set up multiple chains,\footnote{WE often start our work with a single chain. Once everything seems to be running, we add additional ones.} which are needed for some tests of convergence and to calculate DIC (more about these tasks later). For example, if you want three chains, you would use:
 
 \begin{Verbatim}
 inits = list(
@@ -396,7 +416,7 @@ inits = list(
 
 \noindent Now it is really easy to see why we need the \enquote{list of lists\index{list of lists}} format -- there is one list for each chain; but remember, you require the same structure for a single chain, that is, a list of lists.
 
-Which variables in your JAGS code require initialization? All unknown quantities that appear on the left hand side of the conditioning in the posterior distribution. Think about it this way. When you were writing your own MCMC algorithm, every chain required a value as the first element in the vector holding the chain. That is what you are doing when you specify initial conditions here. You can get away without explicitly specifying initial values -- JAGS will choose them for you if you don't specify them -- however, we strongly urge you to provide explicit initial values, particularly when your priors are vague. This habit also forces you to think about what you are estimating.
+Which variables in your JAGS code require initialization? All unknown quantities that appear on the left hand side of the conditioning in the posterior distribution require initial values. Think about it this way. When you were writing your own MCMC algorithm, every chain required a value as the first element in the vector holding the chain. That is what you are doing when you specify initial conditions here. You can get away without explicitly specifying initial values -- JAGS will choose them for you if you don't specify them -- however, we strongly urge you to provide explicit initial values, particularly when your priors are vague. This habit also forces you to think about what you are estimating.
 
 The next couple of statements, 
 
@@ -409,13 +429,13 @@ data = list(
 
 \noindent specify the data that will be used by your JAGS program. Notice that you can assign data vectors on the R side to different names on the JAGS side. For example, the bit that reads \texttt{x = as.double(Logistic\$PopulationSize)} says that the x vector in your JAGS program (algorithm \ref{alg:Linear regression example 2}) is composed of the column in your data frame called \texttt{PopulationSize}, and the bit that reads \texttt{y = as.double(Logistic\$GrowthRate)} creates a \texttt{y} vector required by the JAGS program from the column in your data frame called \texttt{GrowthRate}. You might want to know why we assigned the data as a double rather than as an integer. The answer is that the execution of JAGS is about 5 times faster on double precision than on integers.
 
-It is important for you to understand that the left hand side of the = corresponds to variable name for the data in the JAGS program and the right hand side of the = is what they are called in R. Also, note that because \texttt{Logistic} is a data frame we used \texttt{as.integer()} and \texttt{as.double( )}\footnote{This says the number is real and is stored with double precision, i.e., 64 bits in computer memory. This varies with the type of number being stored, but a good rule of thumb is that 16 decimal places can be kept in memory. This is usually sufficient for ecology!} to be sure that JAGS received numbers instead of characters or factors, as can happen with data frames. In this case, it was unnecessary, but be aware you may need these. This can be particularly important if you have missing data in the data. The \texttt{n} is required in the JAGS program to index the \texttt{for} structure (algorithm \ref{alg:R-code-for}) and it must be read as data in this statement.\footnote{You could hard code the \texttt{for} index in the JAGS code, but this is bad practice. The best practice, which we use now, is to use something like \texttt{for (i in 1:length(y))}.} By the way, you don't need to call this list \enquote{data} -- it could be anything \enquote{apples}, \enquote{bookshelves}, \enquote{xy}, etc.) 
+It is important for you to understand that the left hand side of the = corresponds to variable name for the data in the JAGS program and the right hand side of the = is what they are called in R. Also, note that because \texttt{Logistic} is a data frame we used \texttt{as.integer()} and \texttt{as.double( )}\footnote{This says the number is real and is stored with double precision, i.e., 64 bits in computer memory. This varies with the type of number being stored, but a good rule of thumb is that 16 decimal places can be kept in memory. This is usually sufficient for ecology!} to be sure that JAGS received numbers instead of characters or factors, as can happen with data frames. In this case, it was unnecessary, but be aware you may need these. This can be particularly important if you have missing values in the data. The \texttt{n} is required in the JAGS program to index the \texttt{for} structure (algorithm \ref{alg:R-code-for}) and it must be read as data in this statement.\footnote{You could hard code the \texttt{for} index in the JAGS code, but this is bad practice. The best practice, which we use now, is to use something like \texttt{for (i in 1:length(y))}.} By the way, you don't need to call this list \enquote{data} -- it could be anything \enquote{apples}, \enquote{bookshelves}, \enquote{xy}, etc.) 
 
 Now that you have a list of data and initial values for the MCMC chain you make calls to JAGS using the following statements:
 
 \begin{Verbatim}
 library(rjags)
-n.adapt = 5000
+n.adapt = 1000
 n.update = 10000
 n.iter = 10000
 # Call to JAGS
@@ -429,7 +449,7 @@ n.iter = n.iter, n.thin = 1)
 
 \noindent There is a quite a bit to learn here, so if your attention is fading, go get an espresso. First, we need to load the package \texttt{rjags}. Remember that MCMC required generating random numbers, so we use \texttt{set.seed(1)} to assure that our results are exactly reproducible.\footnote{With enough iterations, this is not really necessary, but it is nice for teaching.} We then specify 3 scalars, \texttt{n.adapt},  \texttt{n.update}, and \texttt{n.iter}. These tell JAGS the number of iterations in the chain for adaptation (\texttt{n.adapt}), burn-in (\texttt{n.udpate}) and the number to keep in the final chain (\texttt{n.iter}). The first one, \texttt{n.adapt}, may not be familiar -- it is the number of iterations that JAGS will use to choose the sampler and to assure optimum mixing of the MCMC chain.\footnote{Remember the tuning parameter in Metropolis Hastings?} The second, \texttt{n.update}, is the number of iterations that will be discarded to allow the chain to converge before iterations are stored (aka, burn-in). The final one, \texttt{n.iter}, is the number of iterations that will be stored in the chain as samples from the posterior distribution -- it forms the \enquote{rug}.
 
-The \texttt{jm = jags.model\index{jags.model@\texttt{jags.model}}...} statement sets up the MCMC chain. Its first argument is the name of the file containing the JAGS code. Note that in this case, the file resided in the current working directory. Otherwise, you would need to specify the full path name. The next two expressions specify where the data come from, where to get the initial values, and how many chains to create (i.e., the length of the list inits). Finally, it specifies the burn-in how many samples to throw away before beginning to save values in the chain. Thus, in this case, we will throw away the first 10,000 values.
+The \texttt{jm = jags.model\index{jags.model@\texttt{jags.model}}...} statement sets up the MCMC chain. Its first argument is the name of the file containing the JAGS code. Note that  the file resided in the current working directory in this example. Otherwise, you would need to specify the full path name. The next two expressions specify where the data come from, where to get the initial values, and how many chains to create (i.e., the length of the list inits). Finally, it specifies the burn-in how many samples to throw away before beginning to save values in the chain. Thus, in this case, we will throw away the first 10,000 values.
 
 The second statement (\texttt{zm = coda.samples\index{coda.samples@\texttt{coda.samples}}...}) creates the chains and stores them as an MCMC list (more about that soon). The first argument (\texttt{jm}) is the name of the jags model you created with the \texttt{jags.model} function. The second argument (\texttt{variable.names}) tells JAGS which variables to \enquote{monitor}. These are the variables for which you want posterior distributions.
 
@@ -464,135 +484,20 @@ sink()
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 4: Coding the logistic regression.} Write R code (algorithm \ref{alg:R-code-for}) to run the JAGS model (algorithm \ref{alg:Linear regression example 2}) and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. We suggest you insert the JAGS model into this R script using the \texttt{sink} command as shown in algorithm \ref{alg:Inserting JAGS code in R}. You will find this a very convenient way to keep all your code in the same R script. 
+\textbf{Exercise 4: Coding the model.} Write R code (algorithm \ref{alg:R-code-for}) to run the JAGS model (algorithm \ref{alg:Linear regression example 2}) and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. We suggest you insert the JAGS model into this R script using the \texttt{sink} command as shown in algorithm \ref{alg:Inserting JAGS code in R} because this model is small. You will find this a convenient way to keep all your code in the same R script. For larger models, you will be happier using a separate file for the JAGS code.
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
-\caption[Coding the logistic regression]{Coding the logistic regression.}
+\caption[Coding the model]{Coding the model.}
 \label{ex:logistic regression sequential}
 \end{exercise}
 \belowcaptionskip=0pt
 
-\newpage
-
-\subsubsection{Parallelizing your JAGS run}
-
-Running your model using the code in section \ref{sssec:Stepping through a JAGS run} will cause JAGS to run \emph{sequentially}, meaning JAGS will first iterate chain 1, followed by chain 2, all the way through chain $n$. While there is nothing wrong with this approach, you can significantly speed up your model run time (up to a factor of $n$) by iterating all chains \emph{simultaneously}, i.e.\ running the chains in parallel.\footnote{Remember, each chain starts with its own initial values and does not depend on the other chains.} To do this, we will instruct R to have JAGS run one chain per core,\footnote{Here is \href{http://www.howtogeek.com/194756/cpu-basics-multiple-cpus-cores-and-hyper-threading-explained/}{short description} explaining the difference between CPUs, multiple cores, and hyper-threading.} while leaving at least one core free to handle all other computer operations. For a JAGS model with three chains, you would need a CPU with $\geq 4$ cores. Each core will run an R instance called a worker, where each worker is given a unique identifier called a PID. We will refer to the group of cores used by R in this fashion as a cluster. 
-
-To get stared, load the \texttt{parallel} package in R and execute the command \texttt{detectCores()} to determine how many cores your computer has. Assuming you have at least 4 cores, the statements:
-
-\begin{Verbatim}
-cl <- makeCluster(3)
-\end{Verbatim}
-
-\noindent will create a cluster of three workers in R, one per core. We use the following code to get a vector of the PID numbers, called  \texttt{pidList}, for the workers we just created. 
-
-\begin{Verbatim}
-pidList <- NA
-for(i in 1:3){
-  pidNum <- capture.output(cl[[i]])
-  start <- regexpr("pid", pidNum)[[1]]
-  end <- nchar(pidNum)
-  pidList[i] <- substr(pidNum, (start + 4), end)}
-\end{Verbatim}
-
-\noindent Even if we make sure that the initial values are different for each chain running in parallel, we need to consider how JAGS handles randomization\footnote{In R random numbers are not truly random. Instead, they are generated using a seed value (set.seed) and a pseudo-random number generator (the default in R is Mersenne-Twister, but there are others). This RNG is a function that uses the seed to generate a deterministic sequence of numbers that approximates a sequence of truly random numbers, which is stored in a vector called \texttt{.Random.seed}. The first value of \texttt{.Random.seed} identifies the RNG. The length and structure of the remaining portion of the vector depends on the RNG itself. For Mersenne-Twister, the total vector is 625 elements long, the second of which identifies how many of the 623 values have been \q{used up} in creating output from functions that call \texttt{.Random.seed} (runif, rnorm, sample, etc). Once the end of the vector is reached, a fresh set of 623 values replace the first set and the position counter is set to 1. Oddly the initial position counter starts on the 623rd value of the RNG output when first created with set.seed. Invoke set.seed again with a new seed value and you will get an entirely new \texttt{.Random.seed} starting at position 624 (the end of the first set). Invoke \texttt{set.seed} with the same seed value and you will recreate \texttt{.Random.seed} from the beginning.}. JAGS sets its own seed (based on the time the model was implemented) and random number generator, or RNG (JAGS defaults to Mersenne-Twister just as R does), regardless of the RNG and seed set for the worker it is running within. If each worker implements the model at the same time then each chain will have the same \texttt{.Random.seed} vector when performing MCMC. If you have different initial values (or at least one different initial initial value for a free parameter in your model) then the chains will not be identical due to the MCMC algorithm itself. Is that enough? We are not sure. However, a safe approach would be to specify the seeds and RNGs for each chain, as well as the initial values. Fortunately, this is easy. We can do this by adding \texttt{.RNG.seed} and \texttt{.RNG.name} arguments to the list of initial values for each chain.
-
-\begin{Verbatim}
-initsP = list(
-  list(K = 1500, r = .2, sigma = 1, 
-  	.RNG.name = "base::Mersenne-Twister", .RNG.seed = 1),
-  list(K = 1000, r = .15, sigma = .1,
-  	.RNG.name = "base::Marsaglia-Multicarry", .RNG.seed = 22),
-  list(K = 900, r = .3, sigma = .01,
-  	.RNG.name = "base::Wichmann-Hill", .RNG.seed = 373))
-\end{Verbatim}
-
-\noindent We then provide each worker with the R objects \texttt{pidList}, \texttt{data}, \texttt{initsP}, \texttt{n.adapt}, \texttt{n.update}, and \texttt{n.iter} using the \texttt{clusterExport} function.
-
-\begin{Verbatim}
-parallel::clusterExport(cl, c("pidList", "data", "initsP", 
-	"n.adapt", "n.update", "n.iter"))
-\end{Verbatim}
-
-\noindent With a few key modifications (discussed below), we embed our previous R code for running the JAGS model inside the cluster \texttt{cl}. This allows the cluster to direct the R commands to each core simultaneously, collect output from each core, and combine the output into a list where each element corresponds to the output from a single core. You can name the MCMC object outputted from each core and the list of all MCMC objects produced by the entire cluster whatever you like. Here we name them \texttt{zmCore}\footnote{Why is it possible to name the MCMC output from each chain the same thing?} and \texttt{out}, respectively:
-
-\begin{Verbatim}
-out <- clusterEvalQ(cl, {
-  library(rjags)
-  processNum <- which(pidList==Sys.getpid())
-  worker_inits <- initsP[[processNum]]
-  jm = jags.model("LogisticJAGS.R", data = data, inits = worker_inits, 
-  n.chains = 1, n.adapt = n.adapt)
-  update(jm, n.iter = n.update)
-  zmCore = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
-  n.iter = n.iter, thin = 1)
-  return(as.mcmc(zmCore))
-}) 
-stopCluster(cl)
-\end{Verbatim}
-
-\noindent Notice that we must now load the \texttt{rjags} package for each core, meaning \texttt{library(rjags)} needs to be inside the \texttt{clusterEvalQ} function. We then have each worker identify its own PID with the \texttt{Sys.getid()} function and use this value in conjunction with \texttt{pidList} to select the chain's initial values from \texttt{inits}. Each worker then runs a single chain. We use the \texttt{as.mcmc} function to save the output from the \texttt{coda.samples} statement as an MCMC object (again, more about that very soon).
-
-What is the object \texttt{out} in this case? Most confusingly, it is a list of MCMC objects but not yet an MCMC list. We convert the garden-variety list \texttt{out} to the MCMC list \texttt{zmP} with the command \texttt{zmP = mcmc.list(out)}. We also stop the cluster \texttt{cl} to free up our computer's resources with the command \texttt{stopCluster(cl)}. It is worth noting that the MCMC list \texttt{zmP} you just created will be equivalent to the MCMC list \texttt{zm} you made in section \ref{sssec:Stepping through a JAGS run}. The structure of these objects and how to manipulate them is the subject of the next section.
-
-\begin{algorithm}
-\begin{Verbatim}[frame=single]
-cl <- makeCluster(3)
-
-pidList <- NA
-for(i in 1:3){
-  pidNum <- capture.output(cl[[i]])
-  start <- regexpr("pid", pidNum)[[1]]
-  end <- nchar(pidNum)
-  pidList[i] <- substr(pidNum, (start + 4), end)}
-
-initsP = list(
-  list(K = 1500, r = .2, sigma = 1, 
-  	.RNG.name = "base::Mersenne-Twister", .RNG.seed = 1),
-  list(K = 1000, r = .15, sigma = .1,
-  	.RNG.name = "base::Marsaglia-Multicarry", .RNG.seed = 22),
-  list(K = 900, r = .3, sigma = .01,
-  	.RNG.name = "base::Wichmann-Hill", .RNG.seed = 373))
-
-parallel::clusterExport(cl, c("pidList", "data", "initsP", 
-	"n.adapt", "n.update", "n.iter"))
-
-out <- clusterEvalQ(cl, {
-  library(rjags)
-  processNum <- which(pidList==Sys.getpid())
-  worker_inits <- initsP[[processNum]]
-  jm = jags.model("LogisticJAGS.R", data = data, inits = worker_inits, 
-  n.chains = 1, n.adapt = n.adapt)
-  update(jm, n.iter = n.update)
-  zmCore = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
-  n.iter = n.iter, thin = 1)
-  return(as.mcmc(zmCore))
-}) 
-stopCluster(cl)
-zmP = mcmc.list(out)
-\end{Verbatim}
-\caption{R code for running logisitics JAGS script in parallel}
-\label{alg:R code for parallel jags run}
-\end{algorithm}
-
-\belowcaptionskip=-40pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 5: Coding the logistic regression to run in parallel.}  Append R code (algorithm \ref{alg:R code for parallel jags run}) to the script you made in exercise \ref{ex:logistic regression sequential} to run the JAGS model (algorithm \ref{alg:Linear regression example 2}) in parallel and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. Use the \texttt{proc.time} function in R to compare the time required for the sequential and parallel JAGS run. If your computer has 3 cores, try running only 2 chains in parallel when doing this exercise. If you have fewer than 3 cores, work with a classmate that has at least 3 cores.
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Coding the logistic regression to run in parallel]{Coding the logistic regression to run in parallel.}
-\label{ex:logistic regression parallel}
-\end{exercise}
-\belowcaptionskip=0pt
 
 \section{Output from JAGS}
 
 \subsection{coda objects}
 
-The \texttt{rjags} package produces output in the form of an mcmc.list object, sometimes referred to as a coda object (in reference to the \texttt{coda} package \citep{Plummer2016coda}). While somewhat non-intuituve in structure, these coda objects effectively encapsulate model output. 
-
+The \texttt{coda.samples} function in \texttt{rjags} package produces output in the form of an mcmc.list object, sometimes referred to as a coda object (in reference to the \texttt{coda} package \citep{Plummer2016coda}, recalling the final movements of symphonies). 
 
 
 \subsubsection{The structure of coda objects}
@@ -617,9 +522,6 @@ Thinning interval = 1
 [2,] 1317.527 0.1984132 0.03435912  847.0633
 [3,] 1205.740 0.2029698 0.03561197  788.5114
 [4,] 1219.347 0.2025454 0.02059334 2358.0146
-[5,] 1334.068 0.2028072 0.02342167 1822.9062
-[6,] 1297.067 0.1916264 0.01886448 2810.0267
-[7,] 1319.495 0.2063581 0.01723530 3366.3722
 ...
 as many rows as you have thinned iterations
 \end{Verbatim}
@@ -655,13 +557,21 @@ attr(,"class")
 
 \belowcaptionskip=-30pt
 \begin{exercise}
+%\end{exercise}
+
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 6: Understanding coda objects.} Modify your code to produce a coda object with 3 chains called \texttt{zm.short}, setting \texttt{n.adapt = 500}, \texttt{n.update = 500}, and \texttt{n.iter = 20}.
+\textbf{Exercise 5: Understanding coda objects.}
 \begin{enumerate}
-\item Output the estimate of $\sigma$ for the third iteration from the second chain.
-\item Output all of the estimates of $r$ from the first chain.
-\item Verify your answers by printing the entire chain, i.e.\ enter \texttt{zm.short} at the console.
+\item Convert the coda object \texttt{zm}, into a data frame using \texttt{df = as.data.frame(rbind(zm[[1]], zm[[2]], zm[[3]]))}  Note the double brackets, which effectively unlist each element of zm, allowing them to be combined. Another way to do this is \texttt{do.call(rbind,zm)}.
+\item Look at the first six rows of the data frame.
+\item Find the maximum value of \texttt{sigma}.
+\item Find the mean of \texttt{r} for the first 1000 iterations.
+\item Find the mean of \texttt{r} after the first 1000 iterations.
+\item Make two publication quality plots of the marginal posterior density of \texttt{K}, one as a smooth curve and the other as a histogram.
+\item Compute the probability that \texttt{K} < 1600. Hint: what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function \texttt{ecdf()}.
+\item Compute the probability that 1000 < \texttt{K} < 1300.
+\item Compute the .025 and .975 quantiles of \texttt{K}.  Hint--use the R \texttt{quantile()} function. This is an equal-tailed Bayesian credible interval on K.
 \end{enumerate}
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
@@ -672,20 +582,33 @@ attr(,"class")
 
 It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is describe in Box 1.
 
-\newpage 
-
 \begin{mdframed}[frametitle={Box 1: Using R to calculate derived quantities from MCMC objects}, backgroundcolor=black!10]
-One of the most powerful benefits of Bayesian analysis using MCMC is the ability to make inference on \emph{derived} quanties using what is called the equivariance principle (Hobbs and Hooten \citeyearpar{hobbs2015bayesian} page 194), which simply says that any function of a random variable becomes a random variable with its own marginal posterior distribution. This principle allows you to write simple functions in your JAGS code and make inference on quantities that are calculated from the random variables included in the model (e.g., $r$, $K$, $\sigma)$ as you will soon see in the exercises associated with this lab. 
+One of the most powerful benefits of Bayesian analysis using MCMC is the ability to make inference on \emph{derived} quantities using what is called the equivariance principle (Hobbs and Hooten \citeyearpar{hobbs2015bayesian} page 194), which simply says that any function of a random variable becomes a random variable with its own marginal posterior distribution. This principle allows you to write simple functions in your JAGS code and make inference on quantities that are calculated from the random variables included in the model (e.g., $r$, $K$, $\sigma)$ as you will soon see in the exercises associated with this lab. 
 
 \noindent However, what can you do if the function you need to apply is too complex to write out in JAGS? A good example in Tom's work is finding the dominant eigenvalue and eigenvector of projection matrices. What do you do if you need to use a function like R's \texttt{eigen()}? This is where knowing how to ``get under the hood'' with MCMC output stored in coda objects is critical. You simply take output from each iteration, apply the function, and store the result, enabling you to make inference on the stored results in the same way you make inferences on the output from the MCMC itself by creating a ``derived'' chain. This is covered nicely in Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 8.3.
-\end{mdframed}
 
+\end{mdframed}  
 
 \subsubsection{Summarizing coda objects with the \texttt{MCMCvis} package}
 
-Manipulating and summarizing coda objects manually can be tedious work prone to coding errors. Fortunately there are existing tools to help out with these tasks. The \texttt{MCMCvis} package \citep{youngflesh2018} provides a series of functions to summarize, manipulate, and visualize model output (a full tutorial for \texttt{MCMCvis} can be run with \texttt{vignette('MCMCvis')}). For example, you can obtain a summary of statistics from MCMC chains contained in a coda object by loading the \texttt{MCMCvis} package (using \texttt{library(MCMCvis)}) and then running \texttt{MCMCsummary(co)} (where \texttt{co} is a coda object produced from your model run). All of the variables in the \texttt{variable.names = c( )} argument to the \texttt{coda.samples} function will be summarized. For the logistic example, \texttt{MCMCsummary(zm)} produces:
+Manipulating and summarizing coda objects manually can be tedious work prone to coding errors. Fortunately there are existing tools to help out with these tasks. The \texttt{MCMCvis} package \citep{youngflesh2018}\footnote{Casey Youngflesh took our Bayesian short course at SESYNC in 2016. He has obviously made lots of progress since then!} provides a series of functions to summarize, manipulate, and visualize model output.  You should get the package  \texttt{MCMCvis} and load the library.
 
+This is the first year we have used \texttt{MCMCvis} in teaching, although Chris has used it in his work for some time now.  We are adopting it for two reasons.  First, it will work with coda objects produced by any of the flavors of MCMC software, JAGS, OpenBUGS, WinBUGS and Stan, or for matrices produce from your own MCMC samplers. It allows you to run chains in parallel and make useful inference on the parallel output, which must be a coda object.  A related advantage is the you will need to produce only a single inferential object while the past, we produced two (coda objects and jags objects), almost doubling the computation time.
 
+We cover the essential elements here, but you should must work through the  full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
+
+ \texttt{MCMCvis} includes five functions that we will use a lot:
+\begin{itemize}
+\item \texttt{MCMCsummary} - summarize MCMC output for particular parameters of interest
+\item \texttt{MCMCpstr} - summarize MCMC output and extract posterior chains for particular parameters of interest while preserving parameter structure
+\item \texttt{MCMCtrace} - create trace and density plots of MCMC chains for particular parameters of interest
+\item \texttt{MCMCchains} - easily extract posterior chains from MCMC output for particular parameters of interest
+\item \texttt{MCMCplot} - create caterpillar plots from MCMC output for particular parameters of interest 
+\end{itemize}
+
+\subsubsection{Tabular summaries with \texttt{MCMCsummary}}
+
+You can obtain a summary of statistics from MCMC chains contained in a coda object by loading the \texttt{MCMCvis} package (using \texttt{library(MCMCvis)}) and then running \texttt{MCMCsummary(co)} (where \texttt{co} is a coda object produced from your model run). All of the variables in the \texttt{variable.names = c( )} argument to the \texttt{coda.samples} function will be summarized. For the example here, \texttt{MCMCsummary(zm)} produces:
 
 \begin{Verbatim}[fontsize=\small]
          mean     sd    2.5%     50%   97.5% Rhat
@@ -705,15 +628,16 @@ mean   sd
 0.20 0.01 
 \end{Verbatim}
 
-\noindent To get the upper and lower 95\% quantiles on $K$, 
+\noindent To get the upper and lower 95\% quantiles on $K$ from the tabular summary: 
 
 \begin{Verbatim}
 > MCMCsummary(zm)[1, c(1, 5)]
    mean   97.5% 
 1238.19 1377.56
 \end{Verbatim}
+We will learn easier, less error-prone ways to do this below.
 
-\noindent To more easily summarize and organize this output, the parameter name of interest can be passed directly to the \texttt{params} argument of the \texttt{MCMCsummary} function. For example, to output information for $\sigma$,
+\noindent  The parameter name of interest can be passed directly to the \texttt{params} argument of the \texttt{MCMCsummary} function to more easily summarize output. For example, to see statistics for the marginal posterior distribution of $\sigma$,
 
 \begin{Verbatim}
 > MCMCsummary(zm, params = 'sigma')
@@ -721,16 +645,60 @@ mean   sd
 sigma 0.03  0 0.02 0.03  0.04    1
 \end{Verbatim}
 
+There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{signif = }) or the number of decimal places (\texttt{round =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
+
 \bigskip
 \belowcaptionskip=-20pt
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 8: Using \texttt{MCMCchains} to manipulate chains from \texttt{zm}.} Using the posterior chains:
+\textbf{Exercise 6: Using \texttt{MCMCsummary}} 
 \begin{enumerate}
-\item Find the maximum value of $\sigma$.
-\item Estimate the mean of $r$ for the first 1000 and last 1000 iterations in the chain.
-\item Estimate the probability that the parameter $K$ exceeds 1600 and the probability that $K$ falls between 1000 and 1300. (Hint: this can be done multiple ways, one of which is with the ecdf() function.)
+\item Summarize the coda output from the logistic model with 4 significant digits.  Include Rhat and effective sample size diagnostics (more about these soon). 
+\item Summarize the coda output for  \texttt{r} alone.  
+\end{enumerate}
+\end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Using \texttt{MCMCsummary} to summarize \texttt{zm}]{Using \texttt{MCMCsummary} to summarize \texttt{zm}.}
+\label{ex:MCMCsummary}
+\end{exercise}
+\belowcaptionskip=0pt
+
+\subsubsection{Extracting portions of coda object with \texttt{MCMCchains}}
+
+\texttt{MCMCchains} can be used to extract chains from coda object.  These can then be summarized using the usual R functions. For example
+
+\begin{Verbatim}
+> r.ex = MCMCchains(zm, params="r")
+> dim(r.ex)
+[1] 30000     1
+> head(r.ex)
+             r
+[1,] 0.1840311
+[2,] 0.1993270
+[3,] 0.1914906
+[4,] 0.1930457
+[5,] 0.1862841
+[6,] 0.1897411
+> mean(r.ex)
+[1] 0.2007835
+> ecdf(r.ex)(.18)
+[1] 0.01743333
+> quantile(r.ex,c(.025,.975))
+     2.5%     97.5% 
+0.1816953 0.2201085
+ \end{Verbatim}
+
+\bigskip
+\belowcaptionskip=-20pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 7: Using \texttt{MCMCchains}} 
+\begin{enumerate}
+\item Extract the chains for \texttt{r} and \texttt{sigma} as a data frame using \texttt{MCMCchains} and compute their .025 and .975 quantiles from the extracted object.  Display three significant digits.
+\item Make a publication quality histogram for the chain for \texttt{sigma}. Indicate the .025 and .975 Bayesian equal-tailed credible interval value with  vertical red lines.
+\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDinterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
 \end{enumerate}
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
@@ -739,64 +707,92 @@ sigma 0.03  0 0.02 0.03  0.04    1
 \end{exercise}
 \belowcaptionskip=0pt
 
+\subsubsection{Extracting portions of coda objects while preserving their structure using  \texttt{MCMCpstr}}
 
-\noindent which produces the median and upper and lower 95\% quantiles for $\mu$, preserving its vector structure. \texttt{FUN} can also be a function your write yourself.
+The coda object is strictly tabular -- it is a list of matrices with the number of elements of the list equal to the number of chains. So, for example three chains will produce a list of three matrices.  The columns of  each matrix include the variables specified in the \texttt{variable.names = ...} argument of \texttt{coda.samples}. The rows hold the output of individual iterations. This is fine when the parameters you are estimating are entirely scalar, but sometimes you want posterior distributions for all of the elements of vectors or matrices and in this case, the coda object can be quite cumbersome because the elements of vectors and matrices loose their structure, being shoe-horned into rows an a matrix.
 
-\bigskip
+We have been working with scalars, \texttt{r, K,} and \texttt{sigma} up to now.  We will often seek inference on vectors, particularly when we want to make predictions.  These predictions can be made at the in-sample $x's$ of for out-of-sample $x's$ that we specify. For example, take a look at your JAGS model.  The quantity \texttt{mu[i]} is a the prediction of our deterministic model for each of the \texttt{x[i]}.  The quantity \texttt{mu} is a vector, a \emph{derived quantity}.  We call it a derived quantity because it is a function of random variables in the model. The equivariance property of MCMC means that any quantity that is a function of random variables becomes a random variable with its own marginal posterior distribution.
+
+Presume you would like to get posterior distributions on the \emph{predictions} of your regression model for each of the \texttt{x} values. Note in the JAGS code that we make this prediction as \texttt{ mu[i] <- r - r / K * x[i]}. Making predictions requires no more than adding \texttt{mu} to the list of random variables being monitored by changing your \texttt{coda.samples} statement to read:
+
+\begin{Verbatim}
+zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "mu"), 
+  n.iter = n.iter, thin = 1)
+\end{Verbatim}
+
+\noindent Instead of using \texttt{MCMCsummary} to summarize your data, use \texttt{MCMCpstr}, to preserve the structure of the \texttt{mu} parameter a vector of length equal to the number of data points. \texttt{MCMCsummary} returns the mean of each parameter by default, but any function can be specified using the \texttt{func} argument. The format is a list, with each parameter listed as a separate element in that list.  Any parameter of interest can be specified, as with the other functions in the \texttt{MCMCvis} package. Use the following general syntax  to summarize the coda object while preserving the parameter structure:
+\begin{Verbatim}
+MCMCpstr(co, params = 'PARAMS', func = FUN)
+\end{Verbatim}
+
+\noindent where \texttt{co} is a coda object, \texttt{PARAMS} are the parameters of interest (all parameters by default), and \texttt{FUN} is the function of interest (mean by default). Only one function can be applied at a given time. The most useful of these are illustrated here, but there are an infinite number of possibilities, including functions that you write.
+
+\begin{Verbatim}
+> BCI <- MCMCpstr(zm, params = "mu",  func = function(x)
+   quantile(x, probs = c(.025,.5,.975)))  
+> BCI
+$mu
+              2.5%        50%      97.5%
+mu[1]  0.172880664 0.19043630 0.20734240
+mu[2]  0.171524527 0.18881415 0.20546368
+mu[3]  0.165875964 0.18213155 0.19775789
+.
+.
+.
+mu[48] 0.018303545 0.03273251 0.04706730
+mu[49] 0.016248511 0.03093309 0.04551707
+mu[50] 0.006896648 0.02279023 0.03858062
+\end{Verbatim}
+
+Be sure you understand that \texttt{MCMCpstr()} returns a \emph{list}, not a vector or matrix. Each element of the list is named for the parameters listed in the \texttt{params = option}. Obtaining the matrices computed above requires \texttt{BCI\$mu}. Here is an example for more than one variable:
+
+\begin{Verbatim}
+library(HDInterval)
+> HPDI <-  MCMCpstr(zm, params = c("r", "K"), func = function(x) 
+  hdi(x, .95))  
+> HPDI
+$r
+      lower     upper
+r 0.1827305 0.2202985
+$K
+     lower    upper
+K 1117.529 1357.458
+\end{Verbatim}
+
 \belowcaptionskip=-40pt
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 11: Plotting data using the MCMCpstr formatting.} For the logistic model:
+\textbf{Exercise 8: Plotting model predictions using the MCMCpstr formatting.} 
+
 \begin{enumerate}
-\item Plot the observations of growth rate as a function of observed population size.
-\item Overlay the median of the model predictions as a solid line.
-\item Overlay the 95\% credible intervals as dashed lines.
-\item Prepare a separate plot of the posterior density of $K$.
+\item Plot the observations of per-capita growth rate as a function of observed population size. Be sure that the population size data are sorted from lowest to highest as described above
+\item Overlay the median of the model predictions as a solid black line. 
+\item Overlay the 95\% credible intervals as dashed lines in red.  
+\item Overlay the 95\% highest posterior density intervals as dashed lines in blue.
+\item What do you note about these two intervals? Will this always be the case? Why or why not?
+\item What do the dashed lines represent?  What inferential statement can we make about \texttt{mu} relative these lines?
 \end{enumerate}
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
-\caption[Plotting data using the \texttt{MCMCpstr} formatting]{Plotting data using the \texttt{MCMCpstr} formatting.}
+\caption[Plotting model predictions and data using the \texttt{MCMCpstr} formatting]{Plotting model predictions and data using the \texttt{MCMCpstr} formatting.}
 \label{ex:plotting objects}
 \end{exercise}
 \belowcaptionskip=0pt
 
-\subsubsection{Manipulating model output}
-
-Posterior chains can be extracted from coda objects to more easily work with these values using the \texttt{MCMCchains} function. As with the \texttt{MCMCsummary} function, parameters of interest can be specified directly in the function. Posterior chains for $K$ and $\sigma$ can be extracted with the following:
-
-\begin{Verbatim}
-> chains <- MCMCchains(zm, params = c('K', 'sigma'))
-> head (chains)
-            K      sigma
-[1,] 1218.564 0.02704078
-[2,] 1221.706 0.02821110
-[3,] 1161.155 0.02331585
-[4,] 1162.230 0.02324987
-[5,] 1160.257 0.02308024
-[6,] 1150.235 0.02923590
-\end{Verbatim}
-	
-\noindent where \texttt{chains} is a matrix with values from each position of the posterior chain, and \texttt{zm} is the coda object. From here, any sort of manipulation can be conducted on these values in R, just as you would a typical matrix.
-
 \subsubsection{Visualizing model output}
 
-Posterior densities (representing the model estimate for each parameter and the uncertainty about those parameters) can be easily visualized with caterpillar plots produced with the \texttt{MCMCplot} function. Once again, parameters of interest can be fed directly to the function.
+Posterior densities (representing the model estimate for each parameter and their uncertainty) can be easily visualized with caterpillar plots produced with the \texttt{MCMCplot} function. Once again, the coda object and parameters are fed directly to the function:
 
 \begin{Verbatim}
 MCMCplot(co, params = c('alpha, 'beta''))
 \end{Verbatim}
 
-\noindent where \texttt{co} is a coda object and \texttt{alpha} and \texttt{beta} are the parameters of interest.
-
-
-
-\bigskip
 \belowcaptionskip=-40pt
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 9: Creating caterpillar plots with \texttt{MCMCplot}.} Use the \texttt{MCMCplot} function to create caterpillar plots to visualize the posterior densities for \texttt{r} and \texttt{sigma} using the coda object \texttt{zm} from earlier. Use \texttt{?MCMCplot} to explore different plotting options.
+\textbf{Exercise 9: Creating caterpillar plots with \texttt{MCMCplot}.} Use the \texttt{MCMCplot} function to create caterpillar plots to visualize the posterior densities for \texttt{mu} using the coda object \texttt{zm} from earlier.  Then use \texttt{?MCMCplot} to explore different plotting options.  There are \textbf{lots} of these options, including ways to make the plots publication quality, show overlap with zero, etc.
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
 \caption[Creating caterpillar plots with \texttt{MCMCplot}]{Creating caterpillar plots with \texttt{MCMCplot}.}
@@ -804,59 +800,18 @@ MCMCplot(co, params = c('alpha, 'beta''))
 \end{exercise}
 \belowcaptionskip=0pt
 
-\subsubsection{Alternative formatting of coda objects using \texttt{MCMCpstr}}
+\section{Checking convergence}
 
-The coda object is strictly tabular -- it is a list of matrices where each element of the list an MCMC chain with rows holding iterations and columns holding parameters being monitored. This is fine when the parameters you are estimating are entirely scalar, but sometimes you want posterior distributions for all of the elements of vectors or matrices and in this case, the coda object can be quite cumbersome. For example, presume you would like to get posterior distributions on the \emph{predictions} of your regression model. To do this, you wold simply ask JAGS to monitor the values of $\mu$ by changing your \texttt{coda.samples} statement to read:
-
-\begin{Verbatim}
-zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "mu"), 
-  n.iter = n.iter, thin = 1)
-\end{Verbatim}
-
-
-\bigskip
-\belowcaptionskip=-40pt
-\begin{exercise}
-\begin{mdframed}
-\doublespacing
-\textbf{Exercise 10: Vectors in coda objects.} Modify your code to include estimates of $\mu$ and summarize the coda object. What if you wanted to plot the model predictions with 95\% credible intervals against the data. How would you do that?
-\end{mdframed}
-\captionsetup{textformat=empty, labelformat=empty}
-\caption[Vectors in coda objects]{Vectors in coda objects.}
-\label{ex:coda vectors}
-\end{exercise}
-\belowcaptionskip=0pt
-
-
-Instead of using \texttt{MCMCsummary} to summarize your data, use \texttt{MCMCpstr}, to preserve the (vector) structure of the $mu$ parameter. This output is similar to that created with the \texttt{jags.samples} function (as opposed to the \texttt{coda.samples} function) used to fit the model (with the added benefit that there is no need to rerun your model). This function returns the mean of each parameter by default, but any function can be specified using the \texttt{func} argument. The format is a list, with each parameter listed as a separate element in that list. As with the other functions in the \texttt{MCMCvis} package, any parameter of interest can be specified.
-
-For example, to summarize the coda object while preserving the parameter structure, the following can be used:
-
-
-\begin{Verbatim}
-MCMCpstr(co, params = 'PARAMS', func = FUN)
-\end{Verbatim}
-
-\noindent where \texttt{co} is a coda object, \texttt{PARAMS} are the parameters of interest (all parameters by default), and \texttt{FUN} is the function of interest (mean by default). Only one function can be applied at a given time. The most useful of these are illustrated here:
-
-\begin{Verbatim}
-mn <- MCMCpstr(zm, func = median)
-LCI <- MCMCpstr(zm, func = function(x) quantile(x, 0.025))
-UCI <- MCMCpstr(zm, func = function(x) quantile(x, 0.975))
-\end{Verbatim}
-
-
-\section{Checking convergence using \texttt{MCMCtrace}}
-
-Remember from lecture that the MCMC chain will provide a reliable estimate of the posterior distribution only after it has converged, which means that it is no longer sensitive to initial conditions and that the estimates of parameters of the posterior distribution will not change appreciably with additional iterations. Both \texttt{MCMCvis} and the \texttt{coda} packages contains tools for evaluating and manipulating MCMC chains produced in coda objects. We urge you to look at the package documentation in R Help, because we will use only a few of the tools it offers. There are several ways to check convergence, but we will use four here: 1) visual inspection of density and trace plots 2) Gelman and Rubin diagnostics, 3) Heidelberger and Welch diagnostics, and 4) Raftery diagnostics. Also see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.
+Recall from lecture that MCMC output will provide a reliable approximation of the marginal posterior distribution of unobserved quantities only after convergence, which means that adding more iterations will not appreciably change the shape of  marginal posterior distributions. Both \texttt{MCMCvis} and the \texttt{coda} packages contains tools for evaluating and manipulating MCMC chains produced in coda objects. We urge you to look at the package documentation in R Help, because we will use only a few of the tools it offers. There are several ways to check convergence, but we will use four here: 1) visual inspection of density and trace plots 2) Gelman and Rubin diagnostics, 3) Heidelberger and Welch diagnostics, and 4) Raftery diagnostics. Also see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.
 
 
 \subsection{Trace and density plots}
 
-Trace plots (showing parameter estimates at each iteration in the chain over time) as well as posterior density plots can be plotted with \texttt{MCMCtrace}. The \texttt{type} argument can be used to specify which types of plots should be generated (trace, density, or both). As with other function in the \texttt{MCMCvis} package, parameters of interest can be specified. You will examine how to use these for diagnosing convergence in the subsequent exercise.
+Trace plots (showing parameter estimates at each iteration in the chain over time) as well as posterior density plots can be plotted with \texttt{MCMCtrace}. The \texttt{type} argument can be used to specify which types of plots should be generated (trace, density, or both). As with other function in the \texttt{MCMCvis} package, parameters of interest can be specified. Trace plots indicate convergence if they are horizontal bands with all chains mixed within the band.
 
+\texttt{MCMCtrace} is an exceptionally useful function allowing you to overlay priors and marginal posteriors (computing their \%overlap) as well as overlaying marginal posteriors on values of parameters used to generate simulated data.  Look at the \texttt{MCMCvis} vignette to learn more about these useful capabilities. 
 
-\subsection{Gelman and Rubin diagnostics (Rhat)}
+\subsection{Gelman and Rubin diagnostics (Rhat)\label{Gelman}}
 
 The standard method for assuring convergence is the Gelman and Rubin diagnostic\index{Gelman and Rubin diagnostic} \citep{Gelman_Rubin}, which \enquote{determines when the chains have forgotten their initial values, and the output from all chains is indistinguishable} \citep{R-Core-Team:2015fk}. This is also commonly referred to as Rhat. It requires at least 2 chains to work. For a complete treatment of how this works, see Hobbs and Hooten \citeyearpar{hobbs2015bayesian} section 7.3.4.2. We can be sure of convergence if all values for point estimates and 97.5\% quantiles approach 1. More iterations should be run if the 95\% quantile $> 1.05$. \texttt{MCMCsummary} displays Rhat values by default for each parameter. It can be calculated with the following:
 
@@ -864,8 +819,9 @@ The standard method for assuring convergence is the Gelman and Rubin diagnostic\
 MCMCsummary(codaObject)
 \end{Verbatim}
 
-
 Reliable inference from the Gelman and Rubin diagnostic requires initial values that are diffuse relative to marginal posterior distribution, that is, that are in the extreme tails of the distribution. How do you set these values? Run a single chain until things look right. Then choose initial values that are on well in the tails of the distribution on either side of the mean.
+
+The effective sample size \texttt{n.eff} is a particularly useful quantity, not reported by most MCMC software.  Think about it this way.  Imagine you have 10,000 iterations.  You might think that the sample size for computing statistics is, well, 10,000 and, yes, in fact, when you compute a mean it is based on n = 10,000.  However, the information about that mean is less than 10,000 when chains are autocorrelated, that is when a value at iteration $k$ is more similar to the value a $k+1$ than to the value at $k+10$.  Therefore, the \emph{effective} sample size can be far less than 10,000.  This is what \texttt{n.eff} is telling you.  You may have a converged chain but will want more iterations to simply increase the accuracy of numeric approximations of statistics.
 
 \subsection{Heidelberger and Welch diagnostics}
 
@@ -887,7 +843,7 @@ The Raftery diagnostic\index{Raftery diagnostic} \citet{Raftery_et_al1995} is us
 \begin{exercise}
 \begin{mdframed}
 \doublespacing
-\textbf{Exercise 12: Assessing convergence.} Rerun the logistic model with \texttt{n.adapt = 100}. Then do the following:
+\textbf{Exercise 10: Assessing convergence.} Rerun the logistic model with \texttt{n.adapt = 100}. Then do the following:
 \begin{enumerate}
 \item Keep the next 500 iterations. Assess convergence visually with \texttt{MCMCtrace} and with the Gelman-Rubin, Heidelberger and Welch, and Raftery diagnostics.
 \item Update another 500 iterations and then keep 500 more iterations. Repeat your assessment of convergence. 
@@ -901,13 +857,196 @@ The Raftery diagnostic\index{Raftery diagnostic} \citet{Raftery_et_al1995} is us
 \end{exercise}
 \belowcaptionskip=0pt
 
+\subsection{Effective sample size (n.eff)\label{n.eff}}
+MCMC chains will almost always have some degree of autocorrelation, which is to say samples that are close to each other in the chain will be more similar than samples that are far apart.  One hundred samples that are highly correlated may only contain as much information about the marginal posterior as 20 samples that are truly independent.  This lead to the concept of effective sample size, abbreviated by MCMCsummary as \texttt{n.eff}.  The effective sample size is an estimate of the number of samples drawn that are independent.  It is $$\text{ESS} = \frac{n}{1+2\sum_1^\infty \rho(k)}$$ where $\rho(k)$ is the correlation between samples at lag $k$.
 
+\section{Parallelizing your JAGS run (optional)}
 
+This section is completely optional and you can safely ignore it for the entire course. However, at some point in the future you will likely want to parallelize a JAGS run, either on your own computer or on a high performance cluster or cloud computing service such as AWS, and this can be confusing. We suggest either revisiting this section when you are ready to do that or if you have completed the rest of the primer and are looking to tackle something a bit more challenging.
 
+Running your model using the code in section \ref{sssec:Stepping through a JAGS run} will cause JAGS to run \emph{sequentially}, meaning JAGS will first iterate chain 1, followed by chain 2, all the way through chain $n$. There is nothing wrong with this approach, but you can significantly speed up time to convergence by iterating all chains \emph{simultaneously}, i.e.\ running the chains in parallel. To do this, we will instruct R to have JAGS run one chain per thread,\footnote{Here is \href{http://www.howtogeek.com/194756/cpu-basics-multiple-cpus-cores-and-hyper-threading-explained/}{short description} explaining the difference between CPUs, multiple cores, and hyper-threading.} while leaving at least one core free to handle all other computer operations. To get started, load the \texttt{parallel} package in R and execute the command \texttt{detectCores()} to determine how many cores (i.e., threads) your computer has. If you have a 2 core machine that is hyper-threaded, there are 4 threads, which is what is reported by \texttt{detectCores()}. Each thread will run an R instance called a worker, where each worker is given a unique identifier called a PID (you can think of this as each worker's name, something we will come back to at the end of this section). We will refer to the group of R workers as a cluster. Assuming you have at least 4 threads, the statement:
+
+\begin{Verbatim}
+cl <- makeCluster(3)
+\end{Verbatim}
+
+\noindent will create a cluster of three R workers, one per thread. 
+
+Instead of using fixed initial values as we did in \ref{sssec:Stepping through a JAGS run}, we will assign initial values randomly to each chain using the function:
+
+\begin{Verbatim}
+initsP = function() {list(K = runif(1, 10, 4000), r = runif(1, .01, 2), 
+  sigma = runif(1, 0, 2),  .RNG.name = "base::Mersenne-Twister", 
+  .RNG.seed = runif(1, 1, 2000))}
+}\end{Verbatim}
+
+\noindent There are a few things worth noting in this function, so study it carefully. The usual \texttt{inits} list has been replaced with a a function that uses \texttt{runif()} to generate random initial values. You need to specify the parameters to be initialized here and some reasonable ranges for their starting values (this is done with the parameters governing the \texttt{runif()} functions themselves). Every time \texttt{initP()} is invoked, it will produce a new set of initial values. 
+
+Even if we make sure that the initial values are different for each chain running in parallel, we need to consider how JAGS handles randomization\footnote{In R random numbers are not truly random. Instead, they are generated using a seed value (set.seed) and a pseudo-random number generator or RNG (the default in R is Mersenne-Twister, but others exist). This RNG is a function that uses the seed to generate a deterministic sequence of numbers that approximates a sequence of truly random numbers, which is stored in a vector called \texttt{.Random.seed}. The first value of \texttt{.Random.seed} identifies the RNG. The length and structure of the remaining portion of the vector depends on the RNG itself. For Mersenne-Twister, the total vector is 625 elements long, the second of which identifies how many of the 623 values have been \q{used up} in creating output from functions that call \texttt{.Random.seed} (runif, rnorm, sample, etc). Once the end of the vector is reached, a fresh set of 623 values replace the first set and the position counter is set to 1. Oddly the initial position counter starts on the 623rd value of the RNG output when first created with set.seed. Invoke set.seed again with a new seed value and you will get an entirely new \texttt{.Random.seed} starting at position 624 (the end of the first set). Invoke \texttt{set.seed} with the same seed value and you will recreate \texttt{.Random.seed} from the beginning.}. JAGS sets its own seed based on the time (based on the time the model was implemented) and random number generator, or RNG (JAGS defaults to Mersenne-Twister just as R does), independently from the RNG and seed specified for its worker. If each worker implements the model at the same time then each chain will have the same \texttt{.Random.seed} vector when performing MCMC. If you have different initial values (or at least one different initial initial value for a free parameter in your model) then the chains will not be identical, even though all chains will have used the same random draws at each step (thanks to the the identical \texttt{.Random.seed}). Is that enough randomization between chains? We are not sure, but a safe approach is to specify the seed and RNG (this is required by JAGS when setting the seed, but you can use the same RNG) for each chain, as well as the initial values. Fortunately, this is easy. We do this by adding \texttt{.RNG.seed} and \texttt{.RNG.name} arguments to the list of initial values for each chain. Here we assign each chain the Mersenne-Twister RNG and select the seed at random in the same fashion as we do the initial values themselves.
+
+We then provide each worker with the R objects \texttt{data}, \texttt{initsP}, \texttt{n.adapt}, \texttt{n.update}, and \texttt{n.iter} using the \texttt{clusterExport} function:
+
+\begin{Verbatim}
+parallel::clusterExport(cl, c("data", "initsP", "n.adapt", "n.update",
+  "n.iter"))
+\end{Verbatim}
+
+\noindent Wee embed our previous R code for running the JAGS model inside the cluster \texttt{cl}. This allows the cluster to direct an identical set of R commands to each worker, collect output from each worker, and combine this output into a list where each element corresponds to the output from a single worker. You can name the MCMC object outputted from each core and the list of all MCMC objects produced by the entire cluster whatever you like. Here we name them \texttt{zm} and \texttt{out}, respectively:
+
+\begin{Verbatim}
+out <- clusterEvalQ(cl, {
+  library(rjags)
+  jm = jags.model("LogisticJAGS.R", data = data, n.chains = 1, 
+  n.adapt = n.adapt, inits = initsP())
+  update(jm, n.iter = n.update)
+  zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
+  n.iter = n.iter, thin = 1)
+  return(as.mcmc(zm))
+}) 
+stopCluster(cl)
+zmP = mcmc.list(out)
+\end{Verbatim}
+
+\noindent Notice how we must now load the \texttt{rjags} library for each worker, meaning \texttt{library(rjags)} needs to be inside the \texttt{clusterEvalQ} function. Each worker then runs a single chain and we use the \texttt{as.mcmc} function to save the output from the \texttt{coda.samples} statement as an MCMC object. What is the object \texttt{out} in this case? Most confusingly, it is a list of MCMC objects but not yet an MCMC list. We convert the garden-variety list \texttt{out} to the MCMC list \texttt{zmP} with the command \texttt{zmP = mcmc.list(out)}.  We also stop the cluster \texttt{cl} to free up our computer's resources with the command \texttt{stopCluster(cl)}. It is worth noting that the MCMC list \texttt{zmP} you just created will be equivalent to the MCMC list \texttt{zm} you made in section \ref{sssec:Stepping through a JAGS run}. The structure of these objects and how to manipulate them is the subject of the next section.
+
+\begin{algorithm}
+\begin{Verbatim}[frame=single]
+library(parallel)
+
+cl <- makeCluster(3)
+
+initsP = function() {list(K = runif(1, 10, 4000), r = runif(1, .01, 2), 
+  sigma = runif(1, 0, 2),  .RNG.name = "base::Mersenne-Twister", 
+  .RNG.seed = runif(1, 1, 2000))}
+
+parallel::clusterExport(cl, c("data", "initsP", "n.adapt", "n.update", 
+  "n.iter"))
+
+out <- clusterEvalQ(cl, {
+  library(rjags)
+  jm = jags.model("LogisticJAGS.R", data = data, n.chains = 1, 
+  n.adapt = n.adapt, inits = initsP())
+  update(jm, n.iter = n.update)
+  zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
+  n.iter = n.iter, thin = 1)
+  return(as.mcmc(zm))
+}) 
+stopCluster(cl)
+zmP = mcmc.list(out)
+\end{Verbatim}
+\caption{R code for running logistics JAGS script in parallel with random initial values}
+\label{alg:R code for parallel jags run}
+\end{algorithm}
+
+There is an important caveat concerning the use of random initial values for JAGS running either in parallel or sequentially.  Although choosing initial values randomly is widely done by accomplished Bayesian analysts, a problem can result. The Gelman diagnostic, discussed in \ref{Gelman}, requires that some of the initial values are diffuse relative to the posterior mean, i.e. there should be some that are well above it and some well below.  You cannot be sure this is the case when initial values are random. Our general advice is to use random initial values when fitting models in JAGS. When you have you model running, converging, and producing sensible output, choose fixed but diffuse initial values \textit{relative to each parameter's posterior} prior to publishing.
+
+This creates a bit of a roadlock when running JAGS in parallel, since it is not clear how to have R pass different initial values to each R workers. To do this, we need to learn the names of our faithful workers. Just who are these folks, anyway? The function \texttt{capture.output()} will tell as the PID (or name) of any worker in a cluster. For example, \texttt{capture.output(cl[[1]])} tells us the PID of our first worker in the cluster \texttt{cl}:
+
+\begin{Verbatim}[fontsize=\small]
+"node of a socket cluster on host ‘localhost’ with pid 24752"
+\end{Verbatim}
+
+\noindent This worker's PID is annoyingly embedded in a text string, but we can write a short user function using the \texttt{word()} function from the \texttt{stringer} package to access it, along with all the other PIDs in the cluster:
+
+\begin{Verbatim}
+myWorkers <- NA
+for(i in 1:3) myWorkers[i] <- word(capture.output(cl[[i]]),-1)
+\end{Verbatim}
+
+\noindent The \texttt{myWorkers} object is simply a vector of the names of all your recently created R workers, each patiently standing by to manage JAGS for a single MCMC chain. So, say hello to:
+
+\begin{Verbatim}[fontsize=\small]
+> myWorkers
+[1] "24752" "24762" "24772"
+\end{Verbatim}
+
+\noindent We must not forget to provide each worker with this list of all the worker names:
+
+\begin{Verbatim}
+parallel::clusterExport(cl, c("myWorkers", "data", "initsP", "n.adapt", 
+  "n.update", "n.iter"))
+\end{Verbatim}
+
+We return to using fixed inits, but this time we also specify the RNG and seed for each JAGS chain as done in algorithm \ref{alg:R code for parallel jags run}. Note that \texttt{initsP} is not a function here:
+
+\begin{Verbatim}
+initsP = list(
+  list(K = 1500, r = .2, sigma = 1, RNG.seed = 1,
+    .RNG.name = "base::Mersenne-Twister"),
+  list(K = 1000, r = .15, sigma = .1, RNG.seed = 23,
+    .RNG.name = "base::Mersenne-Twister"),
+  list(K = 900, r = .3, sigma = .01, .RNG.seed = 255,
+    .RNG.name = "base::Mersenne-Twister"))
+\end{Verbatim}
+
+So how do we tell the first worker to use the first set of initial values from \texttt{initsP}, the second worker the second set, and so on and so forth? We do this by asking each worker its own name (PID) with the \texttt{Sys.getpid()} function before assigning it a set of initial values from \texttt{initsP} based on its corresponding position in the \texttt{myWorkers} vector:
+
+\begin{Verbatim}
+out <- clusterEvalQ(cl, {
+  library(rjags)
+  jm = jags.model("LogisticJAGS.R", data = data, n.chains = 1, 
+  n.adapt = n.adapt, inits = initsP[[which(myWorkers==Sys.getpid())]])
+  update(jm, n.iter = n.update)
+  zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
+  n.iter = n.iter, thin = 1)
+  return(as.mcmc(zm))
+}) 
+\end{Verbatim} 
+ 
+\noindent This is equivalent to asking all the workers to line up in a row alphabetically by name before handing them individual tasks depending on their position in line. 
+
+\vspace{2.5cm}
+
+\begin{algorithm}
+\begin{Verbatim}[frame=single]
+library(parallel)
+library(stringr)
+
+cl <- makeCluster(3)
+myWorkers <- NA
+for(i in 1:3) myWorkers[i] <- word(capture.output(cl[[i]]),-1)
+
+initsP = list(
+  list(K = 1500, r = .2, sigma = 1, RNG.seed = 1,
+    .RNG.name = "base::Mersenne-Twister"),
+  list(K = 1000, r = .15, sigma = .1, RNG.seed = 23,
+    .RNG.name = "base::Mersenne-Twister"),
+  list(K = 900, r = .3, sigma = .01, .RNG.seed = 255,
+    .RNG.name = "base::Mersenne-Twister"))
+
+parallel::clusterExport(cl, c("myWorkers", "data", "initsP", 
+  "n.adapt", "n.update", "n.iter"))
+
+out <- clusterEvalQ(cl, {
+  library(rjags)
+  jm = jags.model("LogisticJAGS.R", data = data, n.chains = 1, 
+  n.adapt = n.adapt, inits = initsP[[which(myWorkers==Sys.getpid())]])
+  update(jm, n.iter = n.update)
+  zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"), 
+  n.iter = n.iter, thin = 1)
+  return(as.mcmc(zm))
+}) 
+stopCluster(cl)
+zmP = mcmc.list(out)
+\end{Verbatim}
+\caption{R code for running logistics JAGS script in parallel with fixed initial values}
+\label{alg:R code for parallel jags run fixed}
+\end{algorithm}
+
+\belowcaptionskip=-40pt
+\begin{exercise}
+\begin{mdframed}
+\doublespacing
+\textbf{Exercise 11: Coding the logistic regression to run in parallel.}  Append R code (algorithm \ref{alg:R code for parallel jags run}) to the script you made in exercise \ref{ex:logistic regression sequential} to run the JAGS model (algorithm \ref{alg:Linear regression example 2}) in parallel and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. Use the \texttt{proc.time} function in R to compare the time required for the sequential and parallel JAGS run. If your computer has 3 threads, try running only 2 chains in parallel when doing this exercise. If you have fewer than 3 threads, work with a classmate that has at least 3 threads. You might be very tempted, in the name of reproducible science, to set the seed inside each worker to the same value. What happens when you do this? Compare the results from this run to the previous run using \texttt{MCMCsummary()} and \texttt{MCMC(trace)}. What happens when you do this? Repeat this exercise with fixed initial values using algorithm \ref{alg:R code for parallel jags run fixed}. \end{mdframed}
+\captionsetup{textformat=empty, labelformat=empty}
+\caption[Coding the logistic regression to run in parallel]{Coding the logistic regression to run in parallel.}
+\label{ex:logistic regression parallel}
+\end{exercise}
+\belowcaptionskip=0pt
 
 \section{Monitoring deviance and calculating DIC}
 
-It is often a good idea to report the deviance of a model which is defined as $-2\,\textrm{log}\left[P\left(y\mid\theta\right)\right]$. To obtain the deviance of a JAGS model you need to do two things. First, you need to add the statement:
+It is often a good idea to report the deviance of a model, defined as $-2\,\textrm{log}\left[P\left(y\mid\theta\right)\right]$. To obtain the deviance of a JAGS model you need to do two things. First, you need to add the statement:
 
 \begin{Verbatim}
 load.module("dic")
@@ -966,11 +1105,9 @@ Some common error messages and their interpretation are found in the table below
 \endfoot
 \hline
 \endlastfoot
-\texttt{Unable to resolve the following parameters: x[1] Either supply values for these nodes with the data or define them on the left hand side of a relation.} & You are using \textbf{x} in a function but have NA for x[1]. You must define x[1] to so perform this operation. See \href{https://martynplummer.wordpress.com/2015/08/09/whats-new-in-jags-4-0-0-part-24-dealing-with-undefined-nodes/}{here}. \\
+\texttt{Unable to resolve the following parameters: x[1] Either supply values for these nodes with the data or define them on the left hand side of a relation.} & You are using \textbf{x} in a function but have NA for x[1]. You must define x[1] to  perform this operation. See \href{https://martynplummer.wordpress.com/2015/08/09/whats-new-in-jags-4-0-0-part-24-dealing-with-undefined-nodes/}{here}. \\
 \hline
 \texttt{Possible directed cycle involving some or all of the following nodes: y[1] y[2]} & You have defined y[1] to depend on y[2] and vice-versa. This is called a directed cycle and is not allowed in JAGS. See \href{https://martynplummer.wordpress.com/2015/08/09/whats-new-in-jags-4-0-0-part-24-dealing-with-undefined-nodes/}{here}. \\
-\hline
-\texttt{Error parsing model file: syntax error on line 9 near "="}  & You used an = instead of <- for assignment.\\
 \hline 
 \texttt{Error: Error in node ... Failure to calculate log density}  & Occurs when there are illegal values on the lhs. For example, variables that take on undefined values, like log of a negative. You will also get this with a Poisson distribution if you give it continuous numbers as data.\\
 \hline 
@@ -1007,7 +1144,7 @@ When using \texttt{gelman.diag( ). Error in chol.default(W) : the leading minor 
 \bibliography{JAGSPrimerBibliography}
 
 \newpage
-\printindex{}
+%\printindex{}
 
 
 \end{document}
