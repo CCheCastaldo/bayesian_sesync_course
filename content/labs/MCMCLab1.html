@@ -139,7 +139,7 @@ $(document).ready(function () {
 </div>
 <div id="motivation" class="section level3">
 <h3><strong>Motivation</strong></h3>
-<p>This problem challenges you to understand how the Markov chain Monte Carlo algorithm takes a multivariate joint distribution and breaks it into a series of univariate, marginal distributions that can be approximated one at a time. There are only two unknowns in this problem, but the same principles and approach would apply if there were two hundred. The accompanying document, <code>MCMCMath.pdf</code>, describes the math that stands behind the coding that you will do here. You should study this thoroughly before proceeding.</p>
+<p>This problem challenges you to understand how the Markov chain Monte Carlo algorithm takes a multivariate joint distribution and breaks it into a series of univariate, marginal distributions that can be approximated one at a time. There are only two unknowns in this problem, but the same principles and approach would apply if there were two hundred. The accompanying document, <code>MCMCMath1.pdf</code>, describes the math that stands behind the coding that you will do here. You should study this thoroughly before proceeding.</p>
 <p><br></p>
 <hr />
 </div>
@@ -162,13 +162,7 @@ n = 100
 y = rnorm(n, theta, sqrt(varsigma.sq))</code></pre>
 </div>
 <p><br></p>
-<ol start="4" style="list-style-type: decimal">
-<li>Write a function called <code>draw_mean</code> that computes the parameters of the posterior distributions for <span class="math inline">\(\theta\)</span> using a normal-normal conjugate relationship where the variance is assumed to be known. The function returns a draw from that distribution. Study the notes relative to this function.</li>
-</ol>
-<button class="button" onclick="toggle_visibility('myDIV2');">
-Answers
-</button>
-<div id="myDIV2" , style="display:none">
+<p>4.We have saved you some time by writing a function called <code>draw_mean</code> that makes draws from the marginal posterior distributions for <span class="math inline">\(\theta\)</span> using a normal-normal conjugate relationship where the variance is assumed to be known. It is vital that you study the <code>MCMCmath.pdf</code> notes relative to this function.</p>
 <p><br></p>
 <pre class="r"><code># normal likelihood with normal prior conjugate for mean, assuming variance is known
 # mu_0 is prior mean
@@ -182,15 +176,10 @@ draw_mean = function(mu_0, sigma.sq_0, varsigma.sq, y){
     param = list(z = z, mu_1 = mu_1, sigma.sq_1 = sigma.sq_1)
     return(param)
 }</code></pre>
-</div>
 <p><br></p>
 <ol start="5" style="list-style-type: decimal">
-<li>Write a function called <code>draw_var</code> that computes the parameters of the posterior distributions for <span class="math inline">\(\varsigma^2\)</span> using a inverse gamma-normal conjugate relationship where the mean is assumed to be known. The function returns a draw from that distribution.</li>
+<li>We have also provided a function called <code>draw_var</code> that makes draws from the marginal posterior distribution for <span class="math inline">\(\varsigma^2\)</span> using a inverse gamma-normal conjugate relationship where the mean is assumed to be known. Study this function relative to the <code>MCMCmath.pdf</code> handout.</li>
 </ol>
-<button class="button" onclick="toggle_visibility('myDIV3');">
-Answers
-</button>
-<div id="myDIV3" , style="display:none">
 <p><br></p>
 <pre class="r"><code># normal likelihood with gamma prior conjugate relationship for variance, assuming mean is known
 # alpha_0 is parameter of prior for variance
@@ -204,7 +193,6 @@ draw_var = function(alpha_0, beta_0, theta, y){
     param = list(z = z, alpha_1 = alpha_1, beta_1 = beta_1)
     return(param)
 }</code></pre>
-</div>
 <p><br></p>
 <ol start="6" style="list-style-type: decimal">
 <li>Check the functions by simulating a large number of data points from a normal distribution using a mean and variance of your own choosing. Store the data points in a vector called <code>y_check</code>. Assume flat priors for the mean and the variance. A vague prior for the inverse gamma has parameters <span class="math inline">\(\alpha_0=.001\)</span> and <span class="math inline">\(\beta_0=.001\)</span>.</li>

@@ -34,7 +34,7 @@ set.seed(10)
 
 ### **Motivation**
 
-This problem challenges you to understand how the Markov chain Monte Carlo algorithm takes a multivariate joint distribution and breaks it into a series of univariate, marginal distributions that can be approximated one at a time.  There are only two unknowns in this problem, but the same principles and approach would apply if there were two hundred.  The accompanying document, `MCMCMath1.pdf`, describes the math that stands behind the coding that you will do here. You should study this thoroughly before proceeding.
+This problem challenges you to understand how the Markov chain Monte Carlo algorithm takes a multivariate joint distribution and breaks it into a series of univariate, marginal distributions that can be approximated one at a time.  There are only two unknowns in this problem, but the same principles and approach would apply if there were two hundred.  The accompanying document, `MCMCMath1.pdf`, describes the math that stands behind the coding that you will do here. You should study this thoroughly before proceeding. 
 
 <br>
 
@@ -67,11 +67,8 @@ y = rnorm(n, theta, sqrt(varsigma.sq))
 
 <br>
 
-4. Write a function called `draw_mean` that computes the parameters of the posterior distributions for $\theta$ using a normal-normal conjugate relationship where the variance is assumed to be known. The function returns a draw from that distribution. Study the notes relative to this function.
+4.We have saved you some time by writing a function called `draw_mean` that makes draws from the marginal posterior distributions for $\theta$ using a normal-normal conjugate relationship where the variance is assumed to be known. It is vital that you study the `MCMCmath.pdf` notes relative to this function.
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
-
-<div id="myDIV2", style="display:none">
 
 <br>
 
@@ -90,15 +87,11 @@ draw_mean = function(mu_0, sigma.sq_0, varsigma.sq, y){
 }
 ```
 
-</div>
 
 <br>
 
-5. Write a function called `draw_var` that computes the parameters of the posterior distributions for $\varsigma^2$ using a inverse gamma-normal conjugate relationship where the mean is assumed to be known. The function returns a draw from that distribution.
+5. We have also provided a function called `draw_var` that makes draws from the marginal posterior distribution for $\varsigma^2$ using a inverse gamma-normal conjugate relationship where the mean is assumed to be known.  Study this function relative to the `MCMCmath.pdf` handout. 
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
-
-<div id="myDIV3", style="display:none">
 
 <br>
 
@@ -117,7 +110,7 @@ draw_var = function(alpha_0, beta_0, theta, y){
 }
 ```
 
-</div>
+
 
 <br>
 
