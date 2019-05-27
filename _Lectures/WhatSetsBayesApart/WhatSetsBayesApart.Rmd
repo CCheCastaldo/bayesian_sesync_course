@@ -18,12 +18,20 @@ transition: fastest
 ## Housekeeping
 
 - Introductions
-- GitHub for course materials
-- Pulling notes just in time
+- GitHub / Website for course materials
+- Getting notes just in time
 - Daily schedule
 - Lecture / exercise mix
 - Working in groups
 - Individual modeling projects
+
+## Pace 
+
+- Challenge
+- Solutions
+  - Questions, questions, questions
+  - Review if needed every day
+  - Advanced problems
 
 ## Readings
 
@@ -45,25 +53,17 @@ What do statements made by journalists, attorneys, and scientists have in common
 
 ## What is this course about?
 
-Building models of socio-ecological processes:
+Gaining inisght about socio-ecological systems by building models
 
 $$[z_{i}\mid \theta_{p}]$$
 
-and linking those models to data:
+and fitting those models to data
 
 $$ [y_{i} \mid z_{i},\theta_{d}] $$
 
 using Bayesian methods.
 
-## Why this course?
 
-\vspace {-1cm}
-
-\center\includegraphics[width=0.85\paperwidth]{../../_Graphics/SokalRohlf.pdf}
-
-## Why this course?
-
-\center\includegraphics[width=0.4\paperwidth]{../../_Graphics/pValues.png}
 
 ## Why this course?
 
@@ -90,12 +90,19 @@ Problems poorly suited to traditional approaches:
 - Multimodal data
 - Derived quantities
 - Forecasting
+- Synthesis
 
 ## Why this course?
 
 SESYNC is dedicated to fostering synthetic, actionable science related to the structure, functioning, and sustainability of socio-environmental systems.
 
 \center \includegraphics[width=0.25\paperwidth]{../../_HeadersEtc/SESYNCBayes/logo.png}
+
+## Why this course?
+
+\vspace {-1cm}
+
+\center\includegraphics[width=0.85\paperwidth]{../../_Graphics/SokalRohlf.pdf}
 
 # Goals
 
@@ -106,13 +113,8 @@ SESYNC is dedicated to fostering synthetic, actionable science related to the st
 - Foster collaboration
 - Build a foundation for self-teaching
 
-## Learning outcomes
 
-\center\includegraphics[width=0.95\columnwidth]{../../_Graphics/BayesianModelingSteps.png}
 
-## Learning outcomes
-
-\center\includegraphics[width=0.35\columnwidth]{../../_Graphics/HobbsModelingProcess.pdf}
 
 ## Learning outcomes
 
@@ -122,8 +124,11 @@ SESYNC is dedicated to fostering synthetic, actionable science related to the st
 - Use software for implementing MCMC. 
 - Develop and implement hierarchical models. 
 - Evaluate model fit.
-- Appreciate possibilities for model selection.
 - Understand papers and proposals using Bayesian methods.
+
+## Learning outcomes
+
+\center\includegraphics[width=0.35\columnwidth]{../../_Graphics/HobbsModelingProcess.pdf}
 
 # Content
 
