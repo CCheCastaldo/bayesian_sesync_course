@@ -36,8 +36,9 @@ Review Hobbs and Hooten chapters 3.5-4.
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
 2. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
-3. [MCMC Gibbs](content/lectures/MCMC1.pdf) & MCMC Lab 1 (optional)
-3. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & MCMC Lab 2 (optional)
+3. [MCMC Gibbs Sampling](content/lectures/MCMC1.pdf) & [MCMC Lab 1](content/labs/MCMCLab1.html)  (optional)
+4. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & [MCMC Lab 2](content/labs/MCMCLab2.html) (optional)
+5. [MCMC Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
 
 Review Hobbs and Hooten chapters 5 and 7
 
@@ -45,7 +46,7 @@ Review Hobbs and Hooten chapters 5 and 7
 
 ##### **Day 4: (6/6) Markov Chain Monte Carlo**
 
-1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & Lab Answers
+1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
 3. [Islands Lab](content/labs/IslandsLab.html) 
 4. Happy Hour at SESYNC 
@@ -58,7 +59,7 @@ Review Hobbs and Hooten chapter 7-8.
 
 1. Bayesian Regression
 2. Writing regression Models Lab (we should discuss this)
-4. Multi-level Mdeling
+4. [Multi-level Modeling](content/lectures/MultiLevelRegression.pdf)
 4. Multi-level Modeling lab
 
 Review Hobbs and Hooten chapter 6.
@@ -73,7 +74,7 @@ Review Hobbs and Hooten chapter 6.
 
 1. Multi-Level Modeling Lab
 2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (if time?)
-3. Intoduction to hierarchical models
+3. Introduction to hierarchical models
 
 Review Hobbs and Hooten chapters 6, 10-12.
 

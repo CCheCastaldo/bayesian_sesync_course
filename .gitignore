@@ -26,3 +26,5 @@
 **/.urs_cookies
 *.lyx~
 **/*.lyx~
+*.lyx#
+**/*.lyx#
