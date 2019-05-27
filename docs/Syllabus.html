@@ -70,9 +70,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -97,6 +95,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -111,7 +112,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -131,6 +131,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -152,19 +189,85 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
 <!-- code folding -->
 
 
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -233,9 +336,9 @@ $(document).ready(function () {
 <ol style="list-style-type: decimal">
 <li><a href="content/lectures/BayesTheorem.pdf">Bayes’ Theorem</a> &amp; <a href="content/labs/BayesTheoremLab.html">Bayes’ Theorem Lab</a></li>
 <li><a href="content/lectures/MoreAboutPriors1.pdf">More about Priors I</a> &amp; <a href="content/labs/ConjugatePriorsLab.html">Conjugate Priors Lab</a></li>
-<li><a href="content/lectures/MCMC1.pdf">MCMC Gibbs</a> &amp; <a href="content/labs/MCMCLab1.html">MCMC Lab 1</a> (optional)</li>
+<li><a href="content/lectures/MCMC1.pdf">MCMC Gibbs Sampling</a> &amp; <a href="content/labs/MCMCLab1.html">MCMC Lab 1</a> (optional)</li>
 <li><a href="content/lectures/MCMC2.pdf">MCMC Metropolis-Hastings</a> (optional) &amp; <a href="content/labs/MCMCLab2.html">MCMC Lab 2</a> (optional)</li>
-<li><a href="content/handouts/MCMCMath1.pdf">MCMC Using Gibbs Sampling Math</a></li>
+<li><a href="content/handouts/MCMCMath1.pdf">MCMC Gibbs Sampling Math</a></li>
 </ol>
 <p>Review Hobbs and Hooten chapters 5 and 7</p>
 <p><br></p>
@@ -243,22 +346,23 @@ $(document).ready(function () {
 <div id="day-4-66-markov-chain-monte-carlo" class="section level5">
 <h5><strong>Day 4: (6/6) Markov Chain Monte Carlo</strong></h5>
 <ol style="list-style-type: decimal">
-<li><a href="content/lectures/JAGSPrimerMCMCVis.pdf">JAGS Primer</a> &amp; <a href="content/labs/JAGSPrimerLab.html">Lab</a></li>
+<li><a href="content/lectures/JAGSPrimerMCMCVis.pdf">JAGS Primer</a> &amp; <a href="content/labs/JAGSPrimerLab.html">Lab Answers</a></li>
 <li><a href="content/lectures/InferenceFromSingleModel.pdf">Inference From a Single Model</a></li>
 <li><a href="content/labs/IslandsLab.html">Islands Lab</a></li>
 <li>Happy Hour at SESYNC</li>
 </ol>
-<p>Review Hobbs and Hooten chapter 7.</p>
+<p>Review Hobbs and Hooten chapter 7-8.</p>
 <p><br></p>
 </div>
 <div id="day-5-67-modeling-practice" class="section level5">
 <h5><strong>Day 5: (6/7) Modeling Practice</strong></h5>
 <ol style="list-style-type: decimal">
 <li>Bayesian Regression</li>
-<li><a href="content/lectures/MoreAboutPriors2.pdf">More About Priors II</a></li>
-<li>Analysis of Designed Experiments</li>
+<li>Writing regression Models Lab (we should discuss this)</li>
+<li><a href="content/lectures/MultiLevelRegression.pdf">Multi-level Modeling</a></li>
+<li>Multi-level Modeling lab</li>
 </ol>
-<p>Review Hobbs and Hooten chapter 8.</p>
+<p>Review Hobbs and Hooten chapter 6.</p>
 <p><br></p>
 </div>
 <div id="day-6-68-off" class="section level5">
@@ -268,27 +372,30 @@ $(document).ready(function () {
 <div id="day-7-69-bayesian-regression-multi-level-modeling" class="section level5">
 <h5><strong>Day 7: (6/9) Bayesian Regression &amp; Multi-Level Modeling</strong></h5>
 <ol style="list-style-type: decimal">
-<li><a href="content/lectures/MultiLevelRegression.pdf">Multi-Level Regression</a></li>
-<li>Multi-Level Regression Lab</li>
+<li>Multi-Level Modeling Lab</li>
+<li><a href="content/lectures/MoreAboutPriors2.pdf">More About Priors II</a> (if time?)</li>
+<li>Introduction to hierarchical models</li>
 </ol>
-<p>Review Hobbs and Hooten chapters 9-12.</p>
+<p>Review Hobbs and Hooten chapters 6, 10-12.</p>
 <p><br></p>
 </div>
-<div id="day-8-610-multi-level-modeling-model-checking" class="section level5">
-<h5><strong>Day 8: (6/10) Multi-Level Modeling, Model Checking</strong></h5>
+<div id="day-8-610-writing-hierarchical-models-model-checking" class="section level5">
+<h5><strong>Day 8: (6/10) Writing hierarchical models, Model Checking</strong></h5>
 <ol style="list-style-type: decimal">
-<li>Introduction to Hierarchical Models</li>
+<li>Hierarchical models problem set</li>
 <li>Model Checking</li>
-<li>Multi-Level Regression Lab Revisited</li>
+<li>Multi-level Modeling Lab Revisited</li>
 </ol>
+<p>Review Hobbs and Hooten chapters 6, 8, 10-12.</p>
 <p><br></p>
 </div>
-<div id="day-9-611-advanced-topics" class="section level5">
-<h5><strong>Day 9: (6/11) Advanced Topics</strong></h5>
+<div id="day-9-611-advanced-topics-with-concurrent-sessions" class="section level5">
+<h5><strong>Day 9: (6/11) Advanced Topics with concurrent sessions</strong></h5>
 <ol style="list-style-type: decimal">
 <li>Dynamic Models &amp; Lynx Lab</li>
-<li>Ordinal Modeling &amp; Ordinal Modeling Lab</li>
-<li>Mixture Models, Zero Inflation, &amp; Occupancy &amp; Swiss Birds Lab</li>
+<li>Ordinal Models &amp; Ordinal Models Lab</li>
+<li>Analysis of Designed Experiments &amp; Designed Experiments Lab</li>
+<li>Mixture Models, Zero Inflation, &amp; Occupancy and Swiss Birds Lab</li>
 <li>Model Selection &amp; Model Selection Lab</li>
 </ol>
 <p><br></p>
