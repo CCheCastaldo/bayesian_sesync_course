@@ -39,14 +39,13 @@ This information might be informative or vague. Remember that $\mu_{0}$ and $\si
 \left[\theta|\cdot\right]\propto\prod_{i=1}^{n}\text{normal}\left(y_{i}|\theta,\varsigma^{2}\right)\text{normal}\left(\theta|\mu_{0},\sigma_{0}^{2}\right).\label{eq:normal mean conjugate relationship}
 \end{equation}
 
-We define $\mu_{1}$ and $\sigma_{1}^{2}$ as the parameters of the full 
-conditional posterior distribution of $\theta$, that is 
+We define $\mu_{1}$ and $\sigma_{1}^{2}$ as the parameters of the conditional posterior distribution of $\theta$, that is 
 
 \begin{equation}
 \left[\theta|\cdot\right]=\text{normal}(\mu_{1},\sigma_{1}^{2}).\label{eq:distribution of theta}
 \end{equation}
 
-Note that $\sigma_{1}^{2}$ is the updated variance of the distribution of the \emph{mean} not the variance of the distribution of the \emph{observations}, which of course is $\varsigma^{2}$. Note that we are treating $\varsigma^{2}$ as known. Equation \ref{eq:normal mean conjugate relationship} shows that we have a normal likelihood for the mean with known variance and a normal prior on the mean, which are conjugates. When this is the case, we can calculate the parameters of the full conditional posterior distribution of $\theta$ directly using the formulas
+Note that $\sigma_{1}^{2}$ is the updated variance of the distribution of the \emph{mean} not the variance of the distribution of the \emph{observations}, which of course is $\varsigma^{2}$. Note that we are treating $\varsigma^{2}$ as known. Equation \ref{eq:normal mean conjugate relationship} shows that we have a normal likelihood for the mean with known variance and a normal prior on the mean, which are conjugates. When this is the case, we can calculate the parameters of the conditional posterior distribution of $\theta$ directly using the formulas
 
 \begin{eqnarray}
 \mu_{1} & = & \frac{\left(\frac{\mu_{0}}{\sigma_{0}^{2}}+\frac{\sum_{i=1}^{n}y_{i}}{\varsigma^{2}}\right)}{\left(\frac{1}{\sigma_{0}^{2}}+\frac{n}{\varsigma^{2}}\right)}\label{eq:conjugate formula for normal mean I}\\
@@ -56,13 +55,13 @@ Note that $\sigma_{1}^{2}$ is the updated variance of the distribution of the \e
 Notice that every quantity on the right hand side of these equations is known; $\mu_{0}$ and $\sigma_{0}^{2}$ are known as priors. The $y_{i}$ are observations in hand, and we are assuming (for now) that $\varsigma^{2}$ is known. So, we have all we need to know to make a draw from the distribution of $\theta$ using equation \ref{eq:distribution of theta}
 because we know $\mu_{1}$ and $\sigma_{1}^{2}$. So, why wouldn't we just use equations $ $\ref{eq:conjugate formula for normal mean I} and \ref{eq:Conjugate for normal mean II} to estimate the parameters of the posterior of $\theta$ and be done with it? Because we must assume that $\varsigma^{2}$ is known, which is virtually never the case. Somehow we must learn about $\varsigma^{2}$ to estimate $\theta$.
 
-So, what about $\varsigma^{2}$? Again the observations arise from $y_{i}\sim\text{normal}\left(\theta,\varsigma^{2}\right)$ and we seek to understand the full conditional\footnote{The distribution is conditional because we must know $\theta.$} posterior distribution of $\varsigma^{2}$. If we assume that $\theta$ is known, then 
+So, what about $\varsigma^{2}$? Again the observations arise from $y_{i}\sim\text{normal}\left(\theta,\varsigma^{2}\right)$ and we seek to understand the conditional\footnote{The distribution is conditional because we must know $\theta.$} posterior distribution of $\varsigma^{2}$. If we assume that $\theta$ is known, then 
 
 \begin{equation}
 \left[\varsigma^{2}|\cdot\right]\propto\prod_{i=1}^{n}\text{normal}\left(y_{i}|\theta,\varsigma^{2}\right)\text{inverse gamma}\left(\varsigma^{2}|\alpha_{0},\beta_{0}\right).\label{eq:posterior distribution of var sigma}
 \end{equation}
 
-We define the parameters of the full conditional distribution of $\varsigma^{2}$ as $\alpha_{1}$ and $\beta_{1}$ so that
+We define the parameters of the full-conditional distribution of $\varsigma^{2}$ as $\alpha_{1}$ and $\beta_{1}$ so that
 
 \begin{equation}
 \left[\varsigma^{2}|\cdot\right]=\text{inverse gamma}\left(\alpha_{1},\beta_{1}\right).

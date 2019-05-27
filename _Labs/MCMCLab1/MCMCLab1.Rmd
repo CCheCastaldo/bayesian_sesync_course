@@ -34,7 +34,7 @@ set.seed(10)
 
 ### **Motivation**
 
-This problem challenges you to understand how the Markov chain Monte Carlo algorithm takes a multivariate joint distribution and breaks it into a series of univariate, marginal distributions that can be approximated one at a time.  There are only two unknowns in this problem, but the same principles and approach would apply if there were two hundred.  The accompanying document, `MCMCMath.pdf`, describes the math that stands behind the coding that you will do here. You should study this thoroughly before proceeding.
+This problem challenges you to understand how the Markov chain Monte Carlo algorithm takes a multivariate joint distribution and breaks it into a series of univariate, marginal distributions that can be approximated one at a time.  There are only two unknowns in this problem, but the same principles and approach would apply if there were two hundred.  The accompanying document, `MCMCMath1.pdf`, describes the math that stands behind the coding that you will do here. You should study this thoroughly before proceeding.
 
 <br>
 
