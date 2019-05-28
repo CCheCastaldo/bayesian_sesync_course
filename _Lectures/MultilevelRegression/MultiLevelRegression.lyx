@@ -439,6 +439,44 @@ Draw the DAG.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Branch Answers
+inverted 0
+status open
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/mulit_level_model_dag.pdf
+	width 80page%
+	rotateAngle 90
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Separator parbreak
 \end_inset
 
@@ -1005,13 +1043,26 @@ slopes
 \begin_inset Formula $\left(\begin{array}{c}
 \alpha_{j}\\
 \beta_{j}
-\end{array}\right)\sim\text{multivariate normal}\left(\left(\begin{array}{c}
+\end{array}\right)\sim\text{MVN}\left(\left(\begin{array}{c}
 \mu_{\alpha}\\
 \mu_{\beta}
 \end{array}\right),\bm{\Sigma}\right)$
 \end_inset
 
+ 
+\begin_inset ERT
+status open
 
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {.5 cm}
+\end_layout
+
+\end_inset
+
+MVN = multivariate normal
 \end_layout
 
 \begin_layout Standard
@@ -1086,6 +1137,242 @@ and
 status open
 
 \begin_layout Plain Layout
+Modeling intercepts 
+\emph on
+and
+\emph default
+ slopes for more than one slope
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[\bm{\beta},\bm{\mu}_{\beta},\sigma_{\text{reg}}^{2},\vert\mathbf{y}\right] & \propto & \prod_{j=1}^{J}\prod_{i=1}^{n_{j}}\text{normal}(y_{ij}\vert\mathbf{x'}_{ij}\bm{\beta}_{j},\sigma_{\text{reg}}^{2})\\
+ & \times & \text{MVN}\left(\left(\begin{array}{c}
+\beta_{0j}\\
+\beta_{1j}\\
+\beta_{2j}\\
+\vdots\\
+\beta_{mj}
+\end{array}\right)\biggm|\left(\begin{array}{c}
+\mu_{\beta_{0_{j}}}\\
+\mu_{\beta_{1}}\\
+\mu_{\beta_{2}}\\
+\vdots\\
+\mu_{\beta_{m}}
+\end{array}\right),\bm{\Sigma}\right)\\
+ & \times & \text{priors on }\bm{\mu}_{\beta},\sigma_{\text{reg}}^{2},\bm{\Sigma}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts and slopes for > 1 slope
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The Wishart distribution:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/wishart.png
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A vague prior on 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\bm{\Sigma}\sim\text{Wishart}(\mathbf{S},m+1)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of coefficients including the intercept and 
+\begin_inset Formula $\mathbf{S}$
+\end_inset
+
+ is an 
+\begin_inset Formula $m\times m$
+\end_inset
+
+ matrix with ones on the diagonal and zeros on the off diagonals.
+ 
+\end_layout
+
+\begin_layout Standard
+Example code: 
+\family typewriter
+Sigma ~ dwish(S,y.Nvar + 1)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Compute 
+\begin_inset Formula $\sigma's$
+\end_inset
+
+ and 
+\begin_inset Formula $\rho$
+\end_inset
+
+ as derived quantities of the elements of 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+.
+ Remember, the 
+\family typewriter
+Sigma
+\family default
+ in JAGS uses precisions not variances.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Guidance
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Wishart distribution is an easy, useful way to impose reasonably vague
+ priors on covariance matrices.
+ See Gelman and Hill 2009, pages 376-380.
+\end_layout
+
+\begin_layout Itemize
+My experience with simulated data is that these priors are vague for the
+ means but weakly informative for the variances and for the correlation.
+\end_layout
+
+\begin_layout Itemize
+STAN has an distribution for priors on covariance matrices that appears
+ to be superior to the Wishart, although the Wishart is widely used and
+ recommended.
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
 Modeling intercepts and slopes for > 1 slope
 \end_layout
 
@@ -1095,7 +1382,7 @@ Modeling intercepts and slopes for > 1 slope
 \end_layout
 
 \begin_layout Frame
-See Gelman and Hill 2009, pages 376-380 
+
 \end_layout
 
 \begin_layout Frame
