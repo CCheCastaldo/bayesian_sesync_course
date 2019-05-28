@@ -1321,14 +1321,14 @@ Compute
 Sigma
 \family default
  in JAGS uses precisions not variances.
- 
+ For informed priors, see the 
+\family typewriter
+eivtools
+\family default
+ package in R.
 \end_layout
 
 \end_deeper
-\begin_layout Frame
-
-\end_layout
-
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -1349,13 +1349,13 @@ Guidance
 
 \end_layout
 
-\begin_deeper
 \begin_layout Itemize
 The Wishart distribution is an easy, useful way to impose reasonably vague
  priors on covariance matrices.
  See Gelman and Hill 2009, pages 376-380.
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
 My experience with simulated data is that these priors are vague for the
  means but weakly informative for the variances and for the correlation.
@@ -1368,34 +1368,6 @@ STAN has an distribution for priors on covariance matrices that appears
 \end_layout
 
 \end_deeper
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Modeling intercepts and slopes for > 1 slope
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-
-\end_layout
-
-\begin_layout Frame
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
 \begin_layout Frame
 \begin_inset Argument 4
 status open
