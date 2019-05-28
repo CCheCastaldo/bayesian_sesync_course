@@ -1,0 +1,1090 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Writing Bayesian Hierarchical Models}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Housekeeping
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Debrief MCMC lab
+\end_layout
+
+\begin_layout Itemize
+Model Building exercise and answers is in 
+\family typewriter
+ESS_575_2019/Labs/Lab7ModelBuilding/
+\family default
+.Due on March 22
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Data simulation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/DataSimulation.pdf
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Context
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What is this course about?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/ConceptsAndTheory.png
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+All modeling problems have idiosyncrasies
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Different types of data
+\end_layout
+
+\begin_layout Itemize
+Different deterministic models
+\end_layout
+
+\begin_layout Itemize
+Sampling error in the predictors or responses
+\end_layout
+
+\begin_layout Itemize
+Calibration error for predictors or responses 
+\end_layout
+
+\begin_layout Itemize
+Prior knowledge of parameters
+\end_layout
+
+\begin_layout Itemize
+Missing data
+\end_layout
+
+\begin_layout Itemize
+Multiple scales of data (group level effects)
+\end_layout
+
+\begin_layout Itemize
+Prediction and forecasting
+\end_layout
+
+\begin_layout Itemize
+Spatial or temporal dependence
+\end_layout
+
+\begin_layout Itemize
+Derived quantities
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The Bayesian method
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-1cm} 
+\backslash
+hspace{3cm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Hobbs_0_1_Modeling_process.pdf
+	width 2in
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Cross cutting theme
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/FirstDAG.png
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\size scriptsize
+model{
+\size default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size scriptsize
+for(i in 1:length(y)){
+\size default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size scriptsize
+mu[i] <- (m*x[i]^a)/(h^a+x[i]^a)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size scriptsize
+y[i] ~ dgamma(mu[i]^2/sigma^2,mu[i]/sigma^2)
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+
+\size scriptsize
+}
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+
+\size scriptsize
+a ~ dnorm(0,.0001)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size scriptsize
+m ~ dgamma(.01,.01)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size scriptsize
+h ~ dgamma(.01,.01)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size scriptsize
+sigma ~ dunif(0,5)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size scriptsize
+}
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Things to watch for today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Multi-level models (aka random effects)
+\end_layout
+
+\begin_layout Itemize
+Sampling error in x's and y's
+\end_layout
+
+\begin_layout Itemize
+Calibration error in y's
+\end_layout
+
+\begin_layout Itemize
+Derived quantities (in JAGS lab)
+\end_layout
+
+\begin_layout Standard
+All of these will appear in the exercises.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Things to watch for today 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+Partitioning uncertainty
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Process variance
+\end_layout
+
+\begin_layout Itemize
+Sampling variance
+\end_layout
+
+\begin_layout Itemize
+Calibration variance (aka observation variance)
+\end_layout
+
+\begin_layout Itemize
+Group level variance
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Steps in writing Bayesian models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Write your deterministic model.
+ Be careful about support.
+\end_layout
+
+\begin_layout Enumerate
+Draw Bayesian network (DAG) describing relationships between observed and
+ unobserved quantities.
+\end_layout
+
+\begin_layout Enumerate
+Use the Bayesian network to write proportionality between posterior and
+ joint distributions using bracket notation 
+\begin_inset Formula $[\,\mid\,]$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Posterior distribution: 
+\begin_inset Formula $[\text{unobserved quantities\,}|\,\text{data]}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Joint distribution 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+All nodes in Bayesian network at the heads of arrows (children) must be
+ on the left hand side of a conditioning symbol.
+\end_layout
+
+\begin_layout Enumerate
+All nodes in Bayesian network at the tails of arrows (parents) must be on
+ the right hand side of a conditioning symbol 
+\begin_inset Formula $\mid$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+All nodes at the end of an arrow with no arrow coming into them must be
+ expressed unconditionally, i.e., they must have numeric arguments.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+Assign specific PDF or PMF to each of the brackets.
+\end_layout
+
+\begin_layout Enumerate
+Choose numeric values for parameters of prior distributions.
+ Do this sensibly! Do not default to vague priors.
+ (Do as I say, not as I do.)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Multi-level models
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The problem we treated with simple Bayesian regression
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_and_eq_simple_regression_with_laout.pdf
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The problem
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/Groups.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We can model the intercept (or slope):
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_intercept.pdf
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{l}
+\begin{array}{l}
+\left[{\beta,\bm{\alpha},\sigma^{2},{\mu_{\alpha}},{\varsigma^{2}},|{\bf {y}}}\right]\propto\prod\limits _{i=1}^{n_{j}}\prod\limits _{j=1}^{J}{{\mathop{{\rm normal}}\nolimits}\left({{y_{ij}}|\alpha_{j}+\beta{x_{ij}},{\sigma^{2}}}\right)}\\
+{\times\text{{\rm {normal}}}{\left({{\alpha_{j}}|{\mu_{\alpha}},{\varsigma^{2}}}\right)}}\\
+\times{\mathop{{\rm normal}}\nolimits}\left({\beta|0,10000}\right){\mathop{{\rm normal}}\nolimits}\left({{\mu_{\alpha}}|0,1000}\right)\\
+\times{\rm {inverse\,gamma}}\left({{\sigma^{2}}|.001,.001}\right){\rm {inverse\,gamma}}\left({{\varsigma^{2}}|.001,.001}\right)
+\end{array}\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We seek to understand the distribution of intercepts.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/multi-level_plot.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Some notation
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Random_effect_notation.pdf
+	width 30page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Include data on groups.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/groups_with_covariate.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+We can model the intercept (or slope) as a function of group level data:
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_groups_with_data.pdf
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{l}
+\left[{{\bm{\alpha}},\beta,{\sigma^{2}},\mathbf{g},{\varsigma^{2}},|{\bf {y}}}\right]\propto\prod\limits _{i=1}^{n_{j}}\prod\limits _{j=1}^{J}{{\mathop{{\rm normal}}\nolimits}\left({{y_{ij}}|{\alpha_{j}}+\beta{x_{ij}},{\sigma^{2}}}\right)}\\
+\times{{\mathop{{\rm normal}}\nolimits}\left({{\alpha_{j}}|{g_{0}}+{g_{1}}{u_{j}},{\varsigma^{2}}}\right)}\\
+\times{\mathop{{\rm normal}}\nolimits}\left({\beta|0,.001}\right){\mathop{{\rm normal}}\nolimits}\left({{g_{0}}|0,1000}\right){\mathop{{\rm normal}}\nolimits}\left({{g_{1}}|0,1000}\right)\\
+\times{\rm {inverse\,gamma}}\left({{\sigma^{2}}|.001,.001}\right){\rm {inverse\,gamma}}\left({{\varsigma^{2}}|.001,.001}\right)
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Errors in x's and y's
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Board work on light limitation of trees for errors in x's and y's
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
