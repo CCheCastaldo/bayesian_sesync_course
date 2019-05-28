@@ -184,14 +184,12 @@ In addition to fitting this model, we would like you to have JAGS predict the me
 Note that in this problem and the ones that follow we have set up the data and the initial conditions for you.  This will save time and frustration, allowing you to concentrate on writing code for the model but you must pay attention to the names we give in the `data` and `inits` lists.  These must agree with the variable names in your model.  Please see any of the course instructors if there is anything that you don't understand about these lists.
 
 ```{r}
-log.n.input.centered = log(N2OEmission$n.input) - mean(log(N2OEmission$n.input))
-min(log.n.input.centered)
-max(log.n.input.centered)
+n.input.pred <- seq(min(N2OEmission$n.input), max(N2OEmission$n.input), 10)
 
 data = list(
   log.emission = log(N2OEmission$emission),
-  log.n.input.centered = log.n.input.centered,
-  log.n.input.centered.pred = seq(-1.7, 2.1, .05))
+  log.n.input.centered = log(N2OEmission$n.input) - mean(log(N2OEmission$n.input)),
+  log.n.input.centered.pred = log(n.input.pred) - mean(log(N2OEmission$n.input)))
 
 inits = list(
   list(alpha = 0, beta = .5, sigma = 50),
@@ -271,33 +269,21 @@ Let's overlay the predicted mean logged emission response and the predicted medi
 
 ```{r, echo = TRUE, fig.align = 'center', fig.width = 8, fig.height = 8}
 pred <- MCMCpstr(zc.pooled, params = c("mu_pred", "log_mu_pred"), func = function(x) quantile(x, c(.025, .5, .975)))
-
-log.n.input.pred <- seq(-1.7, 2.1, .05) + mean(log(N2OEmission$n.input))
-n.input.pred <- exp(log.n.input.pred)
-
 mu.pred <- cbind(n.input.pred, data.frame(pred$mu_pred))
-log.mu.pred <- cbind(log.n.input.pred, data.frame(pred$log_mu_pred))
+log.mu.pred <- cbind(log.n.input.pred = log(n.input.pred), data.frame(pred$log_mu_pred))
 ```
 
 
 ```{r, fig.align = "center", fig.width = 8}
-g1 <- ggplot(data = N2OEmission)  +
-  geom_point(aes(y = emission, x = n.input), alpha = 3/10, shape = 21, 
-    colour = "black", fill = "brown", size = 3) +
+g3 <- g1 +
   geom_line(data = mu.pred, aes(x = n.input.pred, y = X50.)) +
-  geom_ribbon(data = mu.pred, aes(x = n.input.pred, ymin = X2.5., ymax = X97.5.), 
-    alpha = 0.3, fill = "yellow") +
-  theme_minimal()
+  geom_ribbon(data = mu.pred, aes(x = n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.3, fill = "yellow")
 
-g2 <- ggplot(data = N2OEmission) +
-  geom_point(aes(y = log(emission), x = log(n.input)), alpha = 3/10, shape = 21, 
-    colour = "black", fill = "brown", size = 3) +
+g4 <- g2 +
   geom_line(data = log.mu.pred, aes(x = log.n.input.pred, y = X50.)) +
-  geom_ribbon(data = log.mu.pred, aes(x = log.n.input.pred, ymin = X2.5., ymax = X97.5.), 
-    alpha = 0.3, fill = "yellow") +
-  theme_minimal() 
+  geom_ribbon(data = log.mu.pred, aes(x = log.n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.3, fill = "yellow")
 
-gridExtra::grid.arrange(g1, g2, nrow = 1)
+gridExtra::grid.arrange(g3, g4, nrow = 1)
 ```
 
 <br>
@@ -310,48 +296,93 @@ gridExtra::grid.arrange(g1, g2, nrow = 1)
 
 ---
 
-1. Now treat the intercept in your model as a group level effect (aka, random effect). The model of the process remains a linearized power function for your deterministic model of emissions, but two subscripts are required: $i$ indexes the measurement within sites and $j$ indexes site. Assume that the intercepts are drawn from a distribution with mean $\mu_{\alpha}$ and variance $\varsigma_{\alpha}^2$. Draw the DAG; write an expression for the posterior and joint distributions for a single observation using $[\,]$ notation, then write an expression for the posterior and joint distributions including all observations including specific choices of distributions. 
+#### **Diagramming and writing the model**
 
-    a) Interpret the coefficients in this model.
-    b) What is the hypothesis represented by this model?
-    c) What sets this model apart from conventional regression?
+So far we have either ignored the effect of site (the pooled model) or treated all sites as completel independent from one another (the no pool model). This time we are going to treat the sites as partially pooled, meaning we model the intercepts of the model as coming from a common distribution. In other words, treat the intercept in your model as a group level effect (aka, random effect). The model of the process remains a linearized power function for your deterministic model of emissions, but two subscripts are required: $i$ indexes the measurement within sites and $j$ indexes site. Assume that the intercepts are drawn from a distribution with mean $\mu_{\alpha}$ and variance $\varsigma_{\alpha}^2$.
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
+1. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y$) on fertilizer addition ($x$) for a single observation. 
 
-<div id="myDIV3", style="display:none">
+<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
+
+<div id="myDIV5", style="display:none">
 
 <br>
 
 <center>
 ```{r  out.width = "30%", echo = FALSE}
-include_graphics("../../_Graphics/DAG1_ml.png") 
+include_graphics("../../_Graphics/DAG2_ml.png") 
 ```
 </center>
+
+</div>
+
+<br>
+
+2. For the joint distribution, start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing, of course, that you might need moment matching when you choose a specific distribution.  
+
+<button class="button" onclick="toggle_visibility('myDIV6');">Answer</button>
+
+<div id="myDIV6", style="display:none">
+
+<br>
 
 $$
 \begin{align*}
 g\big(\alpha_{j},\beta,\log(x_{ij})\big)&= \alpha_{j}+\beta\big(\log(x_{ij})\big)\\
-\big[\alpha_{j},\beta,\mu_{\alpha},\sigma,\varsigma_{\alpha}\mid y_{ij}\big] & \propto  \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij}\big),\sigma^{2}\big]\big[\alpha_{j}\mid\mu_{\alpha},\varsigma_{\alpha}^{2}\big]\big[\beta\big]\big[\sigma\big]\big[\mu_{\alpha}\big]\big[\varsigma_{\alpha}\big]\label{eq:mean model for N02 intecept}\
-\end{align*}$$
+\big[\alpha_{j},\beta,\mu_{\alpha},\sigma,\varsigma_{\alpha}\mid y_{ij}\big] & \propto  \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij}\big),\sigma^{2}\big]\big[\alpha_{j}\mid\mu_{\alpha},\varsigma_{\alpha}^{2}\big]\big[\beta\big]\big[\sigma\big]\big[\mu_{\alpha}\big]\big[\varsigma_{\alpha}\big]
+\end{align*}
+$$
+
+</div>
+
+<br>
+
+3. Finish by choosing specific distributions for likelihoods and priors. You will use the math in the answer as a template to code your model in the subsequent exercises. 
+
+<button class="button" onclick="toggle_visibility('myDIV7');">Answer</button>
+
+<div id="myDIV7", style="display:none">
 
 $$
 \begin{align*}
-[\bm{\alpha},\beta,\sigma,\mu_\alpha,\varsigma_\alpha \mid \mathbf{y}]&\propto \prod_{i=1}^{n_j} \prod_{j=1}^{J}\text{normal}(\log(y_{ij})\mid g\big(\alpha_j,\beta,\log(x_{ij}),\sigma^2\big)\\
+[\pmb{\alpha},\beta,\sigma,\mu_\alpha,\varsigma_\alpha \mid \mathbf{y}]&\propto \prod_{i=1}^{n_j} \prod_{j=1}^{J}\text{normal}(\log(y_{ij})\mid g\big(\alpha_j,\beta,\log(x_{ij}),\sigma^2\big)\\
 &\times \text{normal}(\alpha_j \mid\mu_{\alpha},\varsigma_{\alpha})\\
 &\times\text{normal}(\mu_{\alpha}\mid 0,10000)\text{uniform}(\varsigma(0,100)\\
 &\times\text{normal}(\beta \mid 0,10000)\text{uniform}(\sigma\mid0,100)
 \end{align*}
 $$
-
-where $y_{ij}$ is the $i^{th}$ observation of N~2~O emissions in study $j$; $x_{ij}$ is a paired measurement of fertilizer addition.
-
-a) Interpret the coefficients in this model: $\alpha$ is the mean value of log emissions when log (fertilizer addition) is zero. Better, $\gamma$ is the mean of emissions when fertilizer additions are zero and  $x^\beta$ is the multiplicative change in mean emissions per unit change in fertilizer addition.        
-
-b) What is the hypothesis represented by this model? The model $g\big(\alpha_{j},\beta,x_{ij}\big)$ represents the hypothesis that the log of emissions increases in direct proportion to the log of fertilizer additions and that this increase is the same for all sites and fertilizer types (we will remedy this brave assumption later). We acknowledge that  the mean of emissions when log fertilizer additions are zero differs among sites. We could also say that the model represents the hypothesis that emissions increase as a power function of fertilizer additions and that the intercept, but not the exponent, varies among sites. 
-
-c) What sets this model apart from conventional regression? The fact that we explicitly represent variation among studies using the distribution of the $\alpha_{j}$ is what sets this analysis apart from conventional, single level regression that could be done separately for each of the individual sites or by pooling all of the data across sites to estimate a single intercept and slope. The $\sigma^{2}$ represents the uncertainty about $N\textsubscript{2}O$ emissions (we could have estimated separate $\sigma$ for each site, but this was not done by Carey (2007) and we wanted to maintain consistency with their analysis as much as possible) and the $\varsigma_{\alpha}^{2}$ represents the uncertainty that arises as a result of variation among sites.
-
 </div>
+
+<br>
+
+#### **Visualizing the data**
+
+Let's visualize the data again, but this time highlighting the role site plays in determining the relationship between N~2~O emission and nitrogen input. Use the code below to plot N~2~O emissions as a function of fertilizer input for both the logged and unlogged data. 
+
+```{r}
+head(N2OEmission)
+```
+
+```{r, fig.align = "center", fig.width = 8}
+g1 <- ggplot(data = N2OEmission) +
+  geom_point(aes (y = emission, x = n.input), alpha = 3/10, shape = 21, colour = "black", 
+    fill = "brown", size = 3) +
+  theme_minimal()
+g2 <- ggplot(data = N2OEmission) +
+  geom_point( aes (y = log(emission), x = log(n.input)), alpha = 3/10, shape = 21, colour = "black", 
+    fill = "brown", size = 3) +
+  theme_minimal() 
+gridExtra::grid.arrange(g1, g2, nrow = 1)
+```
+
+<br>
+
+---
+
+#### **Fitting the model with JAGS**
+
+
+
 
 <br>
 
