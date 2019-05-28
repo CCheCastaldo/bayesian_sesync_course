@@ -161,11 +161,11 @@ head(N2OEmission)
 
 ```{r, fig.align = "center", fig.width = 8}
 g1 <- ggplot(data = N2OEmission) +
-  geom_point(aes (y = emission, x = n.input), alpha = 3/10, shape = 21, colour = "black", 
+  geom_point(aes(y = emission, x = n.input), alpha = 3/10, shape = 21, colour = "black", 
     fill = "brown", size = 3) +
   theme_minimal()
 g2 <- ggplot(data = N2OEmission) +
-  geom_point( aes (y = log(emission), x = log(n.input)), alpha = 3/10, shape = 21, colour = "black", 
+  geom_point(aes(y = log(emission), x = log(n.input)), alpha = 3/10, shape = 21, colour = "black", 
     fill = "brown", size = 3) +
   theme_minimal() 
 gridExtra::grid.arrange(g1, g2, nrow = 1)
@@ -265,7 +265,7 @@ MCMCsummary(zc.pooled, params = c("alpha", "beta", "sigma"), n.eff = TRUE)
 
 #### **Visualizing model predictions**
 
-Let's overlay the predicted mean logged emission response and the predicted median unlogged emission response from the pooled model on the raw data. We summarize the predictions using `MCMCpstr()` (think back to the JAGSPrimer) and then plot the median of the posterior distribution as a black line with `geom_line()` and the 75% credible intervals as a yellow shaded region using the `geom_ribbon()` function. Note that we need to back transform the x-values used for prediction. This is done so that the predicted values line up properly on the plot. Again, we will provide you with the code to do this to save time. You will need to modify this code in the future to make similar plots for models you fit in later sections.
+Let's overlay the predicted mean logged emission response and the predicted median unlogged emission response from the pooled model on the raw data. We summarize the predictions using `MCMCpstr()` (think back to the JAGSPrimer) and then plot the median of the posterior distribution as a black line with `geom_line()` and the 95% credible intervals as a yellow shaded region using the `geom_ribbon()` function. Note that we need to back transform the x-values used for prediction. This is done so that the predicted values line up properly on the plot. Again, we will provide you with the code to do this to save time. You will need to modify this code in the future to make similar plots for models you fit in later sections.
 
 ```{r, echo = TRUE, fig.align = 'center', fig.width = 8, fig.height = 8}
 pred <- MCMCpstr(zc.pooled, params = c("mu_pred", "log_mu_pred"), func = function(x) quantile(x, c(.025, .5, .975)))
@@ -274,14 +274,14 @@ log.mu.pred <- cbind(log.n.input.pred = log(n.input.pred), data.frame(pred$log_m
 ```
 
 
-```{r, fig.align = "center", fig.width = 8}
+```{r, fig.align = "center", fig.width = 10}
 g3 <- g1 +
   geom_line(data = mu.pred, aes(x = n.input.pred, y = X50.)) +
-  geom_ribbon(data = mu.pred, aes(x = n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.3, fill = "yellow")
+  geom_ribbon(data = mu.pred, aes(x = n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.2, fill = "yellow")
 
 g4 <- g2 +
   geom_line(data = log.mu.pred, aes(x = log.n.input.pred, y = X50.)) +
-  geom_ribbon(data = log.mu.pred, aes(x = log.n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.3, fill = "yellow")
+  geom_ribbon(data = log.mu.pred, aes(x = log.n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.2, fill = "yellow")
 
 gridExtra::grid.arrange(g3, g4, nrow = 1)
 ```
@@ -355,24 +355,18 @@ $$
 
 <br>
 
+---
+
 #### **Visualizing the data**
 
 Let's visualize the data again, but this time highlighting the role site plays in determining the relationship between N~2~O emission and nitrogen input. Use the code below to plot N~2~O emissions as a function of fertilizer input for both the logged and unlogged data. 
 
-```{r}
-head(N2OEmission)
-```
-
-```{r, fig.align = "center", fig.width = 8}
-g1 <- ggplot(data = N2OEmission) +
-  geom_point(aes (y = emission, x = n.input), alpha = 3/10, shape = 21, colour = "black", 
-    fill = "brown", size = 3) +
-  theme_minimal()
-g2 <- ggplot(data = N2OEmission) +
-  geom_point( aes (y = log(emission), x = log(n.input)), alpha = 3/10, shape = 21, colour = "black", 
-    fill = "brown", size = 3) +
-  theme_minimal() 
-gridExtra::grid.arrange(g1, g2, nrow = 1)
+```{r, fig.align = "center", fig.width = 10, fig.height = 10}
+ggplot(data = N2OEmission, aes(y = log(emission), x = log(n.input))) +
+  geom_point(alpha = 3/10, shape = 21, colour = "black", fill = "brown", size = 2) +
+  geom_smooth(aes(group = group.index), method = "lm", se = FALSE, colour = "black", size = .6) +
+  theme_minimal() +
+  facet_wrap(~group.index)
 ```
 
 <br>
@@ -381,8 +375,132 @@ gridExtra::grid.arrange(g1, g2, nrow = 1)
 
 #### **Fitting the model with JAGS**
 
+Now you will implement the model that allows intercept to vary by group, where each intercept is drawn from a common distribution. Again, use the template provided below to allow you to concentrate on writing JAGS code for the model. Note that you must use the index trick covered in lecture to align the different groups with different intercepts. Here are the preliminaries to set up the model:
+
+```{r}
+n.input.pred <- seq(min(N2OEmission$n.input), max(N2OEmission$n.input), 10)
+n.sites <- length(unique(N2OEmission$group.index))
+
+data = list(
+  log.emission = log(N2OEmission$emission),
+  log.n.input.centered = log(N2OEmission$n.input) - mean(log(N2OEmission$n.input)),
+  log.n.input.centered.pred = log(n.input.pred) - mean(log(N2OEmission$n.input)),
+  group = N2OEmission$group.index,
+  n.sites = n.sites)
+
+inits = list(
+  list(alpha = rep(0, n.sites), beta = .5, sigma = 50, mu.alpha= 0, sigma.alpha = 10),
+  list(alpha = rep(1, n.sites), beta = 1.5, sigma = 10, mu.alpha= 2, sigma.alpha = 20),
+  list(alpha = rep(-1, n.sites), beta = .75, sigma = 20, mu.alpha= -1, sigma.alpha = 12))
+```
+
+When writing for a multi-level model like this one, do it incrementally, starting with a separate model for each site.  Then do the partial pooling, drawing the intercept for each model from a distribution.  We **strongly sugggest** his because it is always best to do the simple thing first: there is less to go wrong. For example, add the random intercepts after the pooled model approach is working.  
+
+5. Write the code for the model.  Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters.  Produce a summary table and caterpillar for the parameters and tests for convergence including the effective sample size.
+
+<button class="button" onclick="toggle_visibility('myDIV8');">Answer</button>
+
+<div id="myDIV8", style="display:none">
+
+<br>
+
+```{r, echo = TRUE}
+{
+sink("RandomInterceptJAGS.R")
+cat("
+model{
+
+  # hyperpriors
+  mu.alpha ~ dnorm(0,.00001)  
+  sigma.alpha ~ dunif(0,200) #notated as varsigma in model documentation
+  tau.alpha <- 1 / sigma.alpha^2
+
+  # priors
+  for(j in 1:n.sites) {
+    alpha[j] ~ dnorm(mu.alpha, tau.alpha)  
+  }
+  beta ~ dnorm(0,.0001)
+  sigma ~ dunif(0,100)
+  tau.reg <- 1 / sigma^2
+
+  # likelihood
+  # note that the data have been log-transformed in R prior to running this model
+ 
+  for (i in 1:length(log.emission)) {
+    log_mu[i] <- alpha[group[i]] + beta * log.n.input.centered[i]
+    log.emission[i] ~ dnorm(log_mu[i], tau.reg)
+  }
+
+  # predicted emissions as derived quantities
+  alpha_pred ~ dnorm(mu.alpha, tau.alpha)
+  for (i in 1:length(log.n.input.centered.pred)) {
+    log_mu_pred[i] <- alpha_pred + beta * log.n.input.centered.pred[i]
+    mu_pred[i] <- exp(log_mu_pred[i])
+  }
+
+}
+    
+",fill = TRUE)
+sink()
+}
+```
 
 
+```{r, echo = TRUE}
+n.adapt = 3000
+n.update = 5000
+n.iter = 5000
+jm.pooled = jags.model(file="RandomInterceptJAGS.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
+update(jm.pooled, n.iter = n.update)
+zc.randomint = coda.samples(jm.pooled, variable.names = c("alpha", "beta", "sigma", "mu.alpha", "sigma.alpha", 
+  "mu_pred", "log_mu_pred"), n.iter = n.iter)
+```
+
+```{r, echo = TRUE, fig.align = 'center', fig.width = 10, fig.height = 4}
+MCMCplot(zc.randomint, params = c("alpha", "mu.alpha"), sz_labels = .4, sz_med = .75, sz_thin = .7, sz_thick = 2, horiz = FALSE)
+```
+
+```{r, echo = TRUE, fig.align = 'center', fig.width = 10, fig.height = 6}
+MCMCtrace(zc.randomint, params = c("beta", "sigma", "mu.alpha", "sigma.alpha"), pdf = FALSE)
+MCMCsummary(zc.randomint, params = c("beta", "sigma", "mu.alpha", "sigma.alpha"), n.eff = TRUE, round = 3)
+```
+
+</div>
+
+<br>
+
+---
+
+#### **Visualizing model predictions**
+
+Use the code from the pooled model to visualize the model predictions again.
+
+<button class="button" onclick="toggle_visibility('myDIV11');">Answer</button>
+
+<div id="myDIV11", style="display:none">
+
+<br>
+
+```{r, echo = TRUE, fig.align = 'center', fig.width = 8, fig.height = 8}
+pred <- MCMCpstr(zc.randomint, params = c("mu_pred", "log_mu_pred"), func = function(x) quantile(x, c(.025, .5, .975)))
+mu.pred <- cbind(n.input.pred, data.frame(pred$mu_pred))
+log.mu.pred <- cbind(log.n.input.pred = log(n.input.pred), data.frame(pred$log_mu_pred))
+```
+
+
+```{r, fig.align = "center", fig.width = 10}
+g5 <- g1 +
+  geom_line(data = mu.pred, aes(x = n.input.pred, y = X50.)) +
+  geom_ribbon(data = mu.pred, aes(x = n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.2, fill = "yellow")
+
+g6 <- g2 +
+  geom_line(data = log.mu.pred, aes(x = log.n.input.pred, y = X50.)) +
+  geom_ribbon(data = log.mu.pred, aes(x = log.n.input.pred, ymin = X2.5., ymax = X97.5.), alpha = 0.2, fill = "yellow")
+
+gridExtra::grid.arrange(g5, g6, nrow = 1)
+```
+
+</div>
 
 <br>
 
