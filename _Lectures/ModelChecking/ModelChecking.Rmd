@@ -1,0 +1,161 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "Model Checking"
+author: "Chris Che-Castaldo, Mary B. Collins, N. Thompson Hobbs"
+date: "June 2019"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+subtitle: Bayesian Modeling for Socio-Environmental Data
+latex_engine: xelatex
+transition: fastest
+---
+
+## What is the first question you should ask after fitting a model? 
+
+- _Are the predictions of the model consistent with the data?_
+- Is the deterministic model a reasonable representation of the process?
+- Have you made the right choices for distributions to represent uncertainties?
+
+\centerline{\includegraphics[height=2in]{../../_Graphics/dist1.png}}
+
+## What is model checking?
+
+Model-based inference depends fundmentally on the assumption that your model can give rise to the data.  Model checking is the process of evaluating whether this assumption is true.
+
+##Recall the marginal distribution
+
+Recall, if the probability density function $[A,B]$ specifies the joint probability of the continuous random variables $A$ and $B$ then,
+
+- $\int [A,B]dB$ is the marginal probabilty of $A$ and 
+- $\int [A,B]dA$ is the marginal probability of $B$.
+- This idea applies to any number of jointly distributed random variables. We simply integrate over all but one.
+
+## Marginal distributions
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/marginals.png}}
+
+## Posterior predictive checks
+
+- Recall the *posterior predictive distribution* of new, unobserved data:
+
+$$[y^{new} \mid y] = \underbrace{ \int_{\theta_1}...\int_{\theta_n}[y^{new}\mid\theta_1...\theta_n][\theta_1...\theta_n\mid y]d\theta_1...d\theta_n}_{\textbf{Posterior Predictive Distribution}}$$
+
+ - It is called posterior because it is conditional on the observed $y$ and predictive because it is a prediction of $y^{new}$, given modeled parameter estimates. 
+- Posterior predictive checks show the probability of a new $y$ conditional on $\theta$, which is conditional on the data in hand, $y$. 
+- This is a marginal distribution because we are integrating over the $\theta$.
+
+##
+$$[y^{new} \mid y] = \underbrace{ \int_{\theta_1}...\int_{\theta_n}[y^{new}\mid\theta_1...\theta][\theta_1...\theta_n\mid y]d\theta_1...d\theta_n}_{\textbf{Posterior Predictive Distribution}}$$
+\bigskip
+\bigskip
+\center Can you derive this equation using the rules of probabilty?
+
+
+## Consider,
+
+\begin{align}
+\mu_i &= g(\theta_1,\theta_2,\theta_3,\mathbf{x}_i)\\
+y_i &\sim \textrm{normal}(\mu_i,\sigma^2)
+\end{align}
+
+## 
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/hhbox.png}}
+
+## This is easier done than said.
+
+- We have a model $g(\theta,x)$ that predicts a response $y$. We approiximate the posterior distribtuion, $[\theta \mid y]$.
+- For any given value of $x_i$, we can simulate the posterior predictive distribution $y^{new}$ by making a draw from $[y^{new} \mid g(\theta,x),\sigma^2]$. 
+- In MCMC this means making draws from the data model at each iteration; each draw is conditional on the current parameter values.  
+- We can simulate a new dataset by repeating these draws for all values of the $x$.
+- Accumlating many of these draws defines the posterior predictive distribution in exactly the same way that many draws allow us to define the posterior distribution of the parameters.
+
+## 
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/mod1.png}}
+
+## The Checking Part
+
+- $T (y,\theta)$ is a test statistic (e.g., mean, standard deviation, CV, quantile, or sums of squares discrepancy) calcuated from the observed data.
+- $T (y^{new},\theta)$ is the corresponding statistic from the simulated, which is generated  from the posterior predictive distribution. 
+- We calcuate:$$P_b=\Pr(T(y^{new},\theta)\geq T(y,\theta)\mid y)$$
+- If $P_B$ is very large or very small, then the difference between the observed data and the simulated data cannot be attributed to chance. **This indicates lack of fit**.
+
+## Candidates for test statistics
+
+- mean
+- variance
+- coefficient of variation
+- quantiles
+- maximum, minimum
+- discrepancy
+- chi-square
+- deviance
+
+## R. A. Fischer’s Ticks
+
+We want to know (for some reason) the average number of ticks on sheep. 
+
+- We round up 60 sheep and count ticks on each one. (What fun!) 
+- Does a Poisson distribution fit the distribution of the data? $$[\lambda\mid \textbf{y}] \propto \prod^{60}_{i=1}\textrm{Poisson}[y_i \mid \lambda][\lambda]$$
+- For each value of $\lambda$ in the MCMC chain, we generate a new data set, $y^{new}$, by sampling from: $$y^{new}_i \sim \textrm{Poisson}(\lambda)$$
+
+
+By the way, what heroic assumption are we making here? What might be a better model that, theoretically, could obviate the need for this assumption?
+
+##Code
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/mod2.png}}
+
+## Simple Model
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/simpleMod.png}}
+
+## Posterior Predictive Check
+
+\centerline{\includegraphics[height=2in]{../../_Graphics/ppc1.pdf}}
+
+- P value for CV= .0013 
+- P value for mean = .51
+- This is a two-tailed probability, _values close to 0 and 1 indicate lack of fit_.
+
+## How could you modify this model to allow “extra” variance? 
+
+- Draw a Bayesian network and write out the posterior and joint distributions. 
+- Don't use the negative binomial, please.
+
+## Hierarchical model
+
+$$[a,b,\lambda\mid \textbf{y}] \propto \prod^{60}_{i=1}[y_i \mid \lambda_i][\lambda_i \mid a,b][a][b]$$
+
+##
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/hierMod.png}}
+
+##
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/hist2.png}}
+
+## Posterior Predictive Checks
+
+\centerline{\includegraphics[height=2in]{../../_Graphics/cloud.png}}
+- P value for CV= .45 
+- P value for mean = .5
+
+## Reporting your posterior predictive checks
+
+_Posterior predictive checks revealed little evidence of lack of fit between model estimates and data for five data sets (Table 4). Bayesian P values were between 0.12 and 0.88 for 14 out of 15 test statistics for each of the three models. There was some evidence of poor fit of data simulated from the model to observations of the mean of yearling serology for all three models._ (Hobbs et al. 2015)
+
+##
+
+\centerline{\includegraphics[height=3in]{../../_Graphics/ppcHobbs.png}}
+
+##Aditional sources
+
+* A. Gelman and J. Hill. Data analysis using regression and multilievel / hierarchical modeling. Cambridge University Press, Cambridge, UK, 2009 Chapter 8
+
+* P. B. Conn, D. S. Johnson, P. J. Williams, S. R. Melin, and M. B. Hooten. A guide to Bayesian model checking for ecologists. Ecological Monographs, 88(4):526–542, 2018.
+
