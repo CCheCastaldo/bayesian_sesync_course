@@ -93,7 +93,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 ##### **Day 9: (6/11) Advanced Topics with concurrent sessions**
 
 1. [Dynamic Models](content/lectures/DynamicModels.pdf) & Lynx Lab
-2. Ordinal Models & Ordinal Models Lab
+2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & Ordinal Models Lab
 3. Analysis of Designed Experiments & Designed Experiments Lab
 3. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
 4. [Model Selection](content/lectures/ModelSelection.pdf) & Model Selection Lab

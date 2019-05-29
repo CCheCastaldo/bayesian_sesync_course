@@ -1,0 +1,149 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "Modeling Ordinal Categorical Variables"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+latex_engine: xelatex
+transition: fastest
+---
+
+## How confident are you in your ability use Bayesian models?
+
+\centerline{\includegraphics[scale=.25]{../../_Graphics/OrdinalExample}}
+
+##We use *ordinal regression* to deal with data where the dependent variable is measured in ordered categories. Examples of such variables include:
+
+- Psyschometric Likert scales 
+- Tumor grading
+- General quantities (i.e. insurance level: none, adequate, full; index of environmental concern: none, low, moderate, high)
+- Cover classes (i.e., Daubenmire classes)
+
+
+## 
+
+Ordered categorical data can be 
+
+- unscaled (e.g. attitudes/opinions, etc.)
+- scaled (e.g. cover/size classes, etc.)
+
+##Useful reference
+\vspace{.5cm}
+\centerline{\includegraphics[scale=.5]{../../_Graphics/puppies}}
+
+Kruschke, J. (2014). Doing Bayesian data analysis: A tutorial with R, JAGS, and Stan. Academic Press.
+
+##"How do people generate a descrete ordered response?"
+
+- Imagine that your true Bayesian abilities vary on a continuous scale, but you also have some sense of which categorical threshold you would report
+- **Central idea**: there is a latent continuous metric that underlies the observed ordinal response
+- Categories or _thresholds_ partition regions of this continuous metric
+
+
+
+##
+
+\centerline{\includegraphics[scale=.9]{../../_Graphics/OData3}}
+\vspace{-1cm}
+
+**Crutial bit**: _the probabiliy of a particular ordinal outcome is the area under the normal curve between the thresholds of that outcome_. 
+
+Therefore, the probability of outcome 2 is the area under the normal curve between thresholds $\theta_1$ and $\theta_2$. How?
+
+## A general, Bayesian model for ordinal data
+
+$$[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]\propto \prod_{i=1}^n \left[y_i \mid \underbrace{\int_{{\theta_{k-1}}}^{\theta_{k}}\overbrace{[z_i|g(\boldsymbol{\beta},\mathbf{x}_i),\sigma^2]}^\text{pdf of latent response}\text{d}z_i}_{Pr({{\theta_{k-1}}} <z_i <\,\, \theta_{k})}\right][\boldsymbol{\beta}][\boldsymbol{\theta}][\sigma^2]$$
+
+- $y_i$ is $ith$ observation in categories = $k=1,...K$
+
+- $\boldsymbol{\theta}$ is an *ordered* vector of cutpoints
+
+- $\theta_0=-\infty$
+
+- $\theta_K=+\infty$
+
+Why is $\boldsymbol{z}$ missing from the posterior?
+
+<!-- because it is integrated out --->
+
+What is $Pr(\theta_{k_{i-1}} <z_i <\,\, \theta_{k_i})$?
+
+<!-- it is the probability that the latent response falls between the lower and upper cutpoint for y_i = k. --->
+
+What is the quantity between the large brackets?
+
+<!-- The likelihood --->
+
+## An general algorithm for implementation
+Let $F(\theta_k,\mu,\sigma^2)$ be a properly moment matched, cummulative distribution function for the distribution of the latent quantity $z_i$. The function F() returns the proability that $z_i<\theta_k$. For notational convenience, we let $\mu_i=g(\boldsymbol{\beta},\mathbf{x}_i)$.
+\vspace{-.3cm}
+Compute:
+\begin{align}
+p[1,i] &= F(\theta_{1},\mu_i,\sigma^2)\\
+p[2,i] &= F(\theta_{2},\mu_i,\sigma^2) -  F(\theta_{1},\mu,\sigma^2)\\
+.\\
+.\\
+p[K-1] &= F(\theta_{K-1},\mu,\sigma^2) -  F(\theta_{K-2},\mu,\sigma^2)\\
+p[K] &= 1 - F(\theta_{K},\mu,\sigma^2)
+\end{align}
+The likelihood of the data conditional on the parameters is then:
+$$y_i\sim\text{categorical}(\mathbf{p}_i)$$
+
+##  The categorical distribution
+
+$$y_i\sim\text{categorical}(\mathbf{p}_i)$$
+
+
+Let $y_i$ be an observation that can take on values $k=1,..,K$. $\mathbf{p}$ is a vector of length $K$ with elements $p_i=\Pr(y_i=k_i)$, which is the same as $\Pr(y_i=i)$.
+
+You can use _any continuous distribution_ appropirate to the support of the random variable, $y_i$.
+
+## Issues of identifiability and what to do about it
+
+\centerline{\includegraphics[scale=.9]{../../_Graphics/OData4}}
+\vspace{-1cm}
+
+- The likelihood will not result in a unique solution. 
+- Both $\beta$ and $\theta$ are ‘‘location’’ parameters that calibrate the mapping from what is observed, $y_i$ to the latent $z_i$.
+- In other workds, there is no unique combination of $\theta$ and $\beta$ that produce equally informative posterior distributions.
+- Put differently, for any given $\beta$ there exists a $\theta$ that produces a likelihood equal to that obtained from at least one other $\beta$ and $\theta$.
+
+## Potential Identification Contraints to Apply
+
+\begin{center}
+\begin{tabular}{ c | c c c } 
+ Options & $\beta$ & $\sigma$ & $\theta$ \\
+ \hline
+  1 & unconstrained & fixed & fix one of $\theta_j$ \\
+  2 & drop intercept, $\beta_0$ & fixed & unconstrained \\
+  3 & unconstrained & unconstrained & fix two of $\theta_j$ \\
+ \hline
+\end{tabular}
+\end{center}
+
+## 
+
+\centerline{\includegraphics[scale=.29]{../../_Graphics/UnscaledModelDAG}}
+
+## 
+
+\centerline{\includegraphics[scale=.29]{../../_Graphics/ScaledModelDAG}}
+
+## Other notables
+
+- Referred to as _ordinal regression_ or _ordered probit regression_.
+- Cut points are often specified using $\tau$.
+- The latent quantity that we are calling $z_i$ is also specified as $y_i^*$
+- Often in the unscaled case, the standard normal is used ($\beta_0 = 0$ and $\sigma = 1$) with the probabily of outcome $\theta_k$ being:
+
+$$p(\tau=k\mid\mu,\sigma,{\theta_j}) = \Phi((\theta_k-\mu)/\sigma) - \Phi((\theta_{k-1}-\mu)/\sigma)$$
+
+## 
+
+\centerline{\includegraphics[scale=.4]{../../_Graphics/KruschkeTable}}
+
