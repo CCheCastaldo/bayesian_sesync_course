@@ -1,0 +1,2667 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\branch Answers
+\selected 0
+\filename_suffix 0
+\color #ffffff
+\end_branch
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Model Selection}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Background
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Learning objective 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Itemize
+Consider when you need to use multimodel inference and when inference from
+ a single model is sufficient.
+\end_layout
+
+\begin_layout Itemize
+Appreciate different methods for multi-model inference in the Bayesian framework.
+\end_layout
+
+\begin_layout Itemize
+Be able to write code for alternative model selection and model averaging
+ methods.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Often one model is all you need.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+When parameters are based on well established mechanism and we want to estimate
+ them and evaluate their importance.
+ 
+\end_layout
+
+\begin_layout Itemize
+When form of model is dictated by objectives.
+ 
+\end_layout
+
+\begin_layout Itemize
+Whenever we can make inference conditional on a single model.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Often one model is all you need.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Hobbs, N.
+ T., H.
+ Andren, J.
+ Persson, M.
+ Aronsson, and G.
+ Chapron.
+ 2012.
+ Native predators reduce harvest of reindeer by Sami pastoralists.
+ Ecological Applications 22:1640-1654.
+ 
+\end_layout
+
+\begin_layout Itemize
+Ver Hoef, J.
+ M.
+ and P.
+ L.
+ Boveng.
+ 2015.
+ Iterating on a single model is a viable alternative to multimodel inference.
+ The Journal of Wildlife Management, 79(5):719–729
+\end_layout
+
+\begin_layout Itemize
+Gelman, A., and D.
+ B.
+ Rubin.
+ 1995.
+ Avoiding model selection in Bayesian social research.
+ Pages 165-173 Sociological Methodology 1995, Vol 25.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+“Model selection and model averaging are deep waters, mathematically, and
+ no consensus has emerged in the substantial literature on a single approach.
+ Indeed, our only criticism of the wide use of AIC weights in wildlife and
+ ecological statistics is with their uncritical acceptance and the view
+ that this challenging problem has been simply resolved.” 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Link, W.
+ A., and R.
+ J.
+ Barker.
+ 2006.
+ Model weights and the foundations of multimodel inference.
+ Ecology 87:2626-2635.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The candidate set of models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+We have a set of 
+\begin_inset Formula $L$
+\end_inset
+
+ alternative models differing in the number of parameters they contain,
+ in their functional forms, or both.
+ Call this set of models 
+\begin_inset Formula $\mathcal{M=}$
+\end_inset
+
+{
+\begin_inset Formula $M_{1}$
+\end_inset
+
+,
+\begin_inset Formula $\ldots$
+\end_inset
+
+, 
+\begin_inset Formula $M_{l}$
+\end_inset
+
+,
+\begin_inset Formula $\ldots$
+\end_inset
+
+, 
+\begin_inset Formula $M_{L}$
+\end_inset
+
+}.
+ Assume that all of these models have been chosen thoughtfully by the researcher
+ and have passed posterior predictive checks.
+ Model checking first, then model selection if needed.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Multi-model inference
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Model selection: How do we decide which model is the “best” among a set
+ of candidates?
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Model validation
+\end_layout
+
+\begin_layout Itemize
+Deviance information criterion (DIC)
+\end_layout
+
+\begin_layout Itemize
+Posterior predictive loss (Dsel)
+\end_layout
+
+\begin_layout Itemize
+Not covered: Wantanabe information criterion (WAIC): limited by assumptions
+ on spatial and temporal dependence in data, otherwise an excellent Bayesian
+ method.
+ See Hobbs and Hooten, chapter 9 and suggestions for further study.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Model-averaging: How do we use multiple models as basis for inference by
+ giving them weights? 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Indicator variable selection
+\end_layout
+
+\begin_layout Itemize
+Not covered: Probability of the model and Bayes factors.
+ Requires reversible jump MCMC, which is tough to code.
+ See Link, W.
+ A., and R.
+ J.
+ Barker.
+ 2010.
+ Bayesian Inference with ecological applications.
+ Academic Press, chapter 7 and BMA package in R.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Validation methods
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Out of sample validation: the gold standard
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{multline*}
+[\mathbf{y}_{\text{oos}}|\mathbf{y}]=\int...\int[\mathbf{y}_{\text{oos}}|\mathbf{y},\boldsymbol{\theta}][\boldsymbol{\theta}|\mathbf{y}]d\theta_{1},...d\theta_{p}\;,\\
+\text{log predictive density, LPD}=\log([\mathbf{y}_{\text{oos}}|\mathbf{y}])
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+which evaluates to a scalar after the data are collected.
+ Larger LPD indicates greater predictive ability.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Approximated by 
+\begin_inset Formula 
+\[
+\log[\mathbf{y}_{\text{oos}}|\mathbf{y}]\approx\log\left(\frac{\sum_{k=1}^{K}[\mathbf{y}_{\text{oos}}|\mathbf{y},\boldsymbol{\theta}^{(k)}]}{K}\right)\;,
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implementing out-of-sample validation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Insert code into your JAGS model that makes a prediction for each out of
+ sample data point.
+ 
+\end_layout
+
+\begin_layout Itemize
+Compute the probability density of each of the out of sample observations
+ conditional on the model prediction of the observation.
+ 
+\end_layout
+
+\begin_layout Itemize
+Take the product of the probability densities across all observation-prediction
+ pairs to obtain 
+\begin_inset Formula $[\mathbf{y}_{\text{oos}}|\mathbf{y}]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+On the R side, take the log of the mean of 
+\begin_inset Formula $[\mathbf{y}_{\text{oos}}|\mathbf{y}]$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+for(i in 1:length(y.oos)){ 	
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+y.hat[i]<-B0+B1*x.oos[i] 
+\end_layout
+
+\begin_layout LyX-Code
+density[i]<-dnorm(y.oos[i],y.hat[i],tau[i]) 
+\end_layout
+
+\begin_layout LyX-Code
+} 
+\end_layout
+
+\begin_layout LyX-Code
+PD<-prod(density) ##may need to do this as sum of logs
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+On R side, include PD in your variable list for JAGS or coda samples.
+ Take the log of the mean of PD to get LPD.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Show differences in JAGS density functions on the board
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+M-fold cross validation: the next best to OOS validation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Group the data into 
+\begin_inset Formula $M$
+\end_inset
+
+ groups, 
+\begin_inset Formula $m=1,...M$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Fit model leaving out the observations for each of the 
+\begin_inset Formula $M$
+\end_inset
+
+ groups.
+ 
+\end_layout
+
+\begin_layout Itemize
+Calculate predictive score at each MCMC iteration based on ability of model
+ to predict the withheld observations for each group, 
+\begin_inset Formula $[\mathbf{y}_{m}|\mathbf{y}_{-m},\boldsymbol{\theta}^{(k)}]$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Store the mean of the predictive density for each model fit.
+ Sum the logs of the means:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{m=1}^{M}\log\left(\frac{\sum_{k=1}^{K}[\mathbf{y}_{m}|\mathbf{y}_{-m},\boldsymbol{\theta}^{(k)}]}{K}\right)\;.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example: leave one out cross validation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Create 
+\begin_inset Formula $M$
+\end_inset
+
+ data sets, each of which omits a single observation.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Fit candidate model to each dataset and calculate the probability (or probabilit
+y density) of the left-out observation conditional on the model's prediction
+ of that observation.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Compute the mean of the probability or probability density across the 
+\begin_inset Formula $K$
+\end_inset
+
+ MCMC iterations for each of the 
+\begin_inset Formula $M$
+\end_inset
+
+ left out datasets and sum the log of those means.
+ Larger values indicate greater predictive ability.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+How to set up training and test datasets?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+http://stats.stackexchange.com/questions/61090/how-to-split-a-data-set-to-do-10-fo
+ld-cross-validation 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Information Criteria
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Information criteria: the IC's
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Cross validation has a large computational cost.
+ 
+\end_layout
+
+\begin_layout Itemize
+There may not be sufficient data for out-of-sample validation.
+ 
+\end_layout
+
+\begin_layout Itemize
+Information criteria attempt to obtain same inference as validation procedures
+ by calculating a single statistic from data that are used for model fitting.
+ All are based on the idea of statistical regularization.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/variance_bias_tradeoff.pdf
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Sakamoto_et_al.pdf
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Sakamoto_II.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Sakamoto_III.pdf
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Sakamoto_V.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Statistical regularization
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underbrace{\mathbb{\mathscr{L}}(\mathbf{y},\boldsymbol{\theta})}_{\text{loss function}}+\underbrace{r(\boldsymbol{\theta},\boldsymbol{\gamma})}_{\text{regulator}}\;
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The term 
+\begin_inset Quotes eld
+\end_inset
+
+regularization
+\begin_inset Quotes erd
+\end_inset
+
+ comes from the use of a function that regulates an optimization.
+ Can shrink variance of estimates or increase accuracy of predictions or
+ both.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Do not confuse 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathscr{L}(\mathbf{y},\boldsymbol{\theta})$
+\end_inset
+
+ with a likelihood.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Information criteria involve specific approaches to model selection that
+ fall under the much broader umbrella of statistical regularization.
+ The term 
+\begin_inset Quotes eld
+\end_inset
+
+regularization
+\begin_inset Quotes erd
+\end_inset
+
+ comes from the use of a function that regulates an optimization.
+ The optimization problem might be a likelihood to be maximized or a posterior
+ distribution sampled with MCMC.
+ Consider the general expression 
+\begin_inset Formula 
+\begin{equation}
+\mathbb{\mathscr{L}}(\mathbf{y},\boldsymbol{\theta})+r(\boldsymbol{\theta},\boldsymbol{\gamma})\;,\label{eq:reg}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathscr{L}(\mathbf{y},\boldsymbol{\theta})$
+\end_inset
+
+ represents a 
+\emph on
+loss function
+\emph default
+, a function
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Do not confuse 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathscr{L}(\mathbf{y},\boldsymbol{\theta})$
+\end_inset
+
+ with a likelihood.
+ We will use 
+\begin_inset Formula $\mathscr{L}$
+\end_inset
+
+ to denote a loss in general and 
+\begin_inset Formula $L$
+\end_inset
+
+ specifically to denote a likelihood.
+\end_layout
+
+\end_inset
+
+ of quantities we observe (
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+) and those that are unobserved (
+\begin_inset Formula $\boldsymbol{\theta}$
+\end_inset
+
+).
+ The loss function expresses how a quantity of interest (e.g., a likelihood)
+ changes as we change 
+\begin_inset Formula $\bm{\theta}$
+\end_inset
+
+.
+ As it is composed here, small values of 
+\begin_inset Formula $\mathscr{L}(\mathbf{y},\boldsymbol{\theta})$
+\end_inset
+
+ are best.
+ The function 
+\begin_inset Formula $r(\boldsymbol{\theta},\boldsymbol{\gamma})$
+\end_inset
+
+ in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:reg"
+
+\end_inset
+
+) opposes the minimization of 
+\begin_inset Formula $\mathscr{L}(\mathbf{y},\boldsymbol{\theta})$
+\end_inset
+
+ by adding to it as 
+\begin_inset Formula $\bm{\theta}$
+\end_inset
+
+ changes.
+ The regulator function 
+\begin_inset Formula $r$
+\end_inset
+
+ may also depend on some other variables 
+\begin_inset Formula $\boldsymbol{\gamma}$
+\end_inset
+
+ that may or may not be related to the loss function or its components.
+ Of course, there are other ways to express the loss and regulator relationship,
+ for example, expressions need not be additive, but the expression in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:reg"
+
+\end_inset
+
+) is perhaps the most common.
+ Statistical inference can now be obtained by minimizing the joint function
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:reg"
+
+\end_inset
+
+) with respect to 
+\begin_inset Formula $\boldsymbol{\theta}$
+\end_inset
+
+, and perhaps 
+\begin_inset Formula $\boldsymbol{\gamma}$
+\end_inset
+
+, if not already known.
+ We use regularization because it can improve inference.
+ It can shrink the variance of estimates, or increase the accuracy of prediction
+s, or both.
+ As we will soon see, the dominant approaches to model selection are some
+ variant of the general idea of regularization.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Examples of statistical regularization
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Bayesian prior 
+\begin_inset Formula $\log[\theta|\mathbf{y}]\propto\log[\mathbf{y}|\theta]+\log[\theta]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Priors in penalized MLE 
+\begin_inset Formula $\log L[\theta|\mathbf{y}]=\sum_{i=1}^{n}\log[y_{i}\mid\theta]+\log(\theta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ridge regression 
+\end_layout
+
+\begin_layout Itemize
+LASSO
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+LASSO = least absolute shrinkage and selection operator
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Information criteria (AIC, BIC, DIC, WAIC)
+\end_layout
+
+\begin_layout Itemize
+Posterior predictive loss
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Deviance.pdf
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+Predictive models have small (more negative) deviance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Exercise
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Write an expression for the deviance of a simple linear regression with
+ 20 continuous, strictly non-negative, data points.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/Deviance_in_AIC.pdf
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Branch Answers
+inverted 0
+status open
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{eqnarray*}
+D(\mathbf{\bm{\beta}},\sigma^{2}) & = & -2\log\left(\prod_{i=1}^{20}\text{lognormal}\left(y_{i}\mid\log\left(\beta+\beta_{1}x_{i}\right),\sigma^{2}\right)\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+What is the interpretation of counting parameters in a Bayesian or a likelihood-
+ based model with informative priors?
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+DIC, the deviance information criterion
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{DIC}=\hat{D}+2p_{D}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\hat{D}=-2\log[\mathbf{y}|\text{E}(\boldsymbol{\theta}|\mathbf{y})]=$
+\end_inset
+
+ deviance of model evaluated at the means of the parameters
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p_{D}=\bar{D}-\hat{D}=$
+\end_inset
+
+effective number of parameters
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\bar{D}=$
+\end_inset
+
+posterior mean of the deviance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\bar{D} & = & \text{E}_{\boldsymbol{\theta}|\mathbf{y}}(-2\log[\mathbf{y}|\boldsymbol{\theta}])\\
+ & = & \int-2\log[\mathbf{y}|\boldsymbol{\theta}][\boldsymbol{\theta}|\mathbf{y}]d\boldsymbol{\theta}\;.
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+DIC cannot be interpreted directly.
+ Models with greater predictive ability have lower DIC values.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+DIC as a statistical regulator
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Smaller DIC values indicate better prediction.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+With increasing number of parameters:
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\[
+\text{DIC}=\overbrace{\hat{D}}^{\text{smaller}}+2(\overbrace{\bar{D}-\hat{\underbrace{D}_{\text{smaller}}}}^{\text{larger}})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implementing DIC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Compute 
+\begin_inset Formula $\bar{D}$
+\end_inset
+
+ by calculating the model deviance at each iteration of the MCMC algorithm,
+\begin_inset Formula 
+\begin{equation}
+D^{\left(k\right)}=-2\log\left[\mathbf{y}|\bm{\theta}^{\left(k\right)}\right]
+\end{equation}
+
+\end_inset
+
+ and finding the mean of 
+\begin_inset Formula $D$
+\end_inset
+
+ across all of the iterations, 
+\begin_inset Formula $\bar{D}=\frac{\sum_{k=1}^{K}D^{\left(k\right)}}{K}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+We estimate 
+\begin_inset Formula $\hat{D}$
+\end_inset
+
+ by calculating the model deviance using the means of the posterior distribution
+s of each of the parameters, 
+\begin_inset Formula $\hat{D}=-2\log[\mathbf{y}\mid\bar{\bm{\theta}]}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset Formula 
+\[
+\text{DIC}=\overbrace{\hat{D}}^{\text{smaller}}+2(\overbrace{\bar{D}-\hat{\underbrace{D}_{\text{smaller}}}}^{\text{larger}})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When to use DIC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $p_{D}$
+\end_inset
+
+ must be much smaller than 
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Symmetric, unimodal posteriors (no mixture models unless integrated)
+\end_layout
+
+\begin_layout Itemize
+May not be used for 
+\begin_inset Quotes eld
+\end_inset
+
+model
+\begin_inset Quotes erd
+\end_inset
+
+ weights as is often done for AIC (with little theoretical basis as probabilitie
+s)
+\end_layout
+
+\begin_layout Itemize
+Look into the issue of 
+\begin_inset Quotes eld
+\end_inset
+
+focus of prediction
+\begin_inset Quotes erd
+\end_inset
+
+ when using with hierarchical models.
+\end_layout
+
+\begin_layout Itemize
+Do not be seduced by convenience.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Integrated DIC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Model sans priors
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{align*}
+y_{i} & \sim\left\{ \begin{array}{ll}
+0 & ,~z_{i}=0\\
+\text{binomial}(n_{i},p) & ,~z_{i}=1
+\end{array}\right.\\
+z_{i} & \sim\text{\text{Bernoulli}}(z_{i})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Likelihood: 
+\begin_inset Formula 
+\[
+[y_{i}|z_{i},p,\psi]=[\text{y}_{i}|p,\text{n}_{i}]^{z_{i}}1_{\{\text{y}_{i}=\text{0}\}}^{1-z_{i}}[\boldsymbol{z}_{i}|\psi]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Keeping in mind that when 
+\begin_inset Formula $z_{i}=0$
+\end_inset
+
+, 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ must also equal 0.
+ This simplifies the integration (via sum): 
+\begin_inset Formula 
+\[
+[y_{i}|p,\psi]=\sum_{z_{i}=0}^{1}[\text{y}_{i}|p,\text{n}_{i}]^{z_{i}}1_{\{\text{y}_{i}=\text{0}\}}^{1-z_{i}}[\boldsymbol{z}_{i}|\psi].
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Use same code as for regular DIC except substitute this for likelihood.
+ 
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Posterior predictive loss
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+[y^{new}\mid\mathbf{y}] & = & \int[y^{new}\mid\bm{\theta}][\bm{\theta}|\mathbf{y}]d\bm{\theta}\\
+D_{sel} & = & \overbrace{\sum_{i=1}^{n}(y_{i}-\text{E}(y_{i}^{new}|\mathbf{y}))^{2}}^{\text{decreases with more parameters}}+\overbrace{\sum_{i=1}^{n}\text{Var}(y_{i}^{new}|\mathbf{y})}^{\text{increases with more parameters}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Implementing 
+\begin_inset Formula $D_{sel}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Simulate a new dataset 
+\begin_inset Formula $(\mathbf{y}^{new})$
+\end_inset
+
+ at each MCMC iteration (in JAGS)
+\end_layout
+
+\begin_layout Enumerate
+Compute the sum of the squared difference between the mean of the 
+\begin_inset Formula $y_{i}^{new}$
+\end_inset
+
+ and the 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ (in R).
+\end_layout
+
+\begin_layout Enumerate
+Compute the sum of the the variances of the 
+\begin_inset Formula $y_{i}^{new}$
+\end_inset
+
+ across all of the MCMC iterations (in R).
+\end_layout
+
+\begin_layout Enumerate
+Subtract the result in 3 from the result in 2.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When to use 
+\begin_inset Formula $D_{sel}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The Swiss Army knife of Bayesian model selection - works for any model.
+\end_layout
+
+\begin_layout Itemize
+Again, truly Bayesian because it depends on posterior predictive distribution.
+\end_layout
+
+\begin_layout Itemize
+Style points.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Indicator variable selection
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Indicator variable selection
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Consider a model in the general linear modeling family,
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{align*}
+\mu_{i} & =g(\beta_{0}+\mathbf{x}_{i}\bm{\beta})\\
+y_{i} & \sim[y_{i}\mid\mu_{i},\sigma^{2}]
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+where 
+\begin_inset Formula $\bm{\beta}$
+\end_inset
+
+ is vector of covariates of length 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Evaluating all possible combinations of the coefficients using model selection
+ criteria becomes tedious if there are many coefficients.
+ (Personally, I 
+\emph on
+hate 
+\emph default
+this style of modeling.) What is an alternative?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Indicator variable selection
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Recast the parameter vector to become 
+\begin_inset Formula 
+\[
+\beta_{j}=\theta_{j}z_{j},\,\:j=1,...,p,
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $z_{j}$
+\end_inset
+
+ is a zero or one indicator variable and 
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{align*}
+\theta_{j} & \sim\text{normal}(0,100000)\\
+z_{j} & \sim\text{Bernoulli}(\phi)\\
+\phi & \sim\text{uniform}(0,1)
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+The mean of the 
+\begin_inset Formula $z_{j}$
+\end_inset
+
+ across all MCMC samples can be interpreted as the relative weight of the
+ 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ coefficient, that is, the probability of including the parameter in the
+ model (with standardized covariates).
+ Values close to one indicate that the 
+\begin_inset Formula $j^{th}$
+\end_inset
+
+ coefficient is an important predictor of the response.
+ Values close zero indicate it is not important.
+ This wraps model selection, model averaging, and variable importance together
+ in a single tidy package.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Indicator variable selection
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+But there is a catch.
+ The independent priors on the 
+\begin_inset Formula $\bm{\beta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\phi$
+\end_inset
+
+ above often lead to MCMC samples that fail to converge if the prior for
+ the 
+\begin_inset Formula $\theta_{j}$
+\end_inset
+
+ is too vague, although this is not always the case.
+\end_layout
+
+\begin_layout Itemize
+Remedy: Stochastic search variable selection
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\size tiny
+E.
+ I.
+ George and R.
+ E.
+ McCulloch.
+ Variable selection via Gibbs sampling.
+ Journal of the American Statistical Association, 88(423):881–889, 1993.
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Use a joint prior for 
+\begin_inset Formula $\theta_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{j}$
+\end_inset
+
+, 
+\begin_inset Formula $[z_{j},\theta_{j}]=[\theta_{j}\mid z_{j}][z_{j}]$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\theta_{j}|z_{j}\sim z_{j}\text{normal}(0,c\varsigma^{2})+(1-z_{j})\text{normal}(0,\varsigma^{2}).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Tune 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $\varsigma^{2}$
+\end_inset
+
+ so that 
+\begin_inset Formula $\varsigma^{2}$
+\end_inset
+
+ is small creating a spike at zero and 
+\begin_inset Formula $c\varsigma^{2}$
+\end_inset
+
+ is larger creating a slab around zero.
+ The slab provide the prior for 
+\begin_inset Formula $\theta_{j}$
+\end_inset
+
+ when 
+\begin_inset Formula $\beta_{j}$
+\end_inset
+
+ is in the model (i.e.
+ when 
+\begin_inset Formula $z_{j}=1$
+\end_inset
+
+.
+ See example code.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example JAGS code
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://mbjoseph.github.io/posts/2018-12-27-stochastic-search-variable-selection-i
+n-jags/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size tiny
+model{
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    alpha ~ dnorm(0, 1) #vague because x's standardized
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    sd_y ~ dunif(0, 10)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    tau_y <- pow(sd_y, -2)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    ####### ssvs priors
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    sd_bet ~ dunif(0, 10)     #tune as needed
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    tau_in <- pow(sd_bet, -2)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+   c = 1000 #tune as needed
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    tau[1] <- tau_in        # coef effectively zero
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    tau[2] <- tau_in / c #nonzero coef
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    p_ind[1] <- 1/2
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    p_ind[2] <- 1 - p_ind[1]
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    for (j in 1:n.coef){  #for each coefficient
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+      indA[j] ~ dcat(p_ind[]) # returns 1 or 2
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+      z[j] <- indA[j] - 1   # returns 0 or 1
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+      beta[j] ~ dnorm(0, tau[indA[j]])
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    }
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    ###### likelihood
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    for (i in 1:nobs){
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+      Y[i] ~ dnorm(alpha + X[i ,] %*% beta[], tau_y)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    }
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+    } #end of model
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Guidance
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Out-of-sample validation: gold standard 
+\end_layout
+
+\begin_layout Itemize
+Cross-validation: when computation is feasible 
+\end_layout
+
+\begin_layout Itemize
+DIC : Simple Bayesisan models in general linear modeling framework with
+ symmetric posteriors 
+\end_layout
+
+\begin_layout Itemize
+Indicator variable selection: When you seek to combine model averaging with
+ model selection and understand relative importance of coefficients.
+\end_layout
+
+\begin_layout Itemize
+Posterior-predictive loss: any Bayesian model 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Further study 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\size footnotesize
+Model selection laboratory exercise (optional) in repository
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Folder on indicator variable selection in repository
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+BMA package in R
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Hobbs, N.
+ T.
+ and Hooten M.
+ B, Bayesian models: a statistical primer for ecologists.
+ 2015.
+ Princeton University Press.
+ Chapter 9.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Hooten, M.
+ B., and N.
+ T.
+ Hobbs.
+ 2015.
+ A guide to Bayesian model selection for ecologists.
+ Ecological Monographs 85:3-28.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Link, W.
+ A., and R.
+ J.
+ Barker.
+ 2006.
+ Model weights and the foundations of multimodel inference.
+ Ecology 87:2626-2635.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+See Link, W.
+ A., and R.
+ J.
+ Barker.
+ 2010.
+ Bayesian Inference with ecological applications.
+ Academic Press, chapter 7
+\end_layout
+
+\begin_layout Itemize
+
+\size footnotesize
+Ver Hoef, J.
+ M.
+ and P.
+ L.
+ Boveng.
+ 2015.
+ Iterating on a single model is a viable alternative to multimodel inference.
+ The Journal of Wildlife Management, 79(5):719–729
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

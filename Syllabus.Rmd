@@ -96,7 +96,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 2. Ordinal Models & Ordinal Models Lab
 3. Analysis of Designed Experiments & Designed Experiments Lab
 3. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
-4. Model Selection & Model Selection Lab
+4. [Model Selection](content/lectures/ModelSelection.pdf) & Model Selection Lab
 
 <br>
 
