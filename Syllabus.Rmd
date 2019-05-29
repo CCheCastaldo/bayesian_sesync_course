@@ -48,7 +48,7 @@ Review Hobbs and Hooten chapters 5 and 7
 
 1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
-3. [Islands Lab](content/labs/IslandsLab.html) 
+3. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
 4. Happy Hour at SESYNC 
 
 Review Hobbs and Hooten chapter 7-8.
@@ -60,7 +60,7 @@ Review Hobbs and Hooten chapter 7-8.
 1. Bayesian Regression
 2. Writing regression Models Lab (we should discuss this)
 4. [Multi-level Modeling](content/lectures/MultiLevelRegression.pdf)
-4. Multi-level Modeling lab
+4. Multi-level Modeling Lab
 
 Review Hobbs and Hooten chapter 6.
 
@@ -74,7 +74,7 @@ Review Hobbs and Hooten chapter 6.
 
 1. Multi-Level Modeling Lab
 2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (if time?)
-3. Introduction to hierarchical models
+3. [Writing hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
@@ -82,8 +82,8 @@ Review Hobbs and Hooten chapters 6, 10-12.
 
 ##### **Day 8: (6/10) Writing hierarchical models, Model Checking**
 
-1. Hierarchical models problem set
-2. Model Checking
+1. Writing hierarchical Models Lab
+2. [Model Checking](content/lectures/ModelChecking.pdf)
 3. Multi-level Modeling Lab Revisited
 
 Review Hobbs and Hooten chapters 6, 8, 10-12.
