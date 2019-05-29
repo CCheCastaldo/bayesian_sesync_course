@@ -40,7 +40,7 @@ Review Hobbs and Hooten chapters 3.5-4.
 4. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & [MCMC Lab 2](content/labs/MCMCLab2.html) (optional)
 5. [MCMC Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
 
-Review Hobbs and Hooten chapters 5 and 7
+Review Hobbs and Hooten chapters 5 and 7.
 
 <br>
 
@@ -55,12 +55,12 @@ Review Hobbs and Hooten chapter 7-8.
 
 <br>
 
-##### **Day 5: (6/7) Modeling Practice**
+##### **Day 5: (6/7) Bayesian Regression & Multi-Level Modeling**
 
 1. Bayesian Regression
 2. Writing regression Models Lab (we should discuss this)
-4. [Multi-level Modeling](content/lectures/MultiLevelRegression.pdf)
-4. Multi-level Modeling Lab
+4. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
+4. Multi-Level Modeling Lab
 
 Review Hobbs and Hooten chapter 6.
 
@@ -70,32 +70,32 @@ Review Hobbs and Hooten chapter 6.
 
 <br>
 
-##### **Day 7: (6/9) Bayesian Regression & Multi-Level Modeling**
+##### **Day 7: (6/9) Multi-Level Modeling & Modeling Practice**
 
 1. Multi-Level Modeling Lab
 2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (if time?)
-3. [Writing hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)
+3. [Writing Hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
 <br>
 
-##### **Day 8: (6/10) Writing hierarchical models, Model Checking**
+##### **Day 8: (6/10) Modeling Practice, Model Checking, & Mixed Models**
 
 1. Writing Hierarchical Models Lab
 2. [Model Checking](content/lectures/ModelChecking.pdf)
-3. Multi-level Modeling Lab Revisited
+3. Multi-Level Modeling Lab Revisited
+4. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
 
 Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 <br>
 
-##### **Day 9: (6/11) Advanced Topics with concurrent sessions**
+##### **Day 9: (6/11) Advanced Topics with Concurrent Sessions**
 
 1. [Dynamic Models](content/lectures/DynamicModels.pdf) & Lynx Lab
 2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & Ordinal Models Lab
 3. Analysis of Designed Experiments & Designed Experiments Lab
-3. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
 4. [Model Selection](content/lectures/ModelSelection.pdf) & Model Selection Lab
 
 <br>
