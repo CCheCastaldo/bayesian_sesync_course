@@ -15,7 +15,7 @@ editor_options:
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
 
-##### Islands Lab
+##### JAGS Problems Lab
 
 ##### `r format(Sys.Date(), format="%B %d, %Y")`
 
@@ -48,7 +48,7 @@ JAGS allows you to implement models of high dimension once you master its syntax
 
 ---
 
-### **Derived quantities with the logisic**
+### **Derived quantities with the logistic**
 
 One of the most useful features of MCMC is its equivariance property which means that any quantity that is a function of a random variable in the MCMC algorithm becomes a random variable. Consider two quantities of interest that are functions of our estimates of the random variables $r$ and $K$:
  
