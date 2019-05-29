@@ -189,49 +189,6 @@ input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
 status open
 
 \begin_layout Plain Layout
-Course topics
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-center
-\end_layout
-
-\end_inset
-
- 
-\begin_inset Graphics
-	filename ../../_Graphics/Course_topics.png
-	width 85page%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -3717,6 +3674,11 @@ Can substitute inverse logit models of covariates for
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Branch Show
+inverted 0
+status open
+
 \begin_layout Frame
 \begin_inset Argument 4
 status open
@@ -5629,6 +5591,11 @@ M.
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 
