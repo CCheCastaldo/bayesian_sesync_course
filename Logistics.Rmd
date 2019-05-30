@@ -26,6 +26,12 @@ Course materials will be distributed throughout the course via our course websit
 
 <br>
 
+#### **MCMCVis**
+
+We will use the `MCMCvis` [package](https://cran.r-project.org/web/packages/MCMCvis/index.html) to manipulate and visualize JAGS output. The [package vignette](https://cran.r-project.org/web/packages/MCMCvis/vignettes/MCMCvis.html) nicely outlines its capabilities. 
+
+<br>
+
 #### **Install course R package `SESYNCBayes`**
 
 We have prepared an R package that contains all the data you will need to complete our lab exercises.  The package is part of the course materials that you now have on your local machine. You will need to do an initial install of this package and do periodic updates throughout the course. For both the install and update the commands are the same.
