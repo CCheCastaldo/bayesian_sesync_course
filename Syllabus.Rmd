@@ -85,7 +85,7 @@ Review Hobbs and Hooten chapters 6, 10-12.
 1. Writing Hierarchical Models Lab
 2. [Model Checking](content/lectures/ModelChecking.pdf)
 3. [Multi-Level Modeling Lab Revisited](content/labs/MultiLevelModelingLab.html)
-4. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
+4. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
 
 Review Hobbs and Hooten chapters 6, 8, 10-12.
 
