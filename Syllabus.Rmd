@@ -32,7 +32,7 @@ Review Hobbs and Hooten chapters 3.5-4.
 
 <br>
 
-##### **Day 3: (6/5) Intro to Bayesian Statistics**
+##### **Day 3: (6/5) Intro to Bayesian Statistics & Markov Chain Monte Carlo**
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
 2. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
@@ -44,7 +44,7 @@ Review Hobbs and Hooten chapters 5 and 7.
 
 <br>
 
-##### **Day 4: (6/6) Markov Chain Monte Carlo**
+##### **Day 4: (6/6) JAGS and Model Inference**
 
 1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
@@ -58,9 +58,8 @@ Review Hobbs and Hooten chapter 7-8.
 ##### **Day 5: (6/7) Bayesian Regression & Multi-Level Modeling**
 
 1. Bayesian Regression
-2. Writing regression Models Lab (we should discuss this)
-4. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
-4. Multi-Level Modeling Lab
+2. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
+3. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html) 
 
 Review Hobbs and Hooten chapter 6.
 
@@ -70,21 +69,21 @@ Review Hobbs and Hooten chapter 6.
 
 <br>
 
-##### **Day 7: (6/9) Multi-Level Modeling & Modeling Practice**
+##### **Day 7: (6/9) Multi-Level Modeling**
 
-1. Multi-Level Modeling Lab
-2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (if time?)
+1. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
+2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (optional)
 3. [Writing Hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
 <br>
 
-##### **Day 8: (6/10) Modeling Practice, Model Checking, & Mixed Models**
+##### **Day 8: (6/10) Multi-Level Modeling, Model Checking, & Mixed Models**
 
 1. Writing Hierarchical Models Lab
 2. [Model Checking](content/lectures/ModelChecking.pdf)
-3. Multi-Level Modeling Lab Revisited
+3. [Multi-Level Modeling Lab Revisited](content/labs/MultiLevelModelingLab.html)
 4. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
 
 Review Hobbs and Hooten chapters 6, 8, 10-12.

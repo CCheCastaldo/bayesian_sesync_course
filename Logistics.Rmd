@@ -10,13 +10,7 @@ output:
 
 #### **Course Preparation**
 
-R is a crucial skill for success in this course. Considering reviewing Tom's R Primer, and head over to [Quick-R](http://www.statmethods.net/index.html), which gives a nice overview of basic R functionality. We ask that you are fluent with the following topics from Quick-R:
-
-1.  Data Types, Importing Data (from excel or a .csv file), Keyboard Input, and Missing Values under Data Input
-2. All topics under Data Management
-3.  All topics under Graphs
-
-Specifically, you should be very comfortable with manipulating matrices and lists and writing and using custom functions.
+R is a crucial skill for success in this short course. Considering reviewing [R For Beginners](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf), which gives a nice overview of basic R functionality. Specifically, you should be very comfortable with manipulating matrices and lists and writing and using custom functions.
 
 We strongly recommend purchasing [Hobbs & Hooten 2015](https://www.amazon.com/Bayesian-Models-Statistical-Primer-Ecologists/dp/0691159289). The first three chapters provide foundational material that we will cover fairly quickly in the course, so if you have not had a course in mathematical statistics, reading those chapters before the course is crucial. The structure of the course closely follows the organization of the book and it will be a useful reference after the course.
 
@@ -24,7 +18,7 @@ We strongly recommend purchasing [Hobbs & Hooten 2015](https://www.amazon.com/Ba
 
 #### **Course Logistics**
 
-We will be starting at 9am each day. We will usually end at 5 or 5:30.  
+We will be starting at 9 am each day. We will usually end at 5 or 5:30.  
 
 Remember that lunch will be served at SESYNC each day during the course.
 
