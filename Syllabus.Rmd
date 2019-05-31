@@ -102,9 +102,9 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 ##### **Day 10: (6/12) Spatial Modeling & Individual Projects**
 
-1. Participant Project Work
-2. [Spatial Modeling for Areal Data](content/lectures/BayesianModelsForArealData.pdf) & Spatial Lab
-3. Bayesian Modeling Practicalities
+1. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) & Spatial Lab1
+2. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & Spatial Lab2
+3. Participant Project Work
 
 <br>
 
