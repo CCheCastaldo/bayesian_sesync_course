@@ -94,21 +94,21 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 ##### **Day 9: (6/11) Advanced Topics with Concurrent Sessions**
 
 1. [Dynamic Models](content/lectures/DynamicModels.pdf) & Lynx Lab
-2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & Ordinal Models Lab
-3. Analysis of Designed Experiments & Designed Experiments Lab
-4. [Model Selection](content/lectures/ModelSelection.pdf) & Model Selection Lab
+2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & Lab
+3. Analysis of Designed Experiments & Lab
+4. [Model Selection](content/lectures/ModelSelection.pdf) & Lab
 
 <br>
 
 ##### **Day 10: (6/12) Spatial Modeling & Individual Projects**
 
-1. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) & Spatial Lab1
-2. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & Spatial Lab2
+1. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) & Spatial Lab 1
+2. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & Spatial Lab 2
 3. Participant Project Work
 
 <br>
 
-##### **Day 11: (6/13) Presentation Day (ALL DAY)**
+##### **Day 11: (6/13) Presentation Day (end ~5 PM)**
 
 1. Course Evaluation Survey
 2. Participant Project Presentations and Feedback 
