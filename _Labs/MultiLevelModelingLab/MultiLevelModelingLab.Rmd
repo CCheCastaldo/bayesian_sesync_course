@@ -135,7 +135,7 @@ Power functions can be logged, which makes fitting easier since the deterministi
 
 <br>
 
-1. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N2O emission ($y_{i}$
+2. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N2O emission ($y_{i}$
 ) on fertilizer addition ($x_{i}$) for a single observation.
 
 <button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
@@ -154,7 +154,7 @@ include_graphics("../../_Graphics/DAG1_ml.png")
 
 <br>
 
-2. Write out the joint distribution for a linear regression model of N~2~O emission ($y$) on fertilizer addition ($x$) for a single observation. Start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing, of course, that you might need moment matching when you choose a specific distribution.  
+3. Write out the joint distribution for a linear regression model of N~2~O emission ($y$) on fertilizer addition ($x$) for a single observation. Start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing, of course, that you might need moment matching when you choose a specific distribution.  
 
 <button class="button" onclick="toggle_visibility('myDIV1A');">Answer</button>
 
@@ -170,7 +170,7 @@ $$
 
 <br>
 
-3. Finish by choosing specific distributions for likelihoods and priors. You will use the math in the answer as a template to code your model in the subsequent exercises. What are assuming about the distribution of the untransformed $\mu_i$? 
+4. Finish by choosing specific distributions for likelihoods and priors. You will use the math in the answer as a template to code your model in the subsequent exercises. What are assuming about the distribution of the untransformed $\mu_i$? 
 
 <button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
 
@@ -189,7 +189,7 @@ If you are choosing the normal distribution for logged N~2~O emission, then the 
 
 <br>
 
-4. What is the hypothesis represented by this model?
+5. What is the hypothesis represented by this model?
 
 <button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
 
@@ -253,7 +253,7 @@ inits = list(
   list(alpha = 2, beta = .75, sigma = 20))
 ```
 
-5. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters.  Produce a summary table and caterpillar plot for the parameters and tests for convergence including the effective sample size.
+6. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters.  Produce a summary table and caterpillar plot for the parameters and tests for convergence including the effective sample size.
 
 <button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
 
@@ -1467,19 +1467,12 @@ All statistical inference is based on some type of statistical model.  A truly f
 
 The Bayesian approach provides a method, simple to implement, that allows you to check if your model is capable of producing the  data.  It is called a *posterior predictive check*.  The details of the math are given Hobbs and Hooten 8.1 and were covered in lecture. Here is a brief description of how to code it.  The algorithm goes like this:
 
-1. Simulate a new data set at each iteration of the MCMC.  This sounds formidable, but it is really no more than drawing a random variable from the likelihood.  So, for example if your likelihood is:
+1. Simulate a new data set at each iteration of the MCMC.  This sounds formidable, but it is really no more than drawing a random variable from the likelihood. You can simulate a new data set by embedding the following code in the same `for` loop as your likelihood. For example:
 
 ```{r, eval = FALSE}
 y[i] ~ dnorm(log_mu[i], tau)
-```
-
-  you can simulate a new data set by embedding:
-
-```{r, eval = FALSE}
 y.sim[i] ~ dnorm(log_mu[i], tau)
 ```
-
-  in the same `for` loop.
 
 2. Calculate a test statistic based on the real and the simulated data.  The test statistic could be a mean, standard deviation, coefficient of variation, discrepancy, minimum, maximum -- really any function that helps you compare the simulated and real data. We think it is wise to always include a test statistic that in some way reflects the variance because it is harder for the model to get the variance 
 
