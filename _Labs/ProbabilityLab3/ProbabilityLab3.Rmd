@@ -18,24 +18,60 @@ output:
 ##### `r format(Sys.Date(), format="%B %d, %Y")`
 
 ```{r preliminaries, include = FALSE}
-
+library(MASS)
 library(knitr)
-
 knitr::opts_chunk$set(cache = FALSE)
-
 set.seed(10)
-
 ```
 
 ----
 
-The holy grail in Bayesian analysis is to discover the *marginal posterior distribution* of unobserved quantities (parameters, latent states, missing data, forecasts) from quantities we are able to observe (data). Here is our modus operandi, applicable to virtually all analysis problems.  We always start with the joint distribution of the unobserved quantities and the data.  We then factor the joint distribution into sensible parts.  We use the factored joint distribution as a recipie for finding the marginal distributions of the unobsereved quantities using the Markov chain Monte Carlo algorithm, as we will learn about soon.  It follows that we must understand what marginal distributions are.  
+### **Motivation**
 
-Marginal distributions can be used to describe discrete or continuous random variables, but the continuous case is the one we will see most often in the course, so we emphasize it here. 
+The guiding purpose in Bayesian analysis is to discover the *marginal posterior distribution* of unobserved quantities (parameters, latent states, missing data, forecasts) from quantities we are able to observe (data).  It follows that we must understand what marginal distributions are. The following is an example of a discrete case that also exercises your newly gained familiarity with the laws of probability.
 
-1. Sketch the distribution represented by the following integral: 
-$$\int_{\beta_0}\int_{\beta_2}\int_{\beta_3}\int_{\sigma^2}[\beta_0,\beta_1,\beta_2,\beta_3,\sigma^2|\mathbf{y}]d\beta_0d\beta_2d\beta_3d\sigma^2$$
+<br>
 
+---
+
+### **R libraries needed for this lab**
+
+You need to load the following librarr. Set the seed to 10 to compare your answers to ours.
+
+```{r eval = FALSE, echo = TRUE}
+library(MASS)
+set.seed(10)
+```
+
+<br>
+
+---
+
+### **Discrete random variables: Diamonds Pigeons**
+
+Jared Diamond studied the distribution of fruit pigeons *Ptilinopus rivoli* and *P. solomonensis* on 32 islands in the Bismark archipelago northeast of New Guinea (Table 1). Define the event $R$ as an island being occupied by *P. rivoli*, and the event $S$ as an island being occupied by *P. solomonensis*. The complementary events are that an island is not occupied by *P. solomonensis* $\big(S^c\big)$ and not occupied by *P. rivoli* $\big(R^c\big)$.
+
+<br>
+
+<center>
+**Table 1**: Data on distribution of species of fruit pigeons on islands
+
+Status  | Number of Islands
+------------- | -------------
+*P. rivoli* present, *P. solomonensis* absent | 9
+*P. solomonensis* present, *P. rivoli* absent | 18
+Both present | 2
+Both absent | 3
+Total | 32
+</center>
+
+<br>
+
+1. Fill in Table 2 to estimate the *marginal* probabilities of presence and absence of the two species.  The cells show the joint probability of the events specified in the row and column.  The right column and the bottom row show the marginal probabilities.  
+
+  a.  What is the sum of the marginal rows?
+  b.  What is the sum of the marginal columns?
+  c.  Why?  Note, when we marginalize over $R$ we are effectively eliminating $S$ and vice versa.
 
 <button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
 
@@ -43,46 +79,33 @@ $$\int_{\beta_0}\int_{\beta_2}\int_{\beta_3}\int_{\sigma^2}[\beta_0,\beta_1,\bet
 
 <br>
 
-<div style="width:400px; height=400px; margin:0 auto;">
 <center>
-![](../../_Graphics/MarginalDistribution.png)
+**Table 2**: Estimates of marginal probabilities for island occupancy
+
+Events  | $S$ | $S^c$ | Marginal
+------------- | ------------- | ------------- | -------------
+$R$ | $\Pr\big(S,R\big)=$ | $\Pr\big(S^c, R\big) =$ | $\Pr\big(R\big)=$
+$R^c$ | $\Pr\big(S,R^c\big)=$ | $\Pr\big(S^c, R^c\big) =$ | $\Pr\big(R^c\big)=$
+Marginal | $\Pr\big(S\big)=$ | $Pr\big(S^c\big)=$ | $\sum=$
 </center>
-</div>
+
+<br>
+
+<center>
+**Table 2**: Estimates of marginal probabilities for island occupancy
+
+Events  | $S$ | $S^c$ | Marginal
+------------- | ------------- | ------------- | -------------
+$R$ | $\Pr\big(S,R\big)=\frac{2}{32}$ | $\Pr\big(S^c, R\big) =\frac{9}{32}$ | $\Pr\big(R\big)=\frac{11}{32}$
+$R^c$ | $\Pr\big(S,R^c\big)=\frac{18}{32}$ | $\Pr\big(S^c, R^c\big)=\frac{3}{32}$ | $\Pr\big(R^c\big)=\frac{21}{32}$
+Marginal | $\Pr\big(S\big)=\frac{20}{32}$ | $Pr\big(S^c\big)=\frac{12}{32}$ | $=\frac{32}{32}$
+</center>
 
 </div>
 
 <br>
 
-2. The rate of inflation and the rate of return on investments are know to be positively correlated. Assume that the mean rate of inflation is 0.03 with a standard deviation of 0.015.  Assume that the mean rate of return is 0.05 with a standard deviation of 0.07.  Assume the correlation between inflation and rate of return is 0.5.
-
-Representing the correlation between the rates requires a new distribution, the multivariate normal:
-
-$$ \mathbf{z} \sim \text{multivariate normal}({\boldsymbol{\mu}, \boldsymbol{\Sigma}}),$$
-where $\mathbf{z}$ is a vector of random variables, $\boldsymbol\mu$ is a vector of means (which can be the output of a deterministic model) and $\boldsymbol\Sigma$ is a variance covariance matrix. The diagonal of $\boldsymbol{\Sigma}$ contains the variances of the $\boldsymbol\mu$ and the off diagonal elements contain the covariances $\text{cov}(\mu_i,\mu_j)$ between $\mu_{i}$ and $\mu_{j}$. The covariance can be calculated as $\text{cov}(\mu_i,\mu_j)=\sigma_i\sigma_j\rho$ where $\sigma_i$ is the standard deviation of the $ith$ random variable, $\sigma_j$ is the standard deviation of the $jth$ random variable, and $\rho$ is the correlation between the random variable $i$ and $j$. The covariance matrix is square and symmetric. We will learn more about these matrices later in the course.  For now, an example will go a long way toward helping you understand the multivariate normal distribution.
-
-
-You can simulate interest rate and inflation data reflecting their correlation using the following function:
-
-```{r, fig.width = 6, fig.height = 5, fig.align = 'center'}
-
-library(MASS)
-
-DrawRates = function(n, int, int.sd, inf, inf.sd, rho.rates) {
-
-  covar = rho.rates * int.sd * inf.sd
-  Sigma <- matrix(c(int.sd^2, covar, covar, inf.sd^2), 2, 2)
-  mu = c(int, inf)
-  x = (mvrnorm(n = n, mu = mu, Sigma))
-  return(x)
-
-  }
-
-x = DrawRates(n = 10000, int = .05, int.sd = .07, inf = .03, inf.sd = .015, rho.rates = .5)
-
-plot(x[,1], x[,2], pch = 19, cex = .05, xlab = "Rate of return", ylab = "Rate of inflation")
-```
-
-What would this cloud look like if the rates were not correlated? Show an approximate plot of the marginal distribution of each random variable. It turns out this is the way we will do it with Markov chain Monte Carlo approximations of the marginal posterior distribution, which we will learn about later in the course. 
+2. Use the data in Table 1 and the probabilities in Table 2 to illustrate the rule for the union of two events, the probability that an island contains either species, $\Pr\big(R\cup S\big)$. You will need to derive the formula for the probability of event A or B to solve this problem.  A Venn diagram might help you do so.
 
 <button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
 
@@ -90,21 +113,101 @@ What would this cloud look like if the rates were not correlated? Show an approx
 
 <br>
 
-<div style="width:600px; height=400px; margin:0 auto;">
-<center>
-![](../../_Graphics/MarginalDistributionIntInfl.png)
-</center>
+\begin{eqnarray}
+\Pr\big(R\cup S\big) & = & \Pr\big(R\big) + \Pr\big(S\big) - \Pr\big(S,R\big)\\[1em]
+\Pr\big(R\big) & = &\frac{11}{32}\\[1em]
+\Pr\big(S\big) & = &\frac{20}{32}\\[1em]
+\Pr\big(R,S\big) & = &\frac{2}{32}\\[1em]
+\Pr\big(R\cup S\big) & = & \frac{11+20-2}{32}  =  \frac{29}{32}\\[1em]
+\end{eqnarray}
+
 </div>
 
 <br>
 
-```{r eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 4, fig.align = 'center'}
+3. Use the marginal probabilities in Table 2 to calculate the probability that an island contains both species i.e., $\Pr\big(R,S\big)$, assuming that $R$ and $S$ are independent.  Compare the results from those calculations with the probability that both species occur on an island calculated directly from the data in Table 1. Interpret the results ecologically.  What is $\Pr\big(R\mid S\big)$? What is $\Pr\big(S\mid R\big)$.
 
-par(mfrow= c(1, 2))
+<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
 
-hist(x[,1], xlab = "Interest Rate", main = "", freq = FALSE, breaks = 100)
+<div id="myDIV3", style="display:none">
 
-hist(x[,2], xlab = "Inflation Rate", main = "", freq = FALSE, breaks = 100)
+<br>
+
+If the probabilities are independent, then:
+
+$$\Pr\big(R,S\big) = \Pr\big(R\big)\Pr\big(S\big) = \frac{20}{32}\frac{11}{32} = .215$$
+
+</div>
+
+<br>
+
+4. Based on the data in Table 1, the probability that an island is occupied by both species is $\frac{2}{32}=.062$. Diamond interpreted this difference as evidence of niche separation resulting for inter-specific competition, an interpretation that stimulated a decade of debate.  What are the conditional probabilities, $\Pr\big(R\mid S\big)$ and $\Pr\big(S \mid R\big)$?
+
+<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
+
+<div id="myDIV4", style="display:none">
+
+<br>
+
+\begin{eqnarray}
+\Pr\big(R \mid S\big) &=& \cfrac{\Pr\big(R,S\big)}{\Pr\big(S\big)}=\cfrac{\frac{2}{32}}{\frac{20}{32}}=.10\\[2em]
+\Pr\big(S \mid R\big) &=& \cfrac{\Pr\big(R,S\big)}{\Pr\big(R\big)}=\cfrac{\frac{2}{32}}{\frac{11}{32}}=.18\\[2em]
+& & \\[1em]
+\end{eqnarray}
+
+</div>
+
+<br>
+
+---
+
+### **Continuous random variables **
+
+We now explore marginal distributions for continuous random variables.  This requires introducing a new distribution, the multivariate normal:
+
+$$ \mathbf{z} \sim \text{mulitvariate normal}({\pmb{\mu}, \pmb{\Sigma}} ), $$
+
+where $\mathbf{z}_i$ is a vector of random variables, $\pmb{\mu}$ is a vector of means (which can be the output of a deterministic model) and $\pmb\Sigma$ is a variance covariance matrix.  The diagonal of $\pmb\Sigma$ contains the variances and the off diagonal contains the covariance of $\Sigma[i,j]$. The covariance can be calculated as $\sigma_i\sigma_j\rho$ where $\sigma_i$ is the standard deviation of the $ith$ random variable, $\sigma_j$ is the standard deviation of the $jth$ random variable, and $\rho$ is the correlation between the random variable $i$ and $j$.  The covariance matrix is square and symmetric.  We will learn more about these matrices later in the course.  For now, an example will go a long way toward helping you understand the multivariate normal distribution.
+
+The rate of inflation and the rate of return on investments are know to be positively correlated.  Assume that the mean rate of inflation is .03 with a standard deviation of 0.015.  Assume that the mean rate of return is 0.0531 with a standard deviation of 0.0746.  Assume the correlation between inflation and rate of return is 0.5.
+
+You can simulate interest rate and inflation data reflecting their correlation using the following function:
+
+```{r, fig.align = 'center'}
+DrawRates = function(n, int,int.sd, inf, inf.sd, rho.rates) {
+  covar = rho.rates * int.sd * inf.sd
+  Sigma <- matrix(c(int.sd^2, covar, covar, inf.sd^2), 2, 2)
+  mu = c(int,inf)
+  x = (mvrnorm(n = n, mu = mu, Sigma))
+  return(x)
+}
+
+mu.int = .0531
+sd.int = .0746
+mu.inf = .03
+sd.inf = .015
+rho=.5
+n = 10000
+
+x = DrawRates(n = n, int = mu.int, int.sd = sd.int, inf = mu.inf, inf.sd = sd.inf, rho.rates = rho)
+
+plot(x[, 1], x[, 2], pch = 19, cex = .05, xlab = "Rate of return", ylab = "Rate of inflation")
+```
+
+What would this cloud look like if the rates were not correlated?
+
+Show an approximate plot of the marginal distribution of each random variable. It turns out this is the way we will do it with MCMC. 
+
+<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
+
+<div id="myDIV5", style="display:none">
+
+<br>
+
+```{r eval = TRUE, echo = TRUE, fig.align = 'center', fig.width = 10}
+par(mfrow = c(1, 2))
+hist(x[, 1], xlab = "Interest Rate", main = "", freq = FALSE, breaks = 100)
+hist(x[, 2], xlab = "Inflation Rate", main = "", freq = FALSE, breaks = 100)
 ```
 
 </div>

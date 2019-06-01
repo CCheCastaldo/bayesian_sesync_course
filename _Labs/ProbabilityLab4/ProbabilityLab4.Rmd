@@ -124,6 +124,8 @@ p.bound[1] - p.bound[2]
 
 <div id="myDIV3", style="display:none">
 
+<br>
+
 $$
 \begin{align}
 \alpha &=\cfrac{\big(\mu^2 - \mu^3 - \mu\sigma^2\big)}{\sigma^2}\\
@@ -151,20 +153,121 @@ plot(x, y,type = 'l', ylab = expression(paste("[",phi,"]")), xlab = expression(p
 
 </div>
 
-----
+<br>
 
-#### ADVANCED
+4. If you visited 50 counties, what is the probability that 5 would contain a plant, conditional on the hypothesis that $\phi=0.04$? 
 
-----
+<button class="button" onclick="toggle_visibility('myDIV3A');">Answer</button>
 
-4. You are modeling the relationship between plant growth rate and soil water. Represent plant growth ($\mu_i$) as a linear function of soil water, $\mu_i = \beta_{0} + \beta_{1}x_{i}$. Write out the model for the data. Simulate a data set of $20$, strictly non-negative pairs of$y$ and $x$ values. Plot the data and overlay the generating model. Assume that:
+<div id="myDIV3A", style="display:none">
+
+<br>
+
+$$\Pr(y=5 \mid \phi, n=50) = \textrm{binomial}\big(y=5\mid \phi=0.04,n=50\big) =\binom{50}{5}0.04^5(1-0.04)^{50-5}$$
+
+``` {r, eval = TRUE, echo = TRUE}
+x <- 5
+phi <- 0.04
+n <- 50
+dbinom(x = x, p = phi, size = n)
+```
+
+</div>
+
+<br>
+
+5. Plot the probability of the data for y = 1...10 counties with coal plants out of 50 counties visited conditional on the hypothesis $\phi=0.04$.
+
+<button class="button" onclick="toggle_visibility('myDIV3B');">Answer</button>
+
+<div id="myDIV3B", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
+x <- seq(0, 10)
+y <- dbinom(x = x, p = phi, size = n)
+plot(x, y, type = 'h', ylab = expression(paste("Pr(y|",phi,")"),), xlab = expression(y), lwd = 3, col = "blue")
+```
+
+</div>
+
+<br>
+
+6. What is the probability that at least 5 counties have a coal plant, conditional on the hypothesis that $\phi=0.04$?  
+
+<button class="button" onclick="toggle_visibility('myDIV3C');">Answer</button>
+
+<div id="myDIV3C", style="display:none">
+
+<br>
+
+$$\begin{align*}
+\Pr\big(y \geq5 \mid \phi, n=50\big) & =  \textrm{binomial}\big(y \geq5 \mid \phi=0.04,n=50\big)\\
+&= \sum_{y_{i}\in(5,6,\ldots,50)}\binom{50}{y_{i}}\big(0.04\big)^{\,y_{i}}\big(1-0.04\big)^{50-y_{i}}\\
+\end{align*}$$
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
+q <- 4
+phi <- 0.04
+n <- 50
+(1 - pbinom(q = q, p = phi, size = n))
+```
+
+</div>
+
+<br>
+
+7. Plot the probability that fewer than $y$ counties contain plants where $y$ takes on values between 1 and 10. Condition of the probability of occupancy $\phi=0.04$.
+
+<button class="button" onclick="toggle_visibility('myDIV3D');">Answer</button>
+
+<div id="myDIV3D", style="display:none">
+
+<br>
+
+``` {r, eval = TRUE, echo = TRUE, fig.width = 7, fig.height = 5, fig.align = 'center'}
+x <- seq(0, 10)
+y <- pbinom(q = x-1, p = phi, size = n) # note -1 to represent "fewer"
+plot(x, y, ylab = expression(paste("P(",Y <= y," | ",phi,")")), xlab = expression(y), 
+  pch = 16, col = "red", cex = 1.5)
+```
+
+</div>
+
+<br>
+
+8. Simulate data for 75 counties (no coal plant = 1, coal plant = 0).
+    
+<button class="button" onclick="toggle_visibility('myDIV3E');">Answer</button>
+
+<div id="myDIV3E", style="display:none">
+
+<br>
+
+$$
+y \sim \textrm{binomial}(1, \phi) \equiv y \sim \textrm{Bernoulli}(\phi)
+$$
+
+``` {r, eval = TRUE, echo = TRUE}
+n <- 75
+size <- 1
+phi <- 0.04
+(ySim <- rbinom(n = n, size = size, prob = phi))
+```
+
+</div>
+
+<br>
+
+9. **ADANCED** You are modeling the relationship between plant growth rate and soil water. Represent plant growth ($\mu_i$) as a linear function of soil water, $\mu_i = \beta_{0} + \beta_{1}x_{i}$. Write out the model for the data. Simulate a data set of $20$, strictly non-negative pairs of$y$ and $x$ values. Plot the data and overlay the generating model. Assume that:
 
 - Soil water, the $x$ value, varies randomly and uniformly between $0.01$ and $0.2$ 
 - $\beta_0 = 0.01$ and $\beta_1 = 0.9$ and the standard deviation of the model prediction is $\sigma = 0.03$  
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
+<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
 
-<div id="myDIV4", style="display:none">
+<div id="myDIV10", style="display:none">
 
 \begin{eqnarray}
 \mu_i &=& \beta_0 + \beta_1x_1\\
@@ -190,7 +293,7 @@ lines(x, mu, lwd = 2)
 
 <br>
 
-5. The Poisson distribution is often used for count data, despite the fact that one must assume the mean and variance are equal. The negative binomial distribution is a more robust alternative, allowing the variance to differ from the mean. There are two parameterizations for the negative binomial. The first is more frequently used by ecologists: 
+10. **ADVANCED** The Poisson distribution is often used for count data, despite the fact that one must assume the mean and variance are equal. The negative binomial distribution is a more robust alternative, allowing the variance to differ from the mean. There are two parameterizations for the negative binomial. The first is more frequently used by ecologists: 
 
 $$
 \big[z\mid\lambda,r\big] = 
@@ -198,7 +301,9 @@ $$
 \Big(\cfrac{\lambda}{r+\lambda}\Big)^z\textrm{,}
 $$
 
-where $z$ is a discrete random variable, $\lambda$ is the mean of the distribution, and $r$ is the *dispersion parameter*. The variance of $z$ equals $\lambda + \cfrac{\lambda^{2}}{r}$.
+where $z$ is a discrete random variable, $\lambda$ is the mean of the distribution, and $r$ is the *dispersion parameter*. Here, the variance of $z$ equals:
+
+$$\lambda + \cfrac{\lambda^{2}}{r}.$$
 
 The second parameterization is more often implemented in coding environments (i.e. JAGS):
 
@@ -210,9 +315,9 @@ where $z$ is the discrete random variable representing the number of failures th
 
 Simulate $100,000$ observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
+<button class="button" onclick="toggle_visibility('myDIV12');">Answer</button>
 
-<div id="myDIV5", style="display:none">
+<div id="myDIV12", style="display:none">
 
 <br>
 

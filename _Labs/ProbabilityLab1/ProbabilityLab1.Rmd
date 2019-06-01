@@ -95,7 +95,7 @@ $$\Pr\big(\theta,w,\eta,\alpha\big)=\Pr\big(\alpha \mid w,\eta,\theta\big)\Pr\bi
 
 ---
 
-### **DAGs to joint distributions**
+### **Converting DAGs to joint distributions**
 
 Write the joint and conditional distributions for the following Bayesian networks. For discrete random variables, $\big[A\big]$ is equivalent to $\Pr\big(A\big)$. For continuous random variables $\big[A\big]$ is the probability density of $A$.
 
@@ -134,7 +134,7 @@ Write the joint and conditional distributions for the following Bayesian network
 
 ---
 
-### **Joint distributions to DAGs**
+### **Converting joint distributions to DAGs**
 
 Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
 
@@ -185,7 +185,7 @@ because $\Pr\big(z_2\mid z_3\big) = \Pr\big(z_2\big)$ if $z_2$ and $z_3$ are ind
 
 ---
 
-###  **Factoring**
+###  **Interpreting and Factoring**
 
 The probability of an observation $y$ depends on a true ecological state of interest, $z$, and the parameters in a data model, $\pmb\theta_d$. The probability of the true state $z$ depends on the parameters in an ecological process model, $\pmb\theta_p$. We know that $\pmb\theta_d$ and $\pmb\theta_p$ are independent.  Write out a factored expression for the joint distribution, $\Pr\big(y,z,\pmb\theta_d,\pmb\theta_p\big)$. Drawing a Bayesian network will help.
 
