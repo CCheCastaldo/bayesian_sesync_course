@@ -22,16 +22,16 @@ transition: fastest
 - Getting notes just in time
 - Daily schedule
 - Lecture / exercise mix
-- Working in groups
 - Individual modeling projects
 
 ## Pace 
 
 - Challenge
 - Solutions
-  - Questions, questions, questions
-  - Review if needed every day
-  - Advanced problems
+    - Working in groups
+    - Questions, questions, questions
+    - Advanced problems
+    - A flexible schedule
 
 ## Readings
 
@@ -53,7 +53,7 @@ What do statements made by journalists, attorneys, and scientists have in common
 
 ## What is this course about?
 
-Gaining inisght about socio-ecological systems by building models
+Gaining insight about socio-ecological systems by building models
 
 $$[z_{i}\mid \theta_{p}]$$
 
@@ -85,6 +85,7 @@ Problems poorly suited to traditional approaches:
 
 - Multiple sources of data
 - Multiple sources of uncertainty
+- Missing data
 - Inference across scales
 - Unobservable quantities
 - Multimodal data
@@ -128,7 +129,7 @@ SESYNC is dedicated to fostering synthetic, actionable science related to the st
 
 ## Learning outcomes
 
-\center\includegraphics[width=0.35\columnwidth]{../../_Graphics/HobbsModelingProcess.pdf}
+\flushright\vspace{-1cm}\includegraphics[width=0.45\columnwidth]{../../_Graphics/HobbsModelingProcess.pdf}\hspace{1cm}
 
 # Content
 
@@ -183,7 +184,9 @@ Describe how Bayesian analysis differs from other types of statistical analysis.
 
 ## Confidence envelopes
 
-I am going to do this on the board. The board notes for this are in the lecture folder.
+What sets Bayes apart? An illustration using confidence envelopes.
+ 
+Notes for this are in the board notes folder.
 
 ## What do we do in Bayesian modeling?
 
