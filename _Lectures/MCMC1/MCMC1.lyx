@@ -647,14 +647,6 @@ What we are doing in MCMC?
 \begin_deeper
 \begin_layout Standard
 Recall that the posterior distribution is proportional to the joint:
-\begin_inset Formula 
-\begin{equation}
-[\theta|y]\propto[y|\theta][\theta],
-\end{equation}
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -678,6 +670,20 @@ because the marginal distribution of the data
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray}
+\overbrace{[\theta|y]}^{\text{Posterior}} & \propto & \overbrace{[y,\theta]}^{\text{Joint}}\\
+\overbrace{[\theta|y]}^{\text{Posterior}} & \propto & \overbrace{[\theta\mid y]}^{\text{likelihood}}\overbrace{[\theta]}^{\text{prior}}
+\end{eqnarray}
+
+\end_inset
+
+Factoring the joint distribution into a product of probability distributions
+ using the chain rule of probability is where we start all Bayesian modeling.
+ The factored joint distribution provides the basis for MCMC.
+\end_layout
+
 \begin_layout Standard
 \begin_inset Separator parbreak
 \end_inset
@@ -2538,6 +2544,7 @@ example for one parameter.
 \begin_layout Enumerate
 Metropolis-Hastings: allows asymmetric proposal distributions (e.g., beta,
  gamma, lognormal).
+ A minor modification of Metropolis.
  See optional notes.
 \end_layout
 
