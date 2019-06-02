@@ -71,8 +71,6 @@ $\Pr(A) = \frac{\text{Area of}~A}{\text{Area of}~S}$
 
 What is the probability of event $B$, given that event $A$ has occurred?
 
-BE PREPRED FOR CONCRETE EXAMPLE!
-
 \includegraphics[height=1.25in]{../../_Graphics/eventB.png}
 
 $\Pr(B|A)$ = probability of $B$ conditional on knowing $A$ has occurred
