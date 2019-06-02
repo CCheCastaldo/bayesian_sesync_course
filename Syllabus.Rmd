@@ -26,13 +26,14 @@ Review Hobbs and Hooten chapters 1-3
 
 1. [Marginal Distributions](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 3](content/labs/ProbabilityLab3.html)
 2. [Moment Matching](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 4](content/labs/ProbabilityLab4.html)
-3. Likelihood & Lab
+3. Likelihood & [Lab](content/labs/LikelihoodLab.html)
+4. [Likelihood Lab Excel File](content/handouts/HemlockLightLikelihood.xlsx) & [Answers](content/handouts/HemlockLightLikelihoodAnswers.xlsx)
 
 Review Hobbs and Hooten chapters 3.5-4.
 
 <br>
 
-##### **Day 3: (6/5) Intro to Bayesian Statistics**
+##### **Day 3: (6/5) Intro to Bayesian Statistics & Markov Chain Monte Carlo**
 
 1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
 2. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
@@ -44,7 +45,7 @@ Review Hobbs and Hooten chapters 5 and 7.
 
 <br>
 
-##### **Day 4: (6/6) Markov Chain Monte Carlo**
+##### **Day 4: (6/6) JAGS and Model Inference**
 
 1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
@@ -58,9 +59,8 @@ Review Hobbs and Hooten chapter 7-8.
 ##### **Day 5: (6/7) Bayesian Regression & Multi-Level Modeling**
 
 1. Bayesian Regression
-2. Writing regression Models Lab
-4. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
-4. Multi-Level Modeling Lab
+2. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
+3. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html) 
 
 Review Hobbs and Hooten chapter 6.
 
@@ -70,22 +70,22 @@ Review Hobbs and Hooten chapter 6.
 
 <br>
 
-##### **Day 7: (6/9) Multi-Level Modeling & Modeling Practice**
+##### **Day 7: (6/9) Multi-Level Modeling**
 
-1. Multi-Level Modeling Lab
-2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (if time?)
+1. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
+2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (optional)
 3. [Writing Hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
 <br>
 
-##### **Day 8: (6/10) Modeling Practice, Model Checking, & Mixed Models**
+##### **Day 8: (6/10) Multi-Level Modeling, Model Checking, & Mixed Models**
 
 1. Writing Hierarchical Models Lab
 2. [Model Checking](content/lectures/ModelChecking.pdf)
-3. Multi-Level Modeling Lab Revisited
-4. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & Swiss Birds Lab
+3. [Multi-Level Modeling Lab Revisited](content/labs/MultiLevelModelingLab.html)
+4. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
 
 Review Hobbs and Hooten chapters 6, 8, 10-12.
 
@@ -94,21 +94,21 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 ##### **Day 9: (6/11) Advanced Topics with Concurrent Sessions**
 
 1. [Dynamic Models](content/lectures/DynamicModels.pdf) & Lynx Lab
-2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & Ordinal Models Lab
-3. Analysis of Designed Experiments & Designed Experiments Lab
-4. [Model Selection](content/lectures/ModelSelection.pdf) & Model Selection Lab
+2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & Lab
+3. Analysis of Designed Experiments & Lab
+4. [Model Selection](content/lectures/ModelSelection.pdf) & Lab
 
 <br>
 
 ##### **Day 10: (6/12) Spatial Modeling & Individual Projects**
 
-1. Participant Project Work
-2. [Spatial Modeling for Areal Data](content/lectures/BayesianModelsForArealData.pdf) & Spatial Lab
-3. Bayesian Modeling Practicalities
+1. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) & Spatial Lab 1
+2. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & Spatial Lab 2
+3. Participant Project Work
 
 <br>
 
-##### **Day 11: (6/13) Presentation Day (ALL DAY)**
+##### **Day 11: (6/13) Presentation Day (end ~5 PM)**
 
 1. Course Evaluation Survey
 2. Participant Project Presentations and Feedback 

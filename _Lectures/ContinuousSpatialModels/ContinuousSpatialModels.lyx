@@ -1,0 +1,2004 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Models for Continuous Spatial Processes}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{eqnarray*}
+\epsilon_{i} & = & y_{i}-g(\bm{\theta},\mathbf{x_{i})}\\
+ &  & \epsilon_{i}\text{ are iid}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/residsualPlots.gif
+	width 70page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Key point is for them to think about the meaning of independence: Knowledge
+ of 
+\begin_inset Formula $\epsilon_{i}$
+\end_inset
+
+ tells us nothing about and of the other 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+What goes wrong if we fail to account for autocorrelation?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The global issue is model checking.
+ More specific issues include:
+\end_layout
+
+\begin_layout Itemize
+Inference is excessively optimistic .
+\end_layout
+
+\begin_layout Itemize
+Model selection favors over-parameterized models.
+\end_layout
+
+\begin_layout Itemize
+Your paper will not be published if it goes to a savvy reviewer.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Roadmap: Modeling structure in data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Continuous spatial processes
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Detecting spatial dependence
+\end_layout
+
+\begin_layout Itemize
+Distance matrices
+\end_layout
+
+\begin_layout Itemize
+Semi-variograms
+\end_layout
+
+\begin_layout Itemize
+Modeling spatial dependence
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Areal spatial processes (briefly)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Detecting spatial dependence
+\end_layout
+
+\begin_layout Itemize
+Modeling spatial dependence
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Learning objectives
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Understand methods for identifying spatial dependence in residuals.
+ 
+\end_layout
+
+\begin_layout Itemize
+Appreciate that modeling spatially structured data requires only minor modificat
+ions to the models you have developed earlier in the course.
+\end_layout
+
+\begin_layout Itemize
+Write and code a simple model for spatially structured point data.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Context
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Most ecological data are spatial
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Continuous spatial processes
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/cts_data.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Data for continuous spatial processes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+All data points include a spatial reference.
+\begin_inset Formula 
+\begin{eqnarray*}
+\text{aspatial data point} & : & y_{i}\\
+\text{spatially referenced data point} & : & y(\mathbf{s}_{i})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Where 
+\begin_inset Formula $\mathbf{s}_{i}$
+\end_inset
+
+ is a vector of spatial coordinates of length 1, 2, or 3.
+ The data are said to be continuous because they can occur at any point
+ 
+\begin_inset Formula $(\mathbf{s}_{i})$
+\end_inset
+
+ in one, two, or three dimensional space.
+ This does not mean that the value at that point 
+\begin_inset Formula $(y(\bm{s}_{i}))$
+\end_inset
+
+ can not be discrete.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Distance matrices
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $n\times n$
+\end_inset
+
+ matrix, 
+\begin_inset Formula $i$
+\end_inset
+
+ indexes rows, 
+\begin_inset Formula $j$
+\end_inset
+
+ indexes columns
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/distances_illustrated.png
+	width 40page%
+
+\end_inset
+
+
+\begin_inset Formula $\left(\begin{array}{cccccc}
+0 & d_{1,2} & d_{1,3} & . & . & d_{1,n}\\
+d_{2,1} & 0 & d_{2,3} & . & . & d_{2,n}\\
+d_{3,1} & d_{3,2} & 0 & . & . & d_{3,n}\\
+. & . & . & 0 & . & .\\
+. & . & . & . & 0 & .\\
+d_{n,1} & d_{n,2} & . & . & d_{n,n-1} & 0
+\end{array}\right)$
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\size tiny
+http://planet.botany.uwc.ac.za/nisl/GIS/spatial/chap_1_38.htm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/distances_illustrated.png
+	width 40page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\size small
+Often each pair of locations has a unique distance and there are often many
+ pairs of points.
+ To plot all pairs becomes tedious.
+ Instead of plotting each pair, the pairs are often aggregated into 
+\emph on
+lag bins
+\emph default
+.
+ For example, wcompute the average semivariance for all pairs of points
+ that are greater than 40 meters apart but less than 50 meters.
+ Thus, 
+\begin_inset Formula $N(d)$
+\end_inset
+
+is the number of pairs at lag distance 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ (http://planet.botany.uwc.ac.za/nisl/GIS/spatial/chap_1_38.htm)
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Evaluating spatial structure
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Assessing spatial correlation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Let 
+\begin_inset Formula $\mu_{i}=g(\bm{\theta},\mathbf{x}_{i})$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Assume 
+\begin_inset Formula $\mathbf{y}$
+\end_inset
+
+ is measured at 
+\begin_inset Formula $n$
+\end_inset
+
+ spatial locations.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Compute the residuals: 
+\begin_inset Formula $\mathbf{e}=\mathbf{y}-\boldsymbol{\mu}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Examine the residuals 
+\begin_inset Formula $\mathbf{e}$
+\end_inset
+
+ for spatial correlation (i.e., autocorrelation).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Assessing spatial correlation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{column}{6cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Empirical semi-variogram 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\hat{\gamma}(d)=\frac{\sum_{i,j\in N(d)}(e_{i}-e_{j})^{2}}{2N(d)}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/variogram_Mevin.png
+	width 5.5cm
+
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{column}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{column}{5cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\size footnotesize
+\begin_inset Formula $N(d)$
+\end_inset
+
+ is the number of pairs of residuals at distance 
+\begin_inset Formula $d.$
+\end_inset
+
+The y axis is the average squared difference between pairs of residuals
+ at a given distance 
+\begin_inset Formula $d$
+\end_inset
+
+ divided by two.
+ The x axis is the distance between pairs.
+ Distances are often binned into categories.
+ 
+\end_layout
+
+\begin_layout Frame
+
+\size footnotesize
+In MCMC, compute residuals at each iteration, compute 
+\begin_inset Formula $\gamma(d)^{(k)}$
+\end_inset
+
+ and plot variogram using posterior mean of 
+\begin_inset Formula $\gamma(d)$
+\end_inset
+
+.
+ Or, better, sample MCMC output for residuals in R, use R functions (geoR
+ package) to find the variogram.
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{column}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Modeling spatial structure
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling spatial structure with two sources of variation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Correlated error:
+\series default
+ The structured, process component.
+ Varies with distance between points.
+ Process variance here.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Uncorrelated error: 
+\series default
+The unstructured, site specific component.
+ It includes effects of fine scale heterogeneity and measurement error.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling spatial structure with two sources of variation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Covar_Semivar.pdf
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\size largest
+\color blue
+Remember the covariance matrix 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Imagine a vector of 3 random variables, 
+\begin_inset Formula $(z_{i,}z_{2},z_{3})'$
+\end_inset
+
+ The covariance between any two of these random variables is simply an unstandar
+dized version of the correlation between them– it is correlation measured
+ in the units of the random variables.
+ The covariance matrix (aka variance covariance matrix) of the random variable
+ is:
+\begin_inset Formula 
+\[
+\mathbf{\bm{\Sigma}=}\left(\begin{array}{ccc}
+\sigma_{1}^{2} & \text{Cov}_{1,2} & \text{Cov}_{1,3}\\
+\text{Cov}_{2,1} & \sigma_{2}^{2} & \text{Cov}_{2,3}\\
+\text{Cov}_{3,1} & \text{Cov}_{3,2} & \sigma_{3}^{2}
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Generalizing, a 
+\begin_inset Formula $m\times m$
+\end_inset
+
+ covariance matrix has the variances of the random variable on the diagonal
+ and the covariance on the off diagonal.
+ The covariance between random variable 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ is 
+\begin_inset Formula $\text{Cov}_{ij}=\rho\sigma_{i}\sigma_{j}$
+\end_inset
+
+ where 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is the correlation coefficient, which takes on values between 
+\begin_inset Formula $-1$
+\end_inset
+
+ and 
+\begin_inset Formula $1.$
+\end_inset
+
+ Covariance can take on values between 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ and 
+\begin_inset Formula $+\infty$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Remember the identity matrix 
+\begin_inset Formula $\mathbf{I}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Using a 3 x 3 matrix to illustrate:
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{I} & = & \left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{array}\right)\\
+\sigma_{\epsilon}^{2}\mathbf{I} & = & \left(\begin{array}{ccc}
+\sigma_{\epsilon}^{2} & 0 & 0\\
+0 & \sigma_{\epsilon}^{2} & 0\\
+0 & 0 & \sigma_{\epsilon}^{2}
+\end{array}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling spatial structure with two sources of error
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $\mu_{i}=g(\bm{\theta,}x_{i})$
+\end_inset
+
+, a model of an ecological process that can take on real values (for now).
+ 
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $\bm{\mathbf{\mu}}=g(\bm{\theta,}\mathbf{X)}$
+\end_inset
+
+, note that 
+\begin_inset Formula $\bm{\mu}$
+\end_inset
+
+ is a vector with length = number of observations 
+\begin_inset Formula $(n)$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbf{X}$
+\end_inset
+
+ is a data matrix with number of rows = 
+\begin_inset Formula $n$
+\end_inset
+
+ and number of columns = number of predictor variables.
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\[
+\mathbf{y\sim\text{multivariate normal}(}\bm{\mu},\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ is an 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ matrix with structured variance 
+\begin_inset Formula $(\sigma^{2})$
+\end_inset
+
+ at distance 0 on the diagonal and the covariance between observation 
+\begin_inset Formula $i$
+\end_inset
+
+ and observation 
+\begin_inset Formula $j$
+\end_inset
+
+ on the off diagonals 
+\begin_inset Formula $(i\ne j)$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\mathbf{I}$
+\end_inset
+
+ an 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ matrix with ones on the diagonal and zeros elsewhere.
+ 
+\begin_inset Formula $\sigma_{\epsilon}^{2}$
+\end_inset
+
+ is unstructured (uncorrelated) variance.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Alternative notation: random effects approach
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbf{y}=g(\text{\bm{\theta},\ensuremath{\bm{X}})}+\boldsymbol{\eta}+\boldsymbol{\varepsilon}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Correlated Error: 
+\begin_inset Formula $\boldsymbol{\eta}\sim\text{multivariate normal}(\mathbf{0},\boldsymbol{\Sigma})$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+Uncorrelated Error: 
+\begin_inset Formula $\boldsymbol{\varepsilon}\sim\text{\text{multivariate normal}}(\mathbf{0},\sigma_{\varepsilon}^{2}\mathbf{I})$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Alternative notation: hierarchical approach
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{y} & \sim & \text{\text{multivariate normal}}(g(\bm{\theta},\mathbf{X})+\boldsymbol{\eta},\sigma_{\varepsilon}^{2}\mathbf{I})\\
+\bm{\eta} & \sim & \text{normal}(0,\bm{\Sigma)}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Correlated Error
+\series bold
+:
+\series default
+ 
+\begin_inset Formula $\boldsymbol{\eta}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+Uncorrelated Error
+\series bold
+:
+\series default
+ 
+\begin_inset Formula $\sigma_{e}^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling spatial structure with two sources of error
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+These both imply:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbf{y}\sim\text{\text{multivariate normal}}(g(\bm{\theta},\mathbf{X}),\boldsymbol{\Sigma}+\sigma_{\varepsilon}^{2}\mathbf{I})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling spatial structure with two sources of error
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Do we really need to predict 
+\begin_inset Formula $\frac{1}{2}(n^{2}-n)$
+\end_inset
+
+ covariances? No.
+ Instead, we model
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This is a great illustration of the main purpose of science: dimension reduction.
+\end_layout
+
+\end_inset
+
+ them as a function of distance using parametric covariance functions.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+There are many others, but these are used most frequently.
+ 
+\end_layout
+
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Itemize
+Exponential: 
+\begin_inset Formula $\Sigma_{i,j}=\sigma^{2}\exp\left(-\frac{d_{i,j}}{\phi}\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Gaussian: 
+\begin_inset Formula $\Sigma_{i,j}=\sigma^{2}\exp\left(-\frac{d_{i,j}^{2}}{\phi^{2}}\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $d_{i,j}=$
+\end_inset
+
+ distance between locations 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+.
+ Note that an aspatial model would require approximating the posterior distribut
+ion of a single variance parameter 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+.
+ The spatial equivalent requires three: 
+\begin_inset Formula $\sigma^{2},\phi$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{\epsilon}^{2}$
+\end_inset
+
+.
+ Also note that when 
+\begin_inset Formula $i=j$
+\end_inset
+
+ such that we are 
+\begin_inset Quotes eld
+\end_inset
+
+at
+\begin_inset Quotes erd
+\end_inset
+
+ a location, 
+\begin_inset Formula $d_{i,j}=0$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma_{i,j}=\sigma^{2}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling spatial structure with two sources of error
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/covariograms.png
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Important assumptions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Stationarity
+\series default
+: spatial structure does not vary with location, which means that the spatial
+ correlation does not change within the area being analyzed.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Isotropy
+\series default
+: spatial structure does not vary with direction, which means the spatial
+ correlation does not change with direction.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Toy illustration for 3 data points and simple linear regression
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{column}{2cm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+tiny
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{y} & = & (y(\mathbf{s}_{1}),y(\mathbf{s}_{2}),y(\mathbf{s}_{3}))\\
+\bm{\beta} & = & (\beta_{0},\beta_{1})\\
+\mathbf{X} & = & \left(\begin{array}{cc}
+1 & x_{1}\\
+1 & x_{2}\\
+1 & x_{3}
+\end{array}\right)\\
+\mathbf{D} & = & \left(\begin{array}{ccc}
+d_{1,1} & d_{1,2} & d_{1,3}\\
+d_{2,1} & d_{2,2} & d_{2,3}\\
+d_{3,1} & d_{3,2} & d_{3,3}
+\end{array}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{column}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{column}{5cm}
+\backslash
+tiny
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\bm{\Sigma} & = & \left(\begin{array}{ccc}
+\sigma^{2} & \sigma^{2}e^{-\frac{d_{1,2}}{\phi}} & \sigma^{2}e^{-\frac{d_{1,3}}{\phi}}\\
+\sigma^{2}e^{-\frac{d_{2,1}}{\phi}} & \sigma^{2} & \sigma^{2}e^{-\frac{d_{2,3}}{\phi}}\\
+\sigma^{2}e^{-\frac{d_{3,1}}{\phi}} & \sigma^{2}e^{-\frac{d_{3,,2}}{\phi}} & \sigma^{2}
+\end{array}\right)\\
+\sigma_{\epsilon}^{2}\mathbf{I} & = & \left(\begin{array}{ccc}
+\sigma_{\epsilon}^{2} & 0 & 0\\
+0 & \sigma_{\epsilon}^{2} & 0\\
+0 & 0 & \sigma_{\epsilon}^{2}
+\end{array}\right)\\
+\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I} & = & \left(\begin{array}{ccc}
+\sigma^{2}+\sigma_{\epsilon}^{2} & \sigma^{2}e^{-\frac{d_{1,2}}{\phi}} & \sigma^{2}e^{-\frac{d_{1,3}}{\phi}}\\
+\sigma^{2}e^{-\frac{d_{2,1}}{\phi}} & \sigma^{2}+\sigma_{\epsilon}^{2} & \sigma^{2}e^{-\frac{d_{2,3}}{\phi}}\\
+\sigma^{2}e^{-\frac{d_{3,1}}{\phi}} & \sigma^{2}e^{-\frac{d_{3,,2}}{\phi}} & \sigma^{2}+\sigma_{\epsilon}^{2}
+\end{array}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{column}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{y} & \sim & \text{multivariate normal}(\mathbf{X}\bm{\beta},\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I})\\{}
+[\bm{\beta},\sigma^{2},\sigma_{\epsilon}^{2},\phi\mid\mathbf{y}] & \propto & [\mathbf{y}\mid\mathbf{X}\mathbf{\bm{\beta}},\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I}]\\
+ & \times & [\bm{\beta]}[\sigma^{2}][\sigma_{\epsilon}^{2}][\phi]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Priors on 
+\begin_inset Formula $\phi$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Choices for range parameter 
+\begin_inset Formula $\phi$
+\end_inset
+
+: 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi\sim\text{gamma}(\gamma_{1},\gamma_{2})$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\log(\phi)\sim\text{\text{normal}}(\mu_{\phi},\sigma_{\phi}^{2})$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi\sim\text{half-Cauchy}(\gamma)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\phi\sim\text{uniform}(0,\gamma)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+General spatial models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Real valued, non-negative
+\begin_inset Formula 
+\begin{eqnarray*}
+g(\bm{\beta},\mathbf{X}) & = & \exp(\mathbf{X}\bm{\beta)}\\
+\log(\mathbf{y}) & \sim & \text{multivariate normal}(\log(g(\bm{\beta},\mathbf{X}),\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Counts
+\begin_inset Formula 
+\begin{eqnarray*}
+g(\bm{\beta},\mathbf{X}) & = & \exp(\mathbf{X}\bm{\beta)}\\
+\log(\bm{\lambda}) & \sim & \text{multivariate normal}(\log(g(\bm{\beta},\mathbf{X}),\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I}))\\
+y_{i} & \sim & \text{Poisson}(\lambda_{i})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Binary
+\begin_inset Formula 
+\begin{eqnarray*}
+g(\bm{\beta},\mathbf{X}) & = & \text{logit}^{-1}(\mathbf{X}\bm{\beta)}\\
+\text{logit}(\mathbf{p}) & \sim & \text{multivariate normal}(\text{logit}(g(\bm{\beta},\mathbf{X}),\bm{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I}))\\
+y_{i} & \sim & \text{Bernoulli}(p_{i})
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Simulating data for a continuous spatial process 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Choose locations 
+\begin_inset Formula $\mathbf{s}_{i}$
+\end_inset
+
+ for 
+\begin_inset Formula $i=1,\ldots,n$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Choose the mean 
+\begin_inset Formula $\boldsymbol{\mu}$
+\end_inset
+
+.
+ This could be a scalar or it could vary spatially.
+ It could be the output of a model with parameter values that you choose
+ and 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ data.
+\end_layout
+
+\begin_layout Enumerate
+Choose the unstructured variance 
+\begin_inset Formula $\sigma_{\epsilon}^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Choose range parameter 
+\begin_inset Formula $\phi$
+\end_inset
+
+ and structured variance component 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Compute distance matrix 
+\begin_inset Formula $\mathbf{D}$
+\end_inset
+
+ between all 
+\begin_inset Formula $n$
+\end_inset
+
+ locations of interest.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Calculate covariance matrix 
+\begin_inset Formula $\boldsymbol{\Sigma}=\sigma^{2}\exp\left(-\frac{\mathbf{D}}{\phi}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Sample the n-dimensional vector 
+\begin_inset Formula $\mathbf{y}\sim\text{\text{multivariate normal}}(\boldsymbol{\mu},\boldsymbol{\Sigma}+\sigma_{\epsilon}^{2}\mathbf{I})$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\end_body
+\end_document
