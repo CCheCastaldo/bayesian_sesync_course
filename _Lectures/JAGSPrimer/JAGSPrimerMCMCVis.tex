@@ -891,7 +891,7 @@ parallel::clusterExport(cl, c("data", "initsP", "n.adapt", "n.update",
   "n.iter"))
 \end{Verbatim}
 
-\noindent Wee embed our previous R code for running the JAGS model inside the cluster \texttt{cl}. This allows the cluster to direct an identical set of R commands to each worker, collect output from each worker, and combine this output into a list where each element corresponds to the output from a single worker. You can name the MCMC object outputted from each core and the list of all MCMC objects produced by the entire cluster whatever you like. Here we name them \texttt{zm} and \texttt{out}, respectively:
+\noindent We embed our previous R code for running the JAGS model inside the cluster \texttt{cl}. This allows the cluster to direct an identical set of R commands to each worker, collect output from each worker, and combine this output into a list where each element corresponds to the output from a single worker. You can name the MCMC object outputted from each worker and the list of all MCMC objects produced by the entire cluster whatever you like. Here we name them \texttt{zm} and \texttt{out}, respectively:
 
 \begin{Verbatim}
 out <- clusterEvalQ(cl, {
