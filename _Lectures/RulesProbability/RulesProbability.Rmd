@@ -12,15 +12,6 @@ subtitle: Bayesian Modeling for Socio-Environmental Data
 latex_engine: xelatex
 transition: fastest
 ---
-
-## A line of inference
-
-\includegraphics[height=.75in]{../../_Graphics/ConceptsTheory.png}
-
-##Insight in science
-
-\includegraphics[height=2in]{../../_Graphics/ScientificInference.png}
-
 ## Road map for today
 - Rules of probability
 - Factoring joint probabilities
@@ -71,8 +62,6 @@ $\Pr(A) = \frac{\text{Area of}~A}{\text{Area of}~S}$
 
 What is the probability of event $B$, given that event $A$ has occurred?
 
-BE PREPRED FOR CONCRETE EXAMPLE!
-
 \includegraphics[height=1.25in]{../../_Graphics/eventB.png}
 
 $\Pr(B|A)$ = probability of $B$ conditional on knowing $A$ has occurred
@@ -100,10 +89,6 @@ $\Pr(B|A) = \Pr(B)$
 \includegraphics[height=2.25in]{../../_Graphics/rect3823.png}
 
 $\Pr(A|B) = \frac{\text{area of A and B}}{\text{area of B}}=\frac{\text{area of A}}{\text{area of S}}$
-
-##Independence
-
-Show that  $\Pr(A,B)=Pr(A)Pr(B)$ if $A$ and $B$ are indepdenent events.
 
 ## The Law of Total Probability
 
