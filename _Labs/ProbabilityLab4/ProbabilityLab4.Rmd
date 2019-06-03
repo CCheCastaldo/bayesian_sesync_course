@@ -260,7 +260,7 @@ phi <- 0.04
 
 <br>
 
-9. **ADANCED** You are modeling the relationship between plant growth rate and soil water. Represent plant growth ($\mu_i$) as a linear function of soil water, $\mu_i = \beta_{0} + \beta_{1}x_{i}$. Write out the model for the data. Simulate a data set of $20$, strictly non-negative pairs of$y$ and $x$ values. Plot the data and overlay the generating model. Assume that:
+9. **ADVANCED** You are modeling the relationship between plant growth rate and soil water. Represent plant growth ($\mu_i$) as a linear function of soil water, $\mu_i = \beta_{0} + \beta_{1}x_{i}$. Write out the model for the data. Simulate a data set of $20$, strictly non-negative pairs of$y$ and $x$ values. Plot the data and overlay the generating model. Assume that:
 
 - Soil water, the $x$ value, varies randomly and uniformly between $0.01$ and $0.2$ 
 - $\beta_0 = 0.01$ and $\beta_1 = 0.9$ and the standard deviation of the model prediction is $\sigma = 0.03$  
