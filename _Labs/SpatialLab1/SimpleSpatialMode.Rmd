@@ -1,0 +1,431 @@
+
+<style>
+
+/* uncomment out this to generate exercise */
+ .hider {display: none;}  
+ .hider2 {display: inline;} 
+
+/* uncomment out this to generate key */
+ #.hider {display: inline;}  
+ #.hider2 {display: none;}  
+
+</style>
+
+---
+output: html_document
+---
+
+<img src="../Logo.png" style="position:absolute;top:10px;right:125px;width:250px;height=250px" />
+
+### `r fileName="../Title.txt";readChar(fileName,file.info(fileName)$size)`
+#### A Simple Spatial Model for Point Data
+#### `r format(Sys.Date(), format="%B %d, %Y")`
+
+- - -
+
+#### Table of Contents
+
+<br>
+
+[I. Motivation][]
+
+[II. Preliminaries][]
+
+[III. Problem][]
+
+
+
+
+```{r preliminaries, include = FALSE, cache=TRUE}
+rm(list=ls())
+library(knitr)
+knitr::opts_chunk$set(cache = FALSE, warnings = FALSE, tidy = FALSE, messages = FALSE)
+
+# uncomment out this to generate key
+ #nokey = FALSE; key = TRUE
+
+# uncomment out this to generate exercise
+ nokey = TRUE; key = FALSE
+```
+
+<br>
+
+
+#### I. Motivation
+Most socio-ecological data are spatial.  Observations that are close to each other in space are often more similar to one another than observations that are far away.  This similarity is not necessarily a problem, but it can cause a problem in our inference.  Recall that a fundamental assumption of a statistical inference is that the differences between model predictions and data are independent and identically distributed, which for real-valued observations means
+\begin{align}
+\mu_i&=g(\boldsymbol{\theta},\mathbf{x_i})\\
+e_i&=y_i-\mu_i\\
+e_{i}&\overset{\text{iid}}{\sim}\text{normal}(0,\sigma^{2}).
+\end{align}
+Note that we are not assuming that the data are independent, rarely will that be true, but rather that the model residuals, are iid after the effects of covariates are included in model predictions. Failing to meet this assumption means that our inference will be excessively optimistic, which means that marginal posterior distributions of quantities of interest will be narrower than they should be. We say that residuals are autocorrelated when residuals that are close together in space (or time) are smaller than those that are far apart.
+
+The problem of spatial autocorrelation is frequently brushed aside without thoughtful treatment. Here, we will learn how to determine if autocorrelation is a problem, and if it is, how to model the spatial structure in the residuals so that our inferences account for it.
+
+We have often said that a primary learning objective of this course is to "learn how to learn."  I almost always learn about something new by posing a simple problem, simulating data relevant to the problem, and writing the math and code needed to solve it.  That is what you will do here. 
+
+
+#### II. Preliminaries
+Consider the following code for simulating spatially structured data where the data are points with spatial coordinates that could be specified, for example, by utm's. Study the code relative to the lecture notes on models for point data. This lab will not consider areal data when spatial structure is specified as s network. 
+
+Start by loading several libraries, some of which you have not used before.  Loading some of these may require downloading packages.
+
+```{r, echo=TRUE, eval=TRUE, include=TRUE, message = FALSE, warning=FALSE}
+library(stats)
+library(rjags)
+library(MCMCvis)
+library(geoR)
+library(MASS)
+library(dclone)
+library(parallel)
+```
+
+
+
+
+```{r, message = FALSE, warning=FALSE}
+
+##This function is needed only if you want to run chains in parallel.
+run_parallel <- function(){
+  out <- clusterEvalQ(cl, {
+    library(rjags)
+    jm = jags.model(model_file, data = data, inits = initFunc(),
+                    n.chains = 1, n.adapt = n.adapt)
+    update(jm, n.iter = n.update)
+    zmCore = coda.samples(jm, variable.names = variables, n.iter = n.iter, thin = 1)
+    return(as.mcmc(zmCore))
+    stopCluster(cl)
+  })
+} # end of run parallel function
+
+
+####Set some parameter vaues
+np = 100  #number of data points
+M=matrix(0, nrow = np, ncol=2)  #matrix for holding data and spatial locations
+set.seed(10)
+limit = 1000 #maximum extent of spatial area (could be any units)
+##some parameters
+beta0 = 2.3
+beta1 = 8
+beta2 = -6
+#unstructured standard deviation
+sigma.u = 1
+#spatially structured standard deviation
+sigma.s = 5
+#a map of points
+M[,1] = runif(np,0,limit-1)
+M[,2] = runif(np,0,limit-1)
+
+#make some spatially sructured covariates--how this works is not important
+X1=-cos(scale(M[,1]-.5)*cos(scale(M[,2])))
+X2=scale(M[,1])+scale(M[,2])
+
+#create data frame of spatial coordinates and covariates
+M = as.data.frame(cbind(M,X1,X2))
+colnames(M) = c("s1", "s2", "x1", "x2")
+plot(M$s1,M$s2, xlim=c(0,limit), ylim = c(0,limit), xlab = "s1 coordinate", ylab = "s2 coordinate", pch = 19, cex=.5)
+
+#create response without sptatial structure
+M$y = rnorm(np,beta0 + beta1*M$x1+ beta2*M$x2,sigma.u)
+plot(M$x1,M$y, ylab= "y", xlab = "x1")
+plot(M$x2,M$y, ylab = "y", xlab = "x2")
+
+##Create distance matrix and covariance matrix
+D = as.matrix(dist(M[,1:2]))
+d=seq(0,limit,.001)
+phi=100
+y.sig = sigma.s*(exp(-d/phi))
+plot(d,y.sig, xlim = c(0,1000), typ="l", ylab = "Covariance", xlab = "Distance")
+Sigma = sigma.s*exp(-D/phi)
+
+###Create spatially  structured response data by adding 0 centered, spatially structured random variables to the unstructured y.
+
+#Make a vector of draws from a multivariate distribution with first paramter a vector of zeros of length np and second paramter Sigma computed above.
+eps=as.vector(mvrnorm(1, rep(0,np),Sigma)) #mnorm with first arg. 1 returns a vector
+##Add the zero centered, spatially structred random variable to the y's
+M$y.structured = M$y + eps
+plot(M$x1,M$y.structured, xlab = "x1", ylab = "y")
+plot(M$x2,M$y.structured, xlab = "x2", ylab = "y")
+
+```
+
+#### An aspatial model for spatially structured data
+
+Now consider an aspatial model
+
+\begin{align}
+[\boldsymbol{\beta},\sigma\mid\mathbf{y}]&\propto \prod_{i=1}^n\text{normal}(y_i\mid \mathbf{x}_i'\boldsymbol{\beta}, \sigma^2)\\
+&\times \prod_{j=0}^2\text{normal}(\beta_j\mid 0,10000)\text{uniform}(\sigma^2\mid 0, 10000)
+\end{align}
+
+that we fit to the spatially structured data using the following code:
+
+```{r, message = FALSE}
+###Fit an unstructured model to the structured data
+
+{ #extra brackets only needed for R markdown
+  sink("AspatialJAGS.R")
+  cat("
+      model{
+       for(i in 1:y.np){
+         beta[i] ~ dnorm(0,.00001)
+}
+      sigma ~ dunif(0,50)
+      tau <- 1 / sigma^2
+       mu = X %*% beta
+      for(i in 1:length(y)){
+        y[i] ~ dnorm(mu[i], tau)
+        e[i] <- y[i] - mu[i]
+        y.new[i] ~ dnorm(mu[i], tau)
+      }
+p.mean = step(mean(y.new) - mean(y))
+p.sd = step(sd(y.new) - sd(y))
+}
+      ",fill=TRUE)
+  sink()
+}
+
+#create model matrix with column of 1's for intercept
+X = cbind(rep(1,nrow(M)), M$x1, M$x2)
+data= list( y = M$y.structured, X=X, y.np=ncol(X))
+jm = jags.model("AspatialJAGS.R", data=data, n.chains = 3)
+update(jm, n.iter = 15000)
+zc = coda.samples(jm, n.iter = 10000, variable.names = c("beta", "sigma", "p.mean", "p.sd", "e"))
+MCMCsummary(zc,excl = "e", n.eff=TRUE)
+```
+
+The model converges, but we might want more iterations to increase the effective sample size above 5000 for all quantities of interest. We can see that the model recovers the generating parameters as well as would be expected for a single realization of a stochastic process with a sample size = 100. The model passes posterior predictive checks nicely. What other model checks are needed?  
+
+We need to examine the possibility for spatial autocorrelation in the residuals by plotting a semivariogram, a plot of the semivarince as a function of distance between points. Consider the following code and output:
+```{r}
+epsilon = MCMCpstr(zc, params = "e", func=median)
+epsilon.gd=as.geodata(cbind(M[,1:2],epsilon))
+epsilon.v=variog(epsilon.gd, max.dist = max(D/4)) #D/4 standard for plotting variograms
+plot(epsilon.v)
+semivar.gen=(sigma.s-sigma.s*exp(-epsilon.v$uvec*1/phi)) + sigma.u 
+lines(epsilon.v$uvec,semivar.gen,type="o",pch=20)
+legend(200,2,c("Fit", "Generating"),pch=c(1,19), bty="n", cex=.75)
+
+```
+
+There is clear evidence of spatial autocorrelation in the residuals because semivariance increases as function of distance up to an asymptote at about 200 to 250 (Our units in this example are arbitrary). This means that all of our inferences are excessively optimistic because we are assuming that the residuals are independent.
+
+####III. Problem
+
+#### A spatial model for spatially structured data
+
+Your problem is to write an expression for the posterior and factored joint distribution for a model that accounts for spatial structure in the data. You will then write JAGS code to approximate the marginal posterior distributions of the unobserved quantities. You should be able to use class notes to show you how to write the model. It will be important to use the hierarchical approach illustrated in lecture where you add a zero centered, spatially structured random variable to the predictions of the process model:
+
+\begin{align}
+\mathbf{y}&\sim\text{multivariate normal}(\mathbf{X}\boldsymbol{\beta}+\boldsymbol{\eta},\sigma_{unstrc}^{2}\mathbf{I})\\
+\boldsymbol{\eta}&\sim\text{multivariate normal}(\boldsymbol{\eta}\mid \mathbf{0},\boldsymbol{\Sigma})\\
+\boldsymbol{\Sigma} &= \sigma^2_{strc} e^{(\frac{-\mathbf{D}}{\phi})}
+\end{align}
+
+
+<div class="hider">
+
+Model with spatial structure:
+\begin{align}
+[\boldsymbol{\beta}, \boldsymbol{\eta},\sigma_{unstrc}^2, \sigma_{strc}^2, \phi \mid \mathbf{y}]&\propto \text{multivariate normal}(\mathbf{y}\mid\mathbf{X}\boldsymbol{\beta}+\boldsymbol{\eta},\sigma^2_{unstrct}\mathbf{I})\\
+&\times \text{normal}(\boldsymbol{\eta}\mid\mathbf{0},\boldsymbol{\Sigma})\prod_{j=0}^2\text{normal}(0,10000)\text{uniform}(\sigma^2_{strct}\mid0,100)\\
+&\times\text{uniform}(\sigma^2_{unstrct}\mid0,100)\text{uniform}(\phi\mid0,1)\\
+\boldsymbol{\Sigma} &= \sigma^2_{strc} e^{(\frac{-\mathbf{D}}{\phi})}
+\end{align}
+
+</div>
+<br>
+
+
+Here are some hints that will be important for coding.
+
+1. Remember that the multivariate normal distribution in JAGS requires a precision matrix as the second argument, which is the inverse of the covariance matrix.  You can create a zero centered random variable reflecting spatial structure using code something `eta ~ dmnorm(mu_eta,inverse(Cov.mat))` where `mu.eta`  is  a vector of zeros of length = number of rows in `Cov.mat`.  `mu.eta` using: 
+```{r, eval=FALSE}
+for(i in 1:length(y)){
+         mu_eta[i] <- 0  #create vecctor of zeros for centering below
+      for(j in 1:length(y)){
+         Cov.mat[i,j] <- sigma.s^2 * exp(-D[i,j] / phi)
+      
+      }
+      }
+```
+
+2. It is vital that you compute the residuals using `e <- y - mu - eta` where `y` is a vector containing the response data; `mu` is a vector of model predictions, and `eta` is the zero centered random variable needed in the hierarchical approach. Subracting the spatially structured random variable `eta` should produce a variogram without sptial depedence.
+
+3. You will need an identity matrix of proper dimension, that is a matrix with ones on the diagonal and zeros elsewhere.  Make this on the R sides and include it in your data list as shown below.
+
+4. Spatial models tend to run slowly the large covariance matrix is large. Moreover, fitting these models requires many data points, so we can't speed the process by making a small, simulated data set.  I have set up parallel code to allow you to work with your model more efficiently.  All you need to do is write the JAGS code for the model. Run the model without parallel threads if you don't have multiple cores. You may omit posterior predictive checks to reduce execution time.
+
+```{r eval = FALSE}
+##Now account for spatial structure in the model
+d
+{
+  sink("SpatialJAGS.R")
+  cat("
+     #Put model code here.
+} # end of model
+       ",fill=TRUE)
+  sink()
+}
+
+X1 = rep(1,nrow(M))  #make column of ones for intercept
+X = cbind(X1, M$x1, M$x2)
+y.I = matrix(nrow = nrow(M), ncol = ncol(X))
+y.I = diag(1,nrow(X))
+data = list(D =D, X = X, y.np = ncol(X), y = M$y.structured, y.I = y.I )
+
+
+####Single core version############
+# inits = list(
+#   list(
+#   phi = 60,
+#   sigma.u = 3,
+#   sigma.s = 3,
+#   beta = c(2,5,-10)),
+#   list(
+#     phi = 200,
+#     sigma.u = .5,
+#     sigma.s = 4,
+#     beta = c(1,8,-4))
+#   )
+# 
+# jm2 = jags.model("SpatialJAGS.R",inits=inits,data=data,n.adapt = 1000, n.chains = length(inits))
+# update(jm2, n.iter = 15000)
+# zc2 = coda.samples(jm2, variable.names = c("beta", "e", "sigma.u", "sigma.s", "phi"), n.iter = 5000)
+# MCMCsummary(zc2, excl = "e")
+# MCMCtrace(zc2, excl = "e")
+# epsilon2 = MCMCpstr(zc2, params = "e", func=median)
+# epsilon.gd2=as.geodata(cbind(M[,1:2],epsilon2))
+# epsilon.v2=variog(epsilon.gd2, max.dist = max(D/4))
+# plot(epsilon.v2)
+
+
+# #######Parallel version
+initFunc <- function (){
+  return(list(
+    B = runif(3, 1, 10),
+    sigma.s = runif(1,.01,5),
+    sigma.u = runif(1, .01, 5),
+    phi = runif(1, 50, 150))
+  )
+}
+initFunc()
+num_cores=4
+variables = c("beta", "e", "sigma.u", "sigma.s", "phi")
+n.adapt = 500
+n.update = 5000
+n.iter = 5000
+model_file = "SpatialJAGS.R"
+cl <- makeCluster(num_cores) #
+clusterExport(cl, c("model_file", "data", "initFunc", "n.adapt", "n.update", "n.iter", "variables"))
+ptm=proc.time()
+out=run_parallel()
+zc2 = as.mcmc.list(out) #for coda output must have as.mcmc.list
+ParallelTime <- proc.time() - ptm
+ParallelTime
+stopCluster(cl)
+
+```
+
+5. Produce new output from your spatially structured model.  Compare it with the output from the apspatial model. What is different about the marginal posteriors?  Examine evidence for autocorrelation with a semivariogram.  What do you conclude?
+<div class="hider">
+
+Standard deviations of marginal posterior distributions of parameters approximated using the spatially unsctructred model are about half of those approximated using the spatially structured model. The semivariogram indicates no spatial depdence after the spatially strcutured random effects are removed from the residuals.
+
+</div>
+
+```{r echo = key, eval = key}
+{
+  sink("SpatialJAGS.R")
+  cat("
+      model{
+      for(i in 1:y.np){  #y.np is number of parameters
+         beta[i] ~ dnorm(0,.00001)
+      }
+      sigma.u ~ dunif(0,50)  #unstructured error
+      sigma.s ~ dunif(0,50)  #strcutured error
+      phi ~ dunif(0,500)
+      #Prediction of process model
+       mu = X %*% beta
+      #Define exponential variance covariance matrix
+      for(i in 1:length(y)){
+         mu_eta[i] <- 0  #create vecctor of zeros for centering below
+      for(j in 1:length(y)){
+         Cov.mat[i,j] <- sigma.s^2 * exp(-D[i,j] / phi)
+          }
+      }
+      eta ~ dmnorm(mu_eta,inverse(Cov.mat))  #zero centered spatially structured random variable
+      prec.mat = inverse(sigma.u^2 * y.I)  #unstructured variance matrix
+      y[] ~ dmnorm(mu[] + eta , prec.mat) #likelihood
+      e <- y - mu - eta
+} # end of model
+       ",fill=TRUE)
+  sink()
+}
+
+X1 = rep(1,nrow(M))  #make column of ones for intercept
+X = cbind(X1, M$x1, M$x2)
+y.I = matrix(nrow = nrow(M), ncol = ncol(X))
+y.I = diag(1,nrow(X))
+data = list(D =D, X = X, y.np = ncol(X), y = M$y.structured, y.I = y.I )
+
+
+####Single core version############
+# inits = list(
+#   list(
+#   phi = 60,
+#   sigma.u = 3,
+#   sigma.s = 3,
+#   beta = c(2,5,-10)),
+#   list(
+#     phi = 200,
+#     sigma.u = .5,
+#     sigma.s = 4,
+#     beta = c(1,8,-4))
+#   )
+# 
+# jm2 = jags.model("SpatialJAGS.R",inits=inits,data=data,n.adapt = 1000, n.chains = length(inits))
+# update(jm2, n.iter = 15000)
+# zc2 = coda.samples(jm2, variable.names = c("beta", "e", "sigma.u", "sigma.s", "phi"), n.iter = 5000)
+# MCMCsummary(zc2, excl = "e")
+# MCMCtrace(zc2, excl = "e")
+# epsilon2 = MCMCpstr(zc2, params = "e", func=median)
+# epsilon.gd2=as.geodata(cbind(M[,1:2],epsilon2))
+# epsilon.v2=variog(epsilon.gd2, max.dist = max(D/4))
+# plot(epsilon.v2)
+
+
+# #######Parallel version
+initFunc <- function (){
+  return(list(
+    B = runif(3, 1, 10),
+    sigma.s = runif(1,.01,5),
+    sigma.u = runif(1, .01, 5),
+    phi = runif(1, 50, 150))
+  )
+}
+initFunc()
+num_cores=4
+variables = c("beta", "e", "sigma.u", "sigma.s", "phi")
+n.adapt = 500
+n.update = 5000
+n.iter = 5000
+model_file = "SpatialJAGS.R"
+cl <- makeCluster(num_cores) #
+clusterExport(cl, c("model_file", "data", "initFunc", "n.adapt", "n.update", "n.iter", "variables"))
+ptm=proc.time()
+out=run_parallel()
+zc2 = as.mcmc.list(out) #for coda output must have as.mcmc.list
+ParallelTime <- proc.time() - ptm
+ParallelTime
+stopCluster(cl)
+MCMCsummary(zc2, excl = "e", n.eff = TRUE)
+epsilon2 = MCMCpstr(zc2, params = "e", func=median)
+epsilon.gd2=as.geodata(cbind(M[,1:2],epsilon2))
+epsilon.v2=variog(epsilon.gd2, max.dist = max(D/4))
+plot(epsilon.v2)
+
+```
+
+
+
