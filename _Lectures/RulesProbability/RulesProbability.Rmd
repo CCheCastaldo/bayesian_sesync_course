@@ -27,7 +27,7 @@ transition: fastest
 
 The world can be divided into things that are observed and things that are unobserved.  
 
-1. Bayesians treat all unobserved quantities as *random varialbes*.
+1. Bayesians treat all unobserved quantities as *random variables*.
 2. The values of random variables are governed by chance.
 3. Probability distributions describe "governed by chance."
 4. A specific value of a random variable is called an event or an outcome.
