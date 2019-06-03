@@ -140,7 +140,7 @@ Why is factoring useful?
  - Directed acyclic graphs (aka Bayesian networks) specify how joint distributions are factored into conditional distributions using nodes to represent RV's and arrows to represent dependencies.
 - Nodes at the heads of arrows _must_ be on the left hand side of the conditioning symbols;
 - Nodes at the tails of arrows are on the right hand side of the conditioning symbols.
-- Any node at the tail of an arrow without and arrow leading into it must be expressed unconditionally.
+- Any node at the tail of an arrow without an arrow leading into it must be expressed unconditionally.
 - Nodes at heads of arrows are called "children"; at tails, "parents."
 
 ## Factoring joint probabilities
