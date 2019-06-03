@@ -16,7 +16,9 @@ output:
 4. [Rules of Probability](content/lectures/RulesProbability.pdf) & [Probability Lab 1](content/labs/ProbabilityLab1.html)
 5. [Probability Concepts and Notation](content/lectures/ProbabilityConceptsDistributions.pdf)
 6. [Probability Distributions](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 2](content/labs/ProbabilityLab2.html)
-7. [Distributional Cheatsheet](content/handouts/DistributionCheatSheet.pdf)
+7. [Probability Distributions Boardwork](content/boardwork/ProbabilityDistributions.pdf)
+8. [Distributional Cheatsheet](content/handouts/DistributionCheatSheet.pdf)
+9. Happy Hour at SESYNC 
 
 Review Hobbs and Hooten chapters 1-3
 
@@ -50,7 +52,6 @@ Review Hobbs and Hooten chapters 5 and 7.
 1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
 3. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
-4. Happy Hour at SESYNC 
 
 Review Hobbs and Hooten chapter 7-8.
 
