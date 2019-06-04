@@ -1,13 +1,14 @@
 ---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
 title: "Likelihood"
-author: "Chris Che-Castaldo, Mary B. Collins, N. Thompson Hobbs"
-date: "June 2019"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   beamer_presentation:
     includes:
-      in_header: header.tex
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
 theme: Boadilla
-subtitle: Bayesian Modeling for Socio-Environmental Data
 latex_engine: xelatex
 transition: fastest
 ---
@@ -111,7 +112,7 @@ L(\theta \mid y) & = & [\, y \mid \theta]
 
 \vspace*{1cm}
 
-\centerline{\includegraphics[height=5cm]{../../Graphics/CanBeans.png}}
+\centerline{\includegraphics[height=5cm]{../../_Graphics/CanBeans.png}}
 
 - What are the possible outcomes? 
 - What probability mass function would you use to model theses data? 
@@ -147,7 +148,7 @@ $\theta$ & number of white beans, $y_{i}$ & $[\, y_{i} \mid \theta=.5]$\tabularn
 
 \vspace*{1cm}
 
-\centerline{\includegraphics[height=6.2cm]{../../Graphics/CansBeans.png}}
+\centerline{\includegraphics[height=6.2cm]{../../_Graphics/CansBeans.png}}
 
 - What is the likelihood of each parameter value?
 
@@ -277,7 +278,7 @@ In the example we had a single parameter, $\theta$, one set of observation, 4 su
 
 ## Likelihood Surfaces
 
-\centerline{\includegraphics[width=9cm]{../../Graphics/LikelihoodSurface.png}}
+\centerline{\includegraphics[width=9cm]{../../_Graphics/LikelihoodSurface.png}}
 
 \vspace*{1cm}
 
@@ -373,7 +374,7 @@ writeLines(lines, con = "tempPlot6.tex")
 
 ## Likelihood exercise for time to tweet
 
-\centerline{\includegraphics[width=8cm]{/Users/coldwater/Documents/TeachLearn/BayesWorkshop/Lectures/Graphics/TrumpExponential.png}}
+\centerline{\includegraphics[width=8cm]{../../_Graphics/TrumpExponential.png}}
 
 Generate a datum quantifying how long we have to wait for a new tweet from the POTUS. Write out the likelihood function assuming wait times for POTUS tweets are governed by an exponential distribution. Determine the maximum likelihood estimate (MLE) for $\lambda$.
 
@@ -422,7 +423,7 @@ writeLines(lines, con = "tempPlot7.tex")
 
 ## Tweeting by heads of state\footnotemark
 
-\centerline{\includegraphics[width=12cm]{../../Graphics/G7Tweets.png}}
+\centerline{\includegraphics[width=12cm]{../../_Graphics/G7Tweets.png}}
 
 Assuming tweet wait times for heads of state arise from an exponential distribution whose paramater is $\lambda$:
 
@@ -436,7 +437,7 @@ Assuming tweet wait times for heads of state arise from an exponential distribut
 
 ## Likelihood and log likelihood functions and $\lambda_{MLE}$\footnotemark
 
-\centerline{\includegraphics[width=12cm]{../../Graphics/G7Tweets.png}}
+\centerline{\includegraphics[width=12cm]{../../_Graphics/G7Tweets.png}}
 
 \vspace*{-1cm}
 
@@ -479,7 +480,7 @@ for(i in 1:length(lambda)) {y[i] <- prod(dexp(c(.15, 1.5, 22, .077, .0053, 1.1),
 
 ## Likelihood Surfaces
 
-\centerline{\includegraphics[width=9cm]{../../Graphics/LikelihoodSurface.png}}
+\centerline{\includegraphics[width=9cm]{../../_Graphics/LikelihoodSurface.png}}
 
 \vspace*{1cm}
 
