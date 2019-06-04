@@ -26,9 +26,9 @@ Review Hobbs and Hooten chapters 1-3
 
 ##### **Day 2: (6/4) Likelihood & Bayes' Theorem**
 
-1. [Marginal Distributions](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 3](content/labs/ProbabilityLab3.html)
+1. [Marginal Distributions](content/lectures/MarginalDistributions.pdf) & [Probability Lab 3](content/labs/ProbabilityLab3.html)
 2. [Moment Matching](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 4](content/labs/ProbabilityLab4.html)
-3. Likelihood & [Lab](content/labs/LikelihoodLab.html)
+3. [Likelihood](content/lectures/Likelihood.pdf) & [Lab](content/labs/LikelihoodLab.html)
 4. [Likelihood Lab Excel File](content/handouts/HemlockLightLikelihood.xlsx) & [Answers](content/handouts/HemlockLightLikelihoodAnswers.xlsx)
 
 Review Hobbs and Hooten chapters 3.5-4.
