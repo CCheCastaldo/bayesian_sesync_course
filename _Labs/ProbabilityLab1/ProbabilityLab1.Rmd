@@ -152,9 +152,9 @@ Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
 
 <button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
 
-<br>
-
 <div id="myDIV4", style="display:none">
+
+<br>
 
 <center>
 ![](../../_Graphics/DAGS.png)
