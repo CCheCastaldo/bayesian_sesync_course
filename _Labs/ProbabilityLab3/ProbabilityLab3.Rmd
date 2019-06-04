@@ -137,15 +137,7 @@ If the probabilities are independent, then:
 
 $$\Pr\big(R,S\big) = \Pr\big(R\big)\Pr\big(S\big) = \frac{20}{32}\frac{11}{32} = .215$$
 
-</div>
-
-<br>
-
-4. Based on the data in Table 1, the probability that an island is occupied by both species is $\frac{2}{32}=.062$. Diamond interpreted this difference as evidence of niche separation resulting for inter-specific competition, an interpretation that stimulated a decade of debate.  What are the conditional probabilities, $\Pr\big(R\mid S\big)$ and $\Pr\big(S \mid R\big)$?
-
-<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
-
-<div id="myDIV4", style="display:none">
+Based on the data in Table 1, the probability that an island is occupied by both species is $\frac{2}{32}=.062$. Diamond interpreted this difference as evidence of niche separation resulting for inter-specific competition, an interpretation that stimulated a decade of debate.  The conditional probabilities, $\Pr\big(R\mid S\big)$ and $\Pr\big(S \mid R\big)$ are:
 
 <br>
 
