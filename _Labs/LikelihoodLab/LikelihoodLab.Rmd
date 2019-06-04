@@ -286,7 +286,7 @@ lines(x, yhat, col = "red")
 
 ---
 
-### **Incorporating prior information in an MLE**
+### **ADVANCED: Incorporating prior information in an MLE**
 
 Suppose that a previous study reported a mean value of $\alpha$ = 35 with a standard deviation of the mean =  4.25.You may use a normal distribution to represent the prior information on $\alpha$. Write  a model for the data that includes the prior information.
 
