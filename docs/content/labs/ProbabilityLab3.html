@@ -213,7 +213,7 @@ $(document).ready(function () {
 </div>
 <div id="r-libraries-needed-for-this-lab" class="section level3">
 <h3><strong>R libraries needed for this lab</strong></h3>
-<p>You need to load the following librarr. Set the seed to 10 to compare your answers to ours.</p>
+<p>You need to load the following library. Set the seed to 10 to compare your answers to ours.</p>
 <pre class="r"><code>library(MASS)
 set.seed(10)</code></pre>
 <p><br></p>
@@ -386,7 +386,7 @@ Answer
 <div id="continuous-random-variables" class="section level3">
 <h3><strong>Continuous random variables </strong></h3>
 <p>We now explore marginal distributions for continuous random variables. This requires introducing a new distribution, the multivariate normal:</p>
-<p><span class="math display">\[ \mathbf{z} \sim \text{mulitvariate normal}({\pmb{\mu}, \pmb{\Sigma}} ), \]</span></p>
+<p><span class="math display">\[ \mathbf{z} \sim \text{multivariate normal}({\pmb{\mu}, \pmb{\Sigma}} ), \]</span></p>
 <p>where <span class="math inline">\(\mathbf{z}_i\)</span> is a vector of random variables, <span class="math inline">\(\pmb{\mu}\)</span> is a vector of means (which can be the output of a deterministic model) and <span class="math inline">\(\pmb\Sigma\)</span> is a variance covariance matrix. The diagonal of <span class="math inline">\(\pmb\Sigma\)</span> contains the variances and the off diagonal contains the covariance of <span class="math inline">\(\Sigma[i,j]\)</span>. The covariance can be calculated as <span class="math inline">\(\sigma_i\sigma_j\rho\)</span> where <span class="math inline">\(\sigma_i\)</span> is the standard deviation of the <span class="math inline">\(ith\)</span> random variable, <span class="math inline">\(\sigma_j\)</span> is the standard deviation of the <span class="math inline">\(jth\)</span> random variable, and <span class="math inline">\(\rho\)</span> is the correlation between the random variable <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. The covariance matrix is square and symmetric. We will learn more about these matrices later in the course. For now, an example will go a long way toward helping you understand the multivariate normal distribution.</p>
 <p>The rate of inflation and the rate of return on investments are know to be positively correlated. Assume that the mean rate of inflation is .03 with a standard deviation of 0.015. Assume that the mean rate of return is 0.0531 with a standard deviation of 0.0746. Assume the correlation between inflation and rate of return is 0.5.</p>
 <p>You can simulate interest rate and inflation data reflecting their correlation using the following function:</p>

@@ -193,7 +193,7 @@ dbinom(x = x, p = phi, size = n)
 
 <br>
 
-5. Plot the probability of the data for y = 1...10 counties with coal plants out of 50 counties visited conditional on the hypothesis $\phi=0.04$.
+5. Plot the probability of the data for y = 1...50 counties with coal plants out of 50 counties visited conditional on the hypothesis $\phi=0.04$.
 
 <button class="button" onclick="toggle_visibility('myDIV3B');">Answer</button>
 
@@ -202,7 +202,7 @@ dbinom(x = x, p = phi, size = n)
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
-x <- seq(0, 10)
+x <- seq(0, 50)
 y <- dbinom(x = x, p = phi, size = n)
 plot(x, y, type = 'h', ylab = expression(paste("Pr(y|",phi,")"),), xlab = expression(y), lwd = 3, col = "blue")
 ```
@@ -254,7 +254,7 @@ plot(x, y, ylab = expression(paste("P(",Y <= y," | ",phi,")")), xlab = expressio
 
 <br>
 
-8. Simulate data for 75 counties (no coal plant = 1, coal plant = 0).
+8. Simulate data for 75 counties (no coal plant = 0, coal plant = 1).
     
 <button class="button" onclick="toggle_visibility('myDIV3E');">Answer</button>
 
