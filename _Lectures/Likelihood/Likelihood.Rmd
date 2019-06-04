@@ -21,7 +21,7 @@ if('pacman' %in% rownames(installed.packages()) == FALSE) {
 
 }
 
-pacman::p_load(shape, pBrackets, tikzDevice, knitr)
+pacman::p_load(shape, pBrackets, tikzDevice, knitr, rmarkdown)
 
 # shape for arrows on plots (Arrow)
 # pBrackets for brackets on plot (bracket)

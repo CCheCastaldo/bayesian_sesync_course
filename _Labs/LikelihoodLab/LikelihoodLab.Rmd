@@ -135,7 +135,7 @@ Fitting model predictions by eye is a useful way to find reasonable intial value
 
 <br>
 
-By calculating the $\sum_1^n\frac{1}{n}(y_i-\mu_i)^2$
+By calculating the $\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$
 
 </div>
 
