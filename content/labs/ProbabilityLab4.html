@@ -253,14 +253,14 @@ lines(x, z, col = &quot;red&quot;, lwd = 2)</code></pre>
 </div>
 <p><br></p>
 <ol start="2" style="list-style-type: decimal">
-<li>The average above ground biomass in a 1 km<sup>2</sup> of sagebrush grassland is 103 g/m<sup>2</sup>, with a standard deviation of 23. You clip a 1 m<sup>2</sup> plot. You assumed a normal distribution for this problem in Probability Lab #2. Now redo the problem with a more appropriate distribution. Write out the model for the probability density of the data point. What is the probability density of an observation of 94 assuming the data are gamma distributed? What is the probability that your plot will contain between 90 and 110 gm of biomass? <strong>ADVANCED</strong>: Assume the data are lognormally distributed. Compare to the results where you assumed a gamma distribution.</li>
+<li>The average above ground biomass in a 1 km<sup>2</sup> of sagebrush grassland is 103 g/m<sup>2</sup>, with a standard deviation of 23. You clip a 1 m<sup>2</sup> plot. You assumed a normal distribution for this problem in Probability Lab #2. Now redo the problem with a more appropriate distribution. Write out the model for the probability density of the data point. What is the probability density of an observation of 94 assuming the data are gamma distributed? What is the probability that your plot will contain between 90 and 110 gm of biomass? Now assume the data are lognormally distributed and redo this problem. Compare to the results where you assumed a gamma distribution.</li>
 </ol>
 <button class="button" onclick="toggle_visibility('myDIV2');">
 Answer
 </button>
 <div id="myDIV2" , style="display:none">
 <p><br></p>
-<p><span class="math display">\[y_i \sim \textrm{gamma}(\frac{103^{2}}{23^{2}}, \frac{103}{23^{2}})\]</span></p>
+<p><span class="math display">\[y_i \sim \textrm{gamma}\bigg(\frac{103^{2}}{23^{2}}, \frac{103}{23^{2}}\bigg)\]</span></p>
 <p><br></p>
 <pre class="r"><code>x &lt;- 94 
 mu &lt;- 103
@@ -273,6 +273,21 @@ dgamma(x, shape, rate)</code></pre>
 p.bound &lt;- pgamma(q, shape, rate)
 p.bound[1] - p.bound[2]</code></pre>
 <pre><code>## [1] 0.3419165</code></pre>
+<p>Here is the case where we moment match into the mean of the lognormal. We are saying the the mean of the unlogged data is 103 and the standard deviation is 23. In this case we need to express the parameters of the lognormal as a function of these untransformed moments.</p>
+<p><span class="math display">\[y_i \sim \textrm{lognormal}\bigg(\log(103)-\log\bigg(\sqrt{1+\frac{23^2}{103^2}}\bigg),\,\log\bigg(1+\frac{23^2}{103^2}\bigg)\bigg)\]</span></p>
+<pre class="r"><code>x &lt;- 94 
+mu &lt;- 103
+sd &lt;- 23
+(alpha &lt;- log(mu) - log((1 + (23^2/103^2))^.5))</code></pre>
+<pre><code>## [1] 4.610399</code></pre>
+<pre class="r"><code>(beta &lt;-  log(1 + (23^2/103^2))^.5)</code></pre>
+<pre><code>## [1] 0.2205901</code></pre>
+<pre class="r"><code>dlnorm(x, alpha, beta)</code></pre>
+<pre><code>## [1] 0.01836968</code></pre>
+<pre class="r"><code>q &lt;- c(110, 90)
+p.bound &lt;- plnorm(q, alpha, beta)
+p.bound[1] - p.bound[2]</code></pre>
+<pre><code>## [1] 0.3504293</code></pre>
 </div>
 <p><br></p>
 <ol start="3" style="list-style-type: decimal">
