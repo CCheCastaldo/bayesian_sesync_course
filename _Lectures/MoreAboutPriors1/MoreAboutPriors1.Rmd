@@ -92,7 +92,7 @@ _A vague prior is a distribution with a range of uncertainty that is clearly wid
 - uniform(0, some large number) for variances
 - normal(0, a variance much greater than the mean) regression coefficients
 
-The uniform and normal must be scaled properly!!  For example $\beta_0 \sim \text{normal}(0, 1000)$ is extremely informative if $\beta_0 = 10000)
+The uniform and normal must be scaled properly!!  For example $\beta_0 \sim \text{normal}(0, 1000)$ is extremely informative if $\beta_0 = 10000)$
 
 ## Issues With Vague Priors
 
