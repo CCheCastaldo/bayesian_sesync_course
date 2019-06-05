@@ -104,7 +104,7 @@ sweave
 \use_refstyle 0
 \use_minted 0
 \branch Full_conditionals
-\selected 0
+\selected 1
 \filename_suffix 0
 \color #ffffff
 \end_branch
@@ -669,7 +669,6 @@ because the marginal distribution of the data
  is a constant after the data have been observed.
 \end_layout
 
-\end_deeper
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray}
@@ -684,6 +683,7 @@ Factoring the joint distribution into a product of probability distributions
  The factored joint distribution provides the basis for MCMC.
 \end_layout
 
+\end_deeper
 \begin_layout Standard
 \begin_inset Separator parbreak
 \end_inset
@@ -1353,22 +1353,19 @@ A simple example for one parameter
 
 \begin_deeper
 \begin_layout Itemize
-Tawni is interested in estimating the prevalence of bacterial kidney disease
-\emph on
- 
-\emph default
-in a population of trout in Colorado.
- 
+Mary is interested in estimating the proportion of coal-fired power plants
+ that fail to meet regulations for emissions of lead.
 \end_layout
 
 \begin_layout Itemize
-She is a bit lazy, so she only samples 12 fish, 3 of which have the disease.
- 
+She is not very ambitious, so she only checks 12 plants, 3 of which are
+ non-compliant.
+ She assumes there is not prior knowledge of this proportion.
 \end_layout
 
 \begin_layout Itemize
 How could she calculate the parameters of the posterior distribution of
- prevalence on the back of a cocktail napkin? 
+ non-compliance on the back of a cocktail napkin? 
 \end_layout
 
 \end_deeper
@@ -1691,7 +1688,8 @@ Intuition for MCMC for multi-parameter models
 \begin_inset Formula 
 \begin{eqnarray*}
 [\beta_{0},\beta_{1},\sigma^{2}\mid\mathbf{y}] & \propto & \prod_{i=1}^{n}\text{normal}(y_{i}|g(\beta_{0},\beta_{1},x_{i}),\sigma^{2})\\
- & \times & \text{normal}(\beta_{0}\mid0,10000)\text{normal}(\beta_{1}\mid0,10000)\text{uniform}(\sigma^{2}\mid0,100)
+ & \times & \text{normal}(\beta_{0}\mid0,10000)\text{normal}(\beta_{1}\mid0,10000)\\
+ & \times & \text{uniform}(\sigma^{2}\mid0,100)
 \end{eqnarray*}
 
 \end_inset
@@ -1769,7 +1767,7 @@ Do this many times.
 status open
 
 \begin_layout Plain Layout
-Implementing MCMC for multiple parameters and latent quantities
+Implementing MCMC for multiple parameters
 \end_layout
 
 \end_inset
@@ -1807,9 +1805,9 @@ If you are using MCMC software (e.g.
 \color black
 If you are writing your own MCMC sampler 
 \emph on
-and
+or
 \emph default
- to understand what JAGS is doing for you:
+ you simply want to understand what JAGS is doing for you:
 \end_layout
 
 \begin_deeper
@@ -2176,7 +2174,7 @@ Full-conditionals
 status open
 
 \begin_layout Plain Layout
-There are 197 + 2 full conditionals
+There are 199 (197 + 2) full conditionals
 \end_layout
 
 \end_inset
@@ -2551,15 +2549,11 @@ Metropolis-Hastings: allows asymmetric proposal distributions (e.g., beta,
 \end_deeper
 \begin_layout Enumerate
 Gibbs: accepts all proposals because they are especially well chosen.
+ Requires conjugates.
  In lab today.
 \end_layout
 
 \end_deeper
-\begin_layout Frame
-\begin_inset Branch Full_conditionals
-inverted 0
-status open
-
 \begin_layout Frame
 \begin_inset Argument 4
 status open
@@ -3213,11 +3207,6 @@ rug
 
  described above) approximate the marginal posterior distributions of unobserved
  quantities.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \end_inset
