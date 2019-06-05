@@ -103,7 +103,7 @@ Let’s think about the columns and the rows.  This is the benefit of this exerc
 
 * Column D contain the squared difference between observations and predictions.
 
-* Column E contains the the probability density of the data conditional on $\mu_{i}$, and $\sigma$, one value for each data point. The Excel formula for this is `=NORMDIST(B2,C2,I$5,FALSE)`.
+* Column E contains the the probability density of the data conditional on $\mu_{i}$ and $\sigma$, one value for each data point. The excel formula for this quantity is `=NORMDIST(B2,C2,I$5,FALSE)` for the first observation, with the numeric counter for B and C incrementing with each row.
 
 * Cells I2 -- I4 contain the values for $\alpha$, $\gamma$, and $c$ that are used to form the predicted growth rate as a function of light level (column C). Cell I5 contains the value for $\sigma$. Right now these cells are set to either 1 or 2. **You will replace these with better initial values before using the solver to find the maximum likelihood estimates (MLE) for each of these parameters.**
 
@@ -135,7 +135,7 @@ Fitting model predictions by eye is a useful way to find reasonable intial value
 
 <br>
 
-By calculating the $\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$
+By calculating the standard deviation as $\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$.
 
 </div>
 
@@ -164,7 +164,7 @@ $$
 
 <br>
 
-The $y_{i}$ are the cells in column B, $\mu_{i}$ are the predictions of the model for each light level in colum C, and $\sigma$ is one of the parameters to be estimated in cell I5.
+The $y_{i}$ are the cells in column B, $\mu_{i}$ are the predictions of the model for each light level in column C, and $\sigma$ is one of the parameters to be estimated in cell I5.
 
 </div>
 
@@ -234,7 +234,7 @@ Underflow.
 
 <br>
 
-The predictor variables are measured without error. We are interested in the light seen by the tree.  The x-values are imperfect approximation of to that unobserved qauntity.
+We are assuming that the predictor variables are measured without error. However, what we are actually interested in is the light seen by the tree.  The x-values are an imperfect approximation of this unobserved quantity.
 
 </div>
 
@@ -244,7 +244,7 @@ The predictor variables are measured without error. We are interested in the lig
 
 ### **Using Solver**
 
-Use Solver to find the maximum likelihood estimates of the parameters usig the spreadsheet you have constructed.  Solver is a sophisticated non-linear numerical optimizer that uses Newton's method to find values of parameters of a function that maximize or minimize the output of the function.  
+Use Solver to find the maximum likelihood estimates of the parameters using the spreadsheet you have constructed.  Solver is a sophisticated non-linear numerical optimizer that uses Newton's method to find values of parameters of a function that maximize or minimize the output of the function.  
 
 If you have never used Solver, the main dialog box looks something like this:
     
@@ -260,13 +260,24 @@ Put the cell containing the sum of the log likelihoods in the **Set Objective** 
 
 10. How might you use the squared error column D to compute $\sigma$? Make this computation and compare with your maximum likelihood estimate of $\sigma$ obtained using Solver.
 
+<button class="button" onclick="toggle_visibility('myDIV9A');">Answers</button>
+
+<div id="myDIV9A", style="display:none">
+
+<br>
+
+You could use the squared error column D to compute $\sigma$ just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.
+
+</div>
+
+
 <br>
 
 ---
 
 ### **Using R to do the same thing**
 
-Check your results using the `nls` function in R, which does non-linear estimation for normally distributed data. Examine the assumption that the model residuals are normally distributed using `qqnorm`.  To speed things along, we have given you the syntax, but for it to be useful to you, you must study it and experiment a bit.  In particular, you must do a help on `nls` and look at its methods—summary, predict, coef, and residuals. The hemlock light and growth increment data are included in the `SESYNCBayes` library as `HemlockLight`.
+Check your results using the `nls` function in R, which does non-linear estimation for normally distributed data. Examine the assumption that the model residuals are normally distributed using `qqnorm`.  To speed things along, we have given you the syntax, but for it to be useful to you, you must study it and experiment a bit.  In particular, you must do a help on `nls` and look at its `methods—summary`, `predict`, `coef`, and `residuals`. The hemlock light and growth increment data are included in the `SESYNCBayes` library as `HemlockLight`.
 
 ```{r, eval = TRUE, fig.align = 'center'}
 plot(HemlockLight$L, HemlockLight$g_rate, ylab = "Growth rate (cm/yr)", xlab = ("Light Availability"))
