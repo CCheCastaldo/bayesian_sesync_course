@@ -105,7 +105,7 @@ sweave
 \use_refstyle 0
 \use_minted 0
 \branch Answers
-\selected 0
+\selected 1
 \filename_suffix 0
 \color #ffffff
 \end_branch

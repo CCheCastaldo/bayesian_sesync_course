@@ -110,7 +110,7 @@ sweave
 \color #ffffff
 \end_branch
 \branch Answers
-\selected 1
+\selected 0
 \filename_suffix 0
 \color #ffffff
 \end_branch
@@ -1928,6 +1928,8 @@ continuous random variables
 
 \end_deeper
 \begin_layout Itemize
+
+\color lightgray
 Specific distributions (cheat sheet and Probability Lab 2)
 \end_layout
 
@@ -1937,39 +1939,6 @@ Marginal distributions (Probability Lab 3)
 
 \begin_layout Itemize
 Moment matching (Probability Lab 4)
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Key points
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Marginal distributions summarize multivariate, joint distributions as univariate
- distributions.
-\end_layout
-
-\begin_layout Enumerate
-Moment matching allows us to compute moments of distributions in terms of
- parameters and parameters of distributions in terms of moments.
- 
 \end_layout
 
 \end_deeper
@@ -2109,30 +2078,6 @@ Marginal distributions of discrete random variables
 status open
 
 \begin_layout Plain Layout
-Marginal distributions of discrete random variables
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-Willow establishment example on board
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
 Joint distribution of continuous random variables
 \end_layout
 
@@ -2149,40 +2094,6 @@ Joint distribution of continuous random variables
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Marginal distributions of continuous random variables 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-
-\end_layout
-
-\begin_layout Frame
-Exercise: If A and B are continuous random variables and we have a function
- [A,B] that gives their joint probability density, what is the marginal
- distribution of A? Of B?
-\end_layout
-
-\begin_layout Frame
-Write two equivalent equations for these marginal distributions.
 \end_layout
 
 \begin_layout Standard
@@ -2295,6 +2206,54 @@ By Bscan - Own work, CC0, https://commons.wikimedia.org/w/index.php?curid=252351
 
 \begin_layout Section
 Moment matching
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Motivation: models of data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/distributionDeterministicModel.pdf
+	width 60col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+A model of the data describes our ideas about how the data arise.
+\end_layout
+
+\begin_layout Frame
+
 \end_layout
 
 \begin_layout Frame
@@ -3138,7 +3097,7 @@ Note:
 \begin_layout Standard
 \begin_inset Branch Answers
 inverted 0
-status collapsed
+status open
 
 \begin_layout Standard
 \begin_inset Separator plain

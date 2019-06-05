@@ -25,6 +25,15 @@ The posterior distribution uses information from both the likelihood and prior d
 - Vague priors
 - Conjugate priors
 
+## Informative priors
+
+Informative priors are distributions that are not difuse relative to the posterior. These distributions may be based on 
+
+- statistics reported in the literature
+- posterior distributions from previous studies
+- meta-analyses
+- "plausible" assumptions 
+
 ## Why use informative priors?
 
 - They speed up convergence
@@ -75,6 +84,15 @@ _A vague prior is a distribution with a range of uncertainty that is clearly wid
     + nonsubjective
     + locally uniform
     + objective
+    
+## Commonly used vague priors
+
+- gamma(.001, .001) for strictly non-negative quantities
+- inverse gamma(.001, .001) for variances
+- uniform(0, some large number) for variances
+- normal(0, a variance much greater than the mean) regression coefficients
+
+The uniform and normal must be scaled properly!!  For example $\beta_0 \sim \text{normal}(0, 1000)$ is extremely informative if $\beta_0 = 10000)
 
 ## Issues With Vague Priors
 
