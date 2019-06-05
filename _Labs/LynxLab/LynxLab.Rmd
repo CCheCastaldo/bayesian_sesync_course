@@ -1,0 +1,127 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
+
+##### Dynamic Models: Forecasting The Effects of Harvest on Lynx
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+
+library(knitr)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+```
+
+----
+
+### **Motivation**
+The Eurasian lynx (*Lynx lynx*) is a medium-sized predator with broad distribution in the boreal forests of Europe and Siberia. The lynx is classified as a threatened species throughout much of its range. There is controversy about legal harvest of lynx in Sweden. Proponents of harvest argue that allowing hunting of lynx reduces illegal kill (poaching).  Moreover, Sweden is committed to regulate lynx numbers to prevent excessive predation on reindeer because reindeer are critical to the livelihoods of indigenous pastoralists, the Sami.  Many environmentalists oppose harvest, however, arguing that lynx are too rare to remove their fully protected status. A similar controversy surrounds management of wolves in the Western United States.
+
+<br> 
+
+![](../../_Graphics/Lynx-01.png) ![](../../_Graphics/Reindeer.png)
+
+<br>
+
+A forecasting model for the abundance of lynx will help managers make decisions. You have data about the number of lynx family groups censused in the unit as well as annual records of lynx harvested from the unit. You will model the population using the deterministic model: 
+
+$$N_t=\lambda(N_{t-1}-H_{t-1}).$$
+
+where $N_{t}$
+  is the true, unobserved abundance of lynx and $H_{t-1}$
+  is the number of lynx harvested during $t-1$
+  to $t$.
+
+The parentheses in this expression reflect the fact that harvest occurs immediately after census, such that the next years population increment comes from the post-harvest population size. 
+
+What would be the model if harvest occurred immediately before census? Three months after census? Continuously throughout the year?
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
+
+<div id="myDIV1", style="display:none">
+
+*Immediately before census:
+
+$$N_t=\lambda N_{t-1}-H_{t-1}.$$
+*Three months after census:
+
+$$N_t=(\lambda^{\frac{1}{4}}N_{t-1}-H_{t-1})\lambda^{\frac{3}{4}}$$
+$$N_t=(\lambda^{\frac{1}{4}}N_{t-1}-H_{t-1})\lambda^{\frac{3}{4}}$$
+*Throughout the year:
+$$N_t=(\lambda^{\frac{1}{2}}N_{t-1}-H_{t-1})\lambda^{\frac{1}{2}}$$
+$$N_t=\lambda N_{t-1}-\lambda^{\frac{1}{2}}H_{t-1}$$
+
+</div>
+
+<br>
+
+Assume the harvest is observed without error ($N_t$), notably our Swedish colleagues are amazing snow trackers and do a good job of estimating the number of family groups (if not the number of lynx) in a management region. 
+
+The challenge in this problem is that the observations of lynx abundance (family groups) is not the same as the observation of harvest (number of lynx). Fortunately, you have prior information on the proportional relationship between number of family groups and number of lynx in the population, i.e, $$\phi=\frac{f}{N}$$,
+where $f$  is the number of family groups and $N$  is the population size, mean $\phi=.163$ with standard deviation of the mean = .012. 
+
+<br>
+
+### **Modeling for Management**
+
+1. Develop a hierarchical Bayesian model (also called a state space model) of the lynx population in the management unit. Diagram the Bayesian network (the DAG) of knowns and unknowns and write out the posterior and factored joint distribution. 
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
+
+<div id="myDIV2", style="display:none">
+
+<br> 
+
+<center>
+<img src="../../_Graphics/AnswerDAGandposterior.png"
+     style="float: left; margin-right: 10px;" />
+</center>
+</div>
+<br>
+
+2. Write JAGS code to approximate the marginal posterior distribution of the unobserved, true state over time ($\mathbf{N}$), the parameters in the model $\lambda$ and $\phi$ as well as the process variance and observation variance. Summarize the marginal posterior distributions of the parameters and unobserved states. The data for this problem is located in the `SESYNCBayes package` and can be called using `data(LynxFamilies)`. 
+
+<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
+
+<div id="myDIV3", style="display:none">
+
+```{r, echo=TRUE}
+library(SESYNCBayes)
+library(rjags)
+library(MCMCvis)
+library(HDInterval)
+data("LynxFamilies")
+# Levels of  Harvest to evaluate relative to goals for forecasting part.
+h=c(0, 10, 25, 50, 75)
+#Function to get beta shape parameters from moments
+shape_from_stats <- function(mu = mu.global, sigma = sigma.global){
+		 a <-(mu^2-mu^3-mu*sigma^2)/sigma^2
+		 b <- (mu-2*mu^2+mu^3-sigma^2+mu*sigma^2)/sigma^2
+		shape_ps <- c(a,b)
+		return(shape_ps)
+}
+
+#get parameters for distribution of population multiplier, 1/p
+shapes=shape_from_stats(.163,.012)
+#check prior on p using simulated data from beta distribution
+x = seq(0,1,.001)
+p=dbeta(x,shapes[1],shapes[2])
+plot(x,p,typ="l",xlim=c(.1,.3))
+
+```
+</div>
+<br>
+3. Check MCMC chains for model parameters, process variance, and latent states for convergence. This will probably require using the `excl` option in `MCMCsummary`.

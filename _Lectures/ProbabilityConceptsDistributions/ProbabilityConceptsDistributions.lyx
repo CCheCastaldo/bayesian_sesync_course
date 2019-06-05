@@ -2945,8 +2945,8 @@ functions
 \begin_layout Frame
 \begin_inset Formula 
 \begin{eqnarray*}
-\alpha & = & m_{1}(\mu,\sigma^{2})\\
-\beta & = & m_{2}(\mu,\sigma^{2})
+\alpha & = & f_{1}(\mu,\sigma^{2})\\
+\beta & = & f_{2}(\mu,\sigma^{2})
 \end{eqnarray*}
 
 \end_inset
@@ -2990,8 +2990,8 @@ Moment matching
 \begin_inset Formula 
 \begin{eqnarray*}
 \mu_{i} & = & g(\theta,x_{i})\\
-\alpha & = & m_{1}(\mu_{i},\sigma^{2})\\
-\beta & = & m_{2}(\mu_{i},\sigma^{2})\\
+\alpha & = & f_{1}(\mu_{i},\sigma^{2})\\
+\beta & = & f_{2}(\mu_{i},\sigma^{2})\\
  &  & [y_{i}|\alpha,\beta]
 \end{eqnarray*}
 

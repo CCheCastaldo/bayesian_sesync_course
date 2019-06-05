@@ -200,8 +200,8 @@ $(document).ready(function () {
 </div>
 <div id="estimating-model-parameters-using-maximum-likelihood" class="section level4">
 <h4>Estimating Model Parameters Using Maximum Likelihood</h4>
-<div id="may-30-2019" class="section level5">
-<h5>May 30, 2019</h5>
+<div id="june-04-2019" class="section level5">
+<h5>June 04, 2019</h5>
 <hr />
 </div>
 </div>
@@ -261,7 +261,7 @@ Answers
 <li><p>Columns A and B should be easy, these are the data.</p></li>
 <li><p>Column C contains the prediction of your model for each level of light. These predictions depend on the values for <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\gamma\)</span>, and <span class="math inline">\(c\)</span> contained in column I.</p></li>
 <li><p>Column D contain the squared difference between observations and predictions.</p></li>
-<li><p>Column E contains the the probability density of the data conditional on <span class="math inline">\(\mu_{i}\)</span>, and <span class="math inline">\(\sigma\)</span>, one value for each data point. The Excel formula for this is <code>=NORMDIST(B2,C2,I$5,FALSE)</code>.</p></li>
+<li><p>Column E contains the the probability density of the data conditional on <span class="math inline">\(\mu_{i}\)</span> and <span class="math inline">\(\sigma\)</span>, one value for each data point. The excel formula for this quantity is <code>=NORMDIST(B2,C2,I$5,FALSE)</code> for the first observation, with the numeric counter for B and C incrementing with each row.</p></li>
 <li><p>Cells I2 – I4 contain the values for <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\gamma\)</span>, and <span class="math inline">\(c\)</span> that are used to form the predicted growth rate as a function of light level (column C). Cell I5 contains the value for <span class="math inline">\(\sigma\)</span>. Right now these cells are set to either 1 or 2. <strong>You will replace these with better initial values before using the solver to find the maximum likelihood estimates (MLE) for each of these parameters.</strong></p></li>
 <li><p>Make a scatterplot of the data and the model predictions, where the x-axis is light level and the y-axis is growth increment. Plot the observed growth increments in blue and the predicted growth increments in green. For the moment, the predicted growth increments should form a line of points along the x-axis.</p></li>
 </ul>
@@ -286,7 +286,7 @@ Answers
 </button>
 <div id="myDIV2A" , style="display:none">
 <p><br></p>
-<p>By calculating the <span class="math inline">\(\sum_1^n\frac{1}{n}(y_i-\mu_i)^2\)</span></p>
+<p>By calculating the standard deviation as <span class="math inline">\(\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}\)</span>.</p>
 </div>
 <p><br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -310,7 +310,7 @@ Answers
 </button>
 <div id="myDIV4" , style="display:none">
 <p><br></p>
-<p>The <span class="math inline">\(y_{i}\)</span> are the cells in column B, <span class="math inline">\(\mu_{i}\)</span> are the predictions of the model for each light level in colum C, and <span class="math inline">\(\sigma\)</span> is one of the parameters to be estimated in cell I5.</p>
+<p>The <span class="math inline">\(y_{i}\)</span> are the cells in column B, <span class="math inline">\(\mu_{i}\)</span> are the predictions of the model for each light level in column C, and <span class="math inline">\(\sigma\)</span> is one of the parameters to be estimated in cell I5.</p>
 </div>
 <p><br></p>
 <ol start="5" style="list-style-type: decimal">
@@ -365,14 +365,14 @@ Answers
 </button>
 <div id="myDIV9" , style="display:none">
 <p><br></p>
-<p>The predictor variables are measured without error. We are interested in the light seen by the tree. The x-values are imperfect approximation of to that unobserved qauntity.</p>
+<p>We are assuming that the predictor variables are measured without error. However, what we are actually interested in is the light seen by the tree. The x-values are an imperfect approximation of this unobserved quantity.</p>
 </div>
 <p><br></p>
 <hr />
 </div>
 <div id="using-solver" class="section level3">
 <h3><strong>Using Solver</strong></h3>
-<p>Use Solver to find the maximum likelihood estimates of the parameters usig the spreadsheet you have constructed. Solver is a sophisticated non-linear numerical optimizer that uses Newton’s method to find values of parameters of a function that maximize or minimize the output of the function.</p>
+<p>Use Solver to find the maximum likelihood estimates of the parameters using the spreadsheet you have constructed. Solver is a sophisticated non-linear numerical optimizer that uses Newton’s method to find values of parameters of a function that maximize or minimize the output of the function.</p>
 <p>If you have never used Solver, the main dialog box looks something like this:</p>
 <p><br></p>
 <div style="width:400px; height=300px; margin:0 auto;">
@@ -386,12 +386,19 @@ Answers
 <ol start="10" style="list-style-type: decimal">
 <li>How might you use the squared error column D to compute <span class="math inline">\(\sigma\)</span>? Make this computation and compare with your maximum likelihood estimate of <span class="math inline">\(\sigma\)</span> obtained using Solver.</li>
 </ol>
+<button class="button" onclick="toggle_visibility('myDIV9A');">
+Answers
+</button>
+<div id="myDIV9A" , style="display:none">
+<p><br></p>
+<p>You could use the squared error column D to compute <span class="math inline">\(\sigma\)</span> just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.</p>
+</div>
 <p><br></p>
 <hr />
 </div>
 <div id="using-r-to-do-the-same-thing" class="section level3">
 <h3><strong>Using R to do the same thing</strong></h3>
-<p>Check your results using the <code>nls</code> function in R, which does non-linear estimation for normally distributed data. Examine the assumption that the model residuals are normally distributed using <code>qqnorm</code>. To speed things along, we have given you the syntax, but for it to be useful to you, you must study it and experiment a bit. In particular, you must do a help on <code>nls</code> and look at its methods—summary, predict, coef, and residuals. The hemlock light and growth increment data are included in the <code>SESYNCBayes</code> library as <code>HemlockLight</code>.</p>
+<p>Check your results using the <code>nls</code> function in R, which does non-linear estimation for normally distributed data. Examine the assumption that the model residuals are normally distributed using <code>qqnorm</code>. To speed things along, we have given you the syntax, but for it to be useful to you, you must study it and experiment a bit. In particular, you must do a help on <code>nls</code> and look at its <code>methods—summary</code>, <code>predict</code>, <code>coef</code>, and <code>residuals</code>. The hemlock light and growth increment data are included in the <code>SESYNCBayes</code> library as <code>HemlockLight</code>.</p>
 <pre class="r"><code>plot(HemlockLight$L, HemlockLight$g_rate, ylab = &quot;Growth rate (cm/yr)&quot;, xlab = (&quot;Light Availability&quot;))
 x = HemlockLight$L
 y = HemlockLight$g_rate
@@ -429,8 +436,8 @@ lines(x, yhat, col = &quot;red&quot;)</code></pre>
 <p><br></p>
 <hr />
 </div>
-<div id="incorporating-prior-information-in-an-mle" class="section level3">
-<h3><strong>Incorporating prior information in an MLE</strong></h3>
+<div id="advanced-incorporating-prior-information-in-an-mle" class="section level3">
+<h3><strong>ADVANCED: Incorporating prior information in an MLE</strong></h3>
 <p>Suppose that a previous study reported a mean value of <span class="math inline">\(\alpha\)</span> = 35 with a standard deviation of the mean = 4.25.You may use a normal distribution to represent the prior information on <span class="math inline">\(\alpha\)</span>. Write a model for the data that includes the prior information.</p>
 <button class="button" onclick="toggle_visibility('myDIV11');">
 Answers

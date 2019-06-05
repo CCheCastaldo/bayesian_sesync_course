@@ -1,13 +1,14 @@
 ---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
 title: "Likelihood"
-author: "Chris Che-Castaldo, Mary B. Collins, N. Thompson Hobbs"
-date: "June 2019"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   beamer_presentation:
     includes:
-      in_header: header.tex
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
 theme: Boadilla
-subtitle: Bayesian Modeling for Socio-Environmental Data
 latex_engine: xelatex
 transition: fastest
 ---
@@ -20,7 +21,7 @@ if('pacman' %in% rownames(installed.packages()) == FALSE) {
 
 }
 
-pacman::p_load(shape, pBrackets, tikzDevice, knitr)
+pacman::p_load(shape, pBrackets, tikzDevice, knitr, rmarkdown)
 
 # shape for arrows on plots (Arrow)
 # pBrackets for brackets on plot (bracket)
@@ -41,7 +42,7 @@ pacman::p_load(shape, pBrackets, tikzDevice, knitr)
 
 ## Data conditional on a parameter: $[\, y \mid \theta]$
 
-Prevalence is a term used in disease ecology to indicate the proportion of a population that is infected. The true prevalence, $\theta$, of chronic wasting disease in male mule deer on the winter range north of Fort Collins is 12%. A sample of 24 male deer includes 4 infected individuals. What is the probability of obtaining these data if the estimate of prevalence is true?
+Prevalence is a term used in disease ecology to indicate the proportion of a population that is infected. The true prevalence, $\theta$, of chronic wasting disease in male mule deer on the winter range north of Fort Collins is 12%. If you collected a sample of 24 male mule deer, what would be the probability of observing 4 infected individuals?
 
 ## Parameter conditional the data: $[\theta \mid y]$
 
@@ -87,7 +88,7 @@ writeLines(lines, con = "tempPlot2.tex")
 \input{tempPlot2.tex}
 \end{center}
 
-Likelihood allows us to compare alternative parameter values and models by calculating the probability of the data conditional on the parameters $[\, y \mid \theta]$. As you will see, all evidence based on likelihood is relative.
+Likelihood allows us to compare alternative parameter values and models by calculating the probability (or probability density) of the data conditional on the parameters $[\, y \mid \theta]$. As you will see, all evidence based on likelihood is relative.
 
 ## The key idea in likelihood
 
@@ -111,12 +112,37 @@ L(\theta \mid y) & = & [\, y \mid \theta]
 
 \vspace*{1cm}
 
-\centerline{\includegraphics[height=5cm]{../../Graphics/CanBeans.png}}
+\centerline{\includegraphics[height=5cm]{../../_Graphics/CanBeans.png}}
 
 - What are the possible outcomes? 
 - What probability mass function would you use to model theses data? 
 - What is the probability of each outcome? 
 - What is the sum of the individual probabilities?
+
+## The parameter is known and the data are random
+
+We draw three beans from a can with equal numbers of white and black beans. The possible outcomes are:
+
+\bigskip \center
+
+\begin{tabular}{|c|c|c|}
+\hline 
+
+$\theta$ & number of white beans, $y_{i}$ & $[\, y_{i} \mid \theta=?]$\tabularnewline
+\hline 
+\hline 
+ &  & \tabularnewline
+\hline 
+ &  & \tabularnewline
+\hline 
+ &  & \tabularnewline
+\hline 
+ &  & \tabularnewline
+\hline 
+& $\sum_{i=1}^{4}[\, y_{i} \mid \theta=?]$ & ?
+\tabularnewline
+\hline 
+\end{tabular}
 
 ## The parameter is known and the data are random
 
@@ -147,9 +173,30 @@ $\theta$ & number of white beans, $y_{i}$ & $[\, y_{i} \mid \theta=.5]$\tabularn
 
 \vspace*{1cm}
 
-\centerline{\includegraphics[height=6.2cm]{../../Graphics/CansBeans.png}}
+\centerline{\includegraphics[height=6.2cm]{../../_Graphics/CansBeans.png}}
 
 - What is the likelihood of each parameter value?
+
+## The data are known and the parameter is random
+
+We have three hypothesized parameter values, $(\nicefrac{5}{6}, \nicefrac{1}{2}, \nicefrac{1}{6})$. Data in hand are 2 white beans on three draws. The likelihood of each parameter value is:
+
+\bigskip \center
+
+\begin{tabular}{|c|c|c|}
+\hline 
+hypothesis, $\theta_{i}$ & number of white beans, $y$ & $[\, y=? \mid \theta_{i}]$\tabularnewline
+\hline 
+\hline 
+&  & \tabularnewline
+\hline 
+&  & \tabularnewline
+\hline 
+&  & \tabularnewline
+\hline 
+& $\sum_{i=1}^{3}[\, y=? \mid \theta_{i}]$ & ?\tabularnewline
+\hline 
+\end{tabular}
 
 ## The data are known and the parameter is random
 
@@ -272,12 +319,12 @@ In the example we had a single parameter, $\theta$, one set of observation, 4 su
 
 \begin{eqnarray}
 \mu_{i} & = & g(\bm{\theta}, x_{i})\nonumber\\
-\mathscr{L}(\bm{\theta}, \sigma^{2} \mid y_{i}) & \propto & \underbrace{[y_{i} \mid \mu_{i},\sigma^{2}]}_{\text{PDF or PMF}}\nonumber
+\textnormal{L}(\bm{\theta}, \sigma^{2} \mid y_{i}) & \propto & \underbrace{[y_{i} \mid \mu_{i},\sigma^{2}]}_{\text{PDF or PMF}}\nonumber
 \end{eqnarray}
 
 ## Likelihood Surfaces
 
-\centerline{\includegraphics[width=9cm]{../../Graphics/LikelihoodSurface.png}}
+\centerline{\includegraphics[width=9cm]{../../_Graphics/LikelihoodSurface.png}}
 
 \vspace*{1cm}
 
@@ -288,7 +335,7 @@ Figure courtesy of \href{http://nesterko.com/lectures/stat221-2012/lecture8/\#/6
 
 The total likelihood is the product of the individual likelihoods, assuming the data are \emph{conditionally independent}: 
 \begin{eqnarray}
-\mathscr{L}(\bm{\mu}, \sigma^{2} \mid \mathbf{y}) & = & c\prod_{i=1}^{n}[y_{i} \mid g(\bm{\theta}, x_{i}),\sigma^{2}]\nonumber
+\textnormal{L}(\bm{\mu}, \sigma^{2} \mid \mathbf{y}) & = & c\prod_{i=1}^{n}[y_{i} \mid g(\bm{\theta}, x_{i}),\sigma^{2}]\nonumber
 \end{eqnarray}
 
 ## What does conditionally independent mean?
@@ -318,147 +365,29 @@ We assess this by ensuring that the residuals:
 
 We often use the sum of the log likelihoods to get the total log likelihood as a basis for fitting models:
 
-$$\log(\mathscr{L}(\bm{\theta}, \sigma^{2} \mid y))=L(\bm{\theta}, \sigma^{2} \mid y) =\log(c)+\sum_{i=1}^{n}\log([y_{i}\mid g(\bm{\theta}, x_{i}),\sigma^{2}])$$
+$$\log(\textnormal{L}(\bm{\theta}, \sigma^{2} \mid y))=\log(c)+\sum_{i=1}^{n}\log([y_{i}\mid g(\bm{\theta}, x_{i}),\sigma^{2}])$$
 
-## The exponential distribution
+## Class Exercise: Likelihood profile of $\lambda$ for tadpole counts
 
-\begin{columns}[T] % contents are top vertically aligned
-\begin{column}[T]{5cm} % each column can also be its own environment
-\begin{eqnarray}
-t_{i} & \sim & \textrm{exponential}(\lambda)\nonumber\\
-P(t_{i} \mid \lambda) & = &
-\begin{cases}
-\lambda e^{-\lambda t_{i}} & t_{i} \geq 0 \nonumber\\
-0 & t_{i} < 0
-\end{cases}
-\end{eqnarray}
-if $\lambda$ is the average number of events time\textsuperscript{-1}, then $1/\lambda$ is the average time between events and mean of the exponential distribution.
-\end{column}
+Assume we have observed the following counts of tadpoles in funnel traps from 6 different ponds: 7, 11, 54, 12, 2, 1 individuals.
 
-\begin{column}[T]{6cm} 
+Assuming these counts were generated using a Poisson process governed by $\lambda$, compute a likelihood profile using R. 
+
+Eyeball this profile to determine the MLE.
+
+## Likelihood profile of $\lambda$ for tadpole counts
 
 ``` {r, eval = TRUE, echo = FALSE}
-tikz('tempPlot6.tex', width = 2.5, height = 1.75)
-x <- seq(0, 5, length = 1000)
-y <- dexp(x, 1)
-par(mar = c(3, 3, 1, 1))
-plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, ylim = c(0, 1.6), xlab = "", ylab = "", col = "blue")
-axis(1, at = c(0, 1, 2, 3, 4, 5), cex.axis = .7)
-axis(2, at = c(0, .4, .8, 1.2, 1.6), cex.axis = .5)
-mtext("t", side = 1, line = 2.5, cex = 1)
-mtext(expression("$[\\, t \\mid \\lambda]$"), side = 2, line = 2.5, cex = 1)
-x <- seq(0, 5, length = 1000)
-y <- dexp(x, 1.5)
-lines(x, y, type = "l", lwd = 2, col = "purple")
-x <- seq(0, 5, length = 1000)
-y <- dexp(x, .5)
-lines(x, y, type = "l", lwd = 2, col = "orange")
-legend(2.8, 1.4, lty = 1, lwd = 2, c("$\\lambda_{1}$", "$\\lambda_{1.5}$", "$\\lambda_{0.5}$"), col = c("blue", "purple", "orange"), cex = .7)
-invisible(dev.off())
-lines <- readLines(con = "tempPlot6.tex")
-lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
-lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
-writeLines(lines, con = "tempPlot6.tex")
-```
-
-\begin{center}
-\input{tempPlot6.tex}
-\end{center}
-
-\end{column}
-\end{columns}
-
-- The data, $t_{i}$, represent "waiting times" between events happening in a Poisson process. If the number of events per unit time is provided by the Poisson distribution, then the length of time between events is provided by the exponential distribution.
-- See this \href{https://neurophysics.ucsd.edu/courses/physics_171/exponential.pdf}{\beamerbutton{link}} by John C.B. Cooper for a clear and concise explanation of the connection between these two distributions.
-
-## Likelihood exercise for time to tweet
-
-\centerline{\includegraphics[width=8cm]{/Users/coldwater/Documents/TeachLearn/BayesWorkshop/Lectures/Graphics/TrumpExponential.png}}
-
-Generate a datum quantifying how long we have to wait for a new tweet from the POTUS. Write out the likelihood function assuming wait times for POTUS tweets are governed by an exponential distribution. Determine the maximum likelihood estimate (MLE) for $\lambda$.
-
-## Generate the datum to estimate $\lambda$ for POTUS
-
-- $\frac{991}{151} \sim 6.6$ tweets per day
-
-- $t_{1} = \frac{1}{6.6} \sim 0.15$ days between each tweet
-
-- Fun fact: 3.7 hours respite between POTUS tweets!
-
-## Analytically solve for $\lambda_{MLE}$ for POTUS
-
-\begin{alignat*}{3}
-\mathscr{L}(\lambda) & =  \vphantom{\frac11}[t_{1} \mid \lambda] &&\quad\text{The likelihood equals the PDF.}\\
-\mathscr{L}(\lambda) & =  \vphantom{\frac11}\lambda e^{-\lambda t_{1}}&&\quad\text{Substitude the exponential PDF.}\\
-L(\lambda) & =  \vphantom{\frac11}\log(\lambda)-\lambda{t_{1}}&&\quad\text{Take logs to ease differentiation.}\\
-\frac{dL(\lambda)}{d\lambda} & = \frac{1}{\lambda}-{t_{1}}&&\quad\text{Differentiate.}\\
-0 & = \frac{1}{\lambda_{MLE}}-{t_{1}}&&\quad\text{Set derivative = 0 and solve for $\lambda_{MLE}$.}\\
-\lambda_{\textrm{MLE}} & =\frac{1}{{0.15}}= 6.6 &&\quad\text{Note that $\lambda_{\textrm{MLE}}$ = Poisson rate parameter.}
-\end{alignat*}
-
-## Likelihood profile of $\lambda$ for POTUS
-
-``` {r, eval = TRUE, echo = FALSE}
-options(tikzLatexPackages = c(getOption( "tikzLatexPackages" ),"\\usepackage[mathscr]{euscript}"))
-tikz('tempPlot7.tex', width = 4.25, height = 3.25)
-x <- seq(.03, 30, length = 1000)
-y <- dexp(.15, x)
-plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, ylim = c(0, 2.5), xlab = "", ylab = "", col = "blue")
-axis(1, at = c(0, 5, 10, 15, 20, 25, 30), cex.axis = .7)
-axis(2, at = c(0, .5, 1, 1.5, 2, 2.5), cex.axis = .7)
-mtext("$\\lambda$", side = 1, line = 2.5, cex = 1.1)
-mtext("$\\mathscr{L}(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
-points(x = x[which(y == max(y))], y = max(y), pch = 16, cex = 2)
-invisible(dev.off())
-lines <- readLines(con = "tempPlot7.tex")
-lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
-lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
-writeLines(lines, con = "tempPlot7.tex")
-```
-
-\begin{center}
-\input{tempPlot7.tex}
-\end{center}
-
-## Tweeting by heads of state\footnotemark
-
-\centerline{\includegraphics[width=12cm]{../../Graphics/G7Tweets.png}}
-
-Assuming tweet wait times for heads of state arise from an exponential distribution whose paramater is $\lambda$:
-
-- Write the total likelihood and log-likelihood function. 
-- \beamerbutton{Advanced} Find the maximum likelihood estimate for $\lambda$.
-- Plot the likelihood profile for $\lambda$ using R.
-
-\bigskip
-
-\footnotetext[1]{Wait times between tweets collected with R package twitteR.}
-
-## Likelihood and log likelihood functions and $\lambda_{MLE}$\footnotemark
-
-\centerline{\includegraphics[width=12cm]{../../Graphics/G7Tweets.png}}
-
-\vspace*{-1cm}
-
-\begin{align*}
-\mathscr{L}(\lambda) & = \prod_{i=1}^{6}[t_{i} \mid \lambda] & \frac{dL(\lambda)}{d\lambda}& = \frac{6}{\lambda}-\sum_{i=1}^{6}t_{i}\\
-\Aboxed{\mathscr{L}(\lambda) & = \prod_{i=1}^{6}\lambda e^{-\lambda{t_{i}}}} & \lambda_{\textrm{MLE}} & =\frac{6}{24.9}= 0.24\\
-\Aboxed{L(\lambda) & = 6\log(\lambda)-\lambda{(\sum_{i=1}^{6}t_{i})}} & \Aboxed{{\lambda_{\textrm{MLE}}} & =\frac{1}{\sum_{i=1}^{n}t_{i}/n}}
-\end{align*}
-
-## Likelihood profile of $\lambda$
-
-``` {r, eval = TRUE, echo = FALSE}
-lambda <- seq(.01, 1, length = 1000)
+lambda <- seq(0, 40, length = 1000)
 y <- NA
-for(i in 1:length(lambda)) {y[i] <- prod(dexp(c(.15, 1.5, 22, .077, .0053, 1.1), lambda[i]))}
+for(i in 1:length(lambda)) {y[i] <- prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i]))}
 tikz('tempPlot9.tex', width = 4, height = 3)
-plot(lambda, y, type = "l", lwd = 2, axes = FALSE, ylim = c(0, 6E-7), frame.plot = TRUE, xlab = "", ylab = "", col = "blue")
-axis(1, at = c(0, 0.2, 0.4, 0.6, 0.8, 1), cex.axis = .7)
-axis(2, at = c(0, 1.5E-7, 3E-7, 4.5E-7, 6E-7), cex.axis = .5)
+plot(lambda, y, type = "l", lwd = 2, axes = FALSE, ylim = c(0, 4.5E-29), frame.plot = TRUE, xlab = "", ylab = "", col = "blue")
+axis(1, at = c(0, 5, 10, 15, 20, 25, 30, 35, 40), cex.axis = .7)
+axis(2, at = c(0, 1E-29, 2E-29, 3E-29, 4E-29), cex.axis = .5)
 mtext("$\\lambda$", side = 1, line = 2.5, cex = 1.1)
-mtext("$\\mathscr{L}(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
-points(x = lambda[which(y == max(y))], y = max(y), pch = 16, cex = 2)
+mtext("$\\textnormal{L}(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
+points(x = lambda[which(y == max(y))], y = max(y), pch = 16, cex = 1.25)
 invisible(dev.off())
 lines <- readLines(con = "tempPlot9.tex")
 lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
@@ -472,18 +401,10 @@ writeLines(lines, con = "tempPlot9.tex")
 
 \tiny
 ``` {r, eval = FALSE, echo = TRUE}
-lambda <- seq(.01, 1, length = 1000)
+lambda <- seq(0, 40, length = 1000)
 y <- NA
-for(i in 1:length(lambda)) {y[i] <- prod(dexp(c(.15, 1.5, 22, .077, .0053, 1.1), lambda[i]))}
+for(i in 1:length(lambda)) {y[i] <- prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i]))}
 ```
-
-## Likelihood Surfaces
-
-\centerline{\includegraphics[width=9cm]{../../Graphics/LikelihoodSurface.png}}
-
-\vspace*{1cm}
-
-Figure courtesy of \href{http://nesterko.com/lectures/stat221-2012/lecture8/\#/6}{\beamerbutton{Sergiy Nesterko}}.
 
 ## Main points
 
@@ -501,7 +422,7 @@ plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, xlab = "", ylab
 axis(1, at = c(0, .2, .4, .6, .8, 1), cex.axis = .7)
 axis(2, at = c(0, .05, .1, .15, .2, .25), cex.axis = .5)
 mtext("$\\theta$", side = 1, line = 2, cex = 1.1)
-mtext("$\\mathscr{L}(\\theta)$", side = 2, line = 2, cex = 1.1)
+mtext("$\\textnormal{L}(\\theta)$", side = 2, line = 2, cex = 1.1)
 invisible(dev.off())
 lines <- readLines(con = "tempPlot10.tex")
 lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
@@ -522,18 +443,18 @@ Find the upper and lower bounds of an interval where all $\lambda$ values within
 
 We compute the likelihood ratio statistic:
 
-$$\mathscr{R} = 2\log\Big(\frac{\mathscr{L}(\lambda_{MLE} \mid t_{1})}{\mathscr{L}(\lambda_{0}\mid t_{1})}\Big)  \sim \chi_{k=1}^{2}$$
+$$\textnormal{R} = 2\log\Big(\frac{\textnormal{L}(\lambda_{MLE} \mid y)}{\textnormal{L}(\lambda_{0}\mid y)}\Big)  \sim \chi_{k=1}^{2}$$
 
-which is distributed $\chi^{2}$ with 1 degree of freedom. Note that we fail to reject $H_{0}$ that $\lambda = \lambda_{0}$ if $\mathscr{R} < \chi_{k=1}^{2}(1 - \alpha)$. 
+which is distributed $\chi^{2}$ with 1 degree of freedom. Note that we fail to reject $H_{0}$ that $\lambda = \lambda_{0}$ if $\textnormal{R} < \chi_{k=1}^{2}(1 - \alpha)$. 
 
 ## Likelihood ratio confidence intervals
 
 We determine the $(1-\alpha = 0.95)$ likelihood ratio confidence interval by finding the upper and lower bounds for all values of $\lambda_{0}$ where we would fail to reject $H_{0}$.
 
 \begin{eqnarray*}
-2\log\Big(\frac{\mathscr{L}(\lambda_{MLE} \mid t_{1})}{\mathscr{L}(\lambda\mid t_{1})}\Big) < \chi_{k=1}^{2}(0.95)\\
-L(\lambda_{MLE}) - \frac{3.84}{2} < L(\lambda\mid t_{1})\\
-L(\lambda\mid t_{1}) > L(\lambda_{MLE}) - 1.92
+2\log\Big(\frac{\textnormal{L}(\lambda_{MLE} \mid y)}{\textnormal{L}(\lambda\mid y)}\Big) < \chi_{k=1}^{2}(0.95)\\
+L(\lambda_{MLE}) - \frac{3.84}{2} < L(\lambda\mid y)\\
+L(\lambda\mid y) > L(\lambda_{MLE}) - 1.92
 \end{eqnarray*}
 
 ## Likelihood ratio confidence intervals
@@ -569,26 +490,26 @@ writeLines(lines, con = "tempPlot8.tex")
 
 Figure courtesy of the \href{https://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture8.htm\#constructing}{\beamerbutton{UNC Biology Department}}.
 
-## Likelihood profile of $\lambda$ for heads of state
+## Likelihood profile of $\lambda$ for tadpoles
 
 ``` {r, eval = TRUE, echo = FALSE}
-x <- seq(.03, 1, length = 1000)
+x <- seq(0, 40, length = 1000)
 y <- NA
-for(i in 1:length(x)) {y[i] <- log(prod(dexp(c(.15, 1.5, 22, .0077, .0053, 1.1), x[i])))}
+for(i in 1:length(x)) {y[i] <- log(prod(dpois(c(7, 11, 54, 12, 2, 1), x[i])))}
 cutoff <- y[which(y == max(y))] - 1.92
 lL <- min(x[which(y >= cutoff)])
 uL <- max(x[which(y >= cutoff)])
 tikz('tempPlot11.tex', width = 4, height = 3)
-plot(x, y, type = "l", lwd = 2, axes = FALSE, ylim = c(-25, -10), frame.plot = TRUE, xlab = "", ylab = "", col = "blue")
-axis(1, at = c(0, 0.2, 0.4, 0.6, 0.8, 1), cex.axis = .7)
-axis(2, at = c(-25, -20, -15, -10), cex.axis = .5)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, ylim = c(-500, 100), frame.plot = TRUE, xlab = "", ylab = "", col = "blue")
+axis(1, at = c(0, 5, 10, 15, 20, 25, 30, 35, 40), cex.axis = .7)
+axis(2, at = c(-500, -400, -300, -200, -100, 0, 100), cex.axis = .5)
 mtext("$\\lambda$", side = 1, line = 2.5, cex = 1.1)
 mtext("$L(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
 points(x = x[which(y == max(y))], y = max(y), pch = 16, cex = 2)
 abline(h = cutoff, lwd = 3, lty = 2, col = "black")
-segments(x0 = c(lL, uL), x1 = c(lL, uL), y0 = c(-25, -25), y1 = c(cutoff, cutoff), lwd = 3, lty = 2, col = "red")
-Arrows(x0 = lL, x1 = uL, y0 = -20, y1 = -20, arr.width = .2, arr.length = .3, arr.adj = 3, code = 3)
-text(x = .3, y = -19.5, "95\\% CI for $\\lambda$", cex = .8)
+segments(x0 = c(lL, uL), x1 = c(lL, uL), y0 = c(-500, -500), y1 = c(cutoff, cutoff), lwd = 3, lty = 2, col = "red")
+Arrows(x0 = lL, x1 = uL, y0 = -400, y1 = -400, arr.width = .2, arr.length = .3, arr.adj = 3, code = 3)
+text(x = 15, y = 0, "95\\% CI for $\\lambda$", cex = .8)
 invisible(dev.off())
 lines <- readLines(con = "tempPlot11.tex")
 lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
@@ -602,7 +523,7 @@ writeLines(lines, con = "tempPlot11.tex")
 
 \tiny
 ``` {r, eval = FALSE, echo = TRUE}
-lambda <- seq(.03, 1, length = 1000)
+lambda <- seq(0, 40, length = 1000)
 y <- NA
-for(i in 1:length(lambda)) {y[i] <- log(prod(dexp(c(.15, 1.5, 22, .077, .0053, 1.1), lambda[i])))}
+for(i in 1:length(lambda)) {y[i] <- log(prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i])))}
 ```
