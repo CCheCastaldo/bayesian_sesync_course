@@ -37,8 +37,7 @@ Informative priors are distributions that are not difuse relative to the posteri
 ## Why use informative priors?
 
 - They speed up convergence
-- They reduce problems with identifiability
-- They can allow you to estimate difficult/impossible quantities 
+- They reduce problems with identifiability and allows you to estimate difficult/impossible quantities 
 
 ## Why don't we find people using informative priors more often?
 
