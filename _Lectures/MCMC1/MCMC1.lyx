@@ -1762,6 +1762,10 @@ Do this many times.
 
 \end_layout
 
+\begin_layout Section
+Writing an MCMC sampler
+\end_layout
+
 \begin_layout Frame
 \begin_inset Argument 4
 status open
@@ -2494,12 +2498,14 @@ Cycle through each unobserved quantity, sampling from the its full-conditional
 Note that this takes a complex, multivariate problem and turns it into a
  series of simple, univariate problems that we solve, as in the example
  above, one at a time.
- 
 \end_layout
 
 \end_deeper
 \end_deeper
 \begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
 
 \end_layout
 
@@ -2554,6 +2560,13 @@ Gibbs: accepts all proposals because they are especially well chosen.
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
 \begin_layout Frame
 \begin_inset Argument 4
 status open
