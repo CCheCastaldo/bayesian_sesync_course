@@ -74,7 +74,7 @@ sweave
 \font_tt_scale 100 100
 \use_microtype false
 \use_dash_ligatures true
-\../_Graphics default
+\graphics default
 \default_output_format default
 \output_sync 0
 \bibtex_command default
@@ -1982,7 +1982,7 @@ The posterior predictive distribution of the mean:
 \lang american
 \begin_inset Formula 
 \[
-\left[\mu_{4}\vert\mathbf{y}\right]=\int_{\beta_{o}}\int_{\beta_{1}}\int_{\sigma^{2}}\left[\text{E}(y_{4}^{new(k)})\vert\beta_{0},\beta_{1},\sigma^{2}\right]\left[\beta_{0},\beta_{1},\sigma^{2}\vert\mathbf{y}\right]d\beta_{0}d\beta_{1}d\sigma^{2},
+\left[\mu_{4}\vert\mathbf{y}\right]=\int_{\beta_{o}}\int_{\beta_{1}}\int_{\sigma^{2}}\left[\text{E}(y_{4}^{new})\vert\beta_{0},\beta_{1},\sigma^{2}\right]\left[\beta_{0},\beta_{1},\sigma^{2}\vert\mathbf{y}\right]d\beta_{0}d\beta_{1}d\sigma^{2},
 \]
 
 \end_inset
