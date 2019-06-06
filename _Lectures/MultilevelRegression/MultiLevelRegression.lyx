@@ -1349,6 +1349,7 @@ Guidance
 
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
 The Wishart distribution is an easy, useful way to impose reasonably vague
  priors on covariance matrices.
@@ -1362,11 +1363,11 @@ My experience with simulated data is that these priors are vague for the
 \end_layout
 
 \begin_layout Itemize
-STAN has an distribution for priors on covariance matrices that appears
- to be superior to the Wishart, although the Wishart is widely used and
- recommended.
+STAN has a distribution for priors on covariance matrices that appears to
+ be superior to the Wishart, although the Wishart is widely used and recommended.
 \end_layout
 
+\end_deeper
 \end_deeper
 \begin_layout Frame
 \begin_inset Argument 4
