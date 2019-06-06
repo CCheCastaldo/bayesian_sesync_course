@@ -37,8 +37,7 @@ Informative priors are distributions that are not difuse relative to the posteri
 ## Why use informative priors?
 
 - They speed up convergence
-- They reduce problems with identifiability
-- They can allow you to estimate difficult/impossible quantities 
+- They reduce problems with identifiability and allows you to estimate difficult/impossible quantities 
 
 ## Why don't we find people using informative priors more often?
 
@@ -92,7 +91,7 @@ _A vague prior is a distribution with a range of uncertainty that is clearly wid
 - uniform(0, some large number) for variances
 - normal(0, a variance much greater than the mean) regression coefficients
 
-The uniform and normal must be scaled properly!!  For example $\beta_0 \sim \text{normal}(0, 1000)$ is extremely informative if $\beta_0 = 10000)$
+**Important Note**: The uniform and normal must be scaled properly! For example $\beta_0 \sim \text{normal}(0, 1000)$ is extremely informative if $\beta_0 = 10000.$
 
 ## Issues With Vague Priors
 
@@ -157,11 +156,6 @@ and the posterior of $\phi$ is a beta distribution:
 $$[\phi\mid y,n] = \frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})}\phi^{\alpha_{new}-1}(1-\phi)^{\beta_{new}-1},$$
 
 with parameters $\alpha_{new}$ and $\beta_{new}$.
-
-## Conjugate prior for normal mean with variance known
-$$\mu\sim{\text{normal}}\left({\frac{{\left({\frac{{\mu_{0}}}{{\sigma_{0}^{2}}}+\frac{{\sum\limits _{i=1}^{n}{y_{i}}}}{{\sigma^{2}}}}\right)}}{{\left({\frac{1}{{\sigma_{0}^{2}}}+\frac{n}{{\sigma^{2}}}}\right)}},{{\left({\frac{1}{{\sigma_{0}^{2}}}+\frac{n}{{\sigma^{2}}}}\right)}^{-1}}}\right)$$
-
-
 
 ## Conjugate priors
 
