@@ -1360,12 +1360,12 @@ Mary is interested in estimating the proportion of coal-fired power plants
 \begin_layout Itemize
 She is not very ambitious, so she only checks 12 plants, 3 of which are
  non-compliant.
- She assumes there is not prior knowledge of this proportion.
+ She assumes there is no prior knowledge of this proportion.
 \end_layout
 
 \begin_layout Itemize
 How could she calculate the parameters of the posterior distribution of
- non-compliance on the back of a cocktail napkin? 
+ the proportion of non-compliant plants on the back of a cocktail napkin?
 \end_layout
 
 \end_deeper
@@ -2912,7 +2912,7 @@ The conjugate prior distribution for the
 \end_inset
 
  is a gamma distribution 
-\begin_inset Formula $\text{gamma}\{\beta\mid\alpha_{0},\beta_{0})$
+\begin_inset Formula $\text{gamma}(\beta\mid\alpha_{0},\beta_{0})$
 \end_inset
 
 .

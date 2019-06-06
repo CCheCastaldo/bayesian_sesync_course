@@ -158,6 +158,11 @@ $$[\phi\mid y,n] = \frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new}
 
 with parameters $\alpha_{new}$ and $\beta_{new}$.
 
+## Conjugate prior for normal mean with variance known
+$$\mu\sim{\text{normal}}\left({\frac{{\left({\frac{{\mu_{0}}}{{\sigma_{0}^{2}}}+\frac{{\sum\limits _{i=1}^{n}{y_{i}}}}{{\sigma^{2}}}}\right)}}{{\left({\frac{1}{{\sigma_{0}^{2}}}+\frac{n}{{\sigma^{2}}}}\right)}},{{\left({\frac{1}{{\sigma_{0}^{2}}}+\frac{n}{{\sigma^{2}}}}\right)}^{-1}}}\right)$$
+
+
+
 ## Conjugate priors
 
 \includegraphics[height=2.25in]{../../_Graphics/CPTable.png}
