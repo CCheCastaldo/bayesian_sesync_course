@@ -27,6 +27,7 @@ library(MCMCvis)
 library(HDInterval)
 library(SESYNCBayes)
 
+
 knitr::opts_chunk$set(cache = FALSE)
 
 set.seed(10)
@@ -52,7 +53,7 @@ JAGS allows you to implement models of high dimension once you master its syntax
 
 One of the most useful features of MCMC is its equivariance property which means that any quantity that is a function of a random variable in the MCMC algorithm becomes a random variable. Consider two quantities of interest that are functions of our estimates of the random variables $r$ and $K$:
  
-* The maximum rate of population growth, $\frac{K}{2}$
+* The population size where the population growth rate is maximum, $\frac{K}{2}$
 * The rate of population growth, $\frac{dN}{dt} = rN\big(1-\frac{N}{K}\big)$
 
 You will now do a series of problems to estimate these quantities of interest. Some hints for the problems below:
@@ -64,7 +65,7 @@ You will now do a series of problems to estimate these quantities of interest. S
 
 <br>
 
-1. Approximate the marginal posterior distribution the maximum rate of growth and plot its posterior density. You may use the work you have already done in the JAGS Primer to speed this along.
+1. Approximate the marginal posterior distribution the population size where the population growth rate is maximum and plot its posterior density. You may use the work you have already done in the JAGS Primer to speed this along.
 
 <button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
 
@@ -95,7 +96,7 @@ model {
   # derived quantities	
 
   # calculate maximum growth rate	
-  maxdNdt <- K/2
+  N_at_maxdNdt <- K/2
   
   # calculate growth rate over range of N values. N must be read in as data:
   for (j in 1:length(N)) {
@@ -133,13 +134,13 @@ n.iter = 20000
 
 jm = jags.model("LogisticJAGS.R", data = data, inits = inits, n.chains = length(inits), n.adapt = n.adapt)
 update(jm, n.iter = n.update)
-zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "maxdNdt", "dNdt"), n.iter = n.iter, n.thin = 1)
+zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "N_at_maxdNdt", "dNdt"), n.iter = n.iter, n.thin = 1)
 ```
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 5, fig.height = 5, fig.align = 'center'}
-maxdNdt = MCMCchains(zm, params = c("maxdNdt"))
-plot(density(maxdNdt), main = "", xlab ="Maximum population growth rate", ylab = "Proability density")
-rug(maxdNdt, col = "red")
+N_at_maxdNdt = MCMCchains(zm, params = c("N_at_maxdNdt"))
+plot(density(N_at_maxdNdt), main = "", xlab ="Population size with maximum growth rate", ylab = "Proability density")
+rug(N_at_maxdNdt, col = "red")
 ```
 
 </div>
