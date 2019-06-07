@@ -49,6 +49,22 @@ JAGS allows you to implement models of high dimension once you master its syntax
 
 ---
 
+##### **R libraries needed for this lab**
+
+You need to load the following libraries. Set the seed to 10 to compare your answers to ours.
+
+```{r eval = FALSE, echo = TRUE}
+library(rjags)
+library(MCMCvis)
+library(HDInterval)
+library(SESYNCBayes)
+set.seed(10)
+```
+
+<br>
+
+---
+
 ### **Derived quantities with the logistic**
 
 One of the most useful features of MCMC is its equivariance property which means that any quantity that is a function of a random variable in the MCMC algorithm becomes a random variable. Consider two quantities of interest that are functions of our estimates of the random variables $r$ and $K$:
