@@ -20,7 +20,7 @@ output:
 8. [Distributional Cheatsheet](content/handouts/DistributionCheatSheet.pdf)
 9. Happy Hour at SESYNC 
 
-Review Hobbs and Hooten chapters 1-3
+Review Hobbs and Hooten chapters 1-3.
 
 <br>
 
@@ -42,6 +42,7 @@ Review Hobbs and Hooten chapters 3.5-4.
 3. [MCMC Gibbs Sampling](content/lectures/MCMC1.pdf) & [MCMC Lab 1](content/labs/MCMCLab1.html)  (optional)
 4. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & [MCMC Lab 2](content/labs/MCMCLab2.html) (optional)
 5. [MCMC Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
+6. [Beta-binomial Conjugacy Derivation](content/handouts/DerivationBetaBinomialConjugate.pdf)
 
 Review Hobbs and Hooten chapters 5 and 7.
 
@@ -50,8 +51,8 @@ Review Hobbs and Hooten chapters 5 and 7.
 ##### **Day 4: (6/6) JAGS and Model Inference**
 
 1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
-2. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
-3. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
+2. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
+3. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
 
 Review Hobbs and Hooten chapter 7-8.
 
@@ -59,7 +60,7 @@ Review Hobbs and Hooten chapter 7-8.
 
 ##### **Day 5: (6/7) Bayesian Regression & Multi-Level Modeling**
 
-1. Bayesian Regression
+1. [Bayesian Regression](content/lectures/BayesianRegression.pdf)
 2. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
 3. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html) 
 

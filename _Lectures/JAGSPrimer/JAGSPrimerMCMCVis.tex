@@ -363,12 +363,12 @@ model{
 \label{alg:Linear regression example 2}
 \end{algorithm}
 
-We implement our model in R using algorithm \ref{alg:R-code-for}. We will go through the R code step by step. We start by loading the package \texttt{ESS575} which has the data frame \texttt{Logistic}, which we then order by \texttt{PopulationSize}.\footnote{It would be very instructive for you to omit this ordering after you have successfully completed exercises \ref{ex:coda conversion} and \ref{ex:plotting jags object}. See what you get in your plots using unordered data. Then change all of the \texttt{lines} functions to \texttt{points}. Think this over and explain it. It is worth the effort. You will see it again, we promise.} Next, we specify the initial conditions for the MCMC chain in the statement \texttt{inits}. This is exactly the same thing as you did when you wrote MCMC code and assigned a guess to the first element in the chain. 
+We implement our model in R using algorithm \ref{alg:R-code-for}. We will go through the R code step by step. We start by loading the package \texttt{SESYNCBayes} which has the data frame \texttt{Logistic}, which we then order by \texttt{PopulationSize}.\footnote{It would be very instructive for you to omit this ordering after you have successfully completed exercises \ref{ex:coda conversion} and \ref{ex:plotting jags object}. See what you get in your plots using unordered data. Then change all of the \texttt{lines} functions to \texttt{points}. Think this over and explain it. It is worth the effort. You will see it again, we promise.} Next, we specify the initial conditions for the MCMC chain in the statement \texttt{inits}. This is exactly the same thing as you did when you wrote MCMC code and assigned a guess to the first element in the chain. 
 
 \begin{algorithm}
 \begin{Verbatim}[frame=single]
 rm(list = ls())
-library(ESS575)
+library(SESYNCBayes)
 library(rjags)
 Logistic  = Logistic[order(Logistic$PopulationSize),]
 

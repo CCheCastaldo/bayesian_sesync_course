@@ -1,0 +1,46 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "Bayesian Regression"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+latex_engine: xelatex
+transition: fastest
+---
+
+## Outline
+
+- Understand Bayesian inference using familiar examples.
+- Appreciate one-to-one relationship between math and JAGS code.
+- Empowering you to properly interpret your parameters.
+- Learn some programming tricks.
+- Bayesian $R^{2}$.
+
+## Notation
+
+
+\tiny
+\begin{table}
+\begin{tabular}{M{2cm} | M{1cm} | M{2.5cm} | M{4cm} @{}m{0pt}@{}}
+\hline
+Data (y-values) & Distribution & "Mean" function & Link & \\[8ex] 
+\hline
+continuous, real valued & normal & $\mu = \beta_{0} + \beta_{1}x$ & NA & \\[8ex]
+\hline
+discrete, strictly positive & Poisson & $\mu = e^{\beta_{0} + \beta_{1}x}$ & $\textrm{log}\big(\mu\big) = \beta_{0} + \beta_{1}x$&\\[8ex]
+\hline
+0 or 1 & Bernoulli & $\mu = \frac{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)}{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)+1}$ & $\textrm{logit}\big(\mu \big)=\textrm{log}\Big(\frac{\mu}{1-\mu}\Big)=\beta_{0} + \beta_{1}x$& \\[8ex]
+\hline
+$[0, 1]$ & beta & $\mu = \frac{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)}{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)+1}$ & $\textrm{logit}\big(\mu \big)=\textrm{log}\Big(\frac{\mu}{1-\mu}\Big)=\beta_{0} + \beta_{1}x$ &\\[8ex]
+\hline
+continuous, strictly positive, variance $\uparrow$ as a f(mean) & lognormal & $\mu = e^{\beta_{0} + \beta_{1}x}$ & $\textrm{log}\big(\mu\big) = \beta_{0} + \beta_{1}x$&\\[8ex]
+\hline
+continuous, strictly positive, constant variance & gamma & $\mu = e^{\beta_{0} + \beta_{1}x}$ & $\textrm{log}\big(\mu\big) = \beta_{0} + \beta_{1}x$&\\[8ex]
+\hline
+\end{tabular}
+\end{table}

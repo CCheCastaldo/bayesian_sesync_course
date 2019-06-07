@@ -1,0 +1,382 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "Bayesian Regression"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+latex_engine: xelatex
+transition: fastest
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dev = 'pdf')
+```
+
+## Outline
+
+- Be able to write proper Bayesian regression models for different types of data.
+- Appreciate one-to-one relationship between math and JAGS code.
+- Be able to interpret coefficients of general linear models.
+
+## Where are we?
+\centerline{
+\includegraphics[width=.9\textwidth]{../../_Graphics/DeterministicModelsAndTypesOfData.png}
+}
+
+## A great follow-up
+This book should be in your library:
+
+\vspace{-1 cm}
+\centerline{
+\includegraphics[width=.65 \textwidth]{../../_Graphics/GelmanBlackBook.pdf}
+}
+
+## The general Bayesian set-up
+
+Recall that the posterior distribution of the unobserved quantities conditional on the observed ones is proportional to their joint distribution:
+$$[\theta|y]\propto[\theta,y].$$
+
+The joint distribution can be factored into a likelihood and priors for simple Bayesian models:
+
+$$\big[\theta, \sigma^{2}\big]= \big[y \mid \theta, \sigma^{2}\big]\big[\theta\big]\big[\sigma^{2}\big]$$
+
+A deterministic model of an ecological or socioenvironmental process is embedded in the likelihood like this...
+
+$$\big[\boldsymbol{\theta}, \sigma^{2}\big]\propto \big[y \mid g\big(\boldsymbol{\theta},x\big), \sigma^{2}\big]\big[\boldsymbol{\theta}\big]\big[\sigma^{2}\big]$$
+
+## Simple Bayesian regression models 
+
+As always, we start with a deterministic model:
+$$\mu_{i}=\underbrace{g\big(\boldsymbol{\beta},x_{i}\big)}_{\mathclap{\text{deterministic model}}}$$
+where $\boldsymbol{\beta}$ is a vector of regression coefficients and $\mathbf{x}_i$ is a vector or predictor variables. We use likelihood to connect the predictions of our model to data:
+$$\underbrace{[y_i\mid\mu_i,\sigma^2]}_\text{stochastic model}$$
+$$\big[\boldsymbol{\beta} ,\sigma^{2}\mid \mathbf{y}\big]\propto \prod_{i=1}^n\big[y_i \mid g\big(\boldsymbol{\beta},x_i\big), \sigma^{2}\big]\big[\boldsymbol{\theta}\big]\big[\sigma^{2}\big]$$
+
+We choose appropriate deterministic functions (linear or non-linear) and appropriate probability distributions to compose specific models. 
+
+##Identical notation
+
+$$y_i=g(\boldsymbol{\beta},x_i)+\epsilon_i$$
+$$\epsilon_i\sim\text{normal}(0,\sigma^2)$$
+
+is the same as:
+
+$$y_i\sim\text{normal}\big(g(\boldsymbol{\beta},x_i),\sigma^2\big),$$
+
+but the second notation is much more flexible because it doesn't require additive errors. 
+
+## A graphical representation
+
+```{r, include = TRUE, echo = FALSE, fig.height=4, fig.width=5, out.width='.8\\linewidth', dev='pdf', fig.align='center'}
+y <- rnorm(1000000, 0, 1)
+par(mar = c(5,6,4,2))
+plot(density(y), main = "", xlab = "y", ylab = expression(paste("[ y | g(", theta, ", x), ", sigma^2," ]")))
+abline(v = 0, lwd = 2)
+```
+
+## You don't have to be normal!
+
+\tiny
+\begin{table}
+\begin{tabular}{M{2cm} | M{1cm} | M{2.5cm} | M{4cm} @{}m{0pt}@{}}
+\hline
+Data (y-values) & Distribution & "Mean" function & Link & \\[8ex] 
+\hline
+continuous, real valued & normal & $\mu = \beta_{0} + \beta_{1}x$ & NA & \\[8ex]
+\hline
+discrete, strictly positive & Poisson & $\mu = e^{\beta_{0} + \beta_{1}x}$ & $\textrm{log}\big(\mu\big) = \beta_{0} + \beta_{1}x$&\\[8ex]
+\hline
+0 or 1 & Bernoulli & $\mu = \frac{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)}{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)+1}$ & $\textrm{logit}\big(\mu \big)=\textrm{log}\Big(\frac{\mu}{1-\mu}\Big)=\beta_{0} + \beta_{1}x$& \\[8ex]
+\hline
+$[0, 1]$ & beta & $\mu = \frac{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)}{\textrm{exp}\big(\beta_{0} + \beta_{1}x\big)+1}$ & $\textrm{logit}\big(\mu \big)=\textrm{log}\Big(\frac{\mu}{1-\mu}\Big)=\beta_{0} + \beta_{1}x$ &\\[8ex]
+\hline
+continuous, strictly positive, variance $\uparrow$ as a f(mean) & lognormal & $\mu = e^{\beta_{0} + \beta_{1}x}$ & $\textrm{log}\big(\mu\big) = \beta_{0} + \beta_{1}x$&\\[8ex]
+\hline
+continuous, strictly positive, constant variance & gamma & $\mu = e^{\beta_{0} + \beta_{1}x}$ & $\textrm{log}\big(\mu\big) = \beta_{0} + \beta_{1}x$&\\[8ex]
+\hline
+\end{tabular}
+\end{table}
+
+## Lots of flexibility as a modeler
+
+Bayesian regression models are building blocks for more complex models. For example, the continent-wide Adélie penguin population dynamics:
+
+\vspace{-4mm}
+
+\begin{eqnarray*}
+z_{s,y} &\sim& \textrm{lognormal} \big( z_{s,y} \mid g(\beta_{1}, \beta_{2}, z_{s,y-1}), \sigma^{2} \big)\\
+g(\theta) &=& \textrm{log}\big(z_{s,y-1}e^{\,\beta_{1} \,+\, \beta_{2}\textrm{wsic}_{s,y} \,+\, \beta_{3}\textrm{ssic}_{s,y}}\big)
+\end{eqnarray*}
+
+\vspace{2mm}
+
+\centerline{
+\includegraphics[width=.45\textwidth]{../../_Graphics/LambdaMap.pdf}
+\includegraphics[width=.45\textwidth]{../../_Graphics/AdeliePenguin.jpg}
+}
+
+\vspace{4mm}
+\tiny{Photo c/o Heather J. Lynch}
+
+## Normal data, continuous and real valued
+
+\small
+\begin{eqnarray}
+\big[\beta_{0},\beta_{1},\sigma \mid \mathbf{y}] & \propto & \prod_{i=1}^{N}\textrm{normal}\big(y_{i} \mid g\big(\beta_{0},\beta_{1},x_{i}), \sigma^{2}) \nonumber \\
+& & \times \textrm{normal}\big(\beta_{0}\mid 0, 1000)\,\textrm{normal}\big(\beta_{1}\mid 0, 1000) \nonumber \\
+& &\times \textrm{uniform}\big(\sigma \mid 0, 100) \nonumber  \\
+g\big(\beta_{0},\beta_{1},x_{i})& = &\beta_{0}+\beta_{1}x_{i} \nonumber 
+\end{eqnarray}
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+b0 ~ dnorm(0, .001)
+b1 ~ dnorm(0, .001)
+sigma ~ dunif(0, 100)
+tau <- 1/sigma^2
+for (i in 1:length(y)){
+  mu[i] <- b0 + b1 * x[i]
+  y[i] ~ dnorm(mu[i], tau)
+}
+```
+
+## Counts, discrete and non-negative
+
+You have collected some count data $(y=12,17,1,0,31,\dots,25)$ at $n$ sites, along with a covariate $(x)$ which you believe is likely to affect these counts. Write a model regressing $y$ on $x$.  
+
+- Choose a specific deterministic and stochastic model.
+- Write out the DAG, posterior distribution, and joint distribution for your model.
+- Interpret the coefficients of your model.
+
+## Poisson, discrete and non-negative
+
+\small
+\begin{eqnarray}
+\big[\beta_{0},\beta_{1} \mid \mathbf{y}] & \propto & \prod_{i=1}^{N}\textrm{Poisson}\big(y_{i} \mid g\big(\beta_{0},\beta_{1},x_{i})) \nonumber \\
+& & \times \textrm{normal}\big(\beta_{0}\mid 0, 1000)\,\textrm{normal}\big(\beta_{1}\mid 0, 1000) \nonumber \\
+g\big(\beta_{0},\beta_{1},x_{i})& = &e^{\beta_{0}+\beta_{1}x_{i}} \nonumber 
+\end{eqnarray}
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+b0 ~ dnorm(0, .001)
+b1 ~ dnorm(0, .001)
+for(i in 1:length(y)){
+  log(mu[i]) <- b0 + b1 * x[i]
+  y[i] ~ dpois(mu[i])
+}
+```
+
+or
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+mu[i] <- exp(b0 + b1 * x[i])
+y[i] ~ dpois(mu[i])
+```
+
+## Poisson, discrete and non-negative
+
+\small
+\begin{eqnarray}
+\big[\beta_{0},\beta_{1} \mid \mathbf{y}] & \propto & \prod_{i=1}^{N}\textrm{Poisson}\big(y_{i} \mid g\big(\beta_{0},\beta_{1},x_{i})) \nonumber \\
+& & \times \textrm{normal}\big(\beta_{0}\mid 0, 1000)\,\textrm{normal}\big(\beta_{1}\mid 0, 1000) \nonumber \\
+g\big(\beta_{0},\beta_{1},x_{i})& = &e^{\beta_{0}+\beta_{1}x_{i}} \nonumber 
+\end{eqnarray}
+
+Exponentiate $\beta_{0}$ and $\beta_{1}$ and report counts or multiplicative changes in counts.
+
+$e^{\beta_{1}} = \frac{e^{\beta_{0} + \beta_{1}x}}{e^{\beta_{0}}}$ which is the multiplicative change in the mean count per unit change in x.
+
+For example: "Mean western toad juvenile abundance is reduced by a factor of 5.1 (95% CI: 3.4, 10.8) per unit change in UV-B radiation."
+
+## Binary data, 0 or 1 (aka logistic)
+
+\includegraphics[width=.1\textwidth]{../../_Graphics/us-nickel-front.png}
+
+- probability: $p$ $[0, 1]$
+- odds: $\frac{p}{1-p}$ $[0, \infty)$ 
+- log odds: $\log(\text{odds})$ $(-\infty, \infty)$
+
+Moving between probabilty and log odds
+
+- logit$() = \log\big(\frac{p}{1-p}\big)$: input is probability, output is log odds
+- inverse logit$() = \frac{e^{\log(\text{odds})}}{e^{\log(\text{odds})}+1}$: input is $\log(\text{odds})$, output is probability
+
+## Binary data, 0 or 1 (aka logistic)
+
+inverse logit mapping: input is $\log(\text{odds})$, output is probability
+
+```{r, include = TRUE, echo = FALSE, fig.width = 5, fig.height = 3, fig.align = 'center'} 
+x <- seq(-4, 4, .01)
+y <- exp(x) / (exp(x) + 1)
+
+plot(x, y, lwd = 2, lty = 1, type = "l", xlab = "log(odds)", ylab = "p", frame.plot=FALSE,  
+     yaxt = 'n', xaxt = 'n', xlim = c(-4, 4), ylim = c(0, 1), cex.lab = .75)
+
+axis(1, at = c(-4, -3, -2, -1, 0, 1, 2, 3, 4), cex.axis = .75)
+axis(2, at = c(0, .25, .5, .75, 1), labels =  c("0", ".25", ".5", ".75", "1"), cex.axis = .6)
+```
+
+## Binary data, 0 or 1 (aka logistic)
+
+You have collected some binary data $(y=1,0,0,1,1,0,1,\dots,1)$ at $n$ sites, along with a covariate $(x)$ which you believe is likely to affect these counts. Write a model regressing $y$ on $x$.  
+
+- Choose a specific deterministic and stochastic model.
+- Write out the DAG, posterior distribution, and joint distribution for your model.
+- Interpret the coefficients of your model.
+
+## Bernoulli, 0 or 1 (aka logistic)
+
+\small
+\begin{eqnarray}
+\big[\beta_{0},\beta_{1} \mid \mathbf{y}] & \propto & \prod_{i=1}^{N}\textrm{Bernoulli}\big(y_{i} \mid g\big(\beta_{0},\beta_{1},x_{i})) \nonumber \\
+& & \times \textrm{normal}\big(\beta_{0}\mid 0, 2.7)\,\textrm{normal}\big(\beta_{1}\mid 0, 2.7) \nonumber \\
+g\big(\beta_{0},\beta_{1},x_{i})& = &\cfrac{e^{\beta_{0}+\beta_{1}x_{i}}}{e^{\beta_{0}+\beta_{1}x_{i}} + 1} \nonumber 
+\end{eqnarray}
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+b0 ~ dnorm(0, .37)
+b1 ~ dnorm(0, .37)
+for(i in 1:length(y)){
+  logit(p[i]) <- b0 + b1 * x[i]
+ 	y[i] ~ dbern(p[i]) 
+ }
+```
+
+or
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+p[i] <- inv.logit(b0 + b1 * x[i])
+y[i] ~ dbern(p[i])
+```
+
+## Interpreting logit coefficients
+
+Exponentiate $\beta_{0}$ and $\beta_{1}$ and report odds and odds ratios.
+
+$e^{\beta_{1}} = \frac{e^{\beta_{0} + \beta_{1}x}}{e^{\beta_{0}}}$ which is an odds ratio, i.e. the change in the odds.
+
+For example: "The odds of detecting weevils in upland willow stems were 3.2 (95% CI: 2.3, 4.8) times greater than detecting them in riparian willow stems."
+
+## Choosing reasonable flat priors on logit intercept
+
+```{r, include = TRUE, echo = FALSE, fig.align='center', out.width="300px", out.height="200px"} 
+par(mfrow = c(2,2))
+x <- rnorm(10000, 0, 10000^.5)
+plot(density(x), ylim = c(0, .1), main = "B0 ~ normal(0, var = 10000)", cex.main = .9, xlab = "logit(p)")
+x2 <- exp(x)/(1 + exp(x))
+hist(x2, xlab = "p", main = "B0 ~ normal(0, var = 10000)", cex.main = .9, col = "gray")
+
+x <- rnorm(10000, 0, 2.7^.5)
+plot(density(x), main = "B0 ~ normal(0, var = 2.7)", cex.main = .9, xlab = "logit(p)")
+x2 <- exp(x)/(1 + exp(x))
+hist(x2, xlab = "p", main = "B0 ~ normal(0, var = 2.7)", cex.main = .9, col = "gray")
+
+```
+
+
+## Choosing reasonable flat priors on logit effects
+
+```{r, include = TRUE, echo = FALSE, fig.height=3.7, fig.width = 3.7, fig.align='center'} 
+
+par(mfrow = c(2, 1), mar = c(2.5, 3, 2, 1))
+
+x <- seq(-4, 4, .01)
+
+y <- exp(x) / (exp(x) + 1)
+
+plot(x, y, lwd = 2, lty = 1, type = "l", xlab = "log(odds)", ylab = "p", frame.plot=FALSE,  
+     
+     yaxt = 'n', xaxt = 'n', xlim = c(-4, 4), ylim = c(0, 1), cex.lab = .75)
+axis(1, at = c(-4, -3, -2, -1, 0, 1, 2, 3, 4), cex.axis = .75)
+axis(2, at = c(0, .25, .5, .75, 1), labels =  c("0", ".25", ".5", ".75", "1"), cex.axis = .6)
+mtext(side = 1, line = 2.5, "log(odds)", cex = .75)
+mtext(side = 2, line = 2, "p", cex = .75)
+
+y2 <- dnorm(x, 0, 1.64)
+par(mar = c(4, 3, .5, 1))
+
+plot(x, y2, xlab= NA, ylab= NA, lwd = 2, lty=1, type = "l", frame.plot=FALSE, yaxt = 'n', xaxt = 'n', 
+xlim = c(-4, 4), ylim = c(0, .3), yaxs = "i", cex.lab = .75)
+
+axis(1, at = c(-4, -3, -2, -1, 0, 1, 2, 3, 4), cex.axis = .75)
+mtext(side = 2, line = .5, expression(paste("[ ", beta[1], " | 1, ", 2.7, " ]")), cex = .75)
+mtext(side = 1, line = 2, expression(beta[1]), cex = .75)
+
+cord.x <- c(-2,seq(-2,2,0.01),2) 
+cord.y <- c(0,dnorm(seq(-2,2,0.01),0,1.64),0) 
+polygon(cord.x,cord.y,col='pink', border = NA)
+cord.x <- c(-1,seq(-1,1,0.01),1) 
+cord.y <- c(0,dnorm(seq(-1,1,0.01),0,1.64),0) 
+polygon(cord.x,cord.y,col='skyblue', border = NA)
+val <- 1.64 * 2
+cord.x <- c(-val, seq(-val, val, 0.01), val) 
+cord.y <- c(0, dnorm(seq(-val, val, 0.01), 0, 1.64), 0) 
+polygon(cord.x, cord.y, col = 'pink', border = NA)
+segments(x0 = -val, y0 = 0, x1 =-val, y1 = dnorm(-val, 0, 1.64), col="red", lwd = 2, lty = 2)
+segments(x0 = val, y0 = 0, x1 = val, y1 = dnorm(val, 0, 1.64), col="red", lwd = 2, lty = 2)
+val <- 1.64
+cord.x <- c(-val, seq(-val, val, 0.01), val) 
+cord.y <- c(0, dnorm(seq(-val, val, 0.01),0, 1.64), 0) 
+polygon(cord.x, cord.y, col = 'skyblue', border = NA)
+segments(x0 = -val, y0 = 0, x1 =-val, y1 = dnorm(-val, 0, 1.64), col="blue", lwd = 2, lty = 2)
+segments(x0 = val, y0 = 0, x1 = val, y1 = dnorm(val, 0, 1.64), col="blue", lwd = 2, lty = 2)
+lines(x, y2, lwd = 2)
+```
+
+## lognormal, data continuous and > 0 (log link)
+
+\small
+\begin{eqnarray}
+\big[\beta_{0},\beta_{1},\sigma \mid \mathbf{y}] & \propto & \prod_{i=1}^{N}\textrm{lognormal}\big(y_{i} \mid \textrm{log}\big(g\big(\beta_{0},\beta_{1},x_{i})\big), \sigma^{2}) \nonumber \\
+& & \times \textrm{normal}\big(\beta_{0}\mid 0, 1000)\,\textrm{normal}\big(\beta_{1}\mid 0, 1000) \nonumber \\
+& &\times  \textrm{uniform}\big(\sigma \mid 0, 5) \nonumber  \\
+g\big(\beta_{0},\beta_{1},x_{i})& = &e^{\beta_{0}+\beta_{1}x_{i}} \nonumber 
+\end{eqnarray}
+
+Talk about the interpretation of $\sigma$.
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+b0 ~ dnorm(0, .001)
+b1 ~ dnorm(0, .001)
+sigma ~ dunif(0, 5)
+tau <- 1/sigma^2
+for(i in 1:length(y)){
+  mu[i] <- exp(b0 + b1 * x[i])
+  y[i] ~ dlnorm(log(mu[i]), tau)
+}
+```
+
+## lognormal, data continuous and > 0 (not log link)
+
+\small
+\begin{eqnarray*}
+\big[\beta_{0},\beta_{1},\sigma \mid \mathbf{y}] & \propto & \prod_{i=2}^{N}\textrm{lognormal}\big(y_{i} \mid \textrm{log}\big(g\big(\beta_{0},\beta_{1},y_{i-1})\big), \sigma^{2})  \\
+& & \times \textrm{normal}\big(\beta_{0}\mid 0, 1000)\,\textrm{normal}\big(\beta_{1}\mid 0, 1000)\\
+& & \times\textrm{uniform}\big(\sigma \mid 0, 5)\, \textrm{uniform}\big(y_{1} \mid 1, 1E6\big)\\
+g\big(\beta_{0},\beta_{1},y_{i-1})& = & y_{i-1}e^{\beta_{0}+\beta_{1}y_{i-1}} 
+\end{eqnarray*}
+
+```{r, include = TRUE, echo = TRUE, eval= FALSE}
+b0 ~ dnorm(0, .001)
+b1 ~ dnorm(0, .001)
+sigma ~ dunif(0, 5); tau <- 1/sigma^2
+y[1] ~ dunif(1, 1E6)
+for(i in 2:length(y)){
+  mu[i] <- y[i-1] * exp(b0 + b1 * y[i-1])
+  y[i] ~ dlnorm(log(mu[i]), tau)
+}
+```
+
+## Nonlinear regression
+
+\centerline{\includegraphics[height=1.1in]{../../_Graphics/Bolker1.pdf}}
+\centerline{\includegraphics[height=1.1in]{../../_Graphics/Bolker2.pdf}}
+
+\vspace{10mm}
+\tiny{Figures c/o Bolker, B. 2008. \emph{Ecological Models and Data in R}. Princeton University Press, Princeton, NJ.  USA.}
+
+
