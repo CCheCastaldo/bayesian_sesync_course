@@ -194,7 +194,15 @@ For example: "Mean western toad juvenile abundance is reduced by a factor of 5.1
 
 ## Binary data, 0 or 1 (aka logistic)
 
-\includegraphics[width=.1\textwidth]{../../_Graphics/us-nickel-front.png}
+\centerline{\includegraphics[scale=.3]{../../_Graphics/coin_flip.pdf}}
+
+## Binary data, 0 or 1 (aka logistic)
+
+\centerline{\includegraphics[scale=.4]{../../_Graphics/coin_flips.pdf}}
+
+## Binary data, 0 or 1 (aka logistic)
+
+What happens when we want to make $p$ a function of a continuous predictor?
 
 - probability: $p$ $[0, 1]$
 - odds: $\frac{p}{1-p}$ $[0, \infty)$ 
