@@ -1511,34 +1511,46 @@ where $\mu_i$ is the $i^{th}$ prediction of your model. Overlay the posterior di
 
 ```{r}
 n.input.pred <- seq(min(N2OEmission$n.input), max(N2OEmission$n.input), 10)
+n.sites <- length(unique(N2OEmission$group.index))
 
 data = list(
   log.emission = log(N2OEmission$emission),
-  log.n.input.centered = log(N2OEmission$n.input) - mean(log(N2OEmission$n.input)))
+  log.n.input.centered = log(N2OEmission$n.input) - mean(log(N2OEmission$n.input)),
+  log.n.input.centered.pred = log(n.input.pred) - mean(log(N2OEmission$n.input)),
+  group = N2OEmission$group.index,
+  n.sites = n.sites)
 
 inits = list(
-  list(alpha = 0, beta = .5, sigma = 50),
-  list(alpha = 1, beta = 1.5, sigma = 10),
-  list(alpha = 2, beta = .75, sigma = 20))
+  list(alpha = rep(0, n.sites), beta = .5, sigma = 50, mu.alpha= 0, sigma.alpha = 10),
+  list(alpha = rep(1, n.sites), beta = 1.5, sigma = 10, mu.alpha= 2, sigma.alpha = 20),
+  list(alpha = rep(-1, n.sites), beta = .75, sigma = 20, mu.alpha= -1, sigma.alpha = 12))
 ```
 
 ```{r, echo = TRUE}
 {
-sink("PooledJAGS.R")
+sink("PostCheck.R")
 cat("
 model{
 
   # priors
-  alpha ~ dnorm(0, .0001)
-  beta ~ dnorm(0, .0001)
-  sigma ~ dunif(0, 100)
-  tau.reg <- 1 / sigma^2
-
-  # likelihood
-  # note that the data have been log-transformed in R prior to running this model
- 
-  for (i in 1:length(log.emission)) {
-    log_mu[i] <- alpha + beta * log.n.input.centered[i]
+  # hyperpriors
+    mu.alpha ~ dnorm(0,.00001)  
+    sigma.alpha ~ dunif(0,200) #notated as varsigma in model documentation
+    tau.alpha <- 1 / sigma.alpha^2
+    
+    # priors
+    for(j in 1:n.sites) {
+    alpha[j] ~ dnorm(mu.alpha, tau.alpha)  
+    }
+    beta ~ dnorm(0,.0001)
+    sigma ~ dunif(0,100)
+    tau.reg <- 1 / sigma^2
+    
+    # likelihood
+    # note that the data have been log-transformed in R prior to running this model
+    
+    for (i in 1:length(log.emission)) {
+    log_mu[i] <- alpha[group[i]] + beta * log.n.input.centered[i]
     log.emission[i] ~ dnorm(log_mu[i], tau.reg)
     
     # simulated data for posterior predictive checks
@@ -1576,20 +1588,20 @@ sink()
 n.adapt = 3000
 n.update = 5000
 n.iter = 5000
-jm.pooled = jags.model(file="PooledJAGS.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
-update(jm.pooled, n.iter = n.update)
-zc.pooled = coda.samples(jm.pooled, variable.names = c("p.sd", "p.mean", "p.discrep", "p.min", "log.emission.sim"), 
+jm.check = jags.model(file="PostCheck.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
+update(jm.check, n.iter = n.update)
+zc.check = coda.samples(jm.check, variable.names = c("p.sd", "p.mean", "p.discrep", "p.min", "log.emission.sim"), 
   n.iter = n.iter)
 ```
 
 ```{r, echo = TRUE}
-MCMCsummary(zc.pooled, params = c("p.sd", "p.mean", "p.discrep","p.min"))
+MCMCsummary(zc.check, params = c("p.sd", "p.mean", "p.discrep","p.min"))
 ```
 
 ```{r, echo = TRUE, fig.align = 'center', fig.width = 8, fig.height = 6}
 hist(data$log.emission, breaks = 20, freq = FALSE, main = "Simulated and real data for pooled model", 
   xlab = expression(paste("log(", N[2], "O emission)")), cex.lab = 1.2) 
-lines(density(MCMCchains(zc.pooled, params = "log.emission.sim")), col = "red")
+lines(density(MCMCchains(zc.check, params = "log.emission.sim")), col = "red")
 legend(-10, .2, "simulated", col = "red", lty = "solid")
 ```
 
