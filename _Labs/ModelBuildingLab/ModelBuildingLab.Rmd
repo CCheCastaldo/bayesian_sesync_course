@@ -1,0 +1,268 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
+
+##### Writing Hierarchical Models Lab
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+
+library(knitr)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+set.seed(10)
+
+```
+
+-----
+
+### **Motivation**
+
+The ability of Bayesian methods to handle hierarchical models in an unusually tidy way is why they are becoming the first choice for complex
+problems in social and environmental science, problems with many unknowns, different type of data, and multiple sources of uncertainty. Recall that the posterior distribution of all of the unobserved quantities is proportionate to the joint distributions of the unobserved quantities and the data:
+
+$$\big[\pmb{\theta}\mid\mathbf{y}\big]\propto\underbrace{\big[\pmb{\theta},\mathbf{y}\big]}_{{\text{Factor into sensible parts}}}$$
+
+It follows that the starting point for developing hierarchical models is to write a properly factored expression for the proportionality between the posterior and joint distribution of the observed and unobserved quantities. Properly means that the expression for the factored joint distribution obeys the chain rule of probability after assumptions about independence have been made. Bayesian networks, also called directed acyclic graphs (or, unattractively in my view, DAGs), offer a way to visually assure that your model does so. This will be true if there is one unknown and one data set or one hundred unknowns and ten data sets. This factored expression is all that is required to specify a "roll-your-own" MCMC algorithm or to write code in one of the current software packages that sample from the marginal posterior distributions, JAGS, STAN, OpenBUGS etc. The expression for posterior and joint is where you start discussions with statistical colleagues. It must be included in all papers and proposals using Bayesian methods because it communicates virtually everything about where your inferences come from.
+
+Learning to write proper mathematical and statistical expressions for Bayesian models is 70 percent of the battle of learning how to do Bayesian analysis. We will return to this battle time and time again during this course. In this exercise, we begin to learn the vital skill of model building. The problems increase in difficulty as we proceed, so it will be important to understand what you did right and wrong before you proceed to the next problem. In addition to practice drawing Bayesian networks and writing posterior and joint distributions, the problems will challenge you to:
+
+1. Choose distributions appropriate for the support of the random variable. 
+2. Deftly use moment matching to convert means and standard deviations to parameters of distributions.
+
+<br>
+
+-----
+
+### **Instructions**
+
+For each problem below, draw the Bayesian network, write the posterior and joint distributions using generic bracket notation with appropriate products. Next, choose specific distributions following the general flow that we illustrated in the Light Limitation of Trees lecture. At this point, don't worry too much about the specific forms for prior distributions. We will learn more about composing these as the course proceeds. You may use uniform distributions with bounds that are vague for non-negative parameters. Use normal distributions centered on zero with large variances for real-valued parameters. Again, don't sweat this too much. 
+
+Work in groups to allow discussion and to teach each other. Prepare a write up, one per group. You may use pencil and paper for drawing
+DAGs and writing models. Please practice proper notation. Indicate vectors and matrices by underling their symbols.
+
+We urge you to do a problem as completely as you possibly can, then consult the answer before going to the next problem. 
+
+Good for you if you think you found a mistake! There will be some lurking errors because some of these problems have not been vetted.
+There is no better way to show that you are learning than to find mistakes. 
+
+Accumulate questions.
+
+<br>
+
+-----
+
+### **Cover of invasives on transects**
+
+This problem is taken with minor modification from work Tom is doing for the National Park Service Inventory and Monitoring Program. The data consist of point intercepts taken at 0.1 m intervals along 30 meter transects. Each transect has 300 points where observers classify a point defined by a plumb line dropped vertically from the transect as intersecting with exotic vegetation, native vegetation, or bare ground. There are 100 transects. You seek to estimate the proportion of total vegetative cover that is native using the proportion of a transect that is bare ground as a predictor variable. Develop a Bayesian model for this problem that properly models uncertainty in the predictor variable (proportion bare ground) and the response variable (proportion exotic cover). Hints - Think about two data models, one for the response and one for the predictor variable. Model the $x$'s using the same approach you use for modeling the $y$'s and link the data models via a latent, unobserved quantity. The sample unit is a transect. Start by thinking about what is observed, what is unobserved, and what is known for each transect. 
+
+Define:
+
+1. $y_{i}=$ observed number of hits of exotics on transect $i$
+
+2. $v_{i}=$ number of hits of exotic and native vegetation on the $i_{th}$ transect, presumed to be known because it observed without error.
+
+3. $x_{i}=$ the true, unobserved proportion of bare ground on transect *i*
+
+4. $w_{i}=$ observed number of hits with bare soil
+
+5. $n_{i}=$ total number of intercepts on a transect, known.
+
+6. $N$ = total number of transects
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
+
+<div id="myDIV1", style="display:none">
+
+<br>
+
+<center>
+<img src="../../_Graphics/InvasivesOnTransects.png" width="500">
+</center>
+
+$$\begin{align*}
+[\pmb{\beta}, \pmb{x} \mid, \pmb{w}, \pmb{y}] \propto & \prod_{i=1}^{N}[y_{i} \mid v_{i}, g(\beta_{0}, \beta_{1}, x_{i})][w_{i} \mid n_{i}, x_{i}][x_{i}][\beta_{0}][\beta_{1}]\\
+g(\beta_{0}, \beta_{1}, x_{i})=&\frac{e^{(\beta_{0}, \beta_{1}, x_{i})}}{e^{(\beta_{0}, \beta_{1}, x_{i})}+1}\\
+y_{i}\sim&\,\text{binomial}(v_{i}, g(\beta_{0}, \beta_{1}, x_{i}))\\
+w_{i}\sim&\,\text{binomial}(n_{i}, x_{i})\\
+x_{i}\sim&\,\text{unifomr}(0,1)\\
+\beta_{0}\sim&\,\text{normal}(0, 2.7)\\
+\beta_{1}\sim&\,\text{normal}(0, 2.7)\\
+\end{align*}$$
+
+</div>
+
+<br>
+
+-----
+
+### **Effects of Radon on cancer risk**
+
+You seek to understand how radon levels influence risk of cancer. You have data on the incidence of lung cancer in households (1 if cancer is present and 0 if no cancer) and radon levels (a continuous, non-negative number) for 1000 houses in each of 40 counties within a state. You also have data on the clay soil content at the county level. You heroically assume both clay content and radon levels are know without error. How would you model the effect of radon and soil type on the probability of lung cancer? Some hints:
+
+1. What deterministic model would you use to predict the probability of cancer in a household as a function of radon level? 
+
+2. What likelihood would you use for these 0 or 1 data? 
+
+3. Assume that the intercept in your deterministic model of the effect of radon level on probability of cancer in a household is a linear function of county level clay soil content.
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
+
+<div id="myDIV2", style="display:none">
+
+<br>
+
+<center>
+<figure>
+<img src="../../_Graphics/RadonDAG.png" width="500">
+<figcaption>In this DAG, $x_{ij}$ is the radon level and $y_{ij}$ is an indicator that equals 1 if cancer is present and 0 if it is not in the $i_{th}$ house in the $j_{th}$ county, and $w_{\textrm{th}}$ is the clay soil content in the $j_{th}$ county.</figcaption>
+</figure>
+</center>
+
+$$\begin{align*}
+\big[\pmb{\gamma},\pmb{\beta},\sigma\mid\pmb{y}\big]\varpropto&\prod_{i=1}^{1000}\prod_{j=1}^{40}\big[y_{ij}\mid g\big(\pmb{\beta},x_{ij}\big)\big]\big[\beta_{0,j}\mid h\big(\pmb{\gamma},w_{j}\big),\sigma^{2}\big]\big[\pmb{\gamma}\big]\big[\beta_{1}\big]\big[\sigma\big]\\
+g\big(\pmb{\beta},x_{ij}\big)=&\,\frac{e^{\beta_{0,j}+\beta_{1}x_{ij}}}{1+e^{\beta_{0,j}+\beta_{1}x_{ij}}}\\
+h\big(\pmb{\gamma},w_{j}\big)=&\,\gamma_{0}+\gamma_{1}w_{j}\\
+y_{ij}\sim&\,\textrm{Bernoulli}\big(g\big(\pmb{\beta},x_{ij}\big)\big)\\
+\beta_{0,j}\sim&\,\textrm{normal}\big(h\big(\pmb{\gamma},w_{j}\big),\sigma^{2}\big)\\
+\beta_{1}\sim&\,\textrm{normal}\big(0,1000\big)\\
+\gamma_{0}\sim&\,\textrm{normal}\big(0,1000\big)\\
+\gamma_{1}\sim&\,\textrm{normal}\big(0,1000\big)\\
+\sigma\sim&\,\textrm{uniform}\big(0,1000\big)\\
+\end{align*}$$
+
+</div>
+
+<br>
+
+-----
+
+### **Controls on willow seedling establishment**
+
+1. You are interested in the way that soil water and herbaceous plant cover influence establishment of willow seedlings in riparian communities. You have data on the number of willow seedlings that establish on 100 10 $\times$ 10 meter plots, which of course are a random variables before they are observed. Assume these data are measured perfectly (i.e., you did not over or under count seedlings). You also have five measurements of soil water and one measurement of percent herbaceous cover (estimated visually) on each plot. Assume for now that herbaceous cover is measured perfectly, but you want to include sampling variation in soil water for each plot in your model. How would you model the effect of soil water and herbaceous cover on the number of plants established?
+
+Define:
+
+1. $y_{i}=$ observed counts of willow seedlings in the $i_{th}$ plot, assumed to be measured perfectly
+
+2. $w_{ij}=$ the $j_{th}$ measurement of soil water in the $i_{th}$ plot
+
+3. $x_{i}=$ observed proportion of herbaceous cover in the $i_{th}$ plot, assumed to be measured perfectly
+
+4. $u_{i}=$ true measure of soil water content in the $i_{th}$ plot
+
+<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
+
+<div id="myDIV3", style="display:none">
+
+<br>
+
+<center>
+<img src="../../_Graphics/WSeedlingsProcessError.png" width="500">
+</center>
+
+$$\begin{align*}
+[\pmb{\beta}, \pmb{\mu}, \varsigma^{2} \mid \pmb{w}, \pmb{y}] & \propto \prod_{i=1}^{100}\prod_{j=1}^{5}\text{Poisson}(
+y_{i}\mid e^{\beta_{0} + \beta_{1}\mu_{i} + \beta_{2}x_{i}}) \text{gamma}\bigg(w_{ij}\mid\frac{\mu_{i}^{2}}{\varsigma^{2}},\frac{\mu_{i}}{\varsigma^{2}}\bigg)\\
+&\times \text{normal}(\beta_{0} \mid 0, 1E4)\,\text{normal}(\beta_{1} \mid 0, 1E4)\,\text{normal}(\beta_{2} \mid 0, 1E4)\\
+&\times \text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma \mid 0, 100)
+\end{align*}$$
+
+</div>
+
+<br>
+
+A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates $(x_{i})$ on the true cover $(z_{i})$ and developed a calibration equation $h(\pmb{\alpha},z_{i})$:
+
+$$\begin{align*}
+h(\eta_{0}, \eta_{1}, z_{i}) = &\, \frac{e^{\eta_{0}+\eta_{1}z_{i}}}{1+e^{\eta_{0}+\eta_{1}z_{i}}}\\
+x_{i}  \sim &\, \text{beta}\big(m(h(\eta_{0}, \eta_{1}, z_{i}), \sigma^{2})\big)\\
+\eta_{0} \sim &\, \text{normal}(0.05, 0.006)\\
+\eta_{1} \sim &\, \text{normal}(1.07, 0.13)\\
+\sigma^{2}  \sim &\, \text{inverse gamma}(10.2, 630)
+\end{align*}$$
+
+2. The function $m(\,)$ returns parameters of the beta distribution given moments as inputs. Include the calibration equation in your model of effects of soil water and herbaceous cover on seedling establishment using informed priors on $\alpha_{0},\alpha_{1}$ and $\sigma^{2}$ Hint: think about the predictor variable for herbaceous cover. Do you want to use the observed value of cover $(x_{i})$ or the true value $(z_{i})$ to model its effect on establishment?
+
+Define:
+
+1. $y_{i}=$ observed counts of willow seedlings in the $i_{th}$ plot, assumed to be measured perfectly
+
+2. $w_{ij}=$ the $j_{th}$ measurement of soil water in the $i_{th}$ plot
+
+3. $x_{i}=$ observed proportion of herbaceous cover in the $i_{th}$ plot
+
+4. $u_{i}=$ true measure of soil water content in the $i_{th}$ plot
+
+5. $z_{i}=$ true proportion of herbaceous cover in the $i_{th}$ plot
+
+<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
+
+<div id="myDIV4", style="display:none">
+
+<br>
+
+<center>
+<img src="../../_Graphics/WSeedlingsCovariateError.png" width="500">
+</center>
+
+$$\begin{align*}
+[\pmb{\beta}, \pmb{\eta}, \pmb{\mu}, \varsigma^{2} \sigma^{2} \mid \pmb{w}, \pmb{y}, \pmb{x}] & \propto \prod_{i=1}^{100}\prod_{j=1}^{5}\text{Poisson}(y_{i}\mid e^{\beta_{0} + \beta_{1}\mu_{i} + \beta_{2}z_{i}})\text{gamma}\bigg(w_{ij}\mid\frac{\mu_{i}^{2}}{\varsigma^{2}},\frac{\mu_{i}}{\varsigma^{2}}\bigg)
+\text{beta}\bigg(x_{i} \mid m\bigg(\frac{e^{\eta_{0} + \eta_{1}z_{i}}}{e^{\eta_{0} + \eta_{1}z_{i}}+1}, \sigma^{2}\bigg)\bigg)\\
+&\times \text{normal}(\eta_{0}\mid 0.05, 0.006)\,\text{normal}(\eta_{1} \mid 1.07, 0.13)\,\text{inverse gamma}(\sigma^{2} \mid 10.2, 630)\\
+&\times \text{normal}(\beta_{0} \mid 0, 1E4)\,\text{normal}(\beta_{1} \mid 0, 1E4)\,\text{normal}(\beta_{2} \mid 0, 1E4)\\
+&\times \text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma \mid 0, 100)\,\text{uniform}(z_{i}\mid 0, 1)
+\end{align*}$$
+
+</div>
+
+<br>
+
+3. Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach. You have data on peak runoff in each of the reaches, which you may assume is measured perfectly. Describe verbally how you might model variation at the catchment scale created by peak runoff. 
+
+Define:
+
+1. $y_{ik}=$ observed counts of willow seedlings in the $i_{th}$ plot in the $k_th$ stream reach, assumed to be measured perfectly
+
+2. $w_{ijk}=$ the $j_{th}$ measurement of soil water in the $i_{th}$ plot in the $k_th$ stream reach
+
+3. $x_{ik}=$ observed proportion of herbaceous cover in the $i_{th}$ plot in the $k_th$ stream reach
+
+4. $u_{ik}=$ true measure of soil water content in the $i_{th}$ plot in the $k_th$ stream reach
+
+5. $z_{ik}=$ true proportion of herbaceous cover in the $i_{th}$ plot in the $k_th$ stream reach
+
+<button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
+
+<div id="myDIV5", style="display:none">
+
+<br>
+
+<center>
+<img src="../../_Graphics/WSeedlingsMultiLevel.png" width="500">
+</center>
+
+$$\begin{align*}
+[\pmb{\beta}, \pmb{\eta}, \pmb{\mu}, \mu_{\alpha}, \sigma_{\alpha}, \varsigma^{2} \sigma^{2} \mid \pmb{w}, \pmb{y}, \pmb{x}] & \propto \prod_{i=1}^{20}\prod_{k=1}^{5}\prod_{j=1}^{5}\text{Poisson}(y_{ik}\mid e^{\beta_{0,k} + \beta_{1}\mu_{ik} + \beta_{2}z_{ik}})\text{gamma}\bigg(w_{ijk}\mid\frac{\mu_{ik}^{2}}{\varsigma^{2}},\frac{\mu_{ik}}{\varsigma^{2}}\bigg)\\
+&\times \text{beta}\bigg(x_{ik} \mid m\bigg(\frac{e^{\eta_{0} + \eta_{1}z_{ik}}}{e^{\eta_{0} + \eta_{1}z_{ik}}+1}, \sigma^{2}\bigg)\bigg)\text{normal}(\beta_{0,k} \mid \mu_{\alpha}, \varsigma_{\alpha}^{2})\,\text{normal}(\mu_{\alpha}\mid 0, 1E4)\,\text{uniform}(\varsigma_{\alpha}\mid 0, 100)\\
+&\times \text{normal}(\eta_{0}\mid 0.05, 0.006)\, \text{normal}(\eta_{1} \mid 1.07, 0.13)\,\text{inverse gamma}(\sigma^{2} \mid 10.2, 630)\,\text{normal}(\beta_{1} \mid 0, 1E4)\\
+&\times \text{normal}(\beta_{2} \mid 0, 1E4)\,\text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma^{2} \mid 0, 100)\,\text{uniform}(z_{i}\mid 0, 1)\end{align*}$$
+
+</div>
+
+<br>
