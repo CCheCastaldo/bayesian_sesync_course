@@ -29,22 +29,6 @@ knitr::opts_chunk$set(cache = TRUE, tidy = FALSE)
 
 ----
 
-##### **R libraries needed for this lab**
-
-You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the `LynxFamilies` data frame of the `SESYNCBayes` package. 
-
-```{r eval = FALSE, echo = TRUE}
-library(SESYNCBayes)
-library(rjags)
-library(MCMCvis)
-library(HDInterval)
-set.seed(10)
-```
-
-<br>
-
----
-
 ### **Motivation**
 
 The Eurasian lynx (*Lynx lynx*) is a medium-sized predator with broad distribution in the boreal forests of Europe and Siberia. The lynx is classified as a threatened species throughout much of its range and there is controversy about the legal harvest of lynx in Sweden. Proponents of harvest argue that allowing hunting of lynx reduces illegal kill (poaching).  Moreover, Sweden is committed to regulate lynx numbers to prevent excessive predation on reindeer because reindeer are critical to the livelihoods of indigenous pastoralists, the Sami.  Many environmentalists oppose harvest, however, arguing that lynx are too rare to remove their fully protected status. A similar controversy surrounds management of wolves in the Western United States.
@@ -97,6 +81,22 @@ where $f$ is the number of family groups and $N$ is the population size, mean $\
 
 ---
 
+##### **R libraries needed for this lab**
+
+You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the `LynxFamilies` data frame of the `SESYNCBayes` package. 
+
+```{r eval = FALSE, echo = TRUE}
+library(SESYNCBayes)
+library(rjags)
+library(MCMCvis)
+library(HDInterval)
+set.seed(10)
+```
+
+<br>
+
+---
+
 ##### **Generating an Informed Prior for $\phi$**
 
 We've provided you with a useful moment matching function below for converting the mean and standard deviation of $\phi$ to the parameters for the beta distribution you will use as an informed prior on $\phi$.
@@ -105,7 +105,7 @@ We've provided you with a useful moment matching function below for converting t
 # Function to get beta shape parameters from moments
 shape_from_stats <- function(mu = mu.global, sigma = sigma.global) {
   a <-(mu^2 - mu^3 - mu * sigma^2) / sigma^2
-  b <- (mu^2 * mu^2 + mu^3 - sigma^2 + mu*sigma^2) / sigma^2
+  b <- (mu - 2 * mu^2 + mu^3 - sigma^2 + mu*sigma^2) / sigma^2
   shape_ps <- c(a, b)
   return(shape_ps)
 }
@@ -142,7 +142,7 @@ $$\begin{align*}
 [N_{1}\mid \phi, \sigma^{2}_{p}][\phi][\lambda][\sigma^{2}_{p}]\\
 y_{t} &\sim \text{Poisson}(N_{t}\phi)\\
 N_{t} &\sim \text{lognormal}(\log(\lambda(N_{t-1}-H_{t-1})), \sigma^{2}_{p})\\
-\phi &\sim \text{beta}(154.26, 43.13)\\
+\phi &\sim \text{beta}(154, 792)\\
 N_{1} &\sim \text{lognormal}\bigg(\log\bigg(\frac{y_{i}}{\phi}\bigg), \sigma^{2}_{p}\bigg)\\
 \lambda &\sim \text{uniform}(0.1, 10)\\
 \sigma^{2}_{p} &\sim \text{uniform}(0, 5)\\
