@@ -96,7 +96,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 ##### **Day 9: (6/11) Advanced Topics with Concurrent Sessions**
 
-1. [Dynamic Models](content/lectures/DynamicModels.pdf) & Lynx Lab
+1. [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
 2. [Ordinal Models](content/lectures/OrdinalModels.pdf)
 3. Analysis of Designed Experiments & Lab
 4. [Model Selection](content/lectures/ModelSelection.pdf) & Lab
