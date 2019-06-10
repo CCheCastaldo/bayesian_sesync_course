@@ -250,7 +250,7 @@ Answers
 </center>
 <p><span class="math display">\[\begin{align*}
 [\pmb{\beta}, \pmb{x} \mid, \pmb{w}, \pmb{y}] \propto &amp; \prod_{i=1}^{N}[y_{i} \mid v_{i}, g(\beta_{0}, \beta_{1}, x_{i})][w_{i} \mid n_{i}, x_{i}][x_{i}][\beta_{0}][\beta_{1}]\\
-g(\beta_{0}, \beta_{1}, x_{i})=&amp;\frac{e^{(\beta_{0}, \beta_{1}, x_{i})}}{e^{(\beta_{0}, \beta_{1}, x_{i})}+1}\\
+g(\beta_{0}, \beta_{1}, x_{i})=&amp;\frac{e^{(\beta_{0} + \beta_{1}, x_{i})}}{e^{(\beta_{0} + \beta_{1}, x_{i})}+1}\\
 y_{i}\sim&amp;\,\text{binomial}(v_{i}, g(\beta_{0}, \beta_{1}, x_{i}))\\
 w_{i}\sim&amp;\,\text{binomial}(n_{i}, x_{i})\\
 x_{i}\sim&amp;\,\text{unifomr}(0,1)\\
