@@ -237,15 +237,15 @@ $$\begin{align*}
 
 Define:
 
-1. $y_{ik}=$ observed counts of willow seedlings in the $i_{th}$ plot in the $k_th$ stream reach, assumed to be measured perfectly
+1. $y_{ik}=$ observed counts of willow seedlings in the $i_{th}$ plot in the $k_{th}$ stream reach, assumed to be measured perfectly
 
-2. $w_{ijk}=$ the $j_{th}$ measurement of soil water in the $i_{th}$ plot in the $k_th$ stream reach
+2. $w_{ijk}=$ the $j_{th}$ measurement of soil water in the $i_{th}$ plot in the $k_{th}$ stream reach
 
-3. $x_{ik}=$ observed proportion of herbaceous cover in the $i_{th}$ plot in the $k_th$ stream reach
+3. $x_{ik}=$ observed proportion of herbaceous cover in the $i_{th}$ plot in the $k_{th}$ stream reach
 
-4. $u_{ik}=$ true measure of soil water content in the $i_{th}$ plot in the $k_th$ stream reach
+4. $u_{ik}=$ true measure of soil water content in the $i_{th}$ plot in the $k_{th}$ stream reach
 
-5. $z_{ik}=$ true proportion of herbaceous cover in the $i_{th}$ plot in the $k_th$ stream reach
+5. $z_{ik}=$ true proportion of herbaceous cover in the $i_{th}$ plot in the $k_{th}$ stream reach
 
 <button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
 
