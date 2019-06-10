@@ -364,9 +364,9 @@ Great! - you've got the pooled model fitted and made some predictions from it. H
 
 $$
 \begin{aligned}
-\mu_{ij} & = \gamma x_{ij}^{\beta}\\
+\mu_{ij} & = \gamma_{j} x_{ij}^{\beta}\\
 \alpha_{j} & = \log\big(\gamma_{j}\big)\\
-\log\big(\mu_{ij}\big) & = \alpha_{i}+\beta\big(\log(x_{ij})\big)\\
+\log\big(\mu_{ij}\big) & = \alpha_{j}+\beta\big(\log(x_{ij})\big)\\
 g\big(\alpha_{j},\beta,\log(x_{ij})\big) & = \alpha_{j}+\beta\big(\log(x_{ij})\big) \\
 \end{aligned}
 $$
@@ -400,7 +400,7 @@ include_graphics("../../_Graphics/DAG1A_ml.png")
 <br>
 
 $$
-\big[\boldsymbol{\alpha},\beta,\sigma \mid y_{i}\big] \propto  \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij})\big),\sigma^{2}\big][\boldsymbol{\alpha}]\big[\beta\big]\big[\sigma \big]
+\big[\boldsymbol{\alpha},\beta,\sigma \mid y_{ij}\big] \propto  \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij})\big),\sigma^{2}\big][\boldsymbol{\alpha}]\big[\beta\big]\big[\sigma \big]
 $$
 
 </div>
@@ -415,8 +415,8 @@ $$
 
 $$
 \begin{align*}
-[\boldsymbol{\alpha},\beta,\sigma \mid \mathbf{y}]&\propto\prod_{i=1}^{n}\text{normal}\big(\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij}),\sigma^2\big)\\
-&\times\prod_{j=1}^{J}\text{normal}(\alpha_{j}\mid 0,10000)\text{normal}(\beta \mid 0,10000)\\
+[\boldsymbol{\alpha},\beta,\sigma \mid \mathbf{y}]&\propto\prod_{i=1}^{n}\prod_{j=1}^{J}\text{normal}\big(\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij}),\sigma^2\big)\\
+&\times\text{normal}(\alpha_{j}\mid 0,10000)\text{normal}(\beta \mid 0,10000)\\
 &\times\text{uniform}(\sigma\mid0,200)
 \end{align*}
 $$
