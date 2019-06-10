@@ -149,7 +149,7 @@ y_{ij}\sim&\,\textrm{Bernoulli}\big(g\big(\pmb{\beta},x_{ij}\big)\big)\\
 
 ### **Controls on willow seedling establishment**
 
-You are interested in the way that soil water and herbaceous plant cover influence establishment of willow seedlings in riparian communities. You have data on the number of willow seedlings that establish on 100 10 $\times$ 10 meter plots, which of course are a random variables before they are observed. Assume these data are measured perfectly (i.e., you did not over or under count seedlings). You also have five measurements of soil water and one measurement of percent herbaceous cover (estimated visually) on each plot. Assume for now that herbaceous cover is measured perfectly, but you want to include sampling variation in soil water for each plot in your model. How would you model the effect of soil water and herbaceous cover on the number of plants established?
+1. You are interested in the way that soil water and herbaceous plant cover influence establishment of willow seedlings in riparian communities. You have data on the number of willow seedlings that establish on 100 10 $\times$ 10 meter plots, which of course are a random variables before they are observed. Assume these data are measured perfectly (i.e., you did not over or under count seedlings). You also have five measurements of soil water and one measurement of percent herbaceous cover (estimated visually) on each plot. Assume for now that herbaceous cover is measured perfectly, but you want to include sampling variation in soil water for each plot in your model. How would you model the effect of soil water and herbaceous cover on the number of plants established?
 
 Define:
 
@@ -164,27 +164,46 @@ Define:
 $$\begin{align*}
 [\pmb{\beta}, \pmb{\mu}, \varsigma^{2} \mid \pmb{w}, \pmb{y}] & \propto \prod_{i=1}^{100}\prod_{j=1}^{5}\text{Poisson}(
 y_{i}\mid e^{\beta_{0}\mu_{i} + \beta_{1}x_{i} + \beta_{2}x_{i}}) \text{gamma}\bigg(w_{ij}\mid\frac{\mu_{i}^{2}}{\varsigma^{2}},\frac{\mu_{i}}{\varsigma^{2}}\bigg)\\
-&\times [\beta_{0}][\beta_{1}][\beta_{2}][\mu][\varsigma^{2}]
+&\times \text{normal}(\beta_{0} \mid 0, 1E4)\,\text{normal}(\beta_{1} \mid 0, 1E4)\,\text{normal}(\beta_{2} \mid 0, 1E4)\\
+&\times \text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma^{2} \mid 0, 100)
 \end{align*}$$
 
-An colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates $(x_{i})$ on the true cover $(z_{i})$ and developed a calibration equation $h(\bm{\alpha},z_{i})$:
+<br>
+
+A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates $(x_{i})$ on the true cover $(z_{i})$ and developed a calibration equation $h(\pmb{\alpha},z_{i})$:
+
+$$\begin{align*}
+h(\alpha_{0}, \alpha_{1}, z_{i}) = &\, \frac{e^{\alpha_{o}+\alpha_{1}z_{i}}}{1+e^{\alpha_{o}+\alpha_{1}z_{i}}}\\
+x_{i}  \sim &\, \text{beta}\big(m(h(\alpha_{0}, \alpha_{1}, z_{i}), \sigma^{2})\big)\\
+\alpha_{0} \sim &\, \text{normal}(.05,.006)\\
+\alpha_{1} \sim &\, \text{normal}(1.07,.13)\\
+\sigma^{2}  \sim &\, \text{inverse gamma}(10.2,630)
+\end{align*}$$
+
+2. The function $m(\,)$ returns parameters of the beta distribution given moments as inputs. Include the calibration equation in your model of effects of soil water and herbaceous cover on seedling establishment using informed priors on $\alpha_{0},\alpha_{1}$ and $\sigma^{2}$ Hint: think about the predictor variable for herbaceous cover. Do you want to use the observed value of cover $(x_{i})$ or the true value $(z_{i})$ to model its effect on establishment?
+
+Define:
+
+1. $y_{i}=$ observed counts of willow seedlings in the $i_{th}$ plot, assumed to be measured perfectly
+
+2. $w_{ij}=$ the $j_{th}$ measurement of soilw water in the $i_{th}$ plot
+
+3. $x_{i}=$ observed proportion of herbaceous cover in the $i_{th}$ plot
+
+4. $u_{i}=$ true measure of soil water content in the $i_{th}$ plot
+
+5. $z_{i}=$ true proportion of herbaceous cover in the $i_{th}$ plot
 
 $$\begin{align*}
 [\pmb{\beta}, \pmb{\eta}, \pmb{\mu}, \varsigma^{2} \sigma^{2} \mid \pmb{w}, \pmb{y}, \pmb{x}] & \propto \prod_{i=1}^{100}\prod_{j=1}^{5}\text{Poisson}(
 y_{i}\mid e^{\beta_{0}\mu_{i} + \beta_{1}z_{i}})\text{gamma}\bigg(w_{ij}\mid\frac{\mu_{i}^{2}}{\varsigma^{2}},\frac{\mu_{i}}{\varsigma^{2}}\bigg)
-\prod_{k=1}^{15}\text{beta}\bigg(x_{ik} \mid m\bigg(\frac{e^{\eta_{0} + \eta_{1}z_{i}}}{e^{\eta_{0} + \eta_{1}z_{i}}+1}, \sigma^{2}\bigg)\bigg)\\ &\times [\beta_{0}][\beta_{1}][\beta_{2}][\mu][\sigma^{2}]
-\text{normal}(\eta_{0}\mid 0.05, 0.006)\text{normal}(\eta_{1} \mid 1.07, 0.13)\text{inverse gamma}(\varsigma^{2} \mid 10.2, 630)
+\prod_{k=1}^{15}\text{beta}\bigg(x_{ik} \mid m\bigg(\frac{e^{\eta_{0} + \eta_{1}z_{i}}}{e^{\eta_{0} + \eta_{1}z_{i}}+1}, \sigma^{2}\bigg)\bigg)\\
+&\times \text{normal}(\eta_{0}\mid 0.05, 0.006)\text{normal}(\eta_{1} \mid 1.07, 0.13)\text{inverse gamma}(\varsigma^{2} \mid 10.2, 630)\\
+&\times \text{normal}(\beta_{0} \mid 0, 1E4)\,\text{normal}(\beta_{1} \mid 0, 1E4)\,\text{normal}(\beta_{2} \mid 0, 1E4)\\
+&\times \text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma^{2} \mid 0, 100)\,\text{uniform}(z_{i}\mid 0, 1)
 \end{align*}$$
 
-$$\begin{align*}
-h(\pmb{\alpha},z_{i})  = &\, \frac{e^{\alpha_{o}+\alpha_{1}z_{i}}}{1+e^{\alpha_{o}+\alpha_{1}z_{i}}}\\
-x_{i}  \sim &\, \text{beta}\big(m(h(\pmb{\alpha},z_{i}),\varsigma^{2})\big)\\
-\alpha_{o}  \sim &\, \text{\text{normal}(.05,.006)}\\
-\alpha_{1}  \sim &\, \text{normal}(1.07,.13)\\
-\varsigma^{2}  \sim &\, \text{inverse gamma}(10.2,630)
-\end{align*}$$
+<br>
 
-The function $m(\,)$ returns parameters of the beta distribution given moments as inputs. Include the calibration equation in your model of effects of soil water and herbaceous cover on seedling establishment using informed priors on $\alpha_{0},\alpha_{1}$ and $\varsigma^{2}$.Hint: think about the predictor variable for herbaceous cover. Do you want to use the observed value of cover $(x_{i})$ or the true value $(z_{i})$ to model its effect on establishment?
-
-Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach. You have data on peak runoff in each of the reaches, which you may assume is measured perfectly. Describe verbally how you might model variation at the catchment scale created by peak runoff. 
+3. Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach. You have data on peak runoff in each of the reaches, which you may assume is measured perfectly. Describe verbally how you might model variation at the catchment scale created by peak runoff. 
 

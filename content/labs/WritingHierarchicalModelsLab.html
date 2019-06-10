@@ -230,7 +230,7 @@ $(document).ready(function () {
 </div>
 <div id="cover-of-invasives-on-transects" class="section level3">
 <h3><strong>Cover of invasives on transects</strong></h3>
-<p>This problem is taken with minor modification from work Tom is doing for the National Park Service Inventory and Monitoring Program. The data consist of point intercepts taken at 0.1 m intervals along 30 meter transects. Each transect has 300 points where observers classify a point defined by a plumb line dropped vertically from the transect as intersecting with exotic vegetation, native vegetation, or bare ground. There are 100 transects. You seek to estimate the proportion of total vegetative cover that is native using the proportion of a transect that is bare ground as a predictor variable. Develop a Bayesian model for this problem that properly models uncertainty in the predictor variable (proportion bare ground) and the response variable (proportion exotic cover). Hints - Think about two data models, one for the response and one for the predictor variable. Model the <span class="math inline">\(x's\)</span> using the same approach you use for modeling the <span class="math inline">\(y's\)</span> and link the data models via a latent, unobserved quantity. The sample unit is a transect. Start by thinking about what is observed, what is unobserved, and what is known for each transect.</p>
+<p>This problem is taken with minor modification from work Tom is doing for the National Park Service Inventory and Monitoring Program. The data consist of point intercepts taken at 0.1 m intervals along 30 meter transects. Each transect has 300 points where observers classify a point defined by a plumb line dropped vertically from the transect as intersecting with exotic vegetation, native vegetation, or bare ground. There are 100 transects. You seek to estimate the proportion of total vegetative cover that is native using the proportion of a transect that is bare ground as a predictor variable. Develop a Bayesian model for this problem that properly models uncertainty in the predictor variable (proportion bare ground) and the response variable (proportion exotic cover). Hints - Think about two data models, one for the response and one for the predictor variable. Model the <span class="math inline">\(x\)</span>’s using the same approach you use for modeling the <span class="math inline">\(y\)</span>’s and link the data models via a latent, unobserved quantity. The sample unit is a transect. Start by thinking about what is observed, what is unobserved, and what is known for each transect.</p>
 <p>Define:</p>
 <ol style="list-style-type: decimal">
 <li><p><span class="math inline">\(y_{i}=\)</span> observed number of hits of exotics on transect <span class="math inline">\(i\)</span></p></li>
@@ -294,17 +294,54 @@ y_{ij}\sim&amp;\,\textrm{Bernoulli}\big(g\big(\pmb{\beta},x_{ij}\big)\big)\\
 </div>
 <div id="controls-on-willow-seedling-establishment" class="section level3">
 <h3><strong>Controls on willow seedling establishment</strong></h3>
-<p>You are interested in the way that soil water and herbaceous plant cover influence establishment of willow seedlings in riparian communities. You have data on the number of willow seedlings that establish on 100 10 <span class="math inline">\(\times\)</span> 10 meter plots, which of course are a random variables before they are observed. Assume these data are measured perfectly (i.e., you did not over or under count seedlings). You also have five measurements of soil water and one measurement of percent herbaceous cover (estimated visually) on each plot. Assume for now that herbaceous cover is measured perfectly, but you want to include sampling variation in soil water for each plot in your model. How would you model the effect of soil water and herbaceous cover on the number of plants established?</p>
-<p>A colleague objected to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates <span class="math inline">\((x_{i})\)</span> on the true cover <span class="math inline">\((z_{i})\)</span> and developed a calibration equation <span class="math inline">\(h(\bm{\alpha},z_{i})\)</span>:</p>
-<span class="math display">\[\begin{align*}
-h(\bm{\alpha},z_{i}) &amp; = &amp; \frac{e^{\alpha_{o}+\alpha_{1}z_{i}}}{1+e^{\alpha_{o}+\alpha_{1}z_{i}}}\\
-x_{i} &amp; \sim &amp; \text{beta}\big(m(h(\bm{\alpha},z_{i}),\varsigma^{2})\big)\\
-\alpha_{o} &amp; \sim &amp; \text{\text{normal}(.05,.006)}\\
-\alpha_{1} &amp; \sim &amp; \text{normal}(1.07,.13)\\
-\varsigma^{2} &amp; \sim &amp; \text{inverse gamma}(10.2,630)
-\end{align*}\]</span>
-<p>The function <span class="math inline">\(m(\,)\)</span> returns parameters of the beta distribution given moments as inputs. Include the calibration equation in your model of effects of soil water and herbaceous cover on seedling establishment using informed priors on <span class="math inline">\(\alpha_{0},\alpha_{1}\)</span> and <span class="math inline">\(\varsigma^{2}\)</span>.Hint: think about the predictor variable for herbaceous cover. Do you want to use the observed value of cover <span class="math inline">\((x_{i})\)</span> or the true value <span class="math inline">\((z_{i})\)</span> to model its effect on establishment?</p>
-<p>Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach. You have data on peak runoff in each of the reaches, which you may assume is measured perfectly. Describe verbally how you might model variation at the catchment scale created by peak runoff.</p>
+<ol style="list-style-type: decimal">
+<li>You are interested in the way that soil water and herbaceous plant cover influence establishment of willow seedlings in riparian communities. You have data on the number of willow seedlings that establish on 100 10 <span class="math inline">\(\times\)</span> 10 meter plots, which of course are a random variables before they are observed. Assume these data are measured perfectly (i.e., you did not over or under count seedlings). You also have five measurements of soil water and one measurement of percent herbaceous cover (estimated visually) on each plot. Assume for now that herbaceous cover is measured perfectly, but you want to include sampling variation in soil water for each plot in your model. How would you model the effect of soil water and herbaceous cover on the number of plants established?</li>
+</ol>
+<p>Define:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(y_{i}=\)</span> observed counts of willow seedlings in the <span class="math inline">\(i_{th}\)</span> plot, assumed to be measured perfectly</p></li>
+<li><p><span class="math inline">\(w_{ij}=\)</span> the <span class="math inline">\(j_{th}\)</span> measurement of soilw water in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+<li><p><span class="math inline">\(x_{i}=\)</span> observed proportion of herbaceous cover in the <span class="math inline">\(i_{th}\)</span> plot, assumed to be measured perfectly</p></li>
+<li><p><span class="math inline">\(u_{i}=\)</span> true measure of soil water content in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+</ol>
+<p><span class="math display">\[\begin{align*}
+[\pmb{\beta}, \pmb{\mu}, \varsigma^{2} \mid \pmb{w}, \pmb{y}] &amp; \propto \prod_{i=1}^{100}\prod_{j=1}^{5}\text{Poisson}(
+y_{i}\mid e^{\beta_{0}\mu_{i} + \beta_{1}x_{i} + \beta_{2}x_{i}}) \text{gamma}\bigg(w_{ij}\mid\frac{\mu_{i}^{2}}{\varsigma^{2}},\frac{\mu_{i}}{\varsigma^{2}}\bigg)\\
+&amp;\times \text{normal}(\beta_{0} \mid 0, 1E4)\,\text{normal}(\beta_{1} \mid 0, 1E4)\,\text{normal}(\beta_{2} \mid 0, 1E4)\\
+&amp;\times \text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma^{2} \mid 0, 100)
+\end{align*}\]</span></p>
+<p><br></p>
+<p>A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates <span class="math inline">\((x_{i})\)</span> on the true cover <span class="math inline">\((z_{i})\)</span> and developed a calibration equation <span class="math inline">\(h(\pmb{\alpha},z_{i})\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+h(\alpha_{0}, \alpha_{1}, z_{i}) = &amp;\, \frac{e^{\alpha_{o}+\alpha_{1}z_{i}}}{1+e^{\alpha_{o}+\alpha_{1}z_{i}}}\\
+x_{i}  \sim &amp;\, \text{beta}\big(m(h(\alpha_{0}, \alpha_{1}, z_{i}), \sigma^{2})\big)\\
+\alpha_{0} \sim &amp;\, \text{normal}(.05,.006)\\
+\alpha_{1} \sim &amp;\, \text{normal}(1.07,.13)\\
+\sigma^{2}  \sim &amp;\, \text{inverse gamma}(10.2,630)
+\end{align*}\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li>The function <span class="math inline">\(m(\,)\)</span> returns parameters of the beta distribution given moments as inputs. Include the calibration equation in your model of effects of soil water and herbaceous cover on seedling establishment using informed priors on <span class="math inline">\(\alpha_{0},\alpha_{1}\)</span> and <span class="math inline">\(\sigma^{2}\)</span> Hint: think about the predictor variable for herbaceous cover. Do you want to use the observed value of cover <span class="math inline">\((x_{i})\)</span> or the true value <span class="math inline">\((z_{i})\)</span> to model its effect on establishment?</li>
+</ol>
+<p>Define:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(y_{i}=\)</span> observed counts of willow seedlings in the <span class="math inline">\(i_{th}\)</span> plot, assumed to be measured perfectly</p></li>
+<li><p><span class="math inline">\(w_{ij}=\)</span> the <span class="math inline">\(j_{th}\)</span> measurement of soilw water in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+<li><p><span class="math inline">\(x_{i}=\)</span> observed proportion of herbaceous cover in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+<li><p><span class="math inline">\(u_{i}=\)</span> true measure of soil water content in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+<li><p><span class="math inline">\(z_{i}=\)</span> true proportion of herbaceous cover in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+</ol>
+<p><span class="math display">\[\begin{align*}
+[\pmb{\beta}, \pmb{\eta}, \pmb{\mu}, \varsigma^{2} \sigma^{2} \mid \pmb{w}, \pmb{y}, \pmb{x}] &amp; \propto \prod_{i=1}^{100}\prod_{j=1}^{5}\text{Poisson}(
+y_{i}\mid e^{\beta_{0}\mu_{i} + \beta_{1}z_{i}})\text{gamma}\bigg(w_{ij}\mid\frac{\mu_{i}^{2}}{\varsigma^{2}},\frac{\mu_{i}}{\varsigma^{2}}\bigg)
+\prod_{k=1}^{15}\text{beta}\bigg(x_{ik} \mid m\bigg(\frac{e^{\eta_{0} + \eta_{1}z_{i}}}{e^{\eta_{0} + \eta_{1}z_{i}}+1}, \sigma^{2}\bigg)\bigg)\\
+&amp;\times \text{normal}(\eta_{0}\mid 0.05, 0.006)\text{normal}(\eta_{1} \mid 1.07, 0.13)\text{inverse gamma}(\varsigma^{2} \mid 10.2, 630)\\
+&amp;\times \text{normal}(\beta_{0} \mid 0, 1E4)\,\text{normal}(\beta_{1} \mid 0, 1E4)\,\text{normal}(\beta_{2} \mid 0, 1E4)\\
+&amp;\times \text{uniform}(\mu_{i} \mid 0, 2)\,\text{uniform}(\varsigma^{2} \mid 0, 100)\,\text{uniform}(z_{i}\mid 0, 1)
+\end{align*}\]</span></p>
+<p><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach. You have data on peak runoff in each of the reaches, which you may assume is measured perfectly. Describe verbally how you might model variation at the catchment scale created by peak runoff.</li>
+</ol>
 </div>
 
 
