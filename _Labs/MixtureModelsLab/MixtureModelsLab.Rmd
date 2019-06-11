@@ -1,0 +1,253 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
+
+#### Mixture Models Lab 
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+library(knitr)
+library(rjags)
+library(MCMCvis)
+library(arm)
+library(SESYNCBayes)
+set.seed(10)
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+---
+
+#### **Motivation**
+
+Models that "mix" parameters from more than one distribution provide virtually infinite flexibility in describing how data arise from socio-ecological processes.  Such distributions, of course, can be bi- or multimodal, but they can also be used to create distributions that are more "flat" than can be accommodated by the usual parametric toolbox. This exercise provides familiarity with three applications of mixture models:inflating zeros, combining two parametric distributions,  and, for the speedy and ambitious, modeling occupancy.
+
+<br>
+
+---
+
+##### **R libraries needed for this lab**
+
+You need to load the following libraries. Set the seed to 10 to compare your answers to ours. 
+
+```{r eval = FALSE, echo = TRUE}
+library(rjags)
+library(MCMCvis)
+library(arm)
+library(SESYNCBayes)
+set.seed(10)
+```
+
+<br>
+
+---
+
+#### **Zero inflation**
+
+Zero inflation is a special case of mixture models.  In this case we have a process that produces 0's for a discrete random variable with probability $p$. The process  produces a distribution values for the random variable (including 0) $[y|\mathbf\theta]$ with probability $1-p$.  Zero inflation is a common problem in ecology and social science.  
+
+Data simulation is a terrific way to check your model code because you *know* the parameter values that gave rise to the simulated data. This knowledge allows to compare the mean of the marginal posterior distributions approximated by your model against the values used to generate the data used to fit the model.  Data simulation also forces you to think carefully about your model. Consider the following model for count data:
+
+\begin{align*}
+y_{i}\sim\begin{cases} \text{Poisson}(\lambda)\, & \mbox{if }z_{i}=0\\ 0 & \mbox{if }z_{i}=1 \end{cases}\\
+z_{i}\sim\text{Bernoulli}(p), \\p\,\text{is the probability of a zero}
+\end{align*}
+
+The full posterior and joint distributions can be written as
+
+$$[\lambda,p,\mathbf{z}\mid \mathbf{y}]\propto\prod_{i=1}^n(y_i|\text{Poisson}(\lambda(1-z_i))\text{Bernoulli}(z_i\mid p)\text{gamma}(\lambda \mid 0.001,0.001)\text{uniform}(p \mid 0,1).$$
+
+Simulate 500 data points from the joint distribution assuming $\lambda$=5.3 and $p$=.1.  Fit the model in JAGS to see if you can recover the parameters. They will not match exactly.  Why not? Conduct posterior predictive checks. 
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
+
+<div id="myDIV1", style="display:none">
+
+<br>
+
+The fit parameters and the generating parameters will be close but not identical.  This is because the data are a single realization of a stochastic process.  The means of replicated data simulations and associated model fits will be identical given sufficient replications.
+
+```{r eval = TRUE, fig.align = 'center'}
+p = .1
+lambda = 5.3
+n = 500
+
+z = rbinom(100, prob = p, size = 1)
+y = (1 - z) * rpois(n, lambda)
+discrete.histogram(y, xlab = "y", main = "Simulated data")
+```
+
+```{r eval = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("ZIP.R")
+cat("
+model {
+
+  # priors
+  lambda ~ dgamma(.001,.001)
+  p ~ dunif (0,1)
+
+  # likelihood
+  for (i in 1:length(y)){
+    z[i] ~ dbern(p)
+    y[i] ~ dpois(lambda * (1 - z[i]))
+    y.sim[i] ~ dpois(lambda * (1 - z[i]))
+  } #end of i
+
+  mean.y = mean(y)
+  mean.y.sim = mean(y.sim)
+  sd.y = sd(y)
+  sd.y.sim = sd(y.sim)
+  p.mean = step(mean.y.sim-mean.y)
+  p.sd = step(sd.y.sim-sd.y)
+
+} #end of model
+",fill=TRUE)
+sink()
+ }
+```
+
+```{r eval = TRUE}
+data = list(y = y)
+jm = jags.model("ZIP.R", data = data, n.chains = 3)
+update(jm, n.iter = 1000)
+zc = coda.samples(jm, variable.names = c("p","lambda", "p.mean", "p.sd"), n.iter = 1000)
+MCMCsummary(zc)
+```
+
+</div>
+
+<br>
+
+---
+
+### **Mixing two distributions**
+
+You mixed a scalar 0 with a distribution $\text{Poisson}(y_i\mid \lambda)$ in the example above. Here, you will learn how to mix two distributions.  You saw in lecture how to mix two distributions to represent differences in beak size between sexes of Darwin's finches. The math for this problem is simple, but there are a couple of tricks for implementing it in JAGS, shown below.
+
+The concentration of metabolizable energy (ME) in plants  (k joule / g dry matter) and the biomass of plants ultimately determines how many herbivores can exist in a habitat.  Herbaceous plants contain higher concentrations of ME than woody plants because their cell walls contain less lignin. This creates a biomodal distribution of ME in plant communities that include woody and herbaceous plants as illustrated in the histogram below, which depicts the probability density of random samples of plant tissue collected from mountain shrub communities in Colorado.
+
+```{r, fig.align = 'center'}
+hist(PlantEnergy$ME, breaks = 20, xlab = "Metabolizable energy (kjoule / g)", main = "", freq = FALSE)
+```
+
+A model of these data that used a unimodal distribution (What would be good choices based on the support of ME?) would fail posterior predictive checks because the model would not be capable of giving rise to the data. In this problem, you will mix two means and two standard deviations using a parameter $p$ that controls the relative weight of these parameters in the final, bimodal distribution.  In this problem you will create JAGS code that returns the posterior distribution of the means and standard deviations for each plant type and the mixing parameter.  
+
+Here are some hints to get started. Choose sensible priors for two distributions parameterized by their moments their moments.  Here is some starter JAGS code:
+
+```{r, eval=FALSE}
+sigma[1] ~ dgamma(4/100, 2/100) 
+sigma[2] ~ dgamma(25/200, 5/200) T(sigma[1],)
+mu[1] ~ dgamma(4/100, 2/100) 
+mu[2] ~ dgamma(49/500, 7/500) T(mu[1],)
+p ~ dunif(0, 1) 
+```
+
+Note a couple of things. First, the priors are centered on reasonable values for the means and the standard deviations based on well established knowledge of the composition of plant tissue, but they have large variances, allowing them to be only weakly informative.  The second, critical thing to note is the code `T(sigma[1],)` and `T(mu[1],)`. The `T()` assures that the draws for `mu[2]` are always greater than the draws for `mu[1]` at any given iteration of the MCMC algorithm and similarly, that draws for `sigma[2]` always exceed those for `sigma[1]`.  The code will not converge if the `T()`'s are not present. It is probably a good idea to specify initial values for `mu[2]` that are greater than values for `mu[1]` and initial values for `sigma[2]` that are greater than values for `sigma[1]`, although I was able to obtain good results without doing so. 
+
+You will now need to choose a likelihood appropriate for the support of the random variable and do the proper moment matching of the moments to the parameters of your chosen distribution. What is the support of the random variable ME?  Next you will make draws of a latent random variable, say $z_1$ and $z_2$ from each of those distributions and will mix them using the parameter `p`  The probability of the data conditional on the parameters (i.e, the likelihood) will be composed as
+
+\begin{align*} 
+z_i &\sim \text{Bernoulli}(p)\\
+\alpha_{\text{mix},i} &= z_i\alpha_{1} + (1 - z_i)\alpha_{2}\\
+\beta_{\text{mix},i} &= z_i\beta_{1} + (1 - z_i)\beta_{2}\\
+\end{align*} 
+
+Write the full posterior and joint distributions.  Write JAGS code to find marginal posterior distributions of the unobserved quantities. Conduct posterior predictive checks.  Overlay a density plot of simulated data on a histogram of real data. What is the probability that a sample of plant tissue drawn from this community will have an ME concentration greater than 10 k joule / g? 
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
+
+<div id="myDIV2", style="display:none">
+
+<br>
+
+The full posterior and joint distribution can be written as:
+
+$$\begin{align*}
+[\boldsymbol{\alpha},\boldsymbol\beta, \mathbf{z}\mid \mathbf{y}]&\propto\prod_{i=1}^n\text{gamma}(y_i\mid \alpha_{\text{mix},i},\beta_{\text{mix},i})\text{Bernoulli}(z_i\mid p)[\mu_1][\mu_2][\sigma_1][\sigma_2][p]\\
+\alpha_{\text{mix},i}&=z_i\frac{\mu_1^2}{\sigma_1^2} + (1 - z_i)\frac{\mu_2^2}{\sigma_1^2}\\
+\beta_{\text{mix},i} &= z_i\frac{\mu_1}{\sigma_1^2} + (1 - z_i)\frac{\mu_2}{\sigma_2^2}\\
+\end{align*}$$
+
+Here is the JAGS code:
+
+```{r, echo = TRUE}
+{ # Extra bracket needed only for R markdown files
+sink("fit_distJAGS.R")
+cat("
+model{
+
+  # priors
+  sigma[1] ~ dgamma(4/100, 2/100) 
+  sigma[2] ~ dgamma(25/200, 5/200) T(sigma[1],)
+  mu[1] ~ dgamma(4/100, 2/100) 
+  mu[2] ~ dgamma(49/500, 7/500) T(mu[1],)
+  p ~ dunif(0, 1)
+
+  # likelihood
+  for(i in 1:length(y)){
+    z[i] ~ dbern(p)
+    alpha.mix[i] <- z[i] * alpha[1] + (1 - z[i]) * alpha[2]
+    beta.mix[i] <- z[i] * beta[1] + (1 - z[i]) * beta[2]
+    y[i] ~ dgamma(alpha.mix[i], beta.mix[i])
+    y.new[i] ~ dgamma(alpha.mix[i], beta.mix[i])
+  } # end of i 
+
+  # derived quantities
+  alpha[1] <- mu[1]^2 / sigma[1]^2
+  beta[1] <- mu[1] / sigma[1]^2
+  alpha[2] <- mu[2]^2 / sigma[2]^2
+  beta[2] <- mu[2] / sigma[2]^2
+
+  sd.y = sd(y[])
+  sd.new = sd(y.new[])
+  p.sd = step(sd.new - sd.y)
+  mean.y = mean(y[])
+  mean.new = mean(y.new[])
+  p.mean = step(mean.new - mean.y)
+
+} #end of model
+",fill=TRUE)
+sink()
+} # Extra bracket needed only for R markdown files
+```
+
+```{r, echo = TRUE}
+data = list(y = PlantEnergy$ME)
+inits = list(
+  list(mu=c(2, 5), sigma = c(1, 3)),
+  list(mu=c(1, 3), sigma = c(2, 6)))
+```
+
+```{r, echo = TRUE}
+jm = jags.model("fit_distJAGS.R", data = data, inits = inits,  n.chains = length(inits), n.adapt = 3000)
+update(jm, n.iter = 5000)
+zc = coda.samples(jm, variable.names=c("mu", "sigma", "p", "y.new", "p.sd", "p.mean"), n.iter = 5000)
+```
+
+```{r, echo = TRUE, fig.align = 'center'}
+MCMCsummary(zc, params = c("mu", "sigma", "p", "p.sd", "p.mean"))
+y.new <- MCMCchains(zc, params = "y.new")
+hist(PlantEnergy$ME, freq=FALSE, main = "", xlab = "Metabolizable energy (kjoule / g)", ylab = "Probability density", 
+  ylim = c(0, .2), breaks = 20)
+lines(density(y.new), lwd = 2)
+1 - ecdf(y.new)(10)
+```
+
+</div>
+
+<br>
+
