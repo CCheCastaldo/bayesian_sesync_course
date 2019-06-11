@@ -233,7 +233,7 @@ $$\begin{align*}
 
 <br>
 
-3. Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach. You have data on peak runoff in each of the reaches, which you may assume is measured perfectly. Describe verbally how you might model variation at the catchment scale created by peak runoff. 
+3. Now presume that the 100 plots are arranged in 5 different stream reaches, 20 plots in each reach.  Describe verbally how you might model variation at the catchment scale. 
 
 Define:
 
@@ -243,9 +243,7 @@ Define:
 
 3. $x_{ik}=$ observed proportion of herbaceous cover in the $i_{th}$ plot in the $k_{th}$ stream reach
 
-4. $u_{ik}=$ true measure of soil water content in the $i_{th}$ plot in the $k_{th}$ stream reach
-
-5. $z_{ik}=$ true proportion of herbaceous cover in the $i_{th}$ plot in the $k_{th}$ stream reach
+4. $z_{ik}=$ true proportion of herbaceous cover in the $i_{th}$ plot in the $k_{th}$ stream reach
 
 <button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
 
