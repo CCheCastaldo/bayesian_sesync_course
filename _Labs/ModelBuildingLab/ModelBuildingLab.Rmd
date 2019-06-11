@@ -164,7 +164,7 @@ Define:
 
 3. $x_{i}=$ observed proportion of herbaceous cover in the $i_{th}$ plot, assumed to be measured perfectly
 
-4. $u_{i}=$ true measure of soil water content in the $i_{th}$ plot
+4. $\mu_{i}=$ true measure of soil water content in the $i_{th}$ plot
 
 <button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
 
@@ -187,7 +187,7 @@ y_{i}\mid e^{\beta_{0} + \beta_{1}\mu_{i} + \beta_{2}x_{i}}) \text{gamma}\bigg(w
 
 <br>
 
-A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates $(x_{i})$ on the true cover $(z_{i})$ and developed a calibration equation $h(\pmb{\alpha},z_{i})$:
+A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates $(x_{i})$ on the true cover $(z_{i})$ and developed a calibration equation $h(\pmb{\eta},z_{i})$:
 
 $$\begin{align*}
 h(\eta_{0}, \eta_{1}, z_{i}) = &\, \frac{e^{\eta_{0}+\eta_{1}z_{i}}}{1+e^{\eta_{0}+\eta_{1}z_{i}}}\\

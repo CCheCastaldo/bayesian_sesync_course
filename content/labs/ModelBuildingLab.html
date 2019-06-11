@@ -70,7 +70,9 @@ h6 {
 
 <link href="data:text/css;charset=utf-8,%2EboxBorder%20%7B%0Aborder%3A%202px%20solid%20%23990066%3B%0Apadding%3A%2010px%3B%0A%7D%0A%0Abody%7B%0Afont%2Dsize%3A%2011pt%3B%0Acolor%3A%20black%3B%0A%7D%0A%0Ah1%2Ch2%2Ch3%2Ch4%2Ch5%2Ch6%7B%0Afont%2Dsize%3A%2016pt%3B%0A%7D%0Aol%20%7B%20padding%2Dleft%3A%201%2E2em%3B%20%7D%0Ap%2Ecaption%20%7B%0Afont%2Dsize%3A%200%2E9em%3B%0Afont%2Dstyle%3A%20italic%3B%0Acolor%3A%20grey%3B%0Amargin%2Dright%3A%2010%25%3B%0Amargin%2Dleft%3A%2010%25%3B%20text%2Dalign%3A%20justify%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
 
+</head>
 
+<body>
 
 <style type="text/css">
 .main-container {
@@ -95,92 +97,22 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
-summary {
-  display: list-item;
-}
 </style>
 
 
+
+<div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
 });
 </script>
 
 <!-- code folding -->
 
 
-
-
-</head>
-
-<body>
-
-
-<div class="container-fluid main-container">
 
 
 
@@ -201,8 +133,8 @@ $(document).ready(function () {
 <div id="writing-hierarchical-models-lab" class="section level5">
 <h5>Writing Hierarchical Models Lab</h5>
 </div>
-<div id="june-10-2019" class="section level5">
-<h5>June 10, 2019</h5>
+<div id="june-11-2019" class="section level5">
+<h5>June 11, 2019</h5>
 <hr />
 </div>
 <div id="motivation" class="section level3">
@@ -307,7 +239,7 @@ y_{ij}\sim&amp;\,\textrm{Bernoulli}\big(g\big(\pmb{\beta},x_{ij}\big)\big)\\
 <li><p><span class="math inline">\(y_{i}=\)</span> observed counts of willow seedlings in the <span class="math inline">\(i_{th}\)</span> plot, assumed to be measured perfectly</p></li>
 <li><p><span class="math inline">\(w_{ij}=\)</span> the <span class="math inline">\(j_{th}\)</span> measurement of soil water in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
 <li><p><span class="math inline">\(x_{i}=\)</span> observed proportion of herbaceous cover in the <span class="math inline">\(i_{th}\)</span> plot, assumed to be measured perfectly</p></li>
-<li><p><span class="math inline">\(u_{i}=\)</span> true measure of soil water content in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
+<li><p><span class="math inline">\(\mu_{i}=\)</span> true measure of soil water content in the <span class="math inline">\(i_{th}\)</span> plot</p></li>
 </ol>
 <button class="button" onclick="toggle_visibility('myDIV3');">
 Answers
@@ -325,7 +257,7 @@ y_{i}\mid e^{\beta_{0} + \beta_{1}\mu_{i} + \beta_{2}x_{i}}) \text{gamma}\bigg(w
 \end{align*}\]</span></p>
 </div>
 <p><br></p>
-<p>A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates <span class="math inline">\((x_{i})\)</span> on the true cover <span class="math inline">\((z_{i})\)</span> and developed a calibration equation <span class="math inline">\(h(\pmb{\alpha},z_{i})\)</span>:</p>
+<p>A colleague objects to your assumption of cover observed perfectly by eye, insisting, reasonably we think, that you develop a data model relating your ocular estimate to the true cover in a plot. So, you obtained visual estimates of cover paired with the actual proportion of vegetated area (measured using small sub-plots) on 15 10 x 10 m plots. After days of sweaty labor, you regressed visual estimates <span class="math inline">\((x_{i})\)</span> on the true cover <span class="math inline">\((z_{i})\)</span> and developed a calibration equation <span class="math inline">\(h(\pmb{\eta},z_{i})\)</span>:</p>
 <p><span class="math display">\[\begin{align*}
 h(\eta_{0}, \eta_{1}, z_{i}) = &amp;\, \frac{e^{\eta_{0}+\eta_{1}z_{i}}}{1+e^{\eta_{0}+\eta_{1}z_{i}}}\\
 x_{i}  \sim &amp;\, \text{beta}\big(m(h(\eta_{0}, \eta_{1}, z_{i}), \sigma^{2})\big)\\
