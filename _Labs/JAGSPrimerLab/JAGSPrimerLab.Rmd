@@ -220,7 +220,7 @@ MCMCsummary(zm)
 3) Find the mean of `r` for the first 1000 iterations.
 4) Find the mean of $r$ after the first 1000 iterations.
 5) Make two publication quality plots of the marginal posterior density of `K`, one as a smooth curve and the other as a histogram.
-6) Compute the probability that `K` < 1600. Hint: what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function `ecdf()`.
+6) Compute the probability that `K` > 1600. Hint: what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function `ecdf()`.
 7) Compute the probability that 1000 < `K` < 1300.
 8) Compute the .025 and .975 quantiles of `K`.  Hint--use the R `quantile()` function.
 
