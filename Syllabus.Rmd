@@ -95,9 +95,9 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 ##### **Day 9: (6/11) Writing Hierarchical Models and Mixture Models**
 
 1. [Writing Hierarchical Models Lab](content/labs/ModelBuildingLab.html)
-2. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html)
-3. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
-3. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (optional)
+2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf) (optional)
+3. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html)
+4. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
 
 <br>
 
