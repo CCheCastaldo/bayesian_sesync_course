@@ -96,23 +96,25 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 1. [Writing Hierarchical Models Lab](content/labs/ModelBuildingLab.html)
 2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf)
-3. [Mixture Models, Zero Inflation, & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html)
-4. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
+3. [Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html)
 
 <br>
 
-##### **Day 10: (6/12) Advanced Topics**
+##### **Day 10: (6/12) Occupancy Models, Ordinal Models & Model Selection**
 
-1. [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
-2. [Ordinal Models](content/lectures/OrdinalModels.pdf)
-3. [Model Selection](content/lectures/ModelSelection.pdf) & Lab
+1. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
+2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & [Lab](content/labs/OrdinalLab.html)
+3. [Model Selection](content/lectures/ModelSelection.pdf) & [Lab](content/labs/ModelSelectionLab1.html)
+4. [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)
+5. [Stochastic Variable Search Lab](content/labs/ModelSelectionLab2.html)
 
 <br>
 
-##### **Day 11: (6/13) Spatial Modeling & Individual Projects (end ~5 PM)**
+##### **Day 11: (6/13) Dynamic Models, Spatial Modeling & Individual Projects**
 
 1. Course Evaluation Survey
-2. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) 
-3. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & Spatial Lab
-4. Participant Project Work (in small groups)
+2. [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
+3. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) 
+4. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & Spatial Lab
+5. Participant Project Work (in small groups)
 
