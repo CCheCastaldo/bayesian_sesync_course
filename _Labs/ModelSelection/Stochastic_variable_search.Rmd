@@ -50,6 +50,8 @@ linear predictor, and other don't.
 library(gridExtra)
 library(coda)
 library(knitr)
+library(rjags)
+library(MCMCvis)
 ncov <- 20
 nobs <- 60
 var_beta <- .004

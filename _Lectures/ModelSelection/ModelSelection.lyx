@@ -517,7 +517,7 @@ Model selection: How do we decide which model is the “best” among a set
 
 \begin_deeper
 \begin_layout Itemize
-Model validation– notes here, will skip to save time.
+Model validation– briefly, to save time.
  See Hobbs and Hooten 2015 and Hooten and Hobbs 2015
 \end_layout
 
@@ -1493,7 +1493,7 @@ Predictive models have small (more negative) deviance.
 status open
 
 \begin_layout Plain Layout
-Exercise
+For example
 \end_layout
 
 \end_inset
@@ -1502,9 +1502,10 @@ Exercise
 \end_layout
 
 \begin_layout Frame
-Write an expression for the deviance of a simple linear regression with
- 20 continuous, strictly non-negative, data points.
- 
+\begin_inset Formula $D(\mathbf{\bm{\beta}},\sigma^{2})=-2\log\left(\prod_{i=1}^{20}\text{lognormal}\left(y_{i}\mid\log\left(\beta+\beta_{1}x_{i}\right),\sigma^{2}\right)\right)$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1539,40 +1540,6 @@ status open
 
 \end_deeper
 \begin_layout Frame
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Branch Answers
-inverted 0
-status open
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Formula 
-\begin{eqnarray*}
-D(\mathbf{\bm{\beta}},\sigma^{2}) & = & -2\log\left(\prod_{i=1}^{20}\text{lognormal}\left(y_{i}\mid\log\left(\beta+\beta_{1}x_{i}\right),\sigma^{2}\right)\right)
-\end{eqnarray*}
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -2009,42 +1976,6 @@ Wantanabe-Akaike Information Criterion (WAIC)
 
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-Truly Bayesian--based on posterior predictive distribution.
-\end_layout
-
-\begin_layout Itemize
-Works for hierarchal models including mixture models (occupancy, mark-recapture,
- zero-inflation, etc.)
-\end_layout
-
-\begin_layout Itemize
-Should not be used for data with structural dependence in data, i.e., spatial
- and dynamic models.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Wantanabe-Akaike Information Criterion (WAIC)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Frame
 \begin_inset Graphics
 	filename ../../_Graphics/WACI.pdf
@@ -2133,6 +2064,42 @@ Calculate pd as the variance of the log of PPD.
 
 \begin_layout Enumerate
 Subtract 2pd from the sum calculated in 3.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When to use WAIC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Truly Bayesian--based on posterior predictive distribution.
+\end_layout
+
+\begin_layout Itemize
+Works for hierarchal models including mixture models (occupancy, mark-recapture,
+ zero-inflation, etc.)
+\end_layout
+
+\begin_layout Itemize
+Should not be used for data with structural dependence in data, i.e., spatial
+ and dynamic models.
 \end_layout
 
 \end_deeper
@@ -2254,8 +2221,11 @@ The marginal posterior mean of the
 \begin_inset Formula $j^{th}$
 \end_inset
 
- coefficient, that is, the probability of including the parameter in the
- model (with standardized covariates).
+ coefficient, that is, the probability of including parameter 
+\begin_inset Formula $j$
+\end_inset
+
+ in the model (with standardized covariates).
  Values close to one indicate that the 
 \begin_inset Formula $j^{th}$
 \end_inset
@@ -2263,7 +2233,7 @@ The marginal posterior mean of the
  coefficient is an important predictor of the response.
  Values close zero indicate it is not important.
  This wraps model selection, model averaging, and variable importance together
- in a single tidy package.
+ in a single, tidy package.
  
 \end_layout
 
@@ -2561,7 +2531,7 @@ model{
 
 \size tiny
       beta[j] ~ dnorm(0, tau[indA[j]]) #determines which precision to use
- through the likelihood
+ in the prior for beta[j]
 \end_layout
 
 \begin_layout LyX-Code
@@ -2700,6 +2670,10 @@ DIC : Simple Bayesisan models in general linear modeling framework with
 \begin_layout Itemize
 Indicator variable selection: When you seek to combine model averaging with
  model selection and understand relative importance of coefficients.
+\end_layout
+
+\begin_layout Itemize
+WAIC: When Bayesian
 \end_layout
 
 \begin_layout Itemize
