@@ -100,7 +100,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 <br>
 
-##### **Day 10: (6/12) Occupancy Models, Ordinal Models and Model Selection**
+##### **Day 10: (6/12) Occupancy Models, Ordinal Models & Model Selection**
 
 1. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
 2. [Ordinal Models](content/lectures/OrdinalModels.pdf)
@@ -110,7 +110,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 <br>
 
-##### **Day 11: (6/13) Dynamic Models, Spatial Modeling and Individual Projects**
+##### **Day 11: (6/13) Dynamic Models, Spatial Modeling & Individual Projects**
 
 1. Course Evaluation Survey
 2. [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
