@@ -95,8 +95,8 @@ We want to understand the influence of forest cover and elevation on the distrib
 <br>
 
 $$\begin{align*}
-\big[\,\boldsymbol{\beta}, \textbf{z}, p \mid \textbf{y}] & \propto  \prod_{i=1}^{237}\textrm{binomial}\big(y_{i}\mid p \cdot z_{i}, n_{i}\big) \textrm{Bernoulli}\big(z_{i} \mid \psi \big) \\
-& \times \prod_{i=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,.368\big)\textrm{beta}\big(p \mid 1,1\big) \\
+\big[\,\boldsymbol{\beta}, \textbf{z}, p \mid \textbf{y}] & \propto  \prod_{i=1}^{267}\textrm{binomial}\big(y_{i}\mid p \cdot z_{i}, n_{i}\big) \textrm{Bernoulli}\big(z_{i} \mid \psi \big) \\
+& \times \prod_{j=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,2.71\big)\textrm{beta}\big(p \mid 1,1\big) \\
 \psi & =  \textrm{logit}^{-1}\big(\,\beta_{1} + \beta_{2}\textrm{elevation}_{i} + 
 \beta_{3}\textrm{elevation}_{i}^{2} + \beta_{4}\textrm{forestCover}_{i} \big)
 \end{align*}$$
@@ -123,14 +123,13 @@ $$\begin{align*}
 You would need to use a Bernoulli instead of a binomial likelihood if covariates varied by site and day. You would need to model detection probability as a beta distributed random variable to explicitly include a variance term.
 
 $$\begin{align*}
-\big[\,\boldsymbol{\beta}, \textbf{z}, \mathbf{P} \mid \textbf{Y}] & \propto  
-\prod_{i=1}^{237}\prod_{t=1}^3\textrm{Bernoulli}\big(y_{it}\mid p_{it} \cdot z_{i}\big) 
-\textrm{Bernoulli}\big(z_{i} \mid \psi \big) \prod_{i=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,.368\big)\\
-&\times\text{beta}(p_{it}|\text{moment match}(\mu_{p,it},\sigma^2_p))\\
-& \times \prod_{i=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,.368\big)\\[1em]
+\big[\,\boldsymbol{\beta}, \boldsymbol{\alpha}, \textbf{z}, \sigma^{2}_{p} \mid \pmb{y}\,] & \propto  
+\prod_{i=1}^{267}\prod_{t=1}^3\textrm{Bernoulli}\big(y_{it}\mid p_{it} \cdot z_{i}\big) 
+\textrm{Bernoulli}\big(z_{i} \mid \psi \big)\text{beta}(p_{it}\mid \text{moment match}(\mu_{p,it},\sigma^2_p))\\
+&\times \prod_{j=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,2.71\big) \prod_{k=1}^{3} \textrm{normal}\big(\alpha_{k} \mid 0,2.71\big)\,\text{inverse gamma}(\sigma^{2}_{p}\mid .001, .001)\\[1em]
 \psi & =  \textrm{logit}^{-1}\big(\,\beta_{1} + \beta_{2}\textrm{elevation}_{i} + 
 \beta_{3}\textrm{elevation}_{i}^{2} + \beta_{4}\textrm{forestCover}_{i} \big)\\
-\mu_{p,it}&=\text{logit}^{-1}(\alpha_1+\alpha_2\text{TimeSearched}+\alpha_3\text{WindSpeed})
+\mu_{p,it}&=\text{logit}^{-1}(\alpha_1+\alpha_2\text{TimeSearched}_{it}+\alpha_3\text{WindSpeed}_{it})
 \end{align*}$$
 
 </div>
@@ -239,7 +238,7 @@ zm= coda.samples(jm, variable.names = c("p", "beta", "elevationMax", "psiPredict
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.align = 'center'}
-MCMCsummary(zm, n.eff = TRUE, excl = "psiPredict")
+MCMCsummary(zm, n.eff = TRUE, excl = "psiPredict", digits = 3)
 MCMCtrace(zm, excl = "psiPredict", pdf = FALSE)
 ```
 
@@ -255,11 +254,22 @@ MCMCtrace(zm, excl = "psiPredict", pdf = FALSE)
 
 <br>
 
-We are entitled to conclude that elevation is roughly twice as important as forest cover because its coefficient the elevation coefficient is twice as large and because the data have been standardized.You need to formulate a deterministic model that has a maximum and that is relatively easy to differentiate, something like $\mu_i = \beta_0+ \beta_1x_{1,i}+\beta_2x_{2,i}^2+\beta_3x_{3,1}$ where $\mathbf{x}_2$ are the data on elevation and $\mathbf{x}_3$ are the data on forest cover, when = 0 at the mean.  Dropping the i subscript for more general notation, we now have:
+We are entitled to conclude that elevation is roughly twice as important as forest cover because its coefficient the elevation coefficient is twice as large and because the data have been standardized.You need to formulate a deterministic model that has a maximum and that is relatively easy to differentiate, something like $\mu_i = \beta_0+ \beta_1x_{1,i}+\beta_2x_{1,i}^2+\beta_3x_{2,i}$ where $\mathbf{x}_1$ are the data on elevation and $\mathbf{x}_2$ are the data on forest cover.  Dropping the i subscript for more general notation, we now have:
 
-$$\mu=\beta_0+ \beta_1x_1+\beta_2x_2^2.$$ 
+$$\text{logit}(p)=\beta_0+ \beta_1x_1+\beta_2x_1^2.$$ 
 
-To find the maximum, we take the first derivative $\frac {d\mu}{dx}=\beta_1+ 2\beta_2 x_{1}$, set it to zero $0=\beta_2+ 2\beta x_1$, and solve for $x_1$, $x_1=\frac{-\beta_1}{2\beta_2}$. You include this result as a derived quantity in your JAGS code.
+To find the maximum, we take the first derivative:
+
+$$\frac {dy}{dx}=\beta_1+ 2\beta_1 x_{1},$$
+set it to zero:
+
+$$0=\beta_1+ 2\beta x_2,$$
+
+and solve for $x_1$: 
+
+$$x_1=\frac{-\beta_1}{2\beta_2}.$$
+
+You include this result as a derived quantity in your JAGS code.
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
 med_psi <- MCMCpstr(zm, params=c("psiPredict"), func = median)

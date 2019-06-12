@@ -42,7 +42,7 @@ You can use this [R markdown template](content/presentation/PresentationTemplate
 
 We have prepared an R package that contains all the data you will need to complete our lab exercises.  The package is part of the course materials that you now have on your local machine. You will need to do an initial install of this package and do periodic updates throughout the course. For both the install and update the commands are the same.
 
-1. Download the R package [SESYNCBayes](content/package/SESYNCBayes_0.4.0.tar.gz) to your computer.
+1. Download the R package [SESYNCBayes ver. 0.5](content/package/SESYNCBayes_0.5.0.tar.gz) to your computer.
 
 2. Open R or RStudio run the following line of code to install the `SESYNCBayes` package from source. Remember to change `<pathtoSESYNCBayes>` to the path to the directory where you cloned the SESYNCBayes course repository.
 
