@@ -82,7 +82,7 @@ where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking a
 
 \begin{align*}
 [\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{I=1}^n \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg][\beta_1][\beta_2]\prod_{j=2}^{k-2}[\boldsymbol{\theta}][\sigma]\\
-y_i &\sim \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg]\\
+y_i &\sim \text{categorical}\bigg(y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg)\\
 \boldsymbol\beta &\sim \operatorname{normal}(0,0.001)\\
 \sigma &\sim \operatorname{uniform}(0, 100)\\
 \theta_j &\sim \operatorname{uniform}(0,10)
