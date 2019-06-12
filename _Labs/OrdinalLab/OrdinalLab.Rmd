@@ -1,0 +1,183 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/labs")})
+output:
+  html_document:
+    css: ../../_HeadersEtc/style.css
+    highlight: default
+    theme: paper
+---
+
+<script src="../../_HeadersEtc/hideOutput.js"></script>
+
+<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+
+##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
+
+##### Ordinal Logit Modeling: Fracking Acceptability Over Time
+
+##### `r format(Sys.Date(), format="%B %d, %Y")`
+
+```{r preliminaries, include = FALSE}
+library(knitr)
+library(SESYNCBayes)
+library(rjags)
+library(MCMCvis)
+set.seed(10)
+knitr::opts_chunk$set(cache = TRUE, tidy = FALSE)
+```
+
+----
+
+### **Motivation**
+
+The purpose of this lab is to get you started using Bayesian models to predict ordinal quantities. Ordinal quantities can be scaled (e.g. cover classes, fish size) or unscaled (e.g. Likert).  Today, we will just do the unscaled case. 
+
+You are interested in modeling the relationship between opinions about the acceptability of fracking over a 6-year timeframe. You conduct a panel-based online survey of New Yorkers once a year for 6 years. 
+
+Fracking acceptability, $y_i$, is measured on a 5-point scale, where 1 equals _completely acceptable_ and 5 equals _completely unacceptable_.  
+
+In this exercise you will fit a ordinal regression model, predicting fracking acceptability, a five-point ordinal categorical variable.  The predictor variable is year, $x_i$.  To deal with issues of identifiability, plan to fix the lower- and upper-most cut points ($\theta_1 = 1.5$ and $\theta_4 = 4.5$).
+
+<br>
+
+---
+
+### **Problems**
+
+1. Draw the directed acyclic graph.
+
+<br>
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
+
+<div id="myDIV1", style="display:none">
+
+<center>
+<img src="../../_Graphics/DAGOrdinal.png" width="500">
+</center>
+
+
+, where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking acceptability score, $\boldsymbol\theta$ is a vector of the two middle cut points. 
+</div>
+
+<br>
+
+---
+
+2. Write out the full model, picking justifiable distributions for all your random variables.
+
+<br>
+
+<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
+
+<div id="myDIV2", style="display:none">
+
+\begin{align*}
+[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{I=1}^n \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg][\beta_1][\beta_2]\prod_{j=2}^{k-2}[\boldsymbol{\theta}][\sigma]\\
+y_i &\sim \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg]\\
+\boldsymbol\beta &\sim \operatorname{normal}(0,0.001)\\
+\sigma &\sim \operatorname{uniform}(0, 100)\\
+\theta_j &\sim \operatorname{uniform}(0,10)
+\end{align*}
+</div>
+
+<br>
+
+---
+
+##### **R libraries needed for this lab**
+
+You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the `LynxFamilies` data frame of the `SESYNCBayes` package. 
+
+```{r eval = FALSE, echo = TRUE}
+library(SESYNCBayes)
+library(rjags)
+library(MCMCvis)
+set.seed(10)
+```
+
+<br>
+
+---
+
+3.  Write and run a model using the data `FrackingYears` to undertand more about changes in the acceptability of fracking over time (2001-2006). 
+
+<br>
+
+<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
+
+<div id="myDIV4", style="display:none">
+```{r,eval=TRUE}
+data("FrackingYears")
+y <- FrackingYears
+
+# Threshold 1 and nYlevels-1 are fixed; other thresholds are predicted.
+# This allows all parameters to be interpretable on the response scale.
+nYlevels = max(y[,1])  
+thresh = rep(NA,nYlevels-1)
+thresh[1] =  1.5  #results are very sensitive to these choices--they must be assumed to be known
+thresh[nYlevels-1] = 4.5
+# Specify the data in a list, for later shipment to JAGS:
+dataList = list(
+  y = y[,1],
+  x = y[,2],
+  nYlevels = nYlevels ,
+  thresh = thresh
+)
+
+inits= list(
+  list( beta=c(1,1), sigma = .5, thresh=c(NA,2,3,NA))
+)
+```
+
+```{r,eval=TRUE}
+{
+  sink("ordinal_model2.R")
+cat("model {
+
+# Priors
+beta[1] ~ dnorm(0,.001)
+beta[2] ~ dnorm(0,.001)
+sigma ~ dunif(0,100)
+    
+tau <- 1/sigma^2
+
+for (i in 1:length(y)) {
+  mu[i] = beta[1] + beta[2]*x[i]
+  y[i] ~ dcat( pr[i,1:nYlevels])
+  pr[i,1] <- pnorm( thresh[1], mu[i] , tau)
+  
+  for ( k in 2:(nYlevels-1) ) {
+    pr[i,k] <- max(.00001, pnorm( thresh[ k ] , mu[i] , tau) - pnorm( thresh[k-1] , mu[i] , tau )) 
+    }
+  pr[i,nYlevels] <- 1 - pnorm( thresh[nYlevels-1] , mu[i] , tau )
+
+  }
+    
+for ( k in 2:(nYlevels-2) ) {  # 1 and nYlevels-1 are fixed, not stochastic
+  thresh0[k] ~ dunif(0,10)
+  }#assure threholds meet ordering constraint
+
+thresh[2:(nYlevels-2)] = sort(thresh0[2:(nYlevels-2)])
+
+}
+
+
+
+    ",fill=TRUE)
+sink()
+}
+```
+
+```{r,eval=TRUE}
+jm=jags.model("ordinal_model2.R", data=dataList, n.adapt=1000, n.chains = 3)
+update(jm, n.iter=15000)
+zc=coda.samples(jm, variable.names = c("thresh","sigma", "beta"), n.iter=15000)
+```
+
+```{r,eval=TRUE}
+MCMCsummary(zc, params = c("thresh","sigma", "beta"), n.eff = TRUE, digits = 2)
+#MCMCplot(zc, params=c("), horiz =FALSE)
+
+```
+</div>
