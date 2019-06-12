@@ -80,13 +80,19 @@ where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking a
 
 <div id="myDIV2", style="display:none">
 
-\begin{align*}
-[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{I=1}^n \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg][\beta_1][\beta_2]\prod_{j=2}^{k-2}[\boldsymbol{\theta}][\sigma]\\
-y_i &\sim \text{categorical}\bigg(y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg)\\
+$$\begin{align*}
+[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{i=1}^n [y_i\mid p_{i}]\beta_1][\beta_2]\prod_{k=2}^{K-1}[\boldsymbol{\theta}][\sigma^{2}]\\
+y_i &\sim \text{categorical}\bigg(y_i\mid p_{i}=\bigg[\int_{-\infty}^{\theta_{k=1}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i, 
+\int_{\theta_{k=k+1}}^{\theta_{k=k+2}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i,\dots,
+\int_{\theta_{k=K}}^{\infty}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i
+\bigg]\bigg)\\
 \boldsymbol\beta &\sim \operatorname{normal}(0,0.001)\\
-\sigma &\sim \operatorname{uniform}(0, 100)\\
+\sigma^{2} &\sim \operatorname{inverse gamma}(0.001, 0.001)\\
 \theta_j &\sim \operatorname{uniform}(0,10)
-\end{align*}
+\end{align*}$$
+
+where $i$ indexes the respondent, $k$ the cutpoint, and $K$ the total number of cutpoints.
+
 </div>
 
 <br>
