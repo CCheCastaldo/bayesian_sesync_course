@@ -1,0 +1,22 @@
+model{
+  alpha ~ dnorm(0, 1)
+  sd_y ~ dunif(0, 10)
+  tau_y <- pow(sd_y, -2)
+  # ssvs priors
+  sd_bet ~ dunif(0, 10)
+  tau_in <- pow(sd_bet, -2)
+  tau[1] <- tau_in            # coef effectively zero
+  tau[2] <- tau_in / 1000     # nonzero coef
+  p_ind[1] <- 1/2
+  p_ind[2] <- 1 - p_ind[1]
+  for (j in 1:ncov){
+    indA[j] ~ dcat(p_ind[]) # returns 1 or 2
+    gamma[j] <- indA[j] - 1   # returns 0 or 1
+    beta[j] ~ dnorm(0, tau[indA[j]])
+  }
+  # likelihood
+  for (i in 1:nobs){
+    Y[i] ~ dnorm(alpha + X[i ,] %*% beta[], tau_y)
+  }
+}
+    

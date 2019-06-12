@@ -517,7 +517,8 @@ Model selection: How do we decide which model is the “best” among a set
 
 \begin_deeper
 \begin_layout Itemize
-Model validation
+Model validation– notes here, will skip to save time.
+ See Hobbs and Hooten 2015 and Hooten and Hobbs 2015
 \end_layout
 
 \begin_layout Itemize
@@ -529,10 +530,7 @@ Posterior predictive loss (Dsel)
 \end_layout
 
 \begin_layout Itemize
-Not covered: Wantanabe information criterion (WAIC): limited by assumptions
- on spatial and temporal dependence in data, otherwise an excellent Bayesian
- method.
- See Hobbs and Hooten, chapter 9 and suggestions for further study.
+Wantanabe information criterion (WAIC)
 \end_layout
 
 \end_deeper
@@ -973,7 +971,6 @@ Cross validation has a large computational cost.
 
 \begin_layout Itemize
 There may not be sufficient data for out-of-sample validation.
- 
 \end_layout
 
 \begin_layout Itemize
@@ -1421,7 +1418,7 @@ Priors in penalized MLE
 \end_layout
 
 \begin_layout Itemize
-Ridge regression 
+Ridge regression
 \end_layout
 
 \begin_layout Itemize
@@ -1879,91 +1876,6 @@ Do not be seduced by convenience.
 status open
 
 \begin_layout Plain Layout
-Integrated DIC
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-Model sans priors
-\end_layout
-
-\begin_layout Frame
-\begin_inset Formula 
-\begin{align*}
-y_{i} & \sim\left\{ \begin{array}{ll}
-0 & ,~z_{i}=0\\
-\text{binomial}(n_{i},p) & ,~z_{i}=1
-\end{array}\right.\\
-z_{i} & \sim\text{\text{Bernoulli}}(z_{i})
-\end{align*}
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-Likelihood: 
-\begin_inset Formula 
-\[
-[y_{i}|z_{i},p,\psi]=[\text{y}_{i}|p,\text{n}_{i}]^{z_{i}}1_{\{\text{y}_{i}=\text{0}\}}^{1-z_{i}}[\boldsymbol{z}_{i}|\psi]
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-Keeping in mind that when 
-\begin_inset Formula $z_{i}=0$
-\end_inset
-
-, 
-\begin_inset Formula $y_{i}$
-\end_inset
-
- must also equal 0.
- This simplifies the integration (via sum): 
-\begin_inset Formula 
-\[
-[y_{i}|p,\psi]=\sum_{z_{i}=0}^{1}[\text{y}_{i}|p,\text{n}_{i}]^{z_{i}}1_{\{\text{y}_{i}=\text{0}\}}^{1-z_{i}}[\boldsymbol{z}_{i}|\psi].
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-Use same code as for regular DIC except substitute this for likelihood.
- 
-\end_layout
-
-\begin_layout Frame
-
-\end_layout
-
-\begin_layout Frame
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
 Posterior predictive loss
 \end_layout
 
@@ -2084,6 +1996,153 @@ Style points.
 
 \end_layout
 
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Wantanabe-Akaike Information Criterion (WAIC)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Truly Bayesian--based on posterior predictive distribution.
+\end_layout
+
+\begin_layout Itemize
+Works for hierarchal models including mixture models (occupancy, mark-recapture,
+ zero-inflation, etc.)
+\end_layout
+
+\begin_layout Itemize
+Should not be used for data with structural dependence in data, i.e., spatial
+ and dynamic models.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Wantanabe-Akaike Information Criterion (WAIC)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/WACI.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Notice that no new data are simulated here.
+ We use the original data, which means the data must be independent.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Wantanabe-Akaike Information Criterion (WAIC)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/WACI_2.pdf
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Wantanabe-Akaike Information Criterion (WAIC)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Insert a loop in JAGS code that calculates the probability density of each
+ data point (the posterior predictive density, PPD) conditional on the model’s
+ prediction at that point.
+\end_layout
+
+\begin_layout Enumerate
+Also calculate the log of PPD.
+\end_layout
+
+\begin_layout Enumerate
+On the R side.
+ Sum over the log of means of the posterior distribution of the PPD and
+ multiply by -2.
+\end_layout
+
+\begin_layout Enumerate
+Calculate pd as the variance of the log of PPD.
+\end_layout
+
+\begin_layout Enumerate
+Subtract 2pd from the sum calculated in 3.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Indicator variable selection
 \end_layout
@@ -2186,7 +2245,7 @@ z_{j} & \sim\text{Bernoulli}(\phi)\\
 \end_layout
 
 \begin_layout Frame
-The mean of the 
+The marginal posterior mean of the 
 \begin_inset Formula $z_{j}$
 \end_inset
 
@@ -2326,12 +2385,45 @@ Tune
 \begin_inset Formula $z_{j}=1$
 \end_inset
 
+; the spike assures that it is close to zero when it is not in the model
+ 
+\begin_inset Formula $z_{j}=0$
+\end_inset
+
 .
- See example code.
 \end_layout
 
 \end_deeper
 \end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Slab_and_Spike_prior.pdf
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -2383,7 +2475,7 @@ model{
 \begin_layout LyX-Code
 
 \size tiny
-    alpha ~ dnorm(0, 1) #vague because x's standardized
+    alpha ~ dnorm(0, 2) #intercept, vague because x's standardized
 \end_layout
 
 \begin_layout LyX-Code
@@ -2419,13 +2511,13 @@ model{
 \begin_layout LyX-Code
 
 \size tiny
-   c = 1000 #tune as needed
+    c = 1000 #tune as needed
 \end_layout
 
 \begin_layout LyX-Code
 
 \size tiny
-    tau[1] <- tau_in        # coef effectively zero
+    tau[1] <- tau_in     # coef effectively zero
 \end_layout
 
 \begin_layout LyX-Code
@@ -2461,13 +2553,15 @@ model{
 \begin_layout LyX-Code
 
 \size tiny
-      z[j] <- indA[j] - 1   # returns 0 or 1
+      z[j] <- indA[j] - 1   # returns 0 or 1 for computing mean weight for
+ coefficient j
 \end_layout
 
 \begin_layout LyX-Code
 
 \size tiny
-      beta[j] ~ dnorm(0, tau[indA[j]])
+      beta[j] ~ dnorm(0, tau[indA[j]]) #determines which precision to use
+ through the likelihood
 \end_layout
 
 \begin_layout LyX-Code
@@ -2511,6 +2605,64 @@ model{
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Also see...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://mbjoseph.github.io/posts/2018-12-27-first-year-books/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -2583,18 +2735,6 @@ Further study
 \begin_layout Itemize
 
 \size footnotesize
-Model selection laboratory exercise (optional) in repository
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
-Folder on indicator variable selection in repository
-\end_layout
-
-\begin_layout Itemize
-
-\size footnotesize
 BMA package in R
 \end_layout
 
@@ -2640,7 +2780,7 @@ Link, W.
 \begin_layout Itemize
 
 \size footnotesize
-See Link, W.
+Link, W.
  A., and R.
  J.
  Barker.
