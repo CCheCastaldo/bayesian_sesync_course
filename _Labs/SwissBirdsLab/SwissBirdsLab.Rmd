@@ -256,9 +256,9 @@ MCMCtrace(zm, excl = "psiPredict", pdf = FALSE)
 
 We are entitled to conclude that elevation is roughly twice as important as forest cover because its coefficient the elevation coefficient is twice as large and because the data have been standardized.You need to formulate a deterministic model that has a maximum and that is relatively easy to differentiate, something like $\mu_i = \beta_0+ \beta_1x_{1,i}+\beta_2x_{2,i}^2+\beta_3x_{3,1}$ where $\mathbf{x}_2$ are the data on elevation and $\mathbf{x}_3$ are the data on forest cover, when = 0 at the mean.  Dropping the i subscript for more general notation, we now have:
 
-$$\mu=\beta_0+ \beta_1x_1+\beta_2x_2^2.$$ 
+$$\mu=\beta_0+ \beta_1x_1+\beta_2x_1^2.$$ 
 
-To find the maximum, we take the first derivative $\frac {d\mu}{dx}=\beta_1+ 2\beta_2 x_{1}$, set it to zero $0=\beta_2+ 2\beta x_1$, and solve for $x_1$, $x_1=\frac{-\beta_1}{2\beta_2}$. You include this result as a derived quantity in your JAGS code.
+To find the maximum, we take the first derivative $\frac {d\mu}{dx}=\beta_1+ 2\beta_1 x_{1}$, set it to zero $0=\beta_1+ 2\beta x_2$, and solve for $x_1$, $x_1=\frac{-\beta_1}{2\beta_2}$. You include this result as a derived quantity in your JAGS code.
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
 med_psi <- MCMCpstr(zm, params=c("psiPredict"), func = median)
