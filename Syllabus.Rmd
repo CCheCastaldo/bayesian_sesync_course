@@ -103,7 +103,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 ##### **Day 10: (6/12) Occupancy Models, Ordinal Models & Model Selection**
 
 1. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
-2. [Ordinal Models](content/lectures/OrdinalModels.pdf)
+2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & [Lab](content/labs/OrdinalLab.html)
 3. [Model Selection](content/lectures/ModelSelection.pdf) & [Lab](content/labs/ModelSelectionLab1.html)
 4. [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)
 5. [Stochastic Variable Search Lab](content/labs/ModelSelectionLab2.html)
