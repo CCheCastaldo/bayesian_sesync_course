@@ -28,7 +28,7 @@ knitr::opts_chunk$set(cache = TRUE, tidy = FALSE)
 
 ----
 
-### **Motivation**
+#### **Motivation**
 
 The purpose of this lab is to get you started using Bayesian models to predict ordinal quantities. Ordinal quantities can be scaled (e.g. cover classes, fish size) or unscaled (e.g. Likert).  Today, we will just do the unscaled case. 
 
@@ -42,11 +42,24 @@ In this exercise you will fit a ordinal regression model, predicting fracking ac
 
 ---
 
-### **Problems**
+##### **R libraries needed for this lab**
 
-1. Draw the directed acyclic graph.
+You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the `FrackingYears` data frame of the `SESYNCBayes` package. 
+
+```{r eval = FALSE, echo = TRUE}
+library(SESYNCBayes)
+library(rjags)
+library(MCMCvis)
+set.seed(10)
+```
 
 <br>
+
+---
+
+#### **Problems**
+
+1. Draw the directed acyclic graph.
 
 <button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
 
@@ -56,17 +69,12 @@ In this exercise you will fit a ordinal regression model, predicting fracking ac
 <img src="../../_Graphics/DAGOrdinal.png" width="500">
 </center>
 
-
-, where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking acceptability score, $\boldsymbol\theta$ is a vector of the two middle cut points. 
+where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking acceptability score, $\boldsymbol\theta$ is a vector of the two middle cut points. 
 </div>
 
 <br>
 
----
-
 2. Write out the full model, picking justifiable distributions for all your random variables.
-
-<br>
 
 <button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
 
@@ -83,26 +91,7 @@ y_i &\sim \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbo
 
 <br>
 
----
-
-##### **R libraries needed for this lab**
-
-You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the `LynxFamilies` data frame of the `SESYNCBayes` package. 
-
-```{r eval = FALSE, echo = TRUE}
-library(SESYNCBayes)
-library(rjags)
-library(MCMCvis)
-set.seed(10)
-```
-
-<br>
-
----
-
 3.  Write and run a model using the data `FrackingYears` to undertand more about changes in the acceptability of fracking over time (2001-2006). 
-
-<br>
 
 <button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
 
@@ -177,7 +166,8 @@ zc=coda.samples(jm, variable.names = c("thresh","sigma", "beta"), n.iter=15000)
 
 ```{r,eval=TRUE}
 MCMCsummary(zc, params = c("thresh","sigma", "beta"), n.eff = TRUE, digits = 2)
-#MCMCplot(zc, params=c("), horiz =FALSE)
-
 ```
 </div>
+
+<br>
+
