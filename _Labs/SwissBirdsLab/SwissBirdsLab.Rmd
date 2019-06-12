@@ -260,10 +260,10 @@ $$\text{logit}(p)=\beta_0+ \beta_1x_1+\beta_2x_1^2.$$
 
 To find the maximum, we take the first derivative:
 
-$$\frac {dy}{dx}=\beta_1+ 2\beta_1 x_{1},$$
+$$\frac {dy}{dx}=\beta_1+ 2\beta_2 x_{1},$$
 set it to zero:
 
-$$0=\beta_1+ 2\beta x_2,$$
+$$0=\beta_1+ 2\beta_2 x_2,$$
 
 and solve for $x_1$: 
 
