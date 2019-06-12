@@ -201,8 +201,8 @@ $(document).ready(function () {
 <div id="bayesian-model-selection" class="section level5">
 <h5>Bayesian Model Selection</h5>
 </div>
-<div id="june-09-2019" class="section level5">
-<h5>June 09, 2019</h5>
+<div id="june-11-2019" class="section level5">
+<h5>June 11, 2019</h5>
 <hr />
 </div>
 <div id="motivation" class="section level3">
@@ -211,15 +211,16 @@ $(document).ready(function () {
 <p>A reason that Gelman and colleagues express reluctance about model selection is simply because Bayesians believe in using prior knowledge in all analyses. One important way that knowledge can enter into a model is by prior information on the mechanistic role of predictor variables. If we <em>know</em> that a predictor has a mechanistic influence on a response, why would we leave it out of a model (e.g., Hobbs et al. 2012, Ver Hoef 2015)? Other reasons for avoiding model selection are covered nicely in Gelman and Rubin 1995, Gelman and Shalizi 2013, and Ver Hoef 2015.</p>
 <p>There are occasions, however, where model selection is needed by Bayesians. Widely used methods, the Akaike Information Criterion (AIC) and the Bayesian Information Criterion (BIC), despite its name, are not Bayesian but instead are based on maximum likelihood. In this exercise, you will learn to use Bayesian methods for model selection. We would use the methods covered here if there were no out-of-sample data available for true model validation, the gold standard of model selection, or if computational limitations prevented the use of cross validation, the next best choice when out-of-sample data are not available.</p>
 <p><br></p>
+<hr />
 </div>
 <div id="a-note-about-matrix-specification-of-linear-models" class="section level3">
 <h3><strong>A Note About: Matrix Specification of Linear Models</strong></h3>
-<p>Specifying linear models in matrix notation is compact and convenient in comparison to writing out the full model as a scalar equation in the context of several predictor variables. Consider a typical deterministic linear model with three coefficients:</p>
-<p><span class="math display">\[\mu_{i}=\beta_{0}+\beta_{1}x_{1i}+\beta_{2}x_{2i}\]</span></p>
-<p>It can be written in matrix form as:</p>
+<p>Specifying linear models in matrix notation is compact and convenient relative to writing out the full model as a scalar equation when there are several predictor variables. Consider the the typical, deterministic linear model:</p>
+<p><span class="math display">\[ \mu_{i}=\beta_{0}+\beta_{1}x_{1i}+\beta_{2}x_{2i}.\]</span></p>
+<p>It can be written in matrix form as</p>
 <p><span class="math display">\[\pmb{\mu}=\mathbf{X}\pmb{\beta},\]</span></p>
-<p>where <span class="math inline">\(\pmb{\beta}\)</span> is a column vector <span class="math inline">\((\beta_0, \beta_1,\beta_3)\)</span> with length = number of model coefficients, and <span class="math inline">\(\mathbf{X}\)</span> is a <em>design</em> matrix with the number of rows equal to the number of data points and the number of columns equal to the number of predictor variables + 1. The first column contains all 1’s (or 0’s if you seek to force the intercept through 0). The second column contains the data values for predictor variable 1, the third column contains the data values for predictor variable 2, and so on. <span class="math inline">\(\mathbf(y)\)</span> is a vector of model output containing a prediction for each data point. See the lecture notes covering matrix multiplication if needed.</p>
-<p>Statisticians use matrix notation exclusively to specify linear models, although notation is not consistent. It’s beneficial to become comfortable with matrix notation. This is particularly handy here because we can use a single JAGS file (well, two actually) to specify several different models using the code below.</p>
+<p>where <span class="math inline">\(\pmb{\beta}\)</span> is a column vector, <span class="math inline">\((\beta_0, \beta_1, \beta_2)'\)</span> with length = number of model coefficients, and <span class="math inline">\(\mathbf{X}\)</span> is a <em>design</em> matrix with the number of rows equal to the number of data points and the number of columns equal to the number of predictor variables + 1 (so, in this example, 3). Column one contains all 1’s (or 0’s if you seek to force the intercept through 0). Column two contains the data values of predictor variable 1, column 2, predictor variable 2, and so on. Of course, <span class="math inline">\(\mathbf(y)\)</span> is a vector of model output. If you are unfamiliar with matrix multiplication, ask one of the lab instructors to explain how this works.</p>
+<p>Statisticians use nothing else in specifying linear models, and the rest of us can benefit form becoming comfortable with matrix notation. It is particularly handy here because we can use a single JAGS file (well, two actually) to specify several different models using the code below.</p>
 <pre class="r"><code> z &lt;- X %*% beta # the regression model in matrix form, returns a vector of length n
     for(i in 1:n)   { 
     lambda[i] &lt;- exp(z[i])
@@ -229,6 +230,7 @@ $(document).ready(function () {
 <p>The reason this is so handy is the R function, <code>model.matrix()</code>, for creating a design matrix, i.e., the <span class="math inline">\(\mathbf(X)\)</span>. Consider the following:</p>
 <pre class="r"><code>X = model.matrix(~as.numeric(scale(area)) + as.numeric(scale(temp)), data = bird.sm.df)</code></pre>
 <p>This creates a design matrix with 1’s in column one and standardized data for area and temperature in columns two and three using the data, <code>bird.sm.df</code>.</p>
+<hr />
 </div>
 <div id="problem" class="section level3">
 <h3><strong>Problem</strong></h3>
@@ -243,17 +245,17 @@ $(document).ready(function () {
 <p>See the included file “Model selection math.pdf” for the mathematics standing behind each selection criterion. This lab will require you to summarize jags objects using the rjags <code>summary( )</code> function. The answer is provided below, but the code is not. Note that you will need to used separate code for the intercept only model. The models with slopes can be fit using the same code, but different design matrices.</p>
 <p>To check your answers, you should get very close to DIC = 527, WAIC = 533, and Dsel = 65651 for model 5. Means for the coefficients should be <span class="math inline">\(\beta_0 = 5.7\)</span>, <span class="math inline">\(\beta_1 = 0.91\)</span>, <span class="math inline">\(beta_2 = 0.55\)</span>.</p>
 <p><br></p>
-<p>Some preliminaries:</p>
-<pre class="r"><code>####
-####  Load Packages
-####
+<hr />
+<div id="r-libraries-needed-for-this-lab" class="section level5">
+<h5><strong>R libraries needed for this lab</strong></h5>
+<p>You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the <code>LynxFamilies</code> data frame of the <code>SESYNCBayes</code> package.</p>
+<pre class="r"><code>library(SESYNCBayes)
 library(rjags)
-library(SESYNCBayes)
-####
-####  Load Data 
-####
-
-bird.df &lt;- RichnessBirds
+set.seed(10)</code></pre>
+<p><br></p>
+<hr />
+<p>Some preliminaries:</p>
+<pre class="r"><code>bird.df &lt;- RichnessBirds
 
 ####
 ####  Remove Outliers 
@@ -262,7 +264,6 @@ bird.df &lt;- RichnessBirds
 idx.outlier=(1:51)[(bird.df$species==min(bird.df$species) | bird.df$area==max(bird.df$area))]
 bird.sm.df=bird.df[-idx.outlier,]
 
-####
 ####  Setup Data to Fit Model 
 ####  Below will make a design matrix from a data frame.  Automatically makes the first column = 1 to allow for intercept.
 
@@ -275,13 +276,38 @@ y = bird.sm.df$species
 M1.list &lt;- list(y=y,X=as.matrix(X),n=length(y),p=dim(X)[2])
 set.seed(7)</code></pre>
 <ol style="list-style-type: decimal">
-<li><p>Write an expression for the posterior and joint distribution for each of the four models.</p></li>
-<li><p>Write and fit the four models. Include posterior predictive checks.</p></li>
+<li>Write an expression for the posterior and joint distribution for each of the models.</li>
+</ol>
+<button class="button" onclick="toggle_visibility('myDIV1');">
+Answer
+</button>
+<div id="myDIV1" , style="display:none">
+<p><br></p>
+<p><em>Model 1: Intercept only</em></p>
+<p><span class="math display">\[\begin{align*}
+[\beta_0 \mid \pmb{y}] \propto &amp; \prod_{i=1}^{49} \text{Poisson} (y_{i} \mid g(\beta_{0})) \text{ normal} (\beta_{0}\mid0,1000)\\
+g(\beta_{0})=&amp;e^{(\beta_{0})}\\
+\end{align*}\]</span></p>
+<p><em>Models 2-4: Intercept and one covariate</em></p>
+<p><span class="math display">\[\begin{align*}
+[\pmb{\beta} \mid \pmb{y}] \propto &amp; \prod_{i=1}^{49} \text{Poisson} (y_{i} \mid g(\pmb{\beta},x_i)) \text{ normal} (\beta_{0}\mid0,1000) \text{ normal} (\beta_{1}\mid0,1000)\\
+g(\pmb{\beta},x_i)=&amp;e^{(\mathbf{X}\pmb{\beta})}\\
+\end{align*}\]</span></p>
+<p><em>Model 5 : Intercept and two covariates</em> <span class="math display">\[\begin{align*}
+[\pmb{\beta} \mid \pmb{y}] \propto &amp; \prod_{i=1}^{49} \text{Poisson} (y_{i} \mid g(\pmb{\beta},\mathbf{X})) \text{ normal} (\beta_{0}\mid0,1000) \text{ normal} (\beta_{1}\mid0,1000) (\beta_{2}\mid0,1000)\\
+g(\pmb{\beta},\mathbf{X})) =&amp;e^{(\mathbf{X}\pmb{\beta})}\\
+\end{align*}\]</span></p>
+</div>
+<p><br></p>
+<hr />
+<ol start="2" style="list-style-type: decimal">
+<li>Write and fit the four models. Include posterior predictive checks.</li>
 </ol>
 <button class="button" onclick="toggle_visibility('myDIV2');">
 Answer
 </button>
 <div id="myDIV2" , style="display:none">
+<p><br></p>
 <pre class="r"><code>{
 sink(&quot;pois.reg_nth&quot;)
 cat(&quot;
@@ -338,114 +364,114 @@ summary(M1.out)</code></pre>
 ##    plus standard error of the mean:
 ## 
 ##                 Mean        SD  Naive SE Time-series SE
-## beta[1]      5.75391  0.008042 6.358e-05      8.193e-05
-## beta[2]      0.09156  0.007517 5.942e-05      7.801e-05
-## beta[3]      0.05469  0.008082 6.389e-05      8.365e-05
-## lambda[1]  333.73854  4.708403 3.722e-02      4.865e-02
-## lambda[2]  368.56459  4.714627 3.727e-02      4.336e-02
-## lambda[3]  328.47929  3.978040 3.145e-02      4.139e-02
-## lambda[4]  402.56828  7.004692 5.538e-02      6.495e-02
-## lambda[5]  324.13374  4.229624 3.344e-02      4.488e-02
-## lambda[6]  276.31618  3.547010 2.804e-02      3.758e-02
-## lambda[7]  287.48349  3.965470 3.135e-02      4.391e-02
-## lambda[8]  271.48789  3.713184 2.936e-02      3.902e-02
-## lambda[9]  362.43423  7.617401 6.022e-02      7.734e-02
-## lambda[10] 339.93491  4.903017 3.876e-02      4.999e-02
-## lambda[11] 310.13399  3.802369 3.006e-02      4.024e-02
-## lambda[12] 311.51493  2.550413 2.016e-02      2.649e-02
-## lambda[13] 298.80399  2.821502 2.231e-02      3.022e-02
-## lambda[14] 301.71665  2.863908 2.264e-02      2.976e-02
-## lambda[15] 332.24814  2.789104 2.205e-02      2.693e-02
-## lambda[16] 309.67277  3.082059 2.437e-02      3.320e-02
-## lambda[17] 342.15441  5.942465 4.698e-02      6.144e-02
-## lambda[18] 276.09287  4.116393 3.254e-02      4.216e-02
-## lambda[19] 290.64592  3.562109 2.816e-02      3.919e-02
-## lambda[20] 276.76168  3.474616 2.747e-02      3.649e-02
-## lambda[21] 318.00139  4.139863 3.273e-02      4.402e-02
-## lambda[22] 305.02314  4.607341 3.642e-02      4.915e-02
-## lambda[23] 332.65175  4.932039 3.899e-02      5.133e-02
-## lambda[24] 324.85323  2.682094 2.120e-02      2.663e-02
-## lambda[25] 345.76545  6.583224 5.204e-02      7.082e-02
-## lambda[26] 316.35148  2.882040 2.278e-02      2.970e-02
-## lambda[27] 339.69882  3.715603 2.937e-02      3.751e-02
-## lambda[28] 268.09098  3.887567 3.073e-02      3.951e-02
-## lambda[29] 285.50847  3.534183 2.794e-02      3.856e-02
-## lambda[30] 355.77864  4.055384 3.206e-02      3.888e-02
-## lambda[31] 295.57744  3.255992 2.574e-02      3.387e-02
-## lambda[32] 325.57271  3.596617 2.843e-02      3.739e-02
-## lambda[33] 294.03175  4.480076 3.542e-02      4.726e-02
-## lambda[34] 301.44511  2.690004 2.127e-02      2.845e-02
-## lambda[35] 337.15439  3.696455 2.922e-02      3.658e-02
-## lambda[36] 328.33617  3.454044 2.731e-02      3.561e-02
-## lambda[37] 298.04267  2.797006 2.211e-02      2.939e-02
-## lambda[38] 276.40450  3.638274 2.876e-02      3.891e-02
-## lambda[39] 320.09885  4.820000 3.811e-02      5.198e-02
-## lambda[40] 308.11364  3.507819 2.773e-02      3.692e-02
-## lambda[41] 315.21337  3.419494 2.703e-02      3.670e-02
-## lambda[42] 511.31399 16.814380 1.329e-01      1.594e-01
-## lambda[43] 320.46996  3.054472 2.415e-02      3.148e-02
-## lambda[44] 266.49317  4.002805 3.164e-02      4.056e-02
-## lambda[45] 309.95059  2.966933 2.346e-02      3.181e-02
-## lambda[46] 311.59905  2.869838 2.269e-02      2.973e-02
-## lambda[47] 292.16067  3.088334 2.442e-02      3.336e-02
-## lambda[48] 296.84554  3.795224 3.000e-02      3.982e-02
-## lambda[49] 313.20866  4.707948 3.722e-02      5.044e-02
+## beta[1]      5.75385  0.008188 6.473e-05      8.341e-05
+## beta[2]      0.09160  0.007392 5.844e-05      7.638e-05
+## beta[3]      0.05479  0.008015 6.336e-05      8.361e-05
+## lambda[1]  333.76548  4.728691 3.738e-02      5.005e-02
+## lambda[2]  368.60155  4.729044 3.739e-02      4.440e-02
+## lambda[3]  328.49535  4.008048 3.169e-02      4.235e-02
+## lambda[4]  402.62019  6.955614 5.499e-02      6.430e-02
+## lambda[5]  324.09593  4.220861 3.337e-02      4.510e-02
+## lambda[6]  276.27468  3.530801 2.791e-02      3.646e-02
+## lambda[7]  287.46432  3.956175 3.128e-02      4.366e-02
+## lambda[8]  271.44199  3.689698 2.917e-02      3.777e-02
+## lambda[9]  362.50627  7.607393 6.014e-02      7.888e-02
+## lambda[10] 339.96768  4.923105 3.892e-02      5.141e-02
+## lambda[11] 310.08936  3.799511 3.004e-02      4.045e-02
+## lambda[12] 311.49491  2.592321 2.049e-02      2.663e-02
+## lambda[13] 298.77864  2.844292 2.249e-02      2.990e-02
+## lambda[14] 301.68021  2.882469 2.279e-02      2.973e-02
+## lambda[15] 332.24527  2.838969 2.244e-02      2.764e-02
+## lambda[16] 309.66414  3.113670 2.462e-02      3.375e-02
+## lambda[17] 342.19846  5.947993 4.702e-02      6.296e-02
+## lambda[18] 276.02835  4.091631 3.235e-02      4.155e-02
+## lambda[19] 290.62484  3.562573 2.816e-02      3.898e-02
+## lambda[20] 276.71719  3.459793 2.735e-02      3.545e-02
+## lambda[21] 317.95921  4.131769 3.266e-02      4.424e-02
+## lambda[22] 304.96656  4.587166 3.626e-02      4.928e-02
+## lambda[23] 332.68011  4.948070 3.912e-02      5.274e-02
+## lambda[24] 324.84775  2.734265 2.162e-02      2.733e-02
+## lambda[25] 345.72594  6.531907 5.164e-02      7.059e-02
+## lambda[26] 316.32349  2.909028 2.300e-02      2.991e-02
+## lambda[27] 339.68359  3.724840 2.945e-02      3.783e-02
+## lambda[28] 268.03238  3.859264 3.051e-02      3.855e-02
+## lambda[29] 285.48093  3.528913 2.790e-02      3.814e-02
+## lambda[30] 355.78310  4.062797 3.212e-02      3.881e-02
+## lambda[31] 295.53149  3.259133 2.577e-02      3.365e-02
+## lambda[32] 325.58263  3.632036 2.871e-02      3.829e-02
+## lambda[33] 293.96980  4.458733 3.525e-02      4.694e-02
+## lambda[34] 301.41767  2.717410 2.148e-02      2.817e-02
+## lambda[35] 337.17221  3.735828 2.953e-02      3.782e-02
+## lambda[36] 328.31127  3.466960 2.741e-02      3.599e-02
+## lambda[37] 298.00808  2.815927 2.226e-02      2.901e-02
+## lambda[38] 276.36614  3.620966 2.863e-02      3.832e-02
+## lambda[39] 320.11708  4.829267 3.818e-02      5.272e-02
+## lambda[40] 308.07100  3.511197 2.776e-02      3.685e-02
+## lambda[41] 315.21367  3.449889 2.727e-02      3.749e-02
+## lambda[42] 511.45818 16.584285 1.311e-01      1.560e-01
+## lambda[43] 320.44282  3.077275 2.433e-02      3.166e-02
+## lambda[44] 266.43167  3.971973 3.140e-02      3.960e-02
+## lambda[45] 309.94049  3.001219 2.373e-02      3.234e-02
+## lambda[46] 311.56770  2.894384 2.288e-02      2.988e-02
+## lambda[47] 292.13304  3.098140 2.449e-02      3.273e-02
+## lambda[48] 296.79279  3.787183 2.994e-02      3.958e-02
+## lambda[49] 313.15697  4.687700 3.706e-02      5.061e-02
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##                 2.5%       25%       50%       75%     97.5%
-## beta[1]      5.73826   5.74853   5.75381   5.75932   5.77000
-## beta[2]      0.07685   0.08663   0.09154   0.09652   0.10625
-## beta[3]      0.03884   0.04927   0.05471   0.06017   0.07045
-## lambda[1]  324.53788 330.55859 333.72102 336.91770 343.08295
-## lambda[2]  359.34534 365.40872 368.48733 371.70284 377.89223
-## lambda[3]  320.75965 325.79895 328.46158 331.15183 336.39470
-## lambda[4]  388.86489 397.85876 402.51962 407.17041 416.54923
-## lambda[5]  315.90111 321.26690 324.12739 326.99574 332.38171
-## lambda[6]  269.35137 273.93378 276.28125 278.63021 283.44612
-## lambda[7]  279.77811 284.81556 287.42670 290.11217 295.35507
-## lambda[8]  264.22046 268.99694 271.45640 273.90339 278.93957
-## lambda[9]  347.50029 357.27803 362.33759 367.57795 377.47167
-## lambda[10] 330.30462 336.61689 339.91218 343.22893 349.66915
-## lambda[11] 302.73838 307.56691 310.13588 312.69684 317.59158
-## lambda[12] 306.60209 309.79583 311.47142 313.20463 316.61349
-## lambda[13] 293.35292 296.90543 298.75836 300.66516 304.47961
-## lambda[14] 296.14501 299.79197 301.67991 303.63119 307.42228
-## lambda[15] 326.87817 330.34056 332.22446 334.13882 337.77189
-## lambda[16] 303.72108 307.61866 309.62952 311.72988 315.81104
-## lambda[17] 330.53642 338.10493 342.10913 346.13511 353.84866
-## lambda[18] 268.18340 273.28188 276.05944 278.83913 284.16716
-## lambda[19] 283.77798 288.26823 290.59835 292.99596 297.71436
-## lambda[20] 269.97744 274.42227 276.72919 279.02421 283.73834
-## lambda[21] 309.96091 315.21016 317.99608 320.78504 326.05404
-## lambda[22] 296.07175 301.88812 305.00463 308.11435 314.10366
-## lambda[23] 322.99387 329.33516 332.63317 335.96707 342.41570
-## lambda[24] 319.69886 323.01835 324.81461 326.66665 330.21599
-## lambda[25] 332.87567 341.32906 345.74298 350.18288 358.74183
-## lambda[26] 310.71449 314.41094 316.30937 318.28972 322.03006
-## lambda[27] 332.40014 337.18983 339.68911 342.22883 346.93036
-## lambda[28] 260.54000 265.46206 268.05922 270.65609 275.77666
-## lambda[29] 278.65295 283.16142 285.45921 287.82062 292.62426
-## lambda[30] 347.70160 353.07861 355.77790 358.48458 363.76078
-## lambda[31] 289.23323 293.38617 295.53681 297.74448 301.93117
-## lambda[32] 318.61735 323.14425 325.54304 327.99206 332.69999
-## lambda[33] 285.33316 290.96610 293.99662 297.07562 302.91820
-## lambda[34] 296.22817 299.62677 301.41835 303.23198 306.84696
-## lambda[35] 329.94805 334.65523 337.09713 339.62553 344.45365
-## lambda[36] 321.59562 326.00615 328.34062 330.66400 335.03003
-## lambda[37] 292.61307 296.15480 298.01842 299.90831 303.62990
-## lambda[38] 269.30228 273.95569 276.37368 278.81356 283.70428
-## lambda[39] 310.66520 316.84571 320.05932 323.32454 329.63938
-## lambda[40] 301.28795 305.75142 308.12016 310.46857 314.95912
-## lambda[41] 308.57543 312.89694 315.15938 317.50462 321.94195
-## lambda[42] 479.12144 500.01899 511.25739 522.35714 544.83900
-## lambda[43] 314.48862 318.40812 320.45589 322.52717 326.43724
-## lambda[44] 258.74638 263.78510 266.46441 269.13024 274.39205
-## lambda[45] 304.23910 307.96673 309.91435 311.93246 315.86681
-## lambda[46] 305.95754 309.67342 311.56425 313.52744 317.23939
-## lambda[47] 286.16189 290.08238 292.11962 294.19352 298.33971
-## lambda[48] 289.50309 294.26267 296.80888 299.38466 304.33972
-## lambda[49] 304.09735 310.01565 313.18455 316.35422 322.39582</code></pre>
+## beta[1]      5.73792   5.74828   5.75391   5.75942   5.77001
+## beta[2]      0.07712   0.08664   0.09159   0.09656   0.10608
+## beta[3]      0.03861   0.04954   0.05484   0.06013   0.07051
+## lambda[1]  324.41382 330.62429 333.76890 336.87905 343.04079
+## lambda[2]  359.20669 365.47896 368.67734 371.74060 377.96107
+## lambda[3]  320.53267 325.82764 328.49533 331.13150 336.40227
+## lambda[4]  389.04564 397.92592 402.61895 407.21381 416.29413
+## lambda[5]  315.93559 321.21249 324.04446 326.92209 332.52109
+## lambda[6]  269.47006 273.88152 276.22381 278.62094 283.32729
+## lambda[7]  279.82423 284.78018 287.42351 290.09799 295.37653
+## lambda[8]  264.37066 268.92085 271.40595 273.89231 278.81726
+## lambda[9]  347.52987 357.44951 362.52684 367.47794 377.56879
+## lambda[10] 330.17821 336.70722 339.98426 343.18761 349.63611
+## lambda[11] 302.74287 307.51296 310.02574 312.63647 317.59079
+## lambda[12] 306.48857 309.72819 311.48598 313.23791 316.59940
+## lambda[13] 293.30816 296.82668 298.75583 300.69253 304.38162
+## lambda[14] 296.06689 299.73708 301.65481 303.62631 307.37326
+## lambda[15] 326.71799 330.31372 332.23356 334.15994 337.81463
+## lambda[16] 303.56259 307.57386 309.65324 311.74590 315.82525
+## lambda[17] 330.44304 338.24911 342.21615 346.10072 353.88596
+## lambda[18] 268.04748 273.27147 275.94404 278.79197 284.14499
+## lambda[19] 283.69456 288.20557 290.59587 293.00036 297.76504
+## lambda[20] 270.05056 274.36016 276.65888 278.98902 283.59066
+## lambda[21] 309.96554 315.14256 317.90261 320.73029 326.18272
+## lambda[22] 296.14862 301.87229 304.89807 308.00880 314.14004
+## lambda[23] 322.91443 329.37891 332.68150 335.93912 342.39510
+## lambda[24] 319.50159 322.99386 324.86094 326.67671 330.21274
+## lambda[25] 333.28763 341.22053 345.64158 350.10577 358.77745
+## lambda[26] 310.75362 314.33350 316.27770 318.29011 322.06609
+## lambda[27] 332.54427 337.15074 339.61362 342.19156 347.11444
+## lambda[28] 260.56233 265.42091 267.97049 270.60151 275.63083
+## lambda[29] 278.62234 283.06032 285.42709 287.82983 292.52705
+## lambda[30] 347.93527 353.03985 355.74771 358.52197 363.77189
+## lambda[31] 289.19395 293.34400 295.47611 297.70985 301.97843
+## lambda[32] 318.38639 323.16207 325.57583 327.99514 332.72004
+## lambda[33] 285.37683 290.99141 293.86382 296.91624 302.90017
+## lambda[34] 296.19253 299.56370 301.40208 303.24651 306.78031
+## lambda[35] 329.75576 334.69181 337.18952 339.69110 344.48501
+## lambda[36] 321.62342 325.92449 328.25248 330.66068 335.15691
+## lambda[37] 292.55727 296.09951 297.96069 299.90519 303.60125
+## lambda[38] 269.41700 273.88980 276.33084 278.77061 283.60075
+## lambda[39] 310.64267 316.90206 320.12303 323.29645 329.74204
+## lambda[40] 301.27189 305.69257 308.02583 310.44147 315.07884
+## lambda[41] 308.46432 312.91155 315.20945 317.51167 322.02416
+## lambda[42] 479.31017 500.25341 511.25507 522.55909 544.52651
+## lambda[43] 314.52879 318.35218 320.38744 322.52488 326.54533
+## lambda[44] 258.71013 263.75428 266.36969 269.07645 274.25783
+## lambda[45] 304.06134 307.91762 309.91811 311.95150 315.91288
+## lambda[46] 305.98559 309.60219 311.52473 313.50761 317.28829
+## lambda[47] 286.12385 290.01501 292.11451 294.19976 298.25779
+## lambda[48] 289.48108 294.24386 296.71424 299.32399 304.32845
+## lambda[49] 304.22724 309.96908 313.10333 316.26821 322.51204</code></pre>
 <pre class="r"><code>zj=jags.samples(M1.model,data=M1.list, inits=inits, n.chains=2,variable.names=c(&quot;log_pd&quot;,&quot;pd&quot;,&quot;beta&quot;,&quot;lambda&quot;, &quot;deviance&quot;, &quot;y.new&quot;), n.iter=10000)
 zDIC=dic.samples(M1.model, n.iter=8000)</code></pre>
 <pre class="r"><code>{
@@ -504,6 +530,7 @@ M1.out &lt;- coda.samples(M1.model,variable.names=c(&quot;beta&quot;,&quot;lambd
 zj=jags.samples(M1.model,data=M1.list, inits=inits, n.chains=2,variable.names=c(&quot;log_pd&quot;,&quot;pd&quot;,&quot;beta&quot;,&quot;lambda&quot;, &quot;deviance&quot;, &quot;y.new&quot;), n.iter=10000)
 zDIC=dic.samples(M1.model, n.iter=8000)</code></pre>
 </div>
+<hr />
 <ol start="3" style="list-style-type: decimal">
 <li>Compute DIC, WAIC, and Dsel.</li>
 </ol>
@@ -519,12 +546,12 @@ Dbar = summary(zj$deviance, mean)$stat
 pD.DIC = Dbar - Dhat
 DIC = Dhat + 2*pD.DIC
 c(pD.DIC,DIC)</code></pre>
-<pre><code>## [1]   0.9903538 741.0867725</code></pre>
+<pre><code>## [1]   1.029495 741.165318</code></pre>
 <pre class="r"><code>#Now use built in function from dic.samples( )  above
 zDIC</code></pre>
 <pre><code>## Mean deviance:  740.1 
-## penalty 0.9884 
-## Penalized deviance: 741.1</code></pre>
+## penalty 1.022 
+## Penalized deviance: 741.2</code></pre>
 <pre class="r"><code>###
 
 ####### WAIC
@@ -533,12 +560,14 @@ lppd=-2*sum(log(summary(zj$pd,mean)$stat))
 pD.WAIC=sum((summary(zj$log_pd,sd)$stat)^2)
 WAIC=lppd +2*pD.WAIC
 c(pD.WAIC,WAIC)</code></pre>
-<pre><code>## [1]   7.800364 748.080944</code></pre>
+<pre><code>## [1]   8.108859 748.437787</code></pre>
 <pre class="r"><code>######Posterior predictive loss
 
 Dsel = sum((y-summary(zj$y.new,mean)$stat)^2) + sum((summary(zj$y.new,sd)$stat)^2)
 Dsel</code></pre>
-<pre><code>## [1] 138338</code></pre>
+<pre><code>## [1] 138199.9</code></pre>
+</div>
+<hr />
 </div>
 </div>
 <div id="literature-cited" class="section level3">

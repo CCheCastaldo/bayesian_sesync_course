@@ -95,8 +95,8 @@ We want to understand the influence of forest cover and elevation on the distrib
 <br>
 
 $$\begin{align*}
-\big[\,\boldsymbol{\beta}, \textbf{z}, p \mid \textbf{y}] & \propto  \prod_{i=1}^{237}\textrm{binomial}\big(y_{i}\mid p \cdot z_{i}, n_{i}\big) \textrm{Bernoulli}\big(z_{i} \mid \psi \big) \\
-& \times \prod_{i=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,.368\big)\textrm{beta}\big(p \mid 1,1\big) \\
+\big[\,\boldsymbol{\beta}, \textbf{z}, p \mid \textbf{y}] & \propto  \prod_{i=1}^{267}\textrm{binomial}\big(y_{i}\mid p \cdot z_{i}, n_{i}\big) \textrm{Bernoulli}\big(z_{i} \mid \psi \big) \\
+& \times \prod_{j=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,2.71\big)\textrm{beta}\big(p \mid 1,1\big) \\
 \psi & =  \textrm{logit}^{-1}\big(\,\beta_{1} + \beta_{2}\textrm{elevation}_{i} + 
 \beta_{3}\textrm{elevation}_{i}^{2} + \beta_{4}\textrm{forestCover}_{i} \big)
 \end{align*}$$
@@ -124,13 +124,12 @@ You would need to use a Bernoulli instead of a binomial likelihood if covariates
 
 $$\begin{align*}
 \big[\,\boldsymbol{\beta}, \textbf{z}, \mathbf{P} \mid \textbf{Y}] & \propto  
-\prod_{i=1}^{237}\prod_{t=1}^3\textrm{Bernoulli}\big(y_{it}\mid p_{it} \cdot z_{i}\big) 
-\textrm{Bernoulli}\big(z_{i} \mid \psi \big) \prod_{i=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,.368\big)\\
-&\times\text{beta}(p_{it}|\text{moment match}(\mu_{p,it},\sigma^2_p))\\
-& \times \prod_{i=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,.368\big)\\[1em]
+\prod_{i=1}^{267}\prod_{t=1}^3\textrm{Bernoulli}\big(y_{it}\mid p_{it} \cdot z_{i}\big) 
+\textrm{Bernoulli}\big(z_{i} \mid \psi \big)\text{beta}(p_{it}\mid \text{moment match}(\mu_{p,it},\sigma^2_p))\\
+&\times \prod_{j=1}^{4} \textrm{normal}\big(\beta_{j} \mid 0,2.71\big) \prod_{k=1}^{3} \textrm{normal}\big(\alpha_{k} \mid 0,2.71\big)\,\text{inverse gamma}(\sigma^{2}_{p}\mid .001, .001)\\[1em]
 \psi & =  \textrm{logit}^{-1}\big(\,\beta_{1} + \beta_{2}\textrm{elevation}_{i} + 
 \beta_{3}\textrm{elevation}_{i}^{2} + \beta_{4}\textrm{forestCover}_{i} \big)\\
-\mu_{p,it}&=\text{logit}^{-1}(\alpha_1+\alpha_2\text{TimeSearched}+\alpha_3\text{WindSpeed})
+\mu_{p,it}&=\text{logit}^{-1}(\alpha_1+\alpha_2\text{TimeSearched}_{it}+\alpha_3\text{WindSpeed}_{it})
 \end{align*}$$
 
 </div>

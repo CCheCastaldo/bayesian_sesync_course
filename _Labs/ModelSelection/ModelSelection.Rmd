@@ -39,19 +39,20 @@ There are occasions, however, where model selection is needed by Bayesians. Wide
 
 <br>
 
+---
+
 ### **A Note About: Matrix Specification of Linear Models**
-Specifying linear models in matrix notation is compact and convenient in comparison to writing out the full model as a scalar equation in the context of several predictor variables.  Consider a typical deterministic linear model with three coefficients:
+Specifying linear models in matrix notation is compact and convenient relative to writing out the full model as a scalar equation when there are several predictor variables.  Consider the the typical, deterministic linear model:
 
-$$\mu_{i}=\beta_{0}+\beta_{1}x_{1i}+\beta_{2}x_{2i}$$
+$$ \mu_{i}=\beta_{0}+\beta_{1}x_{1i}+\beta_{2}x_{2i}.$$
 
-It can be written in matrix form as:
+It can be written in matrix form as 
 
 $$\pmb{\mu}=\mathbf{X}\pmb{\beta},$$
 
-where $\pmb{\beta}$ is a column vector $(\beta_0, \beta_1,\beta_3)$ with length = number of model coefficients, and $\mathbf{X}$ is a *design* matrix with the number of rows equal to the number of data points and the number of columns equal to the number of predictor variables + 1.  The first column contains all 1's (or 0's if you seek to force the intercept through 0).  The second column contains the data values for predictor variable 1,  the third column contains the data values for predictor variable 2, and so on. $\mathbf(y)$ is a vector of model output containing a prediction for each data point.  See the lecture notes covering matrix multiplication if needed.
+where $\pmb{\beta}$ is a column vector, $(\beta_0, \beta_1, \beta_2)'$ with length = number of model coefficients, and $\mathbf{X}$ is a *design* matrix with the number of rows equal to the number of data points and the number of columns equal to the number of predictor variables + 1 (so, in this example, 3).  Column one contains all 1's (or 0's if you seek to force the intercept through 0).  Column two contains the data values of predictor variable 1,  column 2, predictor variable 2, and so on.  Of course, $\mathbf(y)$ is a vector of model output.  If you are unfamiliar with matrix multiplication, ask one of the lab instructors to explain how this works. 
 
-Statisticians use matrix notation exclusively to specify linear models, although notation is not consistent. It's beneficial to become comfortable with matrix notation. This is particularly handy here because we can use a single JAGS file (well, two actually) to specify several different models using the code below. 
-
+Statisticians use nothing else in specifying linear models, and the rest of us can benefit form becoming comfortable with matrix notation. It is particularly handy here because we can use a single JAGS file (well, two actually) to specify several different models using the code below. 
 
 ```{r eval=FALSE}
  z <- X %*% beta # the regression model in matrix form, returns a vector of length n
@@ -69,6 +70,8 @@ The reason this is so handy is the R function, `model.matrix()`, for creating a 
 X = model.matrix(~as.numeric(scale(area)) + as.numeric(scale(temp)), data = bird.sm.df)
 ```
 This creates a design matrix with 1's in column one and standardized data for area and temperature in columns two and three using the data, `bird.sm.df`. 
+
+---
 
 ### **Problem**
 We are modelling bird species richness in 49 US states in response to a set of predictor variables: area, mean temperature, and mean precipitation.  Fit the following models and calculate the Deviance Information criterion (DIC), the Wantanabe-Akaike Information Criterion (WAIC), and Posterior Predictive Loss (Dsel) for each one. Use a prior mean of 0 and variance of 100 for each regression coefficient.
@@ -89,17 +92,25 @@ To check your answers, you should get very close to  DIC = 527, WAIC = 533, and 
 
 <br>
 
+---
+
+##### **R libraries needed for this lab**
+
+You need to load the following libraries. Set the seed to 10 to compare your answers to ours. The data for this problem is located in the `LynxFamilies` data frame of the `SESYNCBayes` package. 
+
+```{r eval = FALSE, echo = TRUE}
+library(SESYNCBayes)
+library(rjags)
+set.seed(10)
+```
+
+<br>
+
+---
+
+
 Some preliminaries:
 ```{r}
-####
-####  Load Packages
-####
-library(rjags)
-library(SESYNCBayes)
-####
-####  Load Data 
-####
-
 bird.df <- RichnessBirds
 
 ####
@@ -109,7 +120,6 @@ bird.df <- RichnessBirds
 idx.outlier=(1:51)[(bird.df$species==min(bird.df$species) | bird.df$area==max(bird.df$area))]
 bird.sm.df=bird.df[-idx.outlier,]
 
-####
 ####  Setup Data to Fit Model 
 ####  Below will make a design matrix from a data frame.  Automatically makes the first column = 1 to allow for intercept.
 
@@ -123,13 +133,46 @@ M1.list <- list(y=y,X=as.matrix(X),n=length(y),p=dim(X)[2])
 set.seed(7)
 ```
 
-1. Write an expression for the posterior and joint distribution for each of the four models.
+1. Write an expression for the posterior and joint distribution for each of the models.
+
+<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
+
+<div id="myDIV1", style="display:none">
+
+<br>
+
+*Model 1: Intercept only*
+
+$$\begin{align*}
+[\beta_0 \mid \pmb{y}] \propto & \prod_{i=1}^{49} \text{Poisson} (y_{i} \mid g(\beta_{0})) \text{ normal} (\beta_{0}\mid0,1000)\\
+g(\beta_{0})=&e^{(\beta_{0})}\\
+\end{align*}$$
+
+*Models 2-4: Intercept and one covariate*
+
+$$\begin{align*}
+[\pmb{\beta} \mid \pmb{y}] \propto & \prod_{i=1}^{49} \text{Poisson} (y_{i} \mid g(\pmb{\beta},x_i)) \text{ normal} (\beta_{0}\mid0,1000) \text{ normal} (\beta_{1}\mid0,1000)\\
+g(\pmb{\beta},x_i)=&e^{(\mathbf{X}\pmb{\beta})}\\
+\end{align*}$$
+
+*Model 5 : Intercept and two covariates*
+$$\begin{align*}
+[\pmb{\beta} \mid \pmb{y}] \propto & \prod_{i=1}^{49} \text{Poisson} (y_{i} \mid g(\pmb{\beta},\mathbf{X})) \text{ normal} (\beta_{0}\mid0,1000) \text{ normal} (\beta_{1}\mid0,1000) (\beta_{2}\mid0,1000)\\
+g(\pmb{\beta},\mathbf{X})) =&e^{(\mathbf{X}\pmb{\beta})}\\
+\end{align*}$$
+</div>
+
+<br>
+
+---
 
 2. Write and fit the four models. Include posterior predictive checks.
 
 <button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
 
 <div id="myDIV2", style="display:none">
+
+<br>
 
 ```{r}
 {
@@ -228,6 +271,8 @@ zDIC=dic.samples(M1.model, n.iter=8000)
 
 </div>
 
+---
+
 3. Compute DIC, WAIC, and Dsel.
 
 <button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
@@ -261,6 +306,8 @@ Dsel = sum((y-summary(zj$y.new,mean)$stat)^2) + sum((summary(zj$y.new,sd)$stat)^
 Dsel
 ```
 </div>
+
+---
 
 ### *Literature cited*
 

@@ -85,7 +85,7 @@ p = .1
 lambda = 5.3
 n = 500
 
-z = rbinom(100, prob = p, size = 1)
+z = rbinom(500, prob = p, size = 1)
 y = (1 - z) * rpois(n, lambda)
 discrete.histogram(y, xlab = "y", main = "Simulated data")
 ```
