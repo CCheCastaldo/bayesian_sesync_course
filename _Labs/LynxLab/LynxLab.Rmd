@@ -220,7 +220,7 @@ for(t in 2:(endyr + 1)) {
   n[t] <- lambda * (y$census[t - 1] - .16 * y$harvest[t - 1])  # use this for family groups
 }
 
-plot(y$year, y$census, ylim = c(0, 100), xlab = "Year", ylab = "Population size", main = "Simulated data")
+plot(y$year, y$census, ylim = c(0, 100), xlab = "Year", ylab = "Family group", main = "Simulated data")
 lines(y$year, n[1:length(y$year)])
 ```
 
