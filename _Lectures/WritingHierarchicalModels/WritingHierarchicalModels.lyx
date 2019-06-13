@@ -550,7 +550,7 @@ sigma ~ dunif(0,5)
 status open
 
 \begin_layout Plain Layout
-Things to watch for today
+Examples of
 \end_layout
 
 \end_inset
@@ -569,10 +569,6 @@ Sampling error in x's and y's
 
 \begin_layout Itemize
 Calibration error in y's
-\end_layout
-
-\begin_layout Itemize
-Derived quantities (in JAGS lab)
 \end_layout
 
 \begin_layout Standard

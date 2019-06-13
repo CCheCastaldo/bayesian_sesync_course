@@ -879,6 +879,227 @@ General joint and posterior distribution for single state model
 status open
 
 \begin_layout Plain Layout
+How does rainfall influence density dependence?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $g\left(\bm{\beta},z_{t-1},x_{t-1}\right)=z_{t-1}e^{\left(\beta_{0}+\beta_{1}z_{t-1}+\beta_{2}x_{t-1}+\beta_{3}z_{t-1}x_{t-1}\right)\Delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {1 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z_{t}=$
+\end_inset
+
+ true population size 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x_{t-1}=$
+\end_inset
+
+ standardized, annual dry season rainfall during time 
+\begin_inset Formula $t-1$
+\end_inset
+
+ to 
+\begin_inset Formula $t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{0}=r_{max}=$
+\end_inset
+
+ intrinsic, per-capita rate of increase at average rainfall
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{1}=$
+\end_inset
+
+ strength of density dependence, 
+\begin_inset Formula $\frac{r}{K}$
+\end_inset
+
+ at average rainfall.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{2}=$
+\end_inset
+
+ change in rate of increase per standard deviation change in rainfall
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{3}=$
+\end_inset
+
+ effect of rainfall on strength of density dependence
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Serengeti wildebeest model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+g\left(\bm{\beta},z_{t-1},x_{t-1}\right)=z_{t-1}e^{\left(\beta_{0}+\beta_{1}z_{t-1}+\beta_{2}x_{t-1}+\beta_{3}z_{t-1}x_{t-1}\right)\Delta t}\\
+\left[\mathbf{z}\bm{,\beta},\sigma_{p}^{2}|\mathbf{y}\right]\propto\underbrace{\prod_{\forall t\in\mathbf{y}.i}\left[y_{t}\biggm\vert z_{t},y.sd_{t}\right]}_{\text{ \mathsf{data\,\mathsf{model}}}}\\
+\times\underbrace{\prod_{t=2}^{48}\left[z_{t}|g\left(\bm{\beta},z_{t-1},x_{t-1}\right),\sigma_{p}^{2}\right]}_{\mathsf{process\,\mathsf{model}}}\times\underbrace{\left[\beta_{0}\right]\left[\beta_{1}\right]\left[\beta_{2}\right]\left[\beta_{3}\right]\left[\sigma_{p}^{2}\right]\left[z_{1}\right]}_{\mathsf{parameter\,\mathsf{models}}}
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\mathbf{y}.i$
+\end_inset
+
+ is a vector of years with non-missing census data
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $y_{t}\sim\text{normal}(z_{t},y.sd_{t}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $z_{t}\sim\text{lognormal}\left(\log\left(g\left(\bm{\beta},z_{t-1},x_{t-1}\right)\right),\sigma_{p}^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\beta_{0}\sim\text{normal}\left(.234,.136^{2}\right)\,\text{informative prior}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\beta_{i\in1,2,3}\sim\text{normal}(0,1000)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\sigma_{p}^{2}\sim\text{gamma}\left(.01,.01\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $z_{1}\sim\text{normal}(y_{1},y.sd_{1}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
 Deterministic matrix model
 \end_layout
 
@@ -913,7 +1134,7 @@ z_{2}\\
 z\\
 .\\
 z_{n}
-\end{array}\right)_{t}=\mathbf{\mathbf{\Theta}}\left(\begin{array}{c}
+\end{array}\right)_{t}=\bm{\Theta}\left(\begin{array}{c}
 z_{1}\\
 z_{2}\\
 z_{3}\\
@@ -999,6 +1220,317 @@ Posterior and joint distribution
 \begin{multline*}
 \left[\mathbf{z},\bm{\Theta},\bm{\bm{\theta}}_{data}|\mathbf{Y}\right]\propto\\
 \prod_{t=2}^{T}\left[\mathbf{y}_{t}|\bm{\bm{\theta}}_{data},\mathbf{z}_{t}\right]\left[\mathbf{z}_{t}|\mathbf{\bm{\Theta},\mathbf{z}}_{t-1}\right]\left[\bm{\Theta},\bm{\bm{\theta}}_{data},\mathbf{z}_{1}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example: Raiho matrix model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang american
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="3.5in">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+state
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+definition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+\begin_inset Formula $n_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+The number of juvenile deer, aged 6 months on their first census
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+\begin_inset Formula $n_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+The number of adult female deer, aged 18 months and older
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+\begin_inset Formula $n_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+The number of adult male deer, aged 18 months and older
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Deterministic Model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\lang american
+\begin_inset Formula 
+\begin{eqnarray*}
+f &  & \text{number of recruits per female surviving to census}\\
+\phi_{j} &  & \text{probability that a juvenile (aged 6 months) survives to 18 months}\\
+\phi_{d} &  & \text{annual survival probabilty of adult females}\\
+\phi_{b} &  & \text{annual survival probability of adult males}\\
+m &  & \text{proportion of juveniles surviving to adults that are female}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang american
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{A} & = & \left(\begin{array}{ccc}
+0 & \phi_{d}^{\frac{1}{2}}f & 0\\
+m\phi_{j} & \phi_{d} & 0\\
+\left(1-m\right)\phi_{j} & 0 & \phi_{b}
+\end{array}\right)\\
+\mathbf{n}_{t} & = & \mathbf{An}_{t-1}.
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\lang american
+The posterior and joint distribution
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\lang american
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.5cm}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{multline*}
+\left[\bm{\phi},m,f,\mathbf{N},\underbrace{\bm{\sigma}_{p},\bm{\rho}}_{\text{elements of }\bm{\Sigma}}|\mathbf{y}^{\text{census.mean}},\mathbf{y}^{\text{census.sd}},\mathbf{Y}^{\text{classification}}\right]\propto\\
+\underbrace{\prod_{t=2}^{T}\text{multivariate normal}\left(\text{log}(\mathbf{n}_{t})\vert\log\left(\mathbf{A}_{t}\mathbf{n}_{t-1}\right),\bm{\Sigma}\right)}_{\text{process model}}\\
+\times\prod_{t=2}^{T}\underbrace{\text{normal}\left(y_{t}^{\text{census.mean}}\vert\sum_{i=1}^{3}n_{i,t},y_{t}^{\text{census.sd}}\right)}_{\text{data model 1}}\\
+\times\underbrace{\text{multinomial}\left(\mathbf{y}_{t}^{\text{classification}}\mid\left(\sum_{i=1}^{3}y_{i,t},\frac{n_{1,t}}{\sum_{i=1}^{3}n_{i,t}}\frac{n_{2,t}}{,\sum_{i=1}^{3}n_{i,t},}\frac{n_{3,t}}{\sum_{i=1}^{3}n_{i,t}}\right)'\right)}_{\text{data model 2}}\\
+\times\text{priors}\\
 \end{multline*}
 
 \end_inset

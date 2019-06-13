@@ -193,7 +193,7 @@ Background
 status open
 
 \begin_layout Plain Layout
-Learning objective 
+Learning objectives 
 \end_layout
 
 \end_inset
@@ -530,7 +530,7 @@ Posterior predictive loss (Dsel)
 \end_layout
 
 \begin_layout Itemize
-Wantanabe information criterion (WAIC)
+Watanabe information criterion (WAIC)
 \end_layout
 
 \end_deeper
@@ -1968,7 +1968,7 @@ Style points.
 status open
 
 \begin_layout Plain Layout
-Wantanabe-Akaike Information Criterion (WAIC)
+Watanabe-Akaike Information Criterion (WAIC)
 \end_layout
 
 \end_inset
@@ -2003,7 +2003,7 @@ Notice that no new data are simulated here.
 status open
 
 \begin_layout Plain Layout
-Wantanabe-Akaike Information Criterion (WAIC)
+Watanabe-Akaike Information Criterion (WAIC)
 \end_layout
 
 \end_inset
@@ -2033,7 +2033,7 @@ Wantanabe-Akaike Information Criterion (WAIC)
 status open
 
 \begin_layout Plain Layout
-Wantanabe-Akaike Information Criterion (WAIC)
+Watanabe-Akaike Information Criterion (WAIC)
 \end_layout
 
 \end_inset
@@ -2487,7 +2487,7 @@ model{
 \begin_layout LyX-Code
 
 \size tiny
-    tau[1] <- tau_in     # coef effectively zero
+    tau[1] <- tau_in     #coef effectively zero
 \end_layout
 
 \begin_layout LyX-Code
@@ -2517,21 +2517,19 @@ model{
 \begin_layout LyX-Code
 
 \size tiny
-      indA[j] ~ dcat(p_ind[]) # returns 1 or 2
+      indA[j] ~ dcat(p_ind[]) # indexes  precisions in priors
 \end_layout
 
 \begin_layout LyX-Code
 
 \size tiny
-      z[j] <- indA[j] - 1   # returns 0 or 1 for computing mean weight for
- coefficient j
+      z[j] <- indA[j] - 1    # 0 or 1 for computing mean weight j
 \end_layout
 
 \begin_layout LyX-Code
 
 \size tiny
-      beta[j] ~ dnorm(0, tau[indA[j]]) #determines which precision to use
- in the prior for beta[j]
+      beta[j] ~ dnorm(0, tau[indA[j]]) #slab or spike prior
 \end_layout
 
 \begin_layout LyX-Code
