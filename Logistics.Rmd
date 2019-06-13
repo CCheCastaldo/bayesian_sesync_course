@@ -32,9 +32,9 @@ We will use the `MCMCvis` [package](https://cran.r-project.org/web/packages/MCMC
 
 <br>
 
-#### **Individual Project**
+#### **Individual Project (optional)**
 
-You can use this [R markdown template](content/presentation/PresentationTemplate.Rmd) to make the presentation for your individual project. If you open this R markdown file in R-studio and click the knit button above the script it will make a pdf file that looks like [this](content/presentation/PresentationTemplate.pdf). Note, you will need to take pictures of your DAG and joint with your phone (convert them to png) and then use the code in the R markdown document to add them to your presentation. Alternatively you can use $\LaTeX$ to write the joint distribution. Here are some [conventions for statistical notation](content/presentation/ConventionsForNotation.html) that you might find helpful. 
+You can use this [R markdown template](content/presentation/PresentationTemplate.Rmd) to make a presentation for your individual project. If you open this R markdown file in R-Studio and click the knit button above the script it will make a pdf file that looks like [this](content/presentation/PresentationTemplate.pdf). Note, you will need to take pictures of your DAG and joint with your phone (convert them to png) and then use the code in the R markdown document to add them to your presentation. Alternatively you can use $\LaTeX$ to write the joint distribution. Here are some [conventions for statistical notation](content/presentation/ConventionsForNotation.html) that you might find helpful. 
 
 <br>
 
