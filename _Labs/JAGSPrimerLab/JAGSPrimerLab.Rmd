@@ -530,7 +530,6 @@ Repeat this exercise with fixed initial values using algorithm 6.
 
 <br>
 
-
 ``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.height = 5, fig.align = 'center'}
 cl <- makeCluster(3)
 

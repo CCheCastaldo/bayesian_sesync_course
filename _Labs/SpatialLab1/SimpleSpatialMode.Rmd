@@ -52,7 +52,7 @@ knitr::opts_chunk$set(cache = FALSE, warnings = FALSE, tidy = FALSE, messages = 
 
 
 #### I. Motivation
-Most socio-ecological data are spatial.  Observations that are close to each other in space are often more similar to one another than observations that are far away.  This similarity is not necessarily a problem, but it can cause a problem in our inference.  Recall that a fundamental assumption of a statistical inference is that the differences between model predictions and data are independent and identically distributed, which for real-valued observations means
+Most socio-ecological data are spatial. Observations that are close to each other in space are often more similar to one another than observations that are far away. This similarity is not necessarily a problem, but it can cause a problem in our inference. Recall that a fundamental assumption of a statistical inference is that the differences between model predictions and data are independent and identically distributed, which for real-valued observations means
 \begin{align}
 \mu_i&=g(\boldsymbol{\theta},\mathbf{x_i})\\
 e_i&=y_i-\mu_i\\
