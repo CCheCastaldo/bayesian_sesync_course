@@ -57,7 +57,16 @@ Therefore, the probability of outcome 2 is the area under the normal curve betwe
 
 ## A general, Bayesian model for ordinal data
 
-$$[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]\propto \prod_{i=1}^n \left[y_i \mid \underbrace{\int_{{\theta_{k-1}}}^{\theta_{k}}\overbrace{[z_i|g(\boldsymbol{\beta},\mathbf{x}_i),\sigma^2]}^\text{pdf of latent response}\text{d}z_i}_{Pr({{\theta_{k-1}}} <z_i <\,\, \theta_{k})}\right][\boldsymbol{\beta}][\boldsymbol{\theta}][\sigma^2]$$
+\begin{align*}
+[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{i=1}^n [y_i\mid p_{i}]\beta_1][\beta_2]\prod_{k=2}^{K-1}[\boldsymbol{\theta}][\sigma^{2}]\\
+y_i &\sim \text{categorical}\bigg(y_i\mid p_{i}=\bigg[\int_{-\infty}^{\theta_{k=1}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i, 
+\int_{\theta_{k=k+1}}^{\theta_{k=k+2}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i,\dots,
+\int_{\theta_{k=K}}^{\infty}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i
+\bigg]\bigg)\\
+\boldsymbol\beta &\sim \operatorname{normal}(0,0.001)\\
+\sigma^{2} &\sim \operatorname{inverse gamma}(0.001, 0.001)\\
+\theta_j &\sim \operatorname{uniform}(0,10)
+\end{align*}
 
 - $y_i$ is $ith$ observation in categories = $k=1,...K$
 

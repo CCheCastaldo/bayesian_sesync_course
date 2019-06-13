@@ -66,10 +66,13 @@ set.seed(10)
 <div id="myDIV1", style="display:none">
 
 <center>
-<img src="../../_Graphics/DAGOrdinal.png" width="500">
+<img src="../../_Graphics/DAGOrdinal.png" width="400">
 </center>
 
-where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking acceptability score, $\boldsymbol\theta$ is a vector of the two middle cut points. 
+<br>
+
+where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking acceptability score, $\pmb{\theta}$ is a vector of the cut points. 
+
 </div>
 
 <br>
@@ -80,13 +83,19 @@ where $x_i$ is the year the data were collected, $y_i$ is the 5-point fracking a
 
 <div id="myDIV2", style="display:none">
 
-\begin{align*}
-[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{I=1}^n \bigg[y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg][\beta_1][\beta_2]\prod_{j=2}^{k-2}[\boldsymbol{\theta}][\sigma]\\
-y_i &\sim \text{categorical}\bigg(y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\bigg)\\
+$$\begin{align*}
+[\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{i=1}^n [y_i\mid p_{i}]\beta_1][\beta_2]\prod_{k=2}^{K-1}[\boldsymbol{\theta}][\sigma^{2}]\\
+y_i &\sim \text{categorical}\bigg(y_i\mid p_{i}=\bigg[\int_{-\infty}^{\theta_{k=1}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i, 
+\int_{\theta_{k=k+1}}^{\theta_{k=k+2}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i,\dots,
+\int_{\theta_{k=K}}^{\infty}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i
+\bigg]\bigg)\\
 \boldsymbol\beta &\sim \operatorname{normal}(0,0.001)\\
-\sigma &\sim \operatorname{uniform}(0, 100)\\
+\sigma^{2} &\sim \operatorname{inverse gamma}(0.001, 0.001)\\
 \theta_j &\sim \operatorname{uniform}(0,10)
-\end{align*}
+\end{align*}$$
+
+where $i$ indexes the survey respondent, $k$ indexes the cutpoint, and $K$ is the total number of cutpoints.
+
 </div>
 
 <br>
@@ -96,78 +105,85 @@ y_i &\sim \text{categorical}\bigg(y_i\mid \int_{{\theta_{k-1}}}^{\theta_{k}}[z_i
 <button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
 
 <div id="myDIV4", style="display:none">
+
+<br>
+
 ```{r,eval=TRUE}
-data("FrackingYears")
-y <- FrackingYears
+# Threshold 1 and 4 are fixed; other thresholds are predicted.
+nYlevels = max(FrackingYears$score)  
+thresh = rep(NA, nYlevels - 1)
+thresh[1] =  1.5 
+thresh[nYlevels - 1] = 4.5
 
-# Threshold 1 and nYlevels-1 are fixed; other thresholds are predicted.
-# This allows all parameters to be interpretable on the response scale.
-nYlevels = max(y[,1])  
-thresh = rep(NA,nYlevels-1)
-thresh[1] =  1.5  #results are very sensitive to these choices--they must be assumed to be known
-thresh[nYlevels-1] = 4.5
-# Specify the data in a list, for later shipment to JAGS:
-dataList = list(
-  y = y[,1],
-  x = y[,2],
-  nYlevels = nYlevels ,
-  thresh = thresh
-)
+data = list(
+  y = FrackingYears$score,
+  x = FrackingYears$year,
+  nYlevels = nYlevels,
+  n_years = max(FrackingYears$year),
+  thresh = thresh)
 
-inits= list(
-  list( beta=c(1,1), sigma = .5, thresh=c(NA,2,3,NA))
-)
+inits = list(
+  list( beta = c(1, 1), sigma = .5, thresh=c(NA, 2, 3, NA)),
+  list( beta = c(2, 2), sigma = 1.5, thresh=c(NA, 2.1, 3.5, NA)),
+  list( beta = c(.5,.5), sigma = 2.5, thresh=c(NA, .6, 1, NA)))
+
 ```
 
 ```{r,eval=TRUE}
 {
   sink("ordinal_model2.R")
-cat("model {
+cat("
+model {
 
-# Priors
-beta[1] ~ dnorm(0,.001)
-beta[2] ~ dnorm(0,.001)
-sigma ~ dunif(0,100)
-    
-tau <- 1/sigma^2
+  # priors
+  beta[1] ~ dnorm(0, .001)
+  beta[2] ~ dnorm(0, .001)
+  sigma ~ dunif(0, 100)
+  tau <- 1/sigma^2
+  for (k in 2:(nYlevels - 2)) {
+    thresh[k] ~ dunif(0, 10)
+  }
 
-for (i in 1:length(y)) {
-  mu[i] = beta[1] + beta[2]*x[i]
-  y[i] ~ dcat( pr[i,1:nYlevels])
-  pr[i,1] <- pnorm( thresh[1], mu[i] , tau)
+  # likelihood  
+  for (i in 1:length(y)) {
+    mu[i] = beta[1] + beta[2] * x[i]
+    y[i] ~ dcat( pr[i, 1:nYlevels])
+    pr[i, 1] <- pnorm( thresh[1], mu[i] , tau)
   
-  for ( k in 2:(nYlevels-1) ) {
-    pr[i,k] <- max(.00001, pnorm( thresh[ k ] , mu[i] , tau) - pnorm( thresh[k-1] , mu[i] , tau )) 
+    for (k in 2:(nYlevels - 1)) {
+      pr[i,k] <- max(.00001, pnorm(thresh[k], mu[i], tau) - pnorm(thresh[k - 1], mu[i], tau)) 
     }
-  pr[i,nYlevels] <- 1 - pnorm( thresh[nYlevels-1] , mu[i] , tau )
 
+   pr[i, nYlevels] <- 1 - pnorm(thresh[nYlevels - 1], mu[i], tau)
   }
     
-for ( k in 2:(nYlevels-2) ) {  # 1 and nYlevels-1 are fixed, not stochastic
-  thresh0[k] ~ dunif(0,10)
-  }#assure threholds meet ordering constraint
-
-thresh[2:(nYlevels-2)] = sort(thresh0[2:(nYlevels-2)])
+ # derived quantities of predicted change in attitude towards fracking over time
+  for (j in 1:n_years) {
+    mu.pred[j] <- beta[1] + beta[2] * j
+    pred[j] <- pnorm(thresh[2], mu.pred[j], tau)  
+  }
 
 }
-
-
-
-    ",fill=TRUE)
+",fill=TRUE)
 sink()
 }
 ```
 
 ```{r,eval=TRUE}
-jm=jags.model("ordinal_model2.R", data=dataList, n.adapt=1000, n.chains = 3)
-update(jm, n.iter=15000)
-zc=coda.samples(jm, variable.names = c("thresh","sigma", "beta"), n.iter=15000)
+jm = jags.model("ordinal_model2.R", data = data, n.adapt = 1000, n.chains = 3, inits = inits)
+update(jm, n.iter = 15000)
+zc = coda.samples(jm, variable.names = c("thresh", "sigma", "beta", "pred"), n.iter = 15000)
 ```
 
-```{r,eval=TRUE}
+```{r,eval = TRUE, fig.align = 'center', fig.cap = "Probability of US citizens viewing fracking as highly acceptable over time (categories 1 and 2)"}
 MCMCsummary(zc, params = c("thresh","sigma", "beta"), n.eff = TRUE, digits = 2)
+MCMCplot(zc, params = "pred", horiz = FALSE, xlab = "years", labels = c("2000", "2001", "2002", "2003", "2004", "2005"))
 ```
 </div>
 
 <br>
+
+```{r echo = FALSE}
+unlink("ordinal_model2.R", recursive = FALSE, force = FALSE)
+```
 

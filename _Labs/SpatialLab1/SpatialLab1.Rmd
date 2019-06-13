@@ -21,7 +21,7 @@ editor_options:
 
 ```{r preliminaries, include = FALSE}
 library(knitr)
-library(stats)
+#library(stats)
 library(rjags)
 library(MCMCvis)
 library(MASS)
@@ -30,6 +30,8 @@ library(viridis)
 library(gridExtra)
 library(sf)
 library(gstat)
+library(parallel)
+library(stringr)
 knitr::opts_chunk$set(cache = FALSE)
 set.seed(10)
 ```
@@ -38,7 +40,7 @@ set.seed(10)
 
 ### **Motivation**
 
-Most socio-ecological data are spatial.  Observations that are close to each other in space are often more similar to one another than observations that are far away.  This similarity is not necessarily a problem, but it can cause a problem in our inference.  Recall that a fundamental assumption of a statistical inference is that the differences between model predictions and data are independent and identically distributed, which for real-valued observations means:
+Most socio-ecological data are spatial. Observations that are close to each other in space are often more similar to one another than observations that are far away.  This similarity is not necessarily a problem, but it can cause a problem in our inference. Recall that a fundamental assumption of a statistical inference is that the differences between model predictions and data are independent and identically distributed, which for real-valued observations means:
 
 $$\begin{align}
 \mu_i&=g(\boldsymbol{\theta},\mathbf{x_i})\\
@@ -46,11 +48,7 @@ e_i&=y_i-\mu_i\\
 e_{i}&\overset{\text{iid}}{\sim}\text{normal}(0,\sigma^{2}).
 \end{align}$$
 
-Note that we are not assuming that the data are independent, rarely will that be true, but rather that the model residuals, are iid after the effects of covariates are included in model predictions. Failing to meet this assumption means that our inference will be excessively optimistic, which means that marginal posterior distributions of quantities of interest will be narrower than they should be. We say that residuals are autocorrelated when residuals that are close together in space (or time) are smaller than those that are far apart.
-
-The problem of spatial autocorrelation is frequently brushed aside without thoughtful treatment. Here, we will learn how to determine if autocorrelation is a problem, and if it is, how to model the spatial structure in the residuals so that our inferences account for it.
-
-We have often said that a primary learning objective of this course is to "learn how to learn."  I almost always learn about something new by posing a simple problem, simulating data relevant to the problem, and writing the math and code needed to solve it.  That is what you will do here. 
+Note that we are not assuming that the data are independent, rarely will that be true, but rather that the model residuals, are iid after the effects of covariates are included in model predictions. Failing to meet this assumption means that our inference will be excessively optimistic, which means that marginal posterior distributions of quantities of interest will be narrower than they should be. We say that residuals are autocorrelated when residuals that are close together in space (or time) are smaller than those that are far apart. The problem of spatial autocorrelation is frequently brushed aside without thoughtful treatment. Here, we will learn how to determine if autocorrelation is a problem, and if it is, how to model the spatial structure in the residuals so that our inferences account for it.
 
 <br>
 
@@ -61,15 +59,15 @@ We have often said that a primary learning objective of this course is to "learn
 You need to load the following libraries. Set the seed to 10 to compare your answers to ours.
 
 ```{r eval = FALSE, echo = TRUE}
-library(stats)
 library(rjags)
 library(MCMCvis)
-library(gstat)
 library(MASS)
 library(ggplot2)
 library(viridis)
 library(gridExtra)
 library(sf)
+library(parallel)
+library(stringr)
 set.seed(10)
 ```
 
@@ -90,7 +88,7 @@ $$\begin{align*}
 
 These steps are taken directly from the final slide of the Continuous Spatial Models lecture.
 
-1. Choose locations $s_{i}$ for $i=1,...,n$. Decide the number of data points `np` and set the maximum extent of the spatial area which we define with `limit`. Here we set `limit` to 1000 (the units don't matter, we will think of it as meters for example). Now make some random coordinates inside the spatial area defined by `limit` for our observations and save these values in the data frame `M_df`. Let's convert this data frame to a simple features data frame from the [`sf` package](https://www.r-spatial.org/r/2016/02/15/simple-features-for-r.html) using the `sf::st_as_sf` function. Simple features are an **incredibly useful** way to manipulate spatial data in R. Simple feature data frames work just like normal data frames, except that it has one special column designated as the objects geometry. This geometry is a simple feature that can be a polygon, line, multi-line, point, etc.., and each row of an `sf` data frame is associated with one simple feature (in our case a point). Part of a simple feature object is the coordinate reference system or CRS of the geometry, which is specified with the `crs` argument. Here in this simulated example we just assign it WGS84 UTM Zone 10 (`crs=32610`) but really it could be any planar coordinate reference system. For easy tutorial of simple features and coordinate reference systems, we highly reccomend Jessica Sadler's blog posts [here](https://www.jessesadler.com/post/gis-with-r-intro/) and [here](https://www.jessesadler.com/post/simple-feature-objects/). 
+1. Choose locations $s_{i}$ for $i=1,...,n$. Decide the number of data points `np` and set the maximum extent of the spatial area which we define with `limit`. Here we set `limit` to 1000 (the units don't matter, we will think of it as meters for example). Now make some random coordinates inside the spatial area defined by `limit` for our observations and save these values in the data frame `M_df`. Let's convert this data frame to a simple features data frame from the [`sf` package](https://www.r-spatial.org/r/2016/02/15/simple-features-for-r.html) using the `sf::st_as_sf` function. Simple features are an **incredibly useful** way to manipulate spatial data in R. Simple feature data frames work just like normal data frames, except that it has one special column designated as the objects geometry. This geometry is a simple feature that can be a polygon, line, multi-line, point, etc., and each row of an `sf` data frame is associated with one simple feature (in our case a point). Part of a simple feature object is the coordinate reference system or CRS of the geometry, which is specified with the `crs` argument. Here in this simulated example we just assign it WGS84 UTM Zone 10 (`crs=32610`) but really it could be any planar coordinate reference system. For easy tutorial of simple features and coordinate reference systems, we highly reccomend Jessica Sadler's blog posts [here](https://www.jessesadler.com/post/gis-with-r-intro/) and [here](https://www.jessesadler.com/post/simple-feature-objects/). 
 
 ```{r, echo = TRUE}
 np = 100  
@@ -106,7 +104,7 @@ M_sf <- sf::st_as_sf(M_df, coords = c("easting", "northing"), crs = 32610)
 ```{r, echo = TRUE}
 beta1 = 2.3
 beta2 = 8
-beta3 = 6
+beta3 = -6
 M_sf$x1 = -cos(as.vector(scale(st_coordinates(M_sf)[, 1] - .5)) * cos(as.vector(scale(st_coordinates(M_sf)[, 2]))))
 M_sf$x2 = as.vector(scale(st_coordinates(M_sf)[, 1])) + as.vector(scale(st_coordinates(M_sf)[, 2]))
 M_sf$mu = beta1 + beta2 * M_sf$x1 + beta3 * M_sf$x2
@@ -116,14 +114,14 @@ M_sf$mu = beta1 + beta2 * M_sf$x1 + beta3 * M_sf$x2
 
 ```{r, echo = TRUE}
 sigma.eps = 1
-sigma.s = 1
+sigma.s = 5
 phi = 100
 ```
 
 4. Compute the distance matrix `D` between all `np` locations of interest using the `st_distance` function. The output is a matric of pairwise distances.
 
 ```{r, echo = TRUE}
-D = st_distance(M_sf)
+D = as.matrix(st_distance(M_sf))
 ```
 
 5. Calculate covariance matrix for the spatially correlated errors:
@@ -138,23 +136,17 @@ Sigma = sigma.s * exp(-D / phi)
 
 $$\mathbf{y} \sim \text{multivariate normal} (g(\boldsymbol{\theta},\mathbf{X}),\sigma_{\varepsilon}^{2})$$
 
-y ∼ multivariate normal(μ,Σ+σε2I).
-
-
 Now we create a response variable that does not have any spatial structure, other than what is imbued by the spatial patterning in the covariates already. Thn we plot the correlation between each covariate and the response `y`. This is equivalent to:
 
 $$\mathbf{y} \sim \text{multivariate normal} (g(\boldsymbol{\theta},\mathbf{X}),\sigma_{\varepsilon}^{2})$$
 
 ```{r, echo = TRUE}
-M$y = rnorm(np, beta1 + beta2 * M$x1 + beta3 * M$x2, sigma.eps)
+M_sf$y = rnorm(np, beta1 + beta2 * M_sf$x1 + beta3 * M_sf$x2, sigma.eps)
 ```
 
-Let's convert this data frame to a simple features data frame from the  `sf` package using the `sf::st_as_sf` function. Simple features are an **incredibly useful** way to manipulate spatial data in R. They work just like a normal data frame, except that it has one special column designated as the objects geometry. This geometry is a simple feature that can be a polygon, line, multiline, point, etc. Here each line is associated with one point. Part of a simple feature object is the coordinate reference system or CRS of the geometry, which is specified with the `crs` argument. Here in this simulated example we just assign it NAD83 UTM Zone 14 (`crs=26914`) but really it could be any planar coordinate system. For a create breakdown of simple features and coordinate reference systems, we highly reccomend Jessica Sadler's blog posts [here](https://www.jessesadler.com/post/gis-with-r-intro/) and [here](https://www.jessesadler.com/post/simple-feature-objects/). Let's plot each covariate to get a sense of how their values are distributed spatially.
+Let's plot each covariate to get a sense of how their values are distributed spatially.
 
 ```{r, echo = TRUE, fig.align = 'center'}
-M_sf <- sf::st_as_sf(M, coords = c("s1", "s2"), crs = 32610)
-M_sf
-
 g1 <- ggplot() +
   geom_sf(data = M_sf, aes(color = x1), size = 3, alpha = .6) +
   theme_bw() +
@@ -172,17 +164,6 @@ g2 <- ggplot() +
 gridExtra::grid.arrange(g1, g2, nrow = 1)
 ```
 
-Let's create a distance matrix `D` which computes the spatial distance between all our newly created points. Then we calculate the covariance matrix for the exponentially correlated error:
-
-$$\Sigma_{i,j}=\sigma^{2}\exp\left(-\frac{d_{i,j}}{\phi}\right)$$
-
-```{r, echo = TRUE}
-D = as.matrix(dist(M[, 1:2]))
-phi = 100
-sigma.s = 1
-Sigma = sigma.s * exp(-D / phi)
-```
-
 We use $\Sigma$ to create spatially structured response data by adding a 0 centered spatially structured random variables to the unstructured y. To do this, we make a vector of draws \boldsymbol{\eta} from a multivariate distribution with first parameter a vector of zeros of length `np` and second parameter `Sigma` computed above.
 
 $$\begin{align*}
@@ -196,12 +177,14 @@ eta = as.vector(mvrnorm(1, rep(0, np), Sigma))
 M_sf$y.structured <- M_sf$y + eta
 ```
 
-Let's plot the semivariance.
+Let's plot the semivariance. Remember that the semivariance is:
 
-```{r, echo = TRUE}
-d=seq(0,limit,1)
-y.sig = sigma.s*(exp(-d/phi))
-plot(d,y.sig, xlim = c(0,1000), typ="l", ylab = "Covariance", xlab = "Distance")
+$$\gamma(d) = \text{cov}(0) - \text{cov}(d) + \sigma^{2}_{\epsilon}$$
+
+```{r, echo = TRUE, fig.align = 'center'}
+distance_plot = seq(0, limit, 1)
+y.sig = sigma.s - sigma.s * (exp(-distance_plot / phi))
+plot(distance_plot, y.sig, xlim = c(0, 1000), type = "l", ylab = "semivariance", xlab = "Distance")
 ```
 
 Let's plot the structured and unstructured response variable.
@@ -230,17 +213,17 @@ gridExtra::grid.arrange(g3, g4, nrow = 1)
 
 ### **An aspatial model for spatially structured data**
 
-Consider an aspatial model:
+Consider an aspatial model that you will fit to the spatially structured data using the following code:
 
 $$\begin{align*}
 [\boldsymbol{\beta},\sigma\mid\mathbf{y}]&\propto \prod_{i=1}^n\text{normal}(y_i\mid \mathbf{x}_i'\boldsymbol{\beta}, \sigma^2)\\
 &\times \prod_{j=0}^2\text{normal}(\beta_j\mid 0,10000)\text{uniform}(\sigma^2\mid 0, 10000),
 \end{align*}$$
 
-that we fit to the spatially structured data using the following code.  First, create model matrix with column of 1's for intercept.
+First, create model matrix with column of 1's for intercept.
 
 ```{r, echo = TRUE}
-X = cbind(rep(1, nrow(M)), M_sf$x1, M_sf$x2)
+X = cbind(rep(1, nrow(M_sf)), M_sf$x1, M_sf$x2)
 data = list(y = M_sf$y.structured, X = X)
 ```
 
@@ -279,7 +262,7 @@ sink()}
 The model converges, but we might want more iterations to increase the effective sample size above 5000 for all quantities of interest. The model passes posterior predictive checks nicely (how can you tell?)
 
 ```{r, echo = TRUE}
-jm = jags.model("AspatialJAGS.R", data=data, n.chains = 3)
+jm = jags.model("AspatialJAGS.R", data = data, n.chains = 3)
 update(jm, n.iter = 15000)
 zc = coda.samples(jm, n.iter = 10000, variable.names = c("beta", "sigma.eps", "p.mean", "p.sd", "e"))
 MCMCsummary(zc, excl = "e", n.eff = TRUE)
@@ -287,7 +270,7 @@ MCMCsummary(zc, excl = "e", n.eff = TRUE)
 
 We can see that the model recovers the generating parameters as well as would be expected for a single realization of a stochastic process with a sample size = 100.
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, flig.align = 'center'}
 MCMCplot(zc, params = c("beta", "sigma.eps"))
 points(beta1, 4, col = "red", pch = 16, cex = 1.2)
 points(beta2, 3, col = "red", pch = 16, cex = 1.2)
@@ -295,18 +278,170 @@ points(beta3, 2, col = "red", pch = 16, cex = 1.2)
 points(sigma.eps, 1, col = "red", pch = 16, cex = 1.2)
 ```
 
-We need to examine the possibility for spatial autocorrelation in the residuals by plotting a semivariogram, a plot of the semivarince as a function of distance between points. Consider the following code and output:
+We need to examine the possibility for spatial autocorrelation in the residuals by plotting a semivariogram, a plot of the semivarince as a function of distance between points. We will use the `variogram` function from the `gstats` package to do this. Remember that the y-axis is gamma:
+
+$$\tilde{\gamma}(d)=\frac{\sum_{i,j\in N(d)}(e_{i}-e_{j}^2)}{2N(d)}$$
+
+where $N(d)$ is the number of pairs of residuals at distance `d`. Consider the following code and output:
+
+```{r, fig.align = 'center'}
+M_sf$epsilon <- MCMCpstr(zc, params = "e", func = median)$e
+eps_v <- gstat::variogram(epsilon ~ 1, M_sf)
+plot(eps_v$dist, eps_v$gamma, xlab = "distance between obs i and j", ylab = "gamma")
+```
+
+There is clear evidence of spatial autocorrelation in the residuals because semivariance increases as function of distance up to an asymptote at about 200 to 250 (our units in this example are arbitrary). This means that all of our inferences are excessively optimistic because we are assuming that the residuals are independent.
+
+<br>
+
+----
+
+#### **A spatial model for spatially structured data**
+
+Your problem is to write an expression for the posterior and factored joint distribution for a model that accounts for spatial structure in the data. You will then write JAGS code to approximate the marginal posterior distributions of the unobserved quantities. You should be able to use class notes to show you how to write the model. It will be important to use the hierarchical approach illustrated in lecture where you add a zero centered, spatially structured random variable to the predictions of the process model:
+
+$$\begin{align}
+\mathbf{y}&\sim\text{multivariate normal}(\mathbf{X}\boldsymbol{\beta}+\boldsymbol{\eta},\sigma_{unstrc}^{2}\mathbf{I})\\
+\boldsymbol{\eta}&\sim\text{multivariate normal}(\boldsymbol{\eta}\mid \mathbf{0},\boldsymbol{\Sigma})\\
+\boldsymbol{\Sigma} &= \sigma^2_{strc} e^{(\frac{-\mathbf{D}}{\phi})}
+\end{align}$$
+<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
+
+<div id="myDIV1", style="display:none">
+
+<br>
+
+$$\begin{align}
+[\boldsymbol{\beta}, \boldsymbol{\eta},\sigma_{unstrc}^2, \sigma_{strc}^2, \phi \mid \mathbf{y}]&\propto \text{multivariate normal}(\mathbf{y}\mid\mathbf{X}\boldsymbol{\beta}+\boldsymbol{\eta},\sigma^2_{unstrct}\mathbf{I})\\
+&\times \text{normal}(\boldsymbol{\eta}\mid\mathbf{0},\boldsymbol{\Sigma})\prod_{j=1}^3\text{normal}(\beta_{j} \mid 0,10000)\text{uniform}(\sigma^2_{strct}\mid0,100)\\
+&\times\text{uniform}(\sigma^2_{unstrct}\mid0,100)\text{uniform}(\phi\mid0,1)\\
+\boldsymbol{\Sigma} &= \sigma^2_{strc} e^{(\frac{-\mathbf{D}}{\phi})}
+\end{align}$$
+
+</div>
+
+<br>
+
+Here are some hints that will be important for coding.
+
+1. Remember that the multivariate normal distribution in JAGS requires a precision matrix as the second argument, which is the inverse of the covariance matrix. 
+
+2. You can create a zero centered random variable reflecting spatial structure using code such as `eta ~ dmnorm(mu_eta, inverse(Cov.mat))` where `mu.eta` is  a vector of zeros whose length equals number of rows in `Cov.mat`.
+
+```{r, eval=FALSE}
+for(i in 1:length(y)){
+  mu_eta[i] <- 0  
+  for(j in 1:length(y)){
+    Cov.mat[i, j] <- sigma.s^2 * exp(-D[i, j] / phi)
+  }
+}
+```
+
+3. It is vital that you compute the residuals using `e <- y - mu - eta` where `y` is a vector containing the response data; `mu` is a vector of model predictions, and `eta` is the zero centered random variable needed in the hierarchical approach. Subracting the spatially structured random variable `eta` should produce a variogram without spatial depedence.
+
+4. You will need an identity matrix of proper dimension, that is a matrix with ones on the diagonal and zeros elsewhere.  Make this on the R sides and include it in your data list as shown below.
+
+5. Spatial models tend to run slowly the large covariance matrix is large. Moreover, fitting these models requires many data points, so we can't speed the process by making a small, simulated data set. We have provided the R code to allow you to run your model in parallel.  All you need to do is write the JAGS code for the model. You may omit posterior predictive checks to reduce execution time.
 
 ```{r}
-M_sf$epsilon <- MCMCpstr(zc, params = "e", func = median)$e
-eps.v <- variogram(epsilon ~ 1, M_sf)
-plot(eps.v$dist, eps.v$gamma, ylim = c(0, 3))
+{
+sink("SpatialJAGS.R")
+cat("
+model {
 
-semivar.gen = sigma.s + sigma.eps-(sigma.s*exp(-eps.v$dist*1/phi))
-lines(eps.v$dist,semivar.gen,type="o",pch=20)
+  for (i in 1:y.np){
+    beta[i] ~ dnorm(0,.00001)
+  }
+  sigma.u ~ dunif(0, 50)
+  sigma.s ~ dunif(0, 50)
+  phi ~ dunif(0, 500)
+  
+  # Prediction of process model
+  mu = X %*% beta
+  
+  # Define exponential variance covariance matrix
+  for (i in 1:length(y)){
+    mu_eta[i] <- 0  
+    for(j in 1:length(y)){
+      Cov.mat[i,j] <- sigma.s^2 * exp(-D[i,j] / phi)
+    }
+  }
+  
+  eta ~ dmnorm(mu_eta, inverse(Cov.mat)) 
+  prec.mat = inverse(sigma.u^2 * y.I) 
 
+  # likelihood
+  y[] ~ dmnorm(mu[] + eta , prec.mat) 
+  e <- y - mu - eta
+} # end of model
+", fill=TRUE)
+  sink()
+}
+```
 
+</div>
+
+<br>
+
+```{r}
+n.adapt = 500
+n.update = 5000
+n.iter = 5000
+
+X1 = rep(1, nrow(M_sf))
+X = cbind(X1, M_sf$x1, M_sf$x2)
+y.I = matrix(nrow = nrow(M_sf), ncol = ncol(X))
+y.I = diag(1, nrow(X))
+data = list(D = D, X = X, y.np = ncol(X), y = M_sf$y.structured, y.I = y.I)
+```
+
+``` {r, eval = FALSE, fig.align = 'center'}
+cl <- makeCluster(3)
+
+myWorkers <- NA
+for(i in 1:3) myWorkers[i] <- word(capture.output(cl[[i]]), -1)
+
+initsP = list(
+  list(beta = c(8, 7, 3), sigma.s = 2.5, sigma.u = 2.8, phi = 83,
+    RNG.seed = 1, .RNG.name = "base::Mersenne-Twister"),
+  list(beta = c(3, 2, 1), sigma.s = 1.5, sigma.u = 3.8, phi = 43,
+    RNG.seed = 11, .RNG.name = "base::Mersenne-Twister"),
+  list(beta = c(11, 6, 9), sigma.s = 1, sigma.u = 2, phi = 23,
+    RNG.seed = 183, .RNG.name = "base::Mersenne-Twister"))
+
+parallel::clusterExport(cl, c("myWorkers", "data", "initsP", "n.adapt", "n.update", "n.iter"))
+
+out <- clusterEvalQ(cl, {
+  library(rjags)
+  jm = jags.model("SpatialJAGS.R", data = data, n.chains = 1, 
+  n.adapt = n.adapt, inits = initsP[[which(myWorkers==Sys.getpid())]])
+  update(jm, n.iter = n.update)
+  zm = coda.samples(jm, variable.names = c("beta", "e", "sigma.u", "sigma.s", "phi"), 
+  n.iter = n.iter, thin = 1)
+  return(as.mcmc(zm))
+}) 
+
+stopCluster(cl)
+zmP = mcmc.list(out)
 ```
 
 
+Produce new output from your spatially structured model.  Compare it with the output from the apspatial model. What is different about the marginal posteriors?  Examine evidence for autocorrelation with a semivariogram.  What do you conclude?
 
+``` {r, eval = FALSE, fig.align = 'center'}
+MCMCsummary(zmP, excl = "e", n.eff = TRUE, digits = 3)
+MCMCtrace(zmP, excl = "e", pdf = FALSE)
+M_sf$epsilon2 = MCMCpstr(zmP, params = "e", func = median)$e
+eps_v2 <- gstat::variogram(epsilon2 ~ 1, M_sf)
+plot(eps_v2$dist, eps_v2$gamma, ylim = c(0, 3), xlab = "distance between obs i and j", ylab = "gamma")
+```
+
+The standard deviations of marginal posterior distributions of parameters approximated using the spatially unstructred model are about half of those approximated using the spatially structured model. The semivariogram indicates no spatial depdence after the spatially strcutured random effects are removed from the residuals.
+
+
+<br>
+
+```{r echo = FALSE}
+unlink("LogisticParameters.csv", recursive = FALSE, force = FALSE)
+unlink("LogisticJAGS.R", recursive = FALSE, force = FALSE)
+```
