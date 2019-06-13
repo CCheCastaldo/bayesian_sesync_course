@@ -112,7 +112,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 ##### **Day 11: (6/13) Dynamic Models, Spatial Modeling & Individual Projects**
 
-1. [Course Evaluation Survey](https://docs.google.com/forms/d/e/1FAIpQLSf4uvntNIaDYeqmV5g-Wh-YjgdtVIA7yrCz3iQ1i1KfY4MMMQ/viewform)
+1. [Course Evaluation & Student Exam](https://docs.google.com/forms/d/e/1FAIpQLSf4uvntNIaDYeqmV5g-Wh-YjgdtVIA7yrCz3iQ1i1KfY4MMMQ/viewform)
 2. [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
 3. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & [Spatial Lab](content/labs/SpatialLab1.html)
 4. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) (optional)
