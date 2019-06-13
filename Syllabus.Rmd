@@ -118,3 +118,9 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 4. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) (optional)
 5. Farewell Happy Hour at SESYNC!
 
+<br>
+
+##### **Topics We Did Not Get To Cover**
+
+1. [Designed Experiments](content/lectures/DesignedExperiments.pdf)
+2. [Missing Data and Ignorability](content/lectures/MissingData.pdf)
