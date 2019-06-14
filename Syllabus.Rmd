@@ -38,8 +38,8 @@ Review Hobbs and Hooten chapters 3.5-4.
 ##### **Day 3: (6/5) Intro to Bayesian Statistics & Markov Chain Monte Carlo**
 
 1. [Likelihood Lab Continued](content/labs/LikelihoodLab.html)
-2. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
-3. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Conjugate Priors Lab](content/labs/ConjugatePriorsLab.html) 
+2. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Lab](content/labs/BayesTheoremLab.html) 
+3. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Lab](content/labs/ConjugatePriorsLab.html) 
 4. [Beta-binomial Conjugacy Derivation](content/handouts/DerivationBetaBinomialConjugate.pdf)
 
 Review Hobbs and Hooten chapters 5 and 7.
@@ -94,7 +94,7 @@ Review Hobbs and Hooten chapters 6, 8, 10-12.
 
 ##### **Day 9: (6/11) Writing Hierarchical Models and Mixture Models**
 
-1. [Writing Hierarchical Models Lab](content/labs/ModelBuildingLab.html)
+1. [Writing Hierarchical Models Lab Continued](content/labs/ModelBuildingLab.html)
 2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf)
 3. [Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html)
 
