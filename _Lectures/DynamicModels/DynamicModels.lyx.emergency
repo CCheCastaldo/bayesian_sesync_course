@@ -1,0 +1,3397 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{color} 
+\usepackage[labelformat=empty]{caption}
+
+%\usetheme{Warsaw}
+\usetheme{Dresden}
+%\usetheme{Berkeley}
+% or ...
+
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[page number]{}
+
+%gets rid of navigation symbols
+%\setbeamertemplate{navigation symbols}{}
+
+\setbeamercovered{transparent}
+% or whatever (possibly just delete it)
+\usepackage{color}
+
+
+\setbeamertemplate{headline}{%
+\leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex]{author in head/foot}%
+    \insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll}
+    \end{beamercolorbox}%
+  }
+}
+
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+    \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\setbeamertemplate{navigation symbols}{}
+\end_preamble
+\options mathserif
+\use_default_options false
+\begin_modules
+sweave
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Bayesian Dynamic Models}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/authors.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{
+\backslash
+vspace{1 cm}
+\backslash
+input{"../../_HeadersEtc/SESYNCBayes/title.txt"}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename ../../_HeadersEtc/SESYNCBayes/logo.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Roadmap
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Overview
+\end_layout
+
+\begin_layout Itemize
+Model types with examples
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+discrete time
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+single state
+\end_layout
+
+\begin_layout Itemize
+multiple states
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+continuous time (briefly)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Autocorrelation
+\end_layout
+
+\begin_layout Itemize
+Forecasting
+\end_layout
+
+\begin_layout Itemize
+Coding tips
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Overview
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Dynamic hierarchical models (aka state space models)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Also called 
+\begin_inset Quotes eld
+\end_inset
+
+state space
+\begin_inset Quotes erd
+\end_inset
+
+ models
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\size largest
+\begin_inset Formula 
+\begin{eqnarray*}
+\left[y_{t}\vert\theta_{d},z_{t}\right]\\
+\left[z_{t}\vert\theta_{p},z_{t-1}\right]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The idea is simple.
+ We have a stochastic model of an unobserved, true state 
+\begin_inset Formula $(z_{t})$
+\end_inset
+
+ and a stochastic model that relates our observations 
+\begin_inset Formula $\left(y_{t}\right)$
+\end_inset
+
+ to the true state.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/State_space.pdf
+	width 4in
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+A broadly applicable approach to modeling dynamic processes in ecology and
+ social science
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.5cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+During the last decade, a highly general approach to modeling ecological
+ systems has emerged, an approach 
+\series bold
+has all of the desirable features in the previous slide.
+ 
+\series default
+For those of you who might not recognize the approach sketched here, these
+ are Bayesian hierarchal models.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Partitioning uncertainty creates ability to forecast.
+ 
+\series default
+The core idea of this approach is that we separately estimate the uncertainty
+ in our understanding of the way a process works, for example, population
+ growth, from the uncertainty that arises because we cannot observe the
+ process perfectly.
+ 
+\series bold
+By making this separation, we are able to offer true forecasts–that is predictio
+ns that make plain what we know about the future and what we don't know.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unobservable quantities 
+\series default
+A second very important feature of this approach is that we are able to
+ model states that we cannot observe, symbolized here by E.
+ Population size a classic unobserved state in conservation ecology.
+ It is almost never observable directly.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Combine data from monitoring and process studies.
+ 
+\series default
+The third part that I find compelling is that this framework allows us to
+ combine detailed, process studies and designed based inference informing
+ parameters with long term monitoring data on the state variables.
+ Process studies and designed based inference enter through the parameters
+ and and monitoring data enters through the likelihoods.
+ In my view this is critical for a true science of the integration of parts.
+ Designed based-inference can live here alongside large scale monitoring
+ studies.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Factoring 
+\series default
+.The rules of conditional probability and independence and the Markov chain
+ Monte Carlo algorithm allow us use take models with many parameters, unobserved
+ states, and multiples sources of data and break them down into manageable
+ parts that can be estimated as if they were univariate problems.
+ We use the same process for all problems and for all unknowns–future states,
+ current states, missing data, and parameters.
+\end_layout
+
+\begin_layout Plain Layout
+Learning this approach to analysis is easily the most intellectually satisfying
+ investment I have made in my carer.
+ We begin with the first principles rules of probability and can proceed
+ step by step to fully specified analysis that allows us to gain insight
+ from observations using models and it is possible to under intuitively
+ what we are doing.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{multline*}
+\left[\mathbf{z},\theta_{process,}\theta_{data}|\mathbf{y}\right]\propto\\
+\prod_{t=2}^{T}\left[y_{t}|\theta_{data},z_{t}\right]\left[z_{t}|\theta_{process},z_{t-1}\right]\left[\theta_{process},\theta_{data},z_{1}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset Graphics
+	filename ../../_Graphics/DAG_for_general_model.eps
+	width 60page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Sources of uncertainty in state space models
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout ColumnsTopAligned
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+5cm 
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Process uncertainty 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Failure to perfectly represent process
+\end_layout
+
+\begin_layout Itemize
+Propagates in time
+\end_layout
+
+\begin_layout Itemize
+Decreases with model improvement
+\end_layout
+
+\begin_layout Itemize
+Basis for forecasting
+\end_layout
+
+\begin_layout Column
+6cm
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+ Observation uncertainty
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Failure to perfectly observe process
+\end_layout
+
+\begin_layout Itemize
+Does not propagate
+\end_layout
+
+\begin_layout Itemize
+Sampling uncertainty decreases with increased sampling effort.
+\end_layout
+
+\begin_layout Itemize
+Observation (calibration) uncertainly decreases with improved instrumentation,
+ calibration, etc.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The real of this approach comes by applying it to compare the ability of
+ multiple actions in terms of their ability to meet multiple goals.
+ We evaluated the ability of management alternatives to meet four goals.
+ We looked at 4 actions, vaccination, removing sero-positives, removing
+ sero-negatives, and boundary hunting or unselective removals.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Components of observation uncertainty
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout ColumnsTopAligned
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+6cm 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace {1 cm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/sampling_and_calibration.pdf
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Column
+7cm
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Observation (aka calibration) 
+\begin_inset Formula $\left[y|h\left(z,\theta_{d}\right),\sigma_{o}^{2}\right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Sampling 
+\begin_inset Formula $[y|z,\sigma_{s}^{2}]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The real of this approach comes by applying it to compare the ability of
+ multiple actions in terms of their ability to meet multiple goals.
+ We evaluated the ability of management alternatives to meet four goals.
+ We looked at 4 actions, vaccination, removing sero-positives, removing
+ sero-negatives, and boundary hunting or unselective removals.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+When can we separate process variance from observation variance?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Replication of the observation for the latent state with sufficient 
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Calibration model with properly estimate prediction variance
+\end_layout
+
+\begin_layout Itemize
+Strongly differing 
+\begin_inset Quotes eld
+\end_inset
+
+structure
+\begin_inset Quotes erd
+\end_inset
+
+ in process and observation models
+\end_layout
+
+\begin_layout Itemize
+We may not need to separate them–sometimes the observed state and the true
+ state are the same.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Discrete time models
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+General joint and posterior distribution for single state model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{eqnarray*}
+\text{Deterministic model} & = & g(\bm{\theta}_{process,}z_{t-1,}\mathbf{x}_{t-1})\\
+\left[\mathbf{z},\bm{\theta}_{process,}\bm{\theta}_{data},\sigma_{p}^{2},\sigma_{d}^{2}|\mathbf{y}\right] & \propto & \prod_{t=2}^{T}\left[y_{t}|\bm{\theta}_{data},z_{t},\sigma_{d}^{2}\right]\\
+ &  & \times\left[z_{t}|g(\bm{\theta}_{process,}z_{t-1,}\mathbf{x}_{t-1}),\sigma_{d}^{2}\right]\\
+ &  & \times\left[\bm{\theta}_{process},\bm{\theta}_{data},\sigma_{p}^{2},\sigma_{d}^{2},z_{1}\right]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+How does rainfall influence density dependence?
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $g\left(\bm{\beta},z_{t-1},x_{t-1}\right)=z_{t-1}e^{\left(\beta_{0}+\beta_{1}z_{t-1}+\beta_{2}x_{t-1}+\beta_{3}z_{t-1}x_{t-1}\right)\Delta t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {1 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $z_{t}=$
+\end_inset
+
+ true population size 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x_{t-1}=$
+\end_inset
+
+ standardized, annual dry season rainfall during time 
+\begin_inset Formula $t-1$
+\end_inset
+
+ to 
+\begin_inset Formula $t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{0}=r_{max}=$
+\end_inset
+
+ intrinsic, per-capita rate of increase at average rainfall
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{1}=$
+\end_inset
+
+ strength of density dependence, 
+\begin_inset Formula $\frac{r}{K}$
+\end_inset
+
+ at average rainfall.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{2}=$
+\end_inset
+
+ change in rate of increase per standard deviation change in rainfall
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\beta_{3}=$
+\end_inset
+
+ effect of rainfall on strength of density dependence
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Serengeti wildebeest model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{multline*}
+g\left(\bm{\beta},z_{t-1},x_{t-1}\right)=z_{t-1}e^{\left(\beta_{0}+\beta_{1}z_{t-1}+\beta_{2}x_{t-1}+\beta_{3}z_{t-1}x_{t-1}\right)\Delta t}\\
+\left[\mathbf{z}\bm{,\beta},\sigma_{p}^{2}|\mathbf{y}\right]\propto\underbrace{\prod_{\forall t\in\mathbf{y}.i}\left[y_{t}\biggm\vert z_{t},y.sd_{t}\right]}_{\text{ \mathsf{data\,\mathsf{model}}}}\\
+\times\underbrace{\prod_{t=2}^{48}\left[z_{t}|g\left(\bm{\beta},z_{t-1},x_{t-1}\right),\sigma_{p}^{2}\right]}_{\mathsf{process\,\mathsf{model}}}\times\underbrace{\left[\beta_{0}\right]\left[\beta_{1}\right]\left[\beta_{2}\right]\left[\beta_{3}\right]\left[\sigma_{p}^{2}\right]\left[z_{1}\right]}_{\mathsf{parameter\,\mathsf{models}}}
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\mathbf{y}.i$
+\end_inset
+
+ is a vector of years with non-missing census data
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $y_{t}\sim\text{normal}(z_{t},y.sd_{t}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $z_{t}\sim\text{lognormal}\left(\log\left(g\left(\bm{\beta},z_{t-1},x_{t-1}\right)\right),\sigma_{p}^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\beta_{0}\sim\text{normal}\left(.234,.136^{2}\right)\,\text{informative prior}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\beta_{i\in1,2,3}\sim\text{normal}(0,1000)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $\sigma_{p}^{2}\sim\text{gamma}\left(.01,.01\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\size small
+\begin_inset Formula $z_{1}\sim\text{normal}(y_{1},y.sd_{1}$
+\end_inset
+
+)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Deterministic matrix model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-1 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Process model:
+\begin_inset Formula 
+\begin{equation}
+\left(\begin{array}{c}
+z_{1}\\
+z_{2}\\
+z\\
+.\\
+z_{n}
+\end{array}\right)_{t}=\bm{\Theta}\left(\begin{array}{c}
+z_{1}\\
+z_{2}\\
+z_{3}\\
+.\\
+z_{n}
+\end{array}\right)_{t-1}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\size small
+where 
+\begin_inset Formula $\bm{\Theta}$
+\end_inset
+
+ is an 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ matrix governing the transitions among states.
+ The product 
+\begin_inset Formula $\bm{\Theta}\mathbf{z}_{t}$
+\end_inset
+
+ defines a system of 
+\begin_inset Formula $n$
+\end_inset
+
+ linked, difference equations.
+ We can learn a great deal about the dynamics of the system from analyzing
+ the properties of 
+\begin_inset Formula $\bm{\Theta}$
+\end_inset
+
+, its eigenvalues, eignvectors, characteristic polynomials, etc.
+ We can make inference on these using derived quantities.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Posterior and joint distribution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{multline*}
+\left[\mathbf{z},\bm{\Theta},\bm{\bm{\theta}}_{data}|\mathbf{Y}\right]\propto\\
+\prod_{t=2}^{T}\left[\mathbf{y}_{t}|\bm{\bm{\theta}}_{data},\mathbf{z}_{t}\right]\left[\mathbf{z}_{t}|\mathbf{\bm{\Theta},\mathbf{z}}_{t-1}\right]\left[\bm{\Theta},\bm{\bm{\theta}}_{data},\mathbf{z}_{1}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Example: Raiho matrix model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.5 cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang american
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top" width="3.5in">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+state
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+definition
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+\begin_inset Formula $n_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+The number of juvenile deer, aged 6 months on their first census
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+\begin_inset Formula $n_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+The number of adult female deer, aged 18 months and older
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+\begin_inset Formula $n_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang american
+The number of adult male deer, aged 18 months and older
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Deterministic Model
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\lang american
+\begin_inset Formula 
+\begin{eqnarray*}
+f &  & \text{number of recruits per female surviving to census}\\
+\phi_{j} &  & \text{probability that a juvenile (aged 6 months) survives to 18 months}\\
+\phi_{d} &  & \text{annual survival probabilty of adult females}\\
+\phi_{b} &  & \text{annual survival probability of adult males}\\
+m &  & \text{proportion of juveniles surviving to adults that are female}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang american
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{A} & = & \left(\begin{array}{ccc}
+0 & \phi_{d}^{\frac{1}{2}}f & 0\\
+m\phi_{j} & \phi_{d} & 0\\
+\left(1-m\right)\phi_{j} & 0 & \phi_{b}
+\end{array}\right)\\
+\mathbf{n}_{t} & = & \mathbf{An}_{t-1}.
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\lang american
+The posterior and joint distribution
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\lang american
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.5cm}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{multline*}
+\left[\bm{\phi},m,f,\mathbf{N},\underbrace{\bm{\sigma}_{p},\bm{\rho}}_{\text{elements of }\bm{\Sigma}}|\mathbf{y}^{\text{census.mean}},\mathbf{y}^{\text{census.sd}},\mathbf{Y}^{\text{classification}}\right]\propto\\
+\underbrace{\prod_{t=2}^{T}\text{multivariate normal}\left(\text{log}(\mathbf{n}_{t})\vert\log\left(\mathbf{A}_{t}\mathbf{n}_{t-1}\right),\bm{\Sigma}\right)}_{\text{process model}}\\
+\times\prod_{t=2}^{T}\underbrace{\text{normal}\left(y_{t}^{\text{census.mean}}\vert\sum_{i=1}^{3}n_{i,t},y_{t}^{\text{census.sd}}\right)}_{\text{data model 1}}\\
+\times\underbrace{\text{multinomial}\left(\mathbf{y}_{t}^{\text{classification}}\mid\left(\sum_{i=1}^{3}y_{i,t},\frac{n_{1,t}}{\sum_{i=1}^{3}n_{i,t}}\frac{n_{2,t}}{,\sum_{i=1}^{3}n_{i,t},}\frac{n_{3,t}}{\sum_{i=1}^{3}n_{i,t}}\right)'\right)}_{\text{data model 2}}\\
+\times\text{priors}\\
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Continuous time models
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Systems of differential equations
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{dz_{1}}{dt} & = & k_{1}z_{1}-k_{2}z_{1}z_{2}\\
+\frac{dz_{2}}{dt} & =- & k_{3}z_{1}+\alpha k_{2}z_{1}z_{2}\\
+\frac{dz_{3}}{dt} & = & \frac{k_{4}z_{3}}{k_{5}+z_{3}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+medskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Implementing the process model usually needs a numerical solver to align
+ the states with the data.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Continuous time models
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Must deterministically update states at discrete intervals to match with
+ data
+\end_layout
+
+\begin_layout Itemize
+To estimate states:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Use analytical solutions to ODE system if available.
+\end_layout
+
+\begin_layout Itemize
+For models without analytical solutions:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+STAN has superb ODE solver.
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://mc-stan.org/events/stancon2017-notebooks/stancon2017-margossian-gillespie
+-ode.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+R's Nimble package 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://r-nimble.org/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ allows you to embed functions in JAGS.
+ A sturdy ODE solver (Runge-Kutta IV) can be written in 6-8 lines of code.
+\end_layout
+
+\begin_layout Itemize
+Write your own MCMC sampler with embedded numerical solver (e.g.
+ 
+\family typewriter
+lsoda()
+\family default
+ in R).
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+
+\size tiny
+See: Campbell, E.
+ E., W.
+ J.
+ Parton, J.
+ L.
+ Soong, K.
+ Paustian, N.
+ T.
+ Hobbs, and M.
+ F.
+ Cotrufo.
+ 2016.
+ Using litter chemistry controls on microbial processes to partition litter
+ carbon fluxes with the Litter Decomposition and Leaching (LIDEL) model.
+ Soil Biology & Biochemistry 100:160-174.
+
+\size scriptsize
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Section
+Autocorrelation
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+The problem:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+Assume for simplicity that the state is observed perfectly.
+ The simplest model of the change in state with time is
+\begin_inset Formula 
+\begin{equation}
+y_{t}=\alpha y_{t-1}+\epsilon_{t}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\text{E}(y_{t})=0$
+\end_inset
+
+ and 
+\begin_inset Formula $\epsilon_{t}\sim\text{normal}(0,\sigma^{2})$
+\end_inset
+
+.
+ We might introduce effects of predictor variables using 
+\begin_inset Formula 
+\begin{equation}
+y_{t}=g(\bm{\theta},\mathbf{x}_{t})+\alpha y_{t-1}+\epsilon_{t}.
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+What if 
+\begin_inset Formula $\epsilon_{t}$
+\end_inset
+
+ depends on previous errors, that is, 
+\begin_inset Formula $e_{t}=h(e_{t-1})$
+\end_inset
+
+? In this case, there is structural variation in the data, also called temporal
+ dependence.
+ The assumptions of independent errors does not hold.
+ We have two choices:
+\end_layout
+
+\begin_layout Enumerate
+Improve 
+\begin_inset Formula $g(\bm{\theta},\mathbf{x}_{t})$
+\end_inset
+
+ so that the deterministic model accounts for the temporal dependence via
+ the covariates.
+\end_layout
+
+\begin_layout Enumerate
+Model the temporal dependence in the errors directly.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Detecting temporal dependence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+The empirical autocorrelation function (ACF):
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula 
+\[
+\rho_{g}=\frac{\sum_{i=1}^{n-g}(\epsilon_{i}-\bar{\epsilon})(\epsilon_{i+g}-\bar{\epsilon})}{\sum_{i=1}^{N}(\epsilon_{i}-\bar{\epsilon})^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the number of steps in the time series and 
+\begin_inset Formula $g$
+\end_inset
+
+ is the 
+\begin_inset Quotes eld
+\end_inset
+
+lag,
+\begin_inset Quotes erd
+\end_inset
+
+ the number of steps examined for temporal dependence, 
+\begin_inset Formula $-1\le\rho_{g}\le1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+The notation 
+\begin_inset Formula $\text{ACF}(g)$
+\end_inset
+
+ means the correlation between points separated by 
+\begin_inset Formula $g$
+\end_inset
+
+ time periods.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+ACF plots
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/acfplot.pdf
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+ACF in MCMC
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Formula $\mu_{t}=g(\bm{\theta},z_{t-1},\mathbf{x}_{t-1})$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compute residuals at each MCMC iteration, 
+\begin_inset Formula $e_{t}^{(k)}=y_{t}-\mu_{t}^{(k)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Compute 
+\begin_inset Formula $\rho_{g}^{(k)}$
+\end_inset
+
+ at each MCMC iteration and plot posterior means of 
+\begin_inset Formula $\rho_{g}^{(k)}$
+\end_inset
+
+ as a function of 
+\begin_inset Formula $g.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Or, better and easier, sample from MCMC output for 
+\begin_inset Formula $e_{t}^{(k)}$
+\end_inset
+
+, use 
+\family typewriter
+acf()
+\family default
+ function in R to find posterior distributions of 
+\begin_inset Formula $\rho_{g}$
+\end_inset
+
+.
+ Make statements like 
+\begin_inset Quotes eld
+\end_inset
+
+Mean autocorrelation was .21 (BCI = .23,.18) at lag 3, revealing minimal temporal
+ dependence in the residuals.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Forecasting
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Bayesian forecasting future states 
+\begin_inset Formula $z'$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+A fundamental benefit of the Bayesian hierarchical approach for supporting
+ decisions is that it allows us to make forecasts that are tempered by uncertain
+ty.
+ We estimate the probability distribution of quantities into the future.
+ The dots are data points observed in the past.
+ Our model estimatesthe marginal posterior distributions of the unobserved
+ states using these data, shown in the bell turned on their sides.
+ Conditional on these estimates and our estimates of the model's parameters,
+ we are able to estimate probability distributions of future states, shown
+ in the dashed blue bell curves.
+ This distribution usually becomes more broad as the forecast horizon increases,
+ meaning uncertainty increases as we predict states further into the future.
+ 
+\series bold
+This is exactly the weather forecasts are done which may not view as an
+ asset, but it more impressive to you a model exactly like this is what
+ Nate Silver used to predict the outcome of the last two presidential elections,
+ where he predicted 99 out of 100 states correctly.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\underbrace{\left[z'_{T+1}|\mathbf{y}\right]}_{\text{predictive process distribution}}=\int_{\theta_{1}...\theta_{P}}\int_{z_{1}...}\int_{z_{T}}\left[z'_{T+1}|\mathbf{z},\bm{\theta}_{process},\mathbf{y}\right]\underbrace{\left[\mathbf{z},\bm{\theta}_{process},\bm{\theta}_{data}|\mathbf{y}\right]}_{\text{posterior distribution}}dz...dz_{t}d\theta_{1}...d\theta_{P}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../../_Graphics/State_space.pdf
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Predictive process distribution
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The MCMC output:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.5 cm}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang american
+\begin_inset Formula 
+\[
+\begin{array}{cccccccccccc}
+i & {\theta_{1}} & {\theta_{1}} & {\theta_{3}} & {} & {} & {} & {} & {} & {} & {} & {}\\
+1 & {.42} & {3.3} & {20.3} & {z_{1,1}} & {z_{1,2}} & \cdots & {z_{1,T}} & {z{'_{1,T+1}}} & {z{'_{1,T+2}}} & \ldots & {z{'_{1,T+F}}}\\
+2 & {.41} & {2.3} & {18.5} & {z_{2,1}} & {z_{2,2}} & \cdots & {z_{2,T}} & {z{'_{2,T+1}}} & {z{'_{,2T+2}}} & \ldots & {z{'_{2,T+F}}}\\
+3 & {.46} & {3.1} & {16.6} & {z_{3,1}} & {z_{3,2}} & \cdots & {z_{3,T}} & {z{'_{3,T+1}}} & {z{'_{3,T+2}}} & \ldots & {z{'_{3T+,F}}}\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+n & {.39} & {3.4} & {22.1} & {z_{n,1}} & {z_{n,2}} & \cdots & {z_{n,T}} & {z{'_{n,T+1}}} & {z{'_{n,T+2}}} & \ldots & {z{'_{n,T+F}}}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+n & = & \text{number of iterations}\\
+T & = & \text{\text{final time with data }}\\
+F & = & \text{number of forecasts beyond data}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Posterior and joint distribution with forecasts
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{multline*}
+\mu_{t}=g(\bm{\theta}_{process,}z_{t-1,}\mathbf{x}_{t-1})\\
+\left[\mathbf{z},\bm{\theta}_{process,}\bm{\theta}_{data}|\mathbf{y}\right]\propto\\
+\prod_{t=2}^{T}\left[y_{t}|\bm{\theta}_{data},z_{t}\right]\prod_{t=2}^{T+F}\left[z_{t}|\mu_{t}\right]\left[\bm{\theta}_{process},\bm{\theta}_{data},z_{1}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Posterior and joint distribution with missing data 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\begin{multline*}
+\mu_{t}=g(\bm{\theta}_{process,}z_{t-1,}\mathbf{x}_{t-1})\\
+\left[\mathbf{z},\bm{\theta}_{process,}\bm{\theta}_{data}|\mathbf{y}\right]\propto\\
+\prod_{\forall t\in\mathbf{y}.i}^{T}\left[y_{t}|\bm{\theta}_{data},z_{t}\right]\prod_{t=2}^{T}\left[z_{t}|\mu_{t}\right]\left[\bm{\theta}_{process},\bm{\theta}_{data},z_{1}\right]
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Can put NA's in data for all missing values or use the indexing trick shown
+ below.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Forecasting
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+large 
+\end_layout
+
+\end_inset
+
+The fundamental problem of management: 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+What actions can we take today that will allow us to meet goals for the
+ future?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+The central question of conservation is 
+\begin_inset Quotes eld
+\end_inset
+
+What should we get up in the morning and go do or would we be better served
+ by staying in bed?
+\begin_inset Quotes erd
+\end_inset
+
+ We have a set of goals that might include enhancing the viability of a
+ species, protecting the biological diversity of a community or sustaining
+ ecosystem services.
+ We seek to choose among alternative actions on the basis of their ability
+ to meet those goals.
+ Science should play and important role in our choice of action choices.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+We need to decide about what to do based on what we know.
+ This is a deceptively simple idea.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Predictive process distribution of 
+\begin_inset Formula $z'$
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/State_space.pdf
+	width 3.2cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+So, what I have done here is to take one of these distributions at a single
+ point in the future from the previous graph.
+ I rotated it so that is easier to understand the next set of ideas.
+ Explain the axes—noting the previous one was time with several distributions
+ and I have taken one of them.
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Example_predictive_distribution.pdf
+	width 75page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Goal_below.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Goal_within.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Goal_above.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Do_nothing.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Implement_management.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../../_Graphics/Net_effect_of_management.pdf
+	width 80page%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+center
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename ../../_Graphics/High_variance.pdf
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Papers using forecasting relative to goals
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ketz, A.
+ C., T.
+ L.
+ Johnson, R.
+ J.
+ Monello, and N.
+ T.
+ Hobbs.
+ 2016.
+ Informing management with monitoring data: the value of Bayesian forecasting.
+ Ecosphere 7:e01587-n/a.
+ 
+\end_layout
+
+\begin_layout Itemize
+Raiho, A.
+ M., M.
+ B.
+ Hooten, S.
+ Bates, and N.
+ T.
+ Hobbs.
+ 2015.
+ Forecasting the Effects of fertility control on overabundant ungulates:
+ white-tailed deer in the National Capital Region.
+ PLoS ONE 10.
+ 
+\end_layout
+
+\begin_layout Itemize
+Hobbs, N.
+ T., C.
+ Geremia, J.
+ Treanor, R.
+ Wallen, P.
+ J.
+ White, M.
+ B.
+ Hooten, and J.
+ C.
+ Rhyan.
+ 2015.
+ State-space modeling to support management of brucellosis in the Yellowstone
+ bison population.
+ Ecological Monographs 85:3-28.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+More on forecasting
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+M.
+ C.
+ Dietz.
+ Ecological Forecasting.
+ Princeton University Press, Princeton New Jersey, USA, 2017.
+\end_layout
+
+\begin_layout Itemize
+Workshop July 28 - August 2 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://ecoforecast.wordpress.com/summer-course/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Coding tips
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+JAGS code for posterior and joint distributions
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+This is probably the only slide you need for this
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace {-.5cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+tiny
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{multline*}
+\left[\mathbf{z}\bm{,\beta},\sigma_{p}^{2}|\mathbf{y}\right]\propto\underbrace{\prod_{\forall t\in y.i}\left[y_{t}\biggm\vert z_{t},y.sd_{t}\right]}_{\text{ \mathsf{data\,\mathsf{model}}}}\\
+\times\underbrace{\prod_{t=2}^{48}\left[z_{t}|g\left(\bm{\beta},z_{t-1},x_{t-1}\right),\sigma_{p}^{2}\right]}_{\mathsf{process\,\mathsf{model}}}\times\underbrace{\left[\beta_{0}\right]\left[\beta_{1}\right]\left[\beta_{2}\right]\left[\beta_{3}\right]\left[\sigma_{p}^{2}\right]\left[z_{1}\right]}_{\mathsf{parameter\,\mathsf{models}}}
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+model{
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+#Priors
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+b[1] ~ dnorm(.234,1/.136^2)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+for(j in 2:n.coef){
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+	b[j] ~ dnorm(0,.0001)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+	}
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+tau.p ~ dgamma(.01,.01)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+sigma.p <- 1/sqrt(tau.p)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+z[1]  ~ dnorm(N.obs[1],tau.obs[1])  #this must be treated as prior so that
+ you have z[t-1]
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+##Process model
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+for(t in 2:(T+F)){
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+	mu[t] <- log(z[t-1]*exp(b[1] + b[2]*z[t-1] + b[3]*x[t] +b[4]*x[t]*z[t-1]))
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+	z[t] ~ dlnorm(mu[t], tau.p)
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+	}
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+   
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+#Data model
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+for(j in 2:n.obs){
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+N.obs[j] ~ dnorm(z[index[j]],tau.obs[j]) #index to match z[t] with data
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+	}
+\end_layout
+
+\begin_layout LyX-Code
+
+\size tiny
+}#end of model
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Posterior predictive checks for time series data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Test statistic:
+\begin_inset Formula 
+\begin{equation}
+\frac{1}{T-1}\sum_{t=2}^{T}\mid y_{t}-y_{t-1}\mid
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Conventional statistics are also used (mean, CV, discrepancy statistic for
+ the 
+\begin_inset Formula $y_{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size scriptsize
+Reilly, C., A.
+ Gelman, and J.
+ Katz, 2001.
+ Poststratification without Population Level Information 731 on the Poststratify
+ing Variable, with Application to Political Polling.
+ Journal of the American 732 Statistical Association 96:1–11.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Posterior predictive checks and test for autocorrelation
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size footnotesize
+#Derived quantities for model evaluation
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+ 
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+for(i in 1:n.obs){
+\size default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size footnotesize
+#for autocorrelation test 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+
+\size footnotesize
+		epsilon.obs[i] <- N.obs[i] - z[index[i]]  
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+		
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+ # simulate new data
+\size default
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size footnotesize
+    N.new[i] ~ dnorm(z[index[i]],tau.obs[i]) 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+
+\size footnotesize
+		sq[i] <- (N.obs[i] - z[index[i]] )^2
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+		sq.new[i] <-(N.new[i] - z[index[i]]) ^2 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+}
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+fit  <- sum(sq[])
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+fit.new <- sum(sq.new[])
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+pvalue <-step(fit.new-fit)
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
