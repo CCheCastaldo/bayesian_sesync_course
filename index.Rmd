@@ -62,7 +62,7 @@ Dr. Christian Che-Castaldo is an ecologist and Research Scientist with the Pacif
 
 #### **Special Thanks to SESYNC**
 
-We would like to thank the [National Socio-Environmental Synthesis Center (SESYNC)](https://www.sesync.org) for hosting this course and for all their logistical and financial support. Without their generosity, this course would not be possible.
+We would like to thank the [National Socio-Environmental Synthesis Center (SESYNC)](https://www.sesync.org) for hosting this course and for all their logistical and financial support. Without their generosity, this course would not be possible. SESYNC is supported by an award from the US National Science Foundation (Grants DBI-1052875 and DBI-1639145) to the University of Maryland, with additional support from University of Maryland, University of Maryland Center for Environmental Science, and Resources for the Future.
 
 <br>
 
