@@ -56,25 +56,22 @@ Kruschke, J. (2014). Doing Bayesian data analysis: A tutorial with R, JAGS, and 
 Therefore, the probability of outcome 2 is the area under the normal curve between thresholds $\theta_1$ and $\theta_2$. How?
 
 ## A general, Bayesian model for ordinal data
-
+\small{
 \begin{align*}
 [\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2|\mathbf{y}]&\propto \prod_{i=1}^n [y_i\mid p_{i}]\beta_1][\beta_2]\prod_{k=2}^{K-1}[\boldsymbol{\theta}][\sigma^{2}]\\
-y_i &\sim \text{categorical}\bigg(y_i\mid p_{i}=\bigg[\int_{-\infty}^{\theta_{k=1}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i, 
+\end{align*}}
+\tiny{
+\begin{align*}
+y_i &\sim \text{categorical}\bigg(y_i\mid p_{i}\bigg)\\
+p_{i} &=\int_{-\infty}^{\theta_{k=1}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i, 
 \int_{\theta_{k=k+1}}^{\theta_{k=k+2}}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i,\dots,
-\int_{\theta_{k=K}}^{\infty}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i
-\bigg]\bigg)\\
+\int_{\theta_{k=K}}^{\infty}[z_i \mid g(\boldsymbol\beta,x_i),\sigma^2]dz_i\\
 \boldsymbol\beta &\sim \operatorname{normal}(0,0.001)\\
 \sigma^{2} &\sim \operatorname{inverse gamma}(0.001, 0.001)\\
 \theta_j &\sim \operatorname{uniform}(0,10)
-\end{align*}
+\end{align*}}
 
-- $y_i$ is $ith$ observation in categories = $k=1,...K$
-
-- $\boldsymbol{\theta}$ is an *ordered* vector of cutpoints
-
-- $\theta_0=-\infty$
-
-- $\theta_K=+\infty$
+- $y_i$ is $ith$ observation in categories = $k=1,...K$, $\boldsymbol{\theta}$ is an *ordered* vector of cutpoints, $\theta_0=-\infty$, $\theta_K=+\infty$
 
 Why is $\boldsymbol{z}$ missing from the posterior?
 
