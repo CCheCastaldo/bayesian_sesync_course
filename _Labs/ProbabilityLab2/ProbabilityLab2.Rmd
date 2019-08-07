@@ -9,7 +9,7 @@ output:
 
 <script src="../../_HeadersEtc/hideOutput.js"></script>
 
-<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+<img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
 

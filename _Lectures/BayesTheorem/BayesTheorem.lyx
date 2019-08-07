@@ -43,7 +43,7 @@
     \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+    \usebeamerfont{title in head/foot}{DBI-1052875, DBI-1639145, DEB 1145200}
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
     \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}

@@ -1,4 +1,4 @@
 \usepackage{fancyheadings}
 \pagestyle{fancy}
 \lhead{SESYNC Modeling Course}
-\rhead{June 3-11 2019}
+\rhead{\scriptsize{DBI-1052875, DBI-1639145, DEB 1145200}}
