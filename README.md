@@ -19,6 +19,20 @@ The repository holds both the course materials and function as the course websit
 
 ------------------------------------------------------------------------
 
+### Files to build the website
+
+The file `site.yml` contains the global YAML header for the site. I added one line to this file so GitHub can publish the website while the repository was still private:
+
+``` r
+output_dir: "docs"
+```
+
+`Index.Rmd` creates the home page of the website, while `Syllabus.Rmd` and `Logistics.Rmd` create the other two pages and `style.css` contains some small tweaks to the website look and feel. All the content for the website must be located in the `content` folder and upon being built, the entire website will be contained in the `docs` folder. Any folder name beginning with underscore will not be copied into the `docs` folder.
+
+To create this website in the first place, I created an R project in RStudio, and selected `Simple R Markdown Website`. Then under the `GitHubPages` settings in the remote repository, I chose `master branch/docs folder` to publish the website. There are better, more sophisticated, cooler, more correct ways to accomplish all this, and a lot of conflicting information on the internet on the steps you should take, but this works and the resulting website proved largely unbreakable during the course.
+
+------------------------------------------------------------------------
+
 ### Buttons for labs
 
 Buttons are, well, just great. Students love them! Here is how you add one to your markdown files. After the yaml, add the line to run the `hideOutput.js` script:
@@ -44,9 +58,9 @@ Don't forget to update the id for each subsequent button you add to a document. 
 
 Here is a very quick and easy way to alter the `SESYNCBayes` R package.
 
-1.  Make a new R project and select the `_Packages` directory and `R package` for the type of project.
+1.  Make a new R project in RStudio and select the `_Packages/SESYNCBayes` directory.
 
-2.  Update whatever you need to in the existing datasets in the `SESYNCBayes` folder. If you are adding a new data frame, then add the `.rda` file to the `data` folder, make a `.Rd` file in the `man` folder and `.R` file in the `R` folder. For these last two, make a copy of one of the exsting files as a template and modify it as necessary.
+2.  Update whatever you need to in the existing datasets in the `SESYNCBayes` folder. If you are adding a new data frame, then add the `.rda` file to the `data` folder, make a `.Rd` file in the `man` folder and `.R` file in the `R` folder. For these last two, make a copy of one of the existing files as a template and modify it as necessary.
 
 3.  Open the `DESCRIPTION` file in the `SESYNCBayes` folder and update the version number to avoid confusion.
 
@@ -58,10 +72,20 @@ Here is a very quick and easy way to alter the `SESYNCBayes` R package.
 
 7.  Rebuild the website (see below).
 
-8.  Make your commits as normal, but remember the R project file won't be commited since it is in the `.gitignore`. This is ok. If you make a new change to the website you do not need to make a new R project, just open the existing one.
+8.  Make your commits as normal, but remember the R project file won't be committed since it is in the `.gitignore`. This is ok. If you make a new change to the course package you do not need to make a new R project, just open the existing one.
 
 ------------------------------------------------------------------------
 
 ### How to update the course website
 
-Here is a very quick and easy way to update the `SESYNCBayes` R package.
+Here is a very quick and easy way to update the course website if you don't already have an R project set up to do so.
+
+1.  Make a new R project and select the root directory in the repository.
+
+2.  Make whatever changes you need to to the course material. You do not need the R project open when you do this.
+
+3.  In the environment pane, under `Build`, click `Build Website`.
+
+4.  Make sure the changes work by previewing them in the browser.
+
+5.  Commit and push the changes to the `docs` folder and the website updates will take effect. Again, the R project file won't be committed since it is in the `.gitignore`. This is ok. If you make a new change to the website you do not need to make a new R project, just open the existing one.
