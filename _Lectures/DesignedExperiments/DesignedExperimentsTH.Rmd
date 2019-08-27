@@ -1,17 +1,17 @@
 ---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
 title: "Bayesian Analysis of Designed Experiments"
-author: "N. T. Hobbs and C. Che-Castaldo"
-date: "April 16, 2019"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   beamer_presentation:
     includes:
-      in_header: header.tex
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
 theme: Boadilla
-subtitle: ESS 575
 latex_engine: xelatex
 transition: fastest
 ---
-
 
 ## Housekeeping
 * No lecture on next two Thursdays (4/18, 4/26)
@@ -29,12 +29,12 @@ How to "figure it out."
 
 ## Analyzing experimental data: Why Bayes?
 
-\centerline{\includegraphics[height=2.75in]{SokalandRolf.png}}
+\centerline{\includegraphics[height=2.75in]{../../_Graphics/SokalandRolf.png}}
 
 
 ## Analyzing experimental data: Why Bayes?
 
-\centerline{\includegraphics[height=1 in]{ExperimentalPlot.jpg}}
+\centerline{\includegraphics[height=1 in]{../../_Graphics/ExperimentalPlot.jpg}}
 * Probabilistic interpretation of effects
 * Contrasts easy to construct
 * No "error" terms
@@ -47,10 +47,10 @@ How to "figure it out."
 \tiny{Photo c/o of the Minnesota Agricultural Experiment Station at HTTP://WWW.meas.mun.ed.}
 
 ## Yellowstone experiment
-\centerline{\includegraphics[height=3 in]{Height_comparison_at_elk.jpg}}
+\centerline{\includegraphics[height=3 in]{../../_Graphics/Height_comparison_at_elk.jpg}}
 
 ## Analysis of the joint distribution of data and parameters
-\centerline{\includegraphics[height=1.65 in]{HeightOvertime.pdf}}
+\centerline{\includegraphics[height=1.65 in]{../../_Graphics/HeightOvertime.pdf}}
 \vspace{-.4 in}
 \begin{align}
 \mu_{ijt}&=\beta_{0_{j}}+(\beta_{1}+\beta_{2}x_{1,ij}+\beta_{3}x_{2,ij}+\\&\beta_{4}x_{1,ij}x_{2,ij})t\\y_{ijt}&\sim\text{lognormal}(\log(\mu_{ijt}),\sigma_{j}^{2})\nonumber\\\beta_{0j}&\sim\text{normal}(\mu_{\beta_{0}},\sigma_{\beta_{0}}^{2})\nonumber\\\mu_{\beta_{0}}&\sim\text{normal}(0,10000)\nonumber\\\sigma_{\beta_{0}}^{2}&\sim\text{uniform}(0,5)\\\beta_{i\in1,...,3}&\sim\text{normal}(0,10000)
@@ -112,7 +112,7 @@ Note that in this case $\mathbf X$ is a matrix of values of covariates in column
 
 ## Design matrix
 
-\centerline{\includegraphics[height=2 in]{QuantitativeDesignMatrix.png}}
+\centerline{\includegraphics[height=2 in]{../../_Graphics/QuantitativeDesignMatrix.png}}
 
 \vspace{5mm}
 
@@ -128,15 +128,15 @@ The next several completely random designs but could be easily modified to incor
 
 ## Notation for models: design matrices
 
-\centerline{\includegraphics[height=2.5in]{DesignMatrix.png}}
+\centerline{\includegraphics[height=2.5in]{../../_Graphics/DesignMatrix.png}}
 
 ## Notation for models: design matrices with repeated measures
 
-\centerline{\includegraphics[height=2.5in]{DesignMatrixRepeatedMeasures.png}}
+\centerline{\includegraphics[height=2.5in]{../../_Graphics/DesignMatrixRepeatedMeasures.png}}
 
 ## Notation for models: design matrices with interactions
 
-\centerline{\includegraphics[height=2.5in]{DesignMatrixInteractions.pdf}}
+\centerline{\includegraphics[height=2.5in]{../../_Graphics/DesignMatrixInteractions.pdf}}
 
 
 
@@ -162,11 +162,11 @@ Z = as.matrix(getME(fit.lme, "Z"))
 ```
 ## Notation for models: subscripting parameters
 
-\centerline{\includegraphics[height=1.85in]{CoefficientMatrix.png}}
+\centerline{\includegraphics[height=1.85in]{../../_Graphics/CoefficientMatrix.png}}
 
 ## Notation for models: subscripting parameters with interactions
 
-\centerline{\includegraphics[height=1.85in]{CoefficientMatrixInteractions.png}}
+\centerline{\includegraphics[height=1.85in]{../../_Graphics/CoefficientMatrixInteractions.png}}
 
 ##Pseudo code for implementing subscipted models with controls and interactions
 
@@ -264,7 +264,7 @@ for(i in 1:length(y)){
 
 ## Widely used designs in ecology illustrated with Yellowstone treatments
 
-\centerline{\includegraphics[height=2.5in]{DesignSketch.png}}
+\centerline{\includegraphics[height=2.5in]{../../_Graphics/DesignSketch.png}}
 
 ##
 \vspace{-.55cm}
@@ -299,11 +299,11 @@ y_{ijk}&\sim\text{lognormal} (y_{ijk}\mid \log{(\mu_{jk}},\sigma^2)\nonumber
 
 ## Choices in specifying models
 
-\centerline{\includegraphics[height=2.75in]{Parameterizations.png}}
+\centerline{\includegraphics[height=2.75in]{../../_Graphics/Parameterizations.png}}
 
 ## Cell Means Model: Joint and DAG
 
-\centerline{\includegraphics[height=1.2in]{CellMeansJointDAG.png}}
+\centerline{\includegraphics[height=1.2in]{../../_Graphics/CellMeansJointDAG.png}}
 
 - Interest in group means and not effects
 - Have prior information for group means
@@ -313,7 +313,7 @@ y_{ijk}&\sim\text{lognormal} (y_{ijk}\mid \log{(\mu_{jk}},\sigma^2)\nonumber
 
 ## Cell Means Model: Design Matrix
 
-\centerline{\includegraphics[height=1.5in]{CellMeansDesignMatrix.png}}
+\centerline{\includegraphics[height=1.5in]{../../_Graphics/CellMeansDesignMatrix.png}}
 
 ## Cell Means Model: JAGS
 
@@ -354,7 +354,7 @@ effects =  alpha - grandMean
 
 ## Effects Models - Set to Zero: Joint and DAG
 
-\centerline{\includegraphics[height=1.35in]{EffectsModelJointDAG.png}}
+\centerline{\includegraphics[height=1.35in]{../../_Graphics/EffectsModelJointDAG.png}}
 
 - Interest in effects and not means
 - Have prior information for effect sizes
@@ -364,7 +364,7 @@ effects =  alpha - grandMean
 
 ## Effects Model- Set to Zero: Design Matrix
 
-\centerline{\includegraphics[height=1.35in]{EffectsSetZeroDesignMatrix.png}}
+\centerline{\includegraphics[height=1.35in]{../../_Graphics/EffectsSetZeroDesignMatrix.png}}
 
 \vspace{5mm}
 
@@ -406,11 +406,11 @@ grandMean <- mean(cell[])
 
 ## Parameterize a model with categorical predictors
 
-\centerline{\includegraphics[height=2.75in]{Parameterizations.png}}
+\centerline{\includegraphics[height=2.75in]{../../_Graphics/Parameterizations.png}}
 
 ## Effects Model - Multi-level: Joint and DAG
 
-\centerline{\includegraphics[height=1.75in]{EffectsModelMultiJointDAG.png}}
+\centerline{\includegraphics[height=1.75in]{../../_Graphics/EffectsModelMultiJointDAG.png}}
 
 - Interest in effects and not means
 - Have prior information for effect sizes
@@ -420,7 +420,7 @@ grandMean <- mean(cell[])
 
 ## Effects Model - Multi-Level: Design Matrix
 
-\centerline{\includegraphics[height=1.4in]{EffectsMultiDesignMatrix.png}}
+\centerline{\includegraphics[height=1.4in]{../../_Graphics/EffectsMultiDesignMatrix.png}}
 
 - CRD with 1 factor and 5 levels
 - Intercept, $\mu$, is the grand mean

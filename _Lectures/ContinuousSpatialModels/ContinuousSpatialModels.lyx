@@ -44,7 +44,7 @@
     \usebeamerfont{author in head/foot}Che-Castaldo, Collins, Hobbs
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.6\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
-    \usebeamerfont{title in head/foot}\insertshorttitle, \insertdate
+    \usebeamerfont{title in head/foot}{DBI-1052875, DBI-1639145, DEB 1145200}
   \end{beamercolorbox}%
   \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
     \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
@@ -613,7 +613,7 @@ Often each pair of locations has a unique distance and there are often many
 lag bins
 \emph default
 .
- For example, wcompute the average semivariance for all pairs of points
+ For example, we compute the average semivariance for all pairs of points
  that are greater than 40 meters apart but less than 50 meters.
  Thus, 
 \begin_inset Formula $N(d)$
@@ -1135,8 +1135,8 @@ Modeling spatial structure with two sources of error
 \begin_inset Formula $\mu_{i}=g(\bm{\theta,}x_{i})$
 \end_inset
 
-, a model of an ecological process that can take on real values (for now).
- 
+, a model of a socio-ecological process that can take on real values (for
+ now).
 \end_layout
 
 \begin_layout Frame

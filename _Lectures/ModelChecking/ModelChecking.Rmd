@@ -1,14 +1,14 @@
 ---
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
 title: "Model Checking"
-author: "Chris Che-Castaldo, Mary B. Collins, N. Thompson Hobbs"
-date: "June 2019"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   beamer_presentation:
     includes:
       in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
 theme: Boadilla
-subtitle: Bayesian Modeling for Socio-Environmental Data
 latex_engine: xelatex
 transition: fastest
 ---

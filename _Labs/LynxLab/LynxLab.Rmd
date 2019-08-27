@@ -9,7 +9,7 @@ output:
 
 <script src="../../_HeadersEtc/hideOutput.js"></script>
 
-<img src="../../_HeadersEtc/SESYNCBayes/Logo.png" style="position:absolute;top:20px;right:220px;width:150px;height=150px" />
+<img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
 
@@ -33,13 +33,14 @@ knitr::opts_chunk$set(cache = TRUE, tidy = FALSE)
 
 The Eurasian lynx (*Lynx lynx*) is a medium-sized predator with broad distribution in the boreal forests of Europe and Siberia. The lynx is classified as a threatened species throughout much of its range and there is controversy about the legal harvest of lynx in Sweden. Proponents of harvest argue that allowing hunting of lynx reduces illegal kill (poaching).  Moreover, Sweden is committed to regulate lynx numbers to prevent excessive predation on reindeer because reindeer are critical to the livelihoods of indigenous pastoralists, the Sami.  Many environmentalists oppose harvest, however, arguing that lynx are too rare to remove their fully protected status. A similar controversy surrounds management of wolves in the Western United States.
 
-<br> 
-
-<img src="../../_Graphics/Lynx-01.png" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;">
-<img src="../../_Graphics/Reindeer.png" style="float: left; width: 49%; margin-right: 1%; margin-bottom: 0.5em;">
-<p style="clear: both;">
-
-<br>
+<div class = "row">
+<div class = "col-md-6" style="margin-top: 5px">
+<img src="../../_Graphics/Lynx-01.png" alt="drawing" width="100%"/>
+</div>
+<div class="col-md-6" style="margin-top: 5px">
+<img src="../../_Graphics/Reindeer.png" alt="drawing" width="100%"/>
+</div>
+</div>
 
 A forecasting model for the abundance of lynx will help managers make decisions. You have data about the number of lynx family groups censused in the unit as well as annual records of lynx harvested from the unit. You will model the population using the deterministic model: 
 

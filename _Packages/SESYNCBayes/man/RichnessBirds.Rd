@@ -4,7 +4,7 @@
 \name{RichnessBirds}
 \alias{RichnessBirds}
 \title{Bird Species Richness Data}
-\format{{ A data frame with 51 observations on the following 7 variables.
+\format{{ A data frame with 49 observations on the following 7 variables.
 \describe{
 \item{\code{rank}}{Ranking of species richness by state}
 \item{\code{state}}{state}
