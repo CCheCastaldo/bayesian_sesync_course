@@ -8,6 +8,8 @@ output:
 
 <br>
 
+These course materials were developed under NSF awards DEB-1145200, DBI-1052875 and DBI-163914.
+
 ##### **Day 1: (6/3) Probability**
 
 1. Participant and Course Introduction
