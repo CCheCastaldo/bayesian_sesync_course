@@ -8,6 +8,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
+### Special Thanks to SESYNC and the National Science Foundation
+
+We would like to thank the [National Socio-Environmental Synthesis Center (SESYNC)](https://www.sesync.org) for hosting this course and for their logistical and financial support. Without their generosity, this course would not be possible. SESYNC is supported by National Science Foundation awards DBI-1052875 and DBI-1639145 to the University of Maryland, with additional support from University of Maryland, University of Maryland Center for Environmental Science, and Resources for the Future. We also wish to acknowledge support for preparation of these course materials from award DEB-1145200 from the Population and Community Ecology Program of the National Science Foundation to Colorado State University.
+
 ### Repository Guide
 
 The repository holds both the course materials and function as the course website. The website is bare bones on purpose since it will be updated many times during the course, and I felt simpler translates to less errors. The folder structure is as follows:
