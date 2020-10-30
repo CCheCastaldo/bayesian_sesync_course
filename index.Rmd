@@ -14,7 +14,7 @@ We would like to thank the [National Socio-Environmental Synthesis Center (SESYN
 
 <br>
 
-#### **2019 Bayesian Modeling for Socio-Environmental Data Short Course**
+#### **2020 Bayesian Modeling for Socio-Environmental Data Short Course**
 
 Solutions to pressing environmental problems require understanding connections between human and natural systems. Analysis of these systems requires a model that can deal with complexity, is able to exploit data from multiple sources, and is honest about the uncertainty from multiple sources. Synthesis of results from multiple studies is often required. Bayesian hierarchical models provide a powerful approach to analysis of socio-environmental problems.
 
@@ -62,12 +62,12 @@ Dr. Tom Hobbs has taught ecological modeling at Colorado State University for 16
 
 Dr. Mary Collins is an environmental social scientist and Assistant Professor of Environmental Health at the College of Environmental Science and Forestry at the State University of New York (SUNY-ESF). Dr. Collins uses hierarchical Bayesian models to assess inequalities in pollution generation between US-based industrial facilities and potential human health impacts. Currently, she is working on the temporal dimensions of hazardous waste generation as it relates to links between specific chemical exposures and rare cancers in New York State. Since participating in an earlier version of this course, she has been a co-instructor since 2015 and is specifically interested in the translation of concepts across disciplinary boundaries.
 
-Dr. Christian Che-Castaldo is an ecologist and Research Scientist with the Pacific Northwest Research Station and Mount St. Helens Institute. Dr. Che-Castaldo uses hierarchical Bayesian models to explain and forecast the occupancy and population dynamics of the amphibian and small mammal species recolonizing Mount St. Helens after the 1980 eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he has been a co-instructor since 2015 and served as an external reviewer for *Bayesian models: A statistical primer for ecologists*. 
+Dr. Christian Che-Castaldo is a Postdoctoral Fellow at Stony Brooks University's Institute for Advanced Computational Science. Working in conjunction with the USFS Pacific Northwest Research Station, Dr. Che-Castaldo uses hierarchical Bayesian models to explain and forecast the occupancy and population dynamics of the amphibian and small mammal species recolonizing Mount St. Helens after the 1980 eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he has been a co-instructor since 2015 and served as an external reviewer for *Bayesian models: A statistical primer for ecologists*. 
 
 <br>
 
 #### **Questions?**
 
-Please email Dr. Mary Collins at: mbcollin@esf.edu or Dr. Che-Castaldo at: chrischecastaldo@icloud.com
+Please email Dr. Mary Collins at: mbcollin@esf.edu or Dr. Che-Castaldo at: christian.che-castaldo@stonybrook.edu
 
 
