@@ -6,120 +6,140 @@ output:
     theme: paper
 ---
 
+<style>
+span {background-color: #ffff80;}
+</style>
+
 <br>
 
-##### **Day 1: (6/3) Probability**
+##### **Day 1 (12/7), Session 1 (12 - 3 PM EST): Introduction**
 
-1. Participant and Course Introduction
-2. [What Sets Bayes Apart?](content/lectures/WhatSetsBayesApart.pdf)
-3. Differences among the three branches of statistics illustrated with confidence envelopes
-4. [Rules of Probability](content/lectures/RulesProbability.pdf) & [Probability Lab 1](content/labs/ProbabilityLab1.html)
-5. [Probability Concepts and Notation](content/lectures/ProbabilityConceptsDistributions.pdf)
-6. [Probability Distributions](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 2](content/labs/ProbabilityLab2.html)
-7. [Probability Distributions Boardwork](content/boardwork/ProbabilityDistributions.pdf)
-8. [Distributional Cheatsheet](content/handouts/DistributionCheatSheet.pdf)
-9. Welcome Happy Hour at SESYNC!
+1. <span>Technological Test Run</span>
+2. <span>Participant / Instructor Introductions </span>
+
+##### **Day 1 (12/7), Session 2 (3 - 6 PM EST): Probability**
+
+1. <span>[What Sets Bayes Apart?](content/lectures/WhatSetsBayesApart.pdf) </span>
+2. <span>Confidence envelopes Group Exercise</span>
+
+---
+
+##### **Day 2 (12/8), Session 1 (12 - 3 PM EST): Probability**
+
+1. <span>[Rules of Probability](content/lectures/RulesProbability.pdf)</span> <a href="https://www.youtube.com/embed/qPSam4gsygI"><img src="youtube.png" alt="youtube logo" style="width:35px;height:35px;"></a>
+2. [Probability Lab 1](content/labs/ProbabilityLab1.html)
+
+##### **Day 2 (12/8), Session 2 (3 - 6 PM EST): Probability Distributions**
+
+1. <span>[Probability Concepts and Notation](content/lectures/ProbabilityConceptsDistributions.pdf)</span>
+2. <span>[Probability Distributions](content/lectures/ProbabilityConceptsDistributions.pdf) + [Boardwork](content/boardwork/ProbabilityDistributions.pdf)</span>
+3. [Probability Lab 2](content/labs/ProbabilityLab2.html)
+4. [Distribution Cheatsheet](content/handouts/DistributionCheatSheet.pdf)
+
+---
+
+##### **Day 3 (12/9), Session 1 (12 - 3 PM EST): Marginal Distributions**
+1. <span>[Marginal Distributions](content/lectures/MarginalDistributions.pdf)</span>
+2. [Probability Lab 3](content/labs/ProbabilityLab3.html)
+
+##### **Day 3 (12/9), Session 2 (3 - 6 PM EST): Moment Matching**
+1. <span>[Moment Matching](content/lectures/ProbabilityConceptsDistributions.pdf)</span>
+2. [Probability Lab 4](content/labs/ProbabilityLab4.html)
 
 Review Hobbs and Hooten chapters 1-3.
 
-<br>
+---
 
-##### **Day 2: (6/4) Likelihood & Bayes' Theorem**
+##### **Day 5 (12/10), Session 1 (12 - 3 PM EST): Likelihood **
+1. <span>[Likelihood](content/lectures/Likelihood.pdf)</span>
+2. [Likelihood Lab](content/labs/LikelihoodLab.html)
+3. [Likelihood Lab Excel File](content/handouts/HemlockLightLikelihood.xlsx) & [Answer](content/handouts/HemlockLightLikelihoodAnswers.xlsx)
 
-1. [Marginal Distributions](content/lectures/MarginalDistributions.pdf) & [Probability Lab 3](content/labs/ProbabilityLab3.html)
-2. [Moment Matching](content/lectures/ProbabilityConceptsDistributions.pdf) & [Probability Lab 4](content/labs/ProbabilityLab4.html)
-3. [Likelihood](content/lectures/Likelihood.pdf) & [Lab](content/labs/LikelihoodLab.html)
-4. [Likelihood Lab Excel File](content/handouts/HemlockLightLikelihood.xlsx) & [Answer](content/handouts/HemlockLightLikelihoodAnswers.xlsx)
+##### **Day 5 (12/10), Session 2 (3 - 6 PM EST): Bayes Theorem**
+1. <span>[Bayes' Theorem](content/lectures/BayesTheorem.pdf)</span>
+2. [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
 
 Review Hobbs and Hooten chapters 3.5-4.
 
-<br>
+---
 
-##### **Day 3: (6/5) Intro to Bayesian Statistics & Markov Chain Monte Carlo**
+##### **Day 4 (12/11), Session 1 (12 - 3 PM EST): Priors**
+1. <span>[More about Priors I](content/lectures/MoreAboutPriors1.pdf)</span>
+2. [Priors Lab 1](content/labs/ConjugatePriorsLab.html) 
+3. [Beta-binomial Conjugacy Derivation](content/handouts/DerivationBetaBinomialConjugate.pdf)
 
-1. [Likelihood Lab Continued](content/labs/LikelihoodLab.html)
-2. [Bayes' Theorem](content/lectures/BayesTheorem.pdf) & [Lab](content/labs/BayesTheoremLab.html) 
-3. [More about Priors I](content/lectures/MoreAboutPriors1.pdf) & [Lab](content/labs/ConjugatePriorsLab.html) 
-4. [Beta-binomial Conjugacy Derivation](content/handouts/DerivationBetaBinomialConjugate.pdf)
+##### **Day 5 (12/11), Session 2 (3 - 6 PM EST): Markov chain Monte Carlo**
+1. <span>[MCMC Gibbs Sampling](content/lectures/MCMC1.pdf)</span>
+2. [MCMC Lab 1](content/labs/MCMCLab1.html)
+3. [MCMC Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
 
 Review Hobbs and Hooten chapters 5 and 7.
 
-<br>
+---
 
-##### **Day 4: (6/6) JAGS and Model Inference**
+##### **Day 6 (12/14): JAGS Primer**
+1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 
-1. [MCMC Gibbs Sampling](content/lectures/MCMC1.pdf) & [MCMC Lab 1](content/labs/MCMCLab1.html)
-2. [MCMC Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
-3. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
-4. [MCMC Metropolis-Hastings](content/lectures/MCMC2.pdf) (optional) & [MCMC Lab 2](content/labs/MCMCLab2.html) (optional)
+---
+
+##### **Day 7 (12/15), Session 1 (12 - 3 PM EST): Model Inference**
+1. <span>[Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)</span>
+2. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
+
+##### **Day 7 (12/15), Session 2 (3 - 6 PM EST): Bayesian Regression**
+1. <span>[Bayesian Regression](content/lectures/BayesianRegression.pdf)</span>
+2. Lab Catch Up!
 
 Review Hobbs and Hooten chapter 7-8.
 
-<br>
+---
 
-##### **Day 5: (6/7) Bayesian Regression & Multi-Level Modeling**
+##### **Day 8 (12/15), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
+1. <span>[Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)</span>
 
-1. [JAGS Primer Continued](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
-2. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
-3. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
-4. [Bayesian Regression](content/lectures/BayesianRegression.pdf)
-5. [Lognormal Explanation](content/handouts/lognormalExplanation.pdf)
-
-Review Hobbs and Hooten chapter 6.
-
-<br>
-
-##### **Day 6: (6/8) Off**
-
-<br>
-
-##### **Day 7: (6/9) Multi-Level Modeling**
-
-1. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
-2. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
+##### **Day 8 (12/15), Session 2 (3 - 6 PM EST): Multi-Level Modeling**
+1. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
-<br>
+---
 
-##### **Day 8: (6/10) Multi-Level Modeling and Model Checking**
+##### **Day 9 (12/16), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
+2. <span>[Writing Hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)</span>
+2. [Writing Hierarchical Models Lab](content/labs/ModelBuildingLab.html)
 
-1. [Multi-Level Modeling Lab Continued](content/labs/MultiLevelModelingLab.html)
-2. [Model Checking](content/lectures/ModelChecking.pdf) & [Lab](content/labs/MultiLevelModelingLab.html)
-3. [Writing Hierarchical Models](content/lectures/WritingHierarchicalModels.pdf) & [Lab](content/labs/ModelBuildingLab.html)
+##### **Day 9 (12/16), Session 2 (3 - 6 PM EST): Model Checking**
+1. <span>[Model Checking](content/lectures/ModelChecking.pdf)</span>
+2. [Model Checking Lab](content/labs/MultiLevelModelingLab.html)
+3. [Course Evaluation Survey](https://docs.google.com/forms/d/e/1FAIpQLSf4uvntNIaDYeqmV5g-Wh-YjgdtVIA7yrCz3)
 
-Review Hobbs and Hooten chapters 6, 8, 10-12.
+Review Hobbs and Hooten chapters 6, 10-12.
 
-<br>
+---
 
-##### **Day 9: (6/11) Writing Hierarchical Models and Mixture Models**
+##### **Day 10 (12/17), Session 1A (12 - 3 PM EST): Mixture Models**
+1. <span>[Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf)</span>
+2. [Mixture Models Lab](content/labs/MixtureModelsLab.html)
 
-1. [Writing Hierarchical Models Lab Continued](content/labs/ModelBuildingLab.html)
-2. [More About Priors II](content/lectures/MoreAboutPriors2.pdf)
-3. [Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html)
+##### **Day 10 (12/17), Session 1B (12 - 3 PM EST): Model Selection**
+1. <span>[Model Selection](content/lectures/ModelSelection.pdf)</span>
+2. [Model Selection Lab](content/labs/ModelSelectionLab1.html)
+3. [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)
 
-<br>
+##### **Day 10 (12/17), Session 2A (3 - 6 PM EST): Ordinal Regression**
+1. <span>[Ordinal Models](content/lectures/OrdinalModels.pdf)</span>
+2. [Ordinal Regression Lab](content/labs/OrdinalLab.html)
 
-##### **Day 10: (6/12) Occupancy Models, Ordinal Models & Model Selection**
-
-1. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
-2. [Ordinal Models](content/lectures/OrdinalModels.pdf) & [Lab](content/labs/OrdinalLab.html)
-3. [Model Selection](content/lectures/ModelSelection.pdf) & [Lab](content/labs/ModelSelectionLab1.html)
-4. [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)
-
-<br>
-
-##### **Day 11: (6/13) Dynamic Models & Spatial Modeling**
-
-1. [Course Evaluation Survey](https://docs.google.com/forms/d/e/1FAIpQLSf4uvntNIaDYeqmV5g-Wh-YjgdtVIA7yrCz3iQ1i1KfY4MMMQ/viewform)
-2. [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
-3. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & [Spatial Lab](content/labs/SpatialLab1.html)
-4. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) (optional)
-5. Farewell Happy Hour at SESYNC!
+##### **Day 10 (12/17), Session 2B (3 - 6 PM EST): Dynamic Models**
+1. <span>[Dynamic Models](content/lectures/DynamicModels.pdf)</span>
+2. [Lynx Lab](content/labs/LynxLab.html)
 
 <br>
 
 ##### **Topics We Did Not Get To Cover**
 
-1. [Designed Experiments](content/lectures/DesignedExperimentsCCC.pdf)
-2. [Missing Data and Ignorability](content/lectures/MissingData.pdf)
+1. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
+2. [Designed Experiments](content/lectures/DesignedExperimentsCCC.pdf)
+3. [Missing Data and Ignorability](content/lectures/MissingData.pdf)
+4. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & [Spatial Lab](content/labs/SpatialLab1.html)
+5. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) (optional)

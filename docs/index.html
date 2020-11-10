@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title></title>
+<title>index.utf8</title>
 
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -22,6 +23,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -84,7 +96,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -233,6 +244,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -244,18 +256,6 @@ $(document).ready(function () {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -280,7 +280,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">SESYNCBayes2019</a>
+      <a class="navbar-brand" href="index.html">SESYNCBayes2020</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -307,8 +307,13 @@ $(document).ready(function () {
 
 
 <p><br></p>
+<div id="special-thanks-to-sesync-and-the-national-science-foundation" class="section level4">
+<h4><strong>Special Thanks to SESYNC and the National Science Foundation</strong></h4>
+<p>We would like to thank the <a href="https://www.sesync.org">National Socio-Environmental Synthesis Center (SESYNC)</a> for hosting this course and for their logistical and financial support. Without their generosity, this course would not be possible. SESYNC is supported by National Science Foundation awards DBI-1052875 and DBI-1639145 to the University of Maryland, with additional support from University of Maryland, University of Maryland Center for Environmental Science, and Resources for the Future. We also wish to acknowledge support for preparation of these course materials from award DEB-1145200 from the Population and Community Ecology Program of the National Science Foundation to Colorado State University.</p>
+<p><br></p>
+</div>
 <div id="bayesian-modeling-for-socio-environmental-data-short-course" class="section level4">
-<h4><strong>2019 Bayesian Modeling for Socio-Environmental Data Short Course</strong></h4>
+<h4><strong>2020 Bayesian Modeling for Socio-Environmental Data Short Course</strong></h4>
 <p>Solutions to pressing environmental problems require understanding connections between human and natural systems. Analysis of these systems requires a model that can deal with complexity, is able to exploit data from multiple sources, and is honest about the uncertainty from multiple sources. Synthesis of results from multiple studies is often required. Bayesian hierarchical models provide a powerful approach to analysis of socio-environmental problems.</p>
 <p>Past participants of this short course have worked on research questions including the use of network analyses to understand measurement uncertainly in the context of extreme weather events, the study of governance effectiveness and fisheries biomass, the effect of changing climate on population dynamics of polar bears, and the relationship between advocacy group compositions and estuarine quality.</p>
 <p>The goals of the course are to:</p>
@@ -340,17 +345,12 @@ $(document).ready(function () {
 <h4><strong>Instructor Biographies</strong></h4>
 <p>Dr. Tom Hobbs has taught ecological modeling at Colorado State University for 16 years. His course has evolved over time; during the last eight years, it has emphasized Bayesian methods for gaining insight from models and data. He has also taught short courses for the U.S. Geological Survey, Conservation Science Partners, the Woods Hole Research Center, the Grimsö Wildlife Research Institute, and the Department of Ecology, Swedish Agricultural University. He is the author, with Mevin Hooten, of <em>Bayesian models: A statistical primer for ecologists</em> from Princeton University Press. Dr. Hobbs takes special pride in making challenging, quantitative concepts clear and accessible to students who never considered themselves to be particularly adept with mathematics and statistics.</p>
 <p>Dr. Mary Collins is an environmental social scientist and Assistant Professor of Environmental Health at the College of Environmental Science and Forestry at the State University of New York (SUNY-ESF). Dr. Collins uses hierarchical Bayesian models to assess inequalities in pollution generation between US-based industrial facilities and potential human health impacts. Currently, she is working on the temporal dimensions of hazardous waste generation as it relates to links between specific chemical exposures and rare cancers in New York State. Since participating in an earlier version of this course, she has been a co-instructor since 2015 and is specifically interested in the translation of concepts across disciplinary boundaries.</p>
-<p>Dr. Christian Che-Castaldo is an ecologist and Research Scientist with the Pacific Northwest Research Station and Mount St. Helens Institute. Dr. Che-Castaldo uses hierarchical Bayesian models to explain and forecast the occupancy and population dynamics of the amphibian and small mammal species recolonizing Mount St. Helens after the 1980 eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he has been a co-instructor since 2015 and served as an external reviewer for <em>Bayesian models: A statistical primer for ecologists</em>.</p>
-<p><br></p>
-</div>
-<div id="special-thanks-to-sesync" class="section level4">
-<h4><strong>Special Thanks to SESYNC</strong></h4>
-<p>We would like to thank the <a href="https://www.sesync.org">National Socio-Environmental Synthesis Center (SESYNC)</a> for hosting this course and for all their logistical and financial support. Without their generosity, this course would not be possible. SESYNC is supported by an award from the US National Science Foundation (Grants DBI-1052875 and DBI-1639145) to the University of Maryland, with additional support from University of Maryland, University of Maryland Center for Environmental Science, and Resources for the Future.</p>
+<p>Dr. Christian Che-Castaldo is a Postdoctoral Fellow at Stony Brooks University’s Institute for Advanced Computational Science. Working in conjunction with the USFS Pacific Northwest Research Station, Dr. Che-Castaldo uses hierarchical Bayesian models to explain and forecast the occupancy and population dynamics of the amphibian and small mammal species recolonizing Mount St. Helens after the 1980 eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he has been a co-instructor since 2015 and served as an external reviewer for <em>Bayesian models: A statistical primer for ecologists</em>.</p>
 <p><br></p>
 </div>
 <div id="questions" class="section level4">
 <h4><strong>Questions?</strong></h4>
-<p>Please email Dr. Mary Collins at: <a href="mailto:mbcollin@esf.edu">mbcollin@esf.edu</a> or Dr. Che-Castaldo at: <a href="mailto:chrischecastaldo@icloud.com">chrischecastaldo@icloud.com</a></p>
+<p>Please email Dr. Mary Collins at: <a href="mailto:mbcollin@esf.edu" class="email">mbcollin@esf.edu</a> or Dr. Che-Castaldo at: <a href="mailto:christian.che-castaldo@stonybrook.edu" class="email">christian.che-castaldo@stonybrook.edu</a></p>
 </div>
 
 
@@ -362,7 +362,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -370,6 +370,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

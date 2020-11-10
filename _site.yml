@@ -1,7 +1,7 @@
-name: "SESYNCBayes2019"
+name: "SESYNCBayes2020"
 output_dir: "docs"
 navbar:
-  title: "SESYNCBayes2019"
+  title: "SESYNCBayes2020"
   left:
     - text: "Syllabus"
       href: Syllabus.html
