@@ -1,0 +1,18 @@
+\indexentry{model statement}{12}
+\indexentry{for loops@\texttt  {for loops}}{13}
+\indexentry{product likelihood}{15}
+\indexentry{nested for loops}{15}
+\indexentry{length()@\texttt  {length()}}{15}
+\indexentry{precision}{16}
+\indexentry{c()@\texttt  {c()}}{17}
+\indexentry{undefined values}{17}
+\indexentry{list of lists}{20}
+\indexentry{jags.model@\texttt  {jags.model}}{22}
+\indexentry{coda.samples@\texttt  {coda.samples}}{22}
+\indexentry{Gelman and Rubin diagnostic}{36}
+\indexentry{Heidelberger and Welch diagnostic}{37}
+\indexentry{heidel.diag@\texttt  {heidel.diag}}{37}
+\indexentry{Raftery diagnostic}{37}
+\indexentry{raftery.diag@\texttt{raftery.diag}}{38}
+\indexentry{deviance information criterion (DIC)}{46}
+\indexentry{DIC samples}{46}

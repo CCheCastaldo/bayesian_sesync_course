@@ -22,12 +22,8 @@ transition: fastest
 - Getting notes just in time
 - Daily schedule
 - Lecture / exercise mix
-- Individual modeling projects
 
 ## Pace 
-
-- Challenge
-- Solutions
     - Working in groups
     - Questions, questions, questions
     - Advanced problems
@@ -181,6 +177,11 @@ Describe how Bayesian analysis differs from other types of statistical analysis.
 - $[y\mid\theta]$ The probability distribution of $y$ conditional on $\theta$
 - $[\theta\mid y]$ The probability distribution of $\theta$ conditional on $y$
 - $P(y\mid\theta)=p(y\mid\theta)=[y\mid\theta]=f(y\mid\theta)=f(y,\theta)$, different notation that means the same thing.
+
+## Exercise
+
+Please write the definition of a 95% frequentist confidence interval on a parameter $\alpha$.
+
 
 ## Confidence envelopes
 

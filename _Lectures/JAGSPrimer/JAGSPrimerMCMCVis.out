@@ -1,0 +1,36 @@
+\BOOKMARK [1][-]{section.1}{Aim}{}% 1
+\BOOKMARK [1][-]{section.2}{Introducing MCMC Samplers}{}% 2
+\BOOKMARK [1][-]{section.3}{Introducing JAGS}{}% 3
+\BOOKMARK [1][-]{section.4}{Installing JAGS}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Mac OS}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Windows}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Linux}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{Running JAGS}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{The JAGS model}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{Technical notes}{section.5}% 10
+\BOOKMARK [3][-]{subsubsection.5.2.1}{The model statement }{subsection.5.2}% 11
+\BOOKMARK [3][-]{subsubsection.5.2.2}{for loops}{subsection.5.2}% 12
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Specifying priors}{subsection.5.2}% 13
+\BOOKMARK [3][-]{subsubsection.5.2.4}{The assignment operator, <- or =}{subsection.5.2}% 14
+\BOOKMARK [3][-]{subsubsection.5.2.5}{Vector operations}{subsection.5.2}% 15
+\BOOKMARK [3][-]{subsubsection.5.2.6}{Keeping variables out of trouble}{subsection.5.2}% 16
+\BOOKMARK [2][-]{subsection.5.3}{Running JAGS from R}{section.5}% 17
+\BOOKMARK [3][-]{subsubsection.5.3.1}{Stepping through a JAGS run}{subsection.5.3}% 18
+\BOOKMARK [1][-]{section.6}{Output from JAGS}{}% 19
+\BOOKMARK [2][-]{subsection.6.1}{coda objects}{section.6}% 20
+\BOOKMARK [3][-]{subsubsection.6.1.1}{The structure of coda objects}{subsection.6.1}% 21
+\BOOKMARK [3][-]{subsubsection.6.1.2}{Summarizing coda objects with the MCMCvis package}{subsection.6.1}% 22
+\BOOKMARK [3][-]{subsubsection.6.1.3}{Tabular summaries with MCMCsummary}{subsection.6.1}% 23
+\BOOKMARK [3][-]{subsubsection.6.1.4}{Extracting portions of coda object with MCMCchains}{subsection.6.1}% 24
+\BOOKMARK [3][-]{subsubsection.6.1.5}{Extracting portions of coda objects while preserving their structure using MCMCpstr}{subsection.6.1}% 25
+\BOOKMARK [3][-]{subsubsection.6.1.6}{Visualizing model output}{subsection.6.1}% 26
+\BOOKMARK [1][-]{section.7}{Checking convergence}{}% 27
+\BOOKMARK [2][-]{subsection.7.1}{Trace and density plots}{section.7}% 28
+\BOOKMARK [2][-]{subsection.7.2}{Gelman and Rubin diagnostics \(Rhat\)}{section.7}% 29
+\BOOKMARK [2][-]{subsection.7.3}{Heidelberger and Welch diagnostics}{section.7}% 30
+\BOOKMARK [2][-]{subsection.7.4}{Raftery diagnostic}{section.7}% 31
+\BOOKMARK [2][-]{subsection.7.5}{Effective sample size \(n.eff\)}{section.7}% 32
+\BOOKMARK [1][-]{section.8}{Parallelizing your JAGS run \(optional\)}{}% 33
+\BOOKMARK [1][-]{section.9}{Monitoring deviance and calculating DIC}{}% 34
+\BOOKMARK [1][-]{section.10}{Differences between JAGS and Win\(Open\)BUGS}{}% 35
+\BOOKMARK [1][-]{section.11}{Troubleshooting}{}% 36
