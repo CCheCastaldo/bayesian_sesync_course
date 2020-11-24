@@ -24,10 +24,11 @@ transition: fastest
 - Lecture / exercise mix
 
 ## Pace 
-    - Working in groups
-    - Questions, questions, questions
-    - Advanced problems
-    - A flexible schedule
+
+- Working in groups
+- Questions, questions, questions
+- Advanced problems
+- A flexible schedule
 
 ## Readings
 
