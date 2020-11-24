@@ -20,7 +20,7 @@ span {background-color: #ffff80;}
 ##### **Day 1 (12/7), Session 2 (3 - 6 PM EST): Probability**
 
 1. <span>[What Sets Bayes Apart?](content/lectures/WhatSetsBayesApart.pdf) </span>
-2. <span>Confidence envelopes Group Exercise</span>
+2. <span>Confidence envelopes Exercise</span>
 
 ---
 
@@ -50,12 +50,12 @@ Review Hobbs and Hooten chapters 1-3.
 
 ---
 
-##### **Day 5 (12/10), Session 1 (12 - 3 PM EST): Likelihood **
+##### **Day 4 (12/10), Session 1 (12 - 3 PM EST): Likelihood **
 1. <span>[Likelihood](content/lectures/Likelihood.pdf)</span>
 2. [Likelihood Lab](content/labs/LikelihoodLab.html)
 3. [Likelihood Lab Excel File](content/handouts/HemlockLightLikelihood.xlsx) & [Answer](content/handouts/HemlockLightLikelihoodAnswers.xlsx)
 
-##### **Day 5 (12/10), Session 2 (3 - 6 PM EST): Bayes Theorem**
+##### **Day 4 (12/10), Session 2 (3 - 6 PM EST): Bayes Theorem**
 1. <span>[Bayes' Theorem](content/lectures/BayesTheorem.pdf)</span>
 2. [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
 
@@ -63,7 +63,7 @@ Review Hobbs and Hooten chapters 3.5-4.
 
 ---
 
-##### **Day 4 (12/11), Session 1 (12 - 3 PM EST): Priors**
+##### **Day 5 (12/11), Session 1 (12 - 3 PM EST): Priors**
 1. <span>[More about Priors I](content/lectures/MoreAboutPriors1.pdf)</span>
 2. [Priors Lab 1](content/labs/ConjugatePriorsLab.html) 
 3. [Beta-binomial Conjugacy Derivation](content/handouts/DerivationBetaBinomialConjugate.pdf)
@@ -78,7 +78,8 @@ Review Hobbs and Hooten chapters 5 and 7.
 ---
 
 ##### **Day 6 (12/14): JAGS Primer**
-1. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
+1. <span>Introduction to MCMC software / Group Session Review</span>
+2. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 
 ---
 
@@ -96,9 +97,7 @@ Review Hobbs and Hooten chapter 7-8.
 
 ##### **Day 8 (12/15), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
 1. <span>[Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)</span>
-
-##### **Day 8 (12/15), Session 2 (3 - 6 PM EST): Multi-Level Modeling**
-1. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
+2. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
