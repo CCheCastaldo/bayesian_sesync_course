@@ -32,3 +32,8 @@
 *_files
 **/*_cache
 **/*_files
+!docs/content/package/*.gz
+Tom_material/**
+
+
+

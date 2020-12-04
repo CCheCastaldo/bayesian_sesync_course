@@ -16,25 +16,15 @@ We strongly recommend purchasing [Hobbs & Hooten 2015](https://www.amazon.com/Ba
 
 <br>
 
-#### **Course Logistics**
-
-We will be starting at 9 am each day. We will usually end at 5 or 5:30.  
-
-Remember that lunch will be served at SESYNC each day during the course.
-
-Course materials will be distributed throughout the course via our course website on [GitHub](https://cchecastaldo.github.io/BayesianShortCourse/Syllabus.html).
-
-<br>
-
-#### **MCMCVis**
+#### **MCMCVis R Package**
 
 We will use the `MCMCvis` [package](https://cran.r-project.org/web/packages/MCMCvis/index.html) to manipulate and visualize JAGS output. The [package vignette](https://cran.r-project.org/web/packages/MCMCvis/vignettes/MCMCvis.html) nicely outlines its capabilities. 
 
 <br>
 
-#### **Individual Project (optional)**
+#### **Statistical Notation Help**
 
-You can use this [R markdown template](content/presentation/PresentationTemplate.Rmd) to make a presentation for your individual project. If you open this R markdown file in R-Studio and click the knit button above the script it will make a pdf file that looks like [this](content/presentation/PresentationTemplate.pdf). Note, you will need to take pictures of your DAG and joint with your phone (convert them to png) and then use the code in the R markdown document to add them to your presentation. Alternatively you can use $\LaTeX$ to write the joint distribution. Here are some [conventions for statistical notation](content/presentation/ConventionsForNotation.html) that you might find helpful. 
+Here are some [conventions for statistical notation](content/presentation/ConventionsForNotation.html) that you might find helpful. 
 
 <br>
 
@@ -62,12 +52,6 @@ library(SESYNCBayes)
 ?SESYNCBayes
 ```
     
-4.  Here is how to load a dataset from `SESYNCBayes`. For example:
-
-``` {r, eval = FALSE, echo = TRUE, include = TRUE}
-data(LynxFamilies)
-```
-
 <br>
 
 #### **Licensing**
