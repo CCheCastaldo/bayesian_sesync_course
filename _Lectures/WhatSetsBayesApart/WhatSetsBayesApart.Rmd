@@ -18,16 +18,17 @@ transition: fastest
 ## Housekeeping
 
 - Introductions
-- GitHub / Website for course materials
+- Website for course materials
 - Getting notes just in time
 - Daily schedule
 - Lecture / exercise mix
 
 ## Pace 
-    - Working in groups
-    - Questions, questions, questions
-    - Advanced problems
-    - A flexible schedule
+- Working in groups
+- Questions, questions, questions
+- Advanced problems
+- A flexible schedule
+- Opportunity to read and study
 
 ## Readings
 
@@ -61,7 +62,7 @@ using Bayesian methods.
 
 
 
-## Why this course?
+## Why Bayes?
 
 \begin{columns}[T]
 
@@ -75,7 +76,7 @@ using Bayesian methods.
 
 \end{columns}
 
-## Why this course?
+## Why Bayes?
 
 Problems poorly suited to traditional approaches:
 
@@ -89,13 +90,13 @@ Problems poorly suited to traditional approaches:
 - Forecasting
 - Synthesis
 
-## Why this course?
+## Why Bayes?
 
 SESYNC is dedicated to fostering synthetic, actionable science related to the structure, functioning, and sustainability of socio-environmental systems.
 
 \center \includegraphics[width=0.25\paperwidth]{../../_HeadersEtc/SESYNCBayes/logo.png}
 
-## Why this course?
+## Why Bayes?
 
 \vspace {-1cm}
 
