@@ -191,7 +191,7 @@ What sets Bayes apart? An illustration using confidence envelopes.
 Notes for this are in the board notes folder.
 
 ## What do we do in Bayesian modeling?
-<!-- \includegraphics[width=0.30\paperwidth]{../../_Graphics/Random_variable.pdf}  -->
+\includegraphics[width=0.30\paperwidth]{../../_Graphics/Random_variable.pdf}
 
 - We divide the world into things that are observed $(y)$ and things that are unobserved $(\theta)$.
 - The unobserved quantities $(\theta)$ are random variables. 
