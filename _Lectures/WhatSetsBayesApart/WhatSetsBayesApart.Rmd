@@ -181,7 +181,7 @@ Describe how Bayesian analysis differs from other types of statistical analysis.
 
 ## Exercise
 
-Please write the definition of a 95% frequentist confidence interval on a parameter $\alpha$.
+Please write the definition of a 95% frequentist confidence interval on a parameter $\theta$.
 
 
 ## Confidence envelopes
