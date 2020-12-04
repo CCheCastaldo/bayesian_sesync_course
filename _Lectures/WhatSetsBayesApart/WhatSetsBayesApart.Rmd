@@ -191,12 +191,13 @@ What sets Bayes apart? An illustration using confidence envelopes.
 Notes for this are in the board notes folder.
 
 ## What do we do in Bayesian modeling?
+<!-- \includegraphics[width=0.30\paperwidth]{../../_Graphics/Random_variable.pdf}  -->
 
-- We divide the world into things that are observed $(y)$ and things that unobserved $(\theta)$.
+- We divide the world into things that are observed $(y)$ and things that are unobserved $(\theta)$.
 - The unobserved quantities $(\theta)$ are random variables. 
-- The data are random variables before they are observed and fixed after they have been observed.
+- The data $y$ are random variables before they are observed and fixed after they have been observed.
 - We seek to understand the probability distribution of $\theta$ using fixed observations, i.e., $[\theta\mid y]$.
-- Those distributions quantify our uncertainty about $\theta$.
+
 
 ## You can understand it
 
