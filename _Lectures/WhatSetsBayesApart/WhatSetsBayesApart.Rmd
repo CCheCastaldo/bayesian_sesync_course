@@ -13,54 +13,6 @@ latex_engine: xelatex
 transition: fastest
 ---
 
-# Welcome and Logistics
-
-## Housekeeping
-
-- Introductions
-- Website for course materials
-- Getting notes just in time
-- Daily schedule
-- Lecture / exercise mix
-
-## Pace 
-- Working in groups
-- Questions, questions, questions
-- Advanced problems
-- A flexible schedule
-- Opportunity to read and study
-
-## Readings
-
-\begin{center}
-\includegraphics[width=0.3\paperwidth]{../../_Graphics/HobbsHootenBookCover.png}
-\end{center}
-
-Errata and explanations can be found \href{http://www.stat.colostate.edu/~hooten/papers/pdf/Hobbs_Hooten_Bayesian_Models_2015_errata.pdf}{\beamerbutton{here}}
-
-# Motivation
-
-## Exercise
-
-What do statements made by journalists, attorneys, and scientists have in common? What sets the statements of scientists apart? 
-
-## What is this course about?
-
-\center\includegraphics[width=0.95\paperwidth]{../../_Graphics/ConceptsTheory.png}
-
-## What is this course about?
-
-Gaining insight about socio-ecological systems by building models
-
-$$[z_{i}\mid \theta_{p}]$$
-
-and fitting those models to data
-
-$$ [y_{i} \mid z_{i},\theta_{d}] $$
-
-using Bayesian methods.
-
-
 
 ## Why Bayes?
 
@@ -102,68 +54,6 @@ SESYNC is dedicated to fostering synthetic, actionable science related to the st
 
 \center\includegraphics[width=0.85\paperwidth]{../../_Graphics/SokalRohlf.pdf}
 
-# Goals
-
-## Goals
-
-- Provide *principles* based understanding
-- Enhance intellectual satisfaction
-- Foster collaboration
-- Build a foundation for self-teaching
-
-
-
-
-## Learning outcomes
-
-- Explain basic principles of Bayesian inference.
-- Diagram and write out mathematically correct posterior and joint distributions for Bayesian models.
-- Explain basics of the Markov chain Monte Carlo (MCMC) algorithm. 
-- Use software for implementing MCMC. 
-- Develop and implement hierarchical models. 
-- Evaluate model fit.
-- Understand papers and proposals using Bayesian methods.
-
-## Learning outcomes
-
-\flushright\vspace{-1cm}\includegraphics[width=0.45\columnwidth]{../../_Graphics/HobbsModelingProcess.pdf}\hspace{1cm}
-
-# Content
-
-## Topics
-
-\center\includegraphics[width=0.9\paperwidth]{../../_Graphics/CourseTopics.png}
-
-## Cross cutting theme
-
-\begin{columns}[T]
-
-\begin{column}[T]{4cm}
-\includegraphics[width=1\columnwidth]{../../_Graphics/FirstDAG.png}
-\end{column}
-
-\begin{column}[T]{9cm} 
-\begin{eqnarray*}
-\mu_{i} & = & \frac{mx_{i}^{a}}{h^{a}+x_{i}^{a}}\\
-{[}a, h, m, \sigma^{2} \mid \bm{y}{]} &\propto &  \prod_{i=1}^{n}{[}y_{i} \mid \mu_{i},\sigma^{2}{]}{[}a{]}{[}h{]}{[}m{]}{[}\sigma^{2}{]}
-\end{eqnarray*}
-\end{column}
-
-\end{columns}
-
-\footnotesize
-``` {r, eval = FALSE, echo = TRUE}
-model{
-  a ~ dnorm(0, .0001)
-  m ~ dgamma(.01, .01)
-  h ~ dgamma(.01, .01)
-  sigma ~ dunif(0, 5)
-  for (i in 1:length(y)){
-    mu[i] <- (m * x[i]^a) / (h^a + x[i]^a)
-    y[i] ~ dgamma(mu[i]^2 / sigma^2, mu[i] / sigma^2)
-  }
-}
-```
 
 # What sets Bayes apart?
 
@@ -189,6 +79,9 @@ Please write the definition of a 95% frequentist confidence interval on a parame
 What sets Bayes apart? An illustration using confidence envelopes.
  
 Notes for this are in the board notes folder.
+
+
+## Cut to beta-binomial example
 
 ## What do we do in Bayesian modeling?
 \includegraphics[width=0.30\paperwidth]{../../_Graphics/Random_variable.pdf}
