@@ -10,8 +10,9 @@ output:
 
 ##### **Day 1 (12/7), Session 1 (12 - 3 PM EST): Introduction**
 
-1. Technological Test Run
+1. [CourseIntroduction](content/lectures/CourseIntroduction.pdf) 
 2. Participant / Instructor Introductions 
+3. Technological Test Run
 
 ##### **Day 1 (12/7), Session 2 (3 - 6 PM EST): Probability**
 
