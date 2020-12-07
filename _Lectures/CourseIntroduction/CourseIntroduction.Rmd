@@ -79,8 +79,6 @@ using Bayesian methods.
 - Build a foundation for self-teaching
 
 
-
-
 ## Learning outcomes
 
 - Explain basic principles of Bayesian inference.
