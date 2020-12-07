@@ -15,16 +15,25 @@ transition: fastest
 
 # Welcome and Logistics
 
+## Plan for today
+* First session
+    + Overview of course
+    + Introductions
+    + Technology fest
+* Second session
+    + What sets Bayes apart?
+    + Social
+
+
 ## Housekeeping
 
-- Introductions
 - Website for course materials
 - Getting notes just in time
 - Daily schedule
 - Lecture / exercise mix
+- Working in groups
 
 ## Pace 
-- Working in groups
 - Questions, questions, questions
 - Advanced problems
 - A flexible schedule
@@ -42,7 +51,7 @@ Errata and explanations can be found \href{http://www.stat.colostate.edu/~hooten
 
 ## Exercise
 
-What do statements made by journalists, attorneys, and scientists have in common? What sets the statements of scientists apart? 
+What do statements made by journalists, attorneys, and scientists have in common? What sets the statements of scientists apart? What does this have to do with the function of liberal democracies?
 
 ## What is this course about?
 
@@ -121,6 +130,7 @@ model{
     y[i] ~ dgamma(mu[i]^2 / sigma^2, mu[i] / sigma^2)
   }
 }
+
 ```
 
 
