@@ -17,7 +17,7 @@ output:
 ##### **Day 1 (12/7), Session 2 (3 - 6 PM EST): Probability**
 
 1. [What Sets Bayes Apart?](content/lectures/WhatSetsBayesApart.pdf) 
-2. Confidence envelopes Exercise
+2. [Confidence envelopes Exercise](content/boardwork/ConfidenceIntervalNotes.pdf )
 
 ---
 
