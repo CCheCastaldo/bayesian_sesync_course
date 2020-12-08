@@ -33,6 +33,8 @@ output:
 3. [Probability Lab 2](content/labs/ProbabilityLab2.html)
 4. [Distribution Cheatsheet](content/handouts/DistributionCheatSheet.pdf)
 
+Review Hobbs and Hooten chapters 1-3.
+
 ---
 
 ##### **Day 3 (12/9), Session 1 (12 - 3 PM EST): Marginal Distributions**
