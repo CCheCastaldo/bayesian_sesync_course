@@ -17,7 +17,7 @@ transition: fastest
 - Factoring joint probabilities
 - Directed acyclic graphs (a.k.a. Bayesian networks)
 
-## *All* of Bayesian inference extends from three rules of probability
+## *All* of Bayesian inference extends from **three rules of probability**
 
 1. Conditional probability (and independence)
 2. The law of total probability
@@ -84,15 +84,17 @@ $\Pr(A|B) = \Pr(A)$
 
 $\Pr(B|A) = \Pr(B)$
 
-## Independence
+<!-- ## Independence -->
 
-\includegraphics[height=2.25in]{../../_Graphics/rect3823.png}
+<!-- \includegraphics[height=2.25in]{../../_Graphics/rect3823.png} -->
 
-$\Pr(A|B) = \frac{\text{area of A and B}}{\text{area of B}}=\frac{\text{area of A}}{\text{area of S}}$
+<!-- $\Pr(A|B) = \frac{\text{area of A and B}}{\text{area of B}}=\frac{\text{area of A}}{\text{area of S}}$ -->
 
 ## The Law of Total Probability
 
 \includegraphics[height=1.25in]{../../_Graphics/totalProb.png}
+
+$\Pr(A)$ is unknown, but can be calculated using the known probabilities of several related events under various conditions.
 
 We can define a set of events $\{B_n : n = 1,2,3,...\}$, which taken together define the entire sample space, $\sum_n B_n = S$.
 
@@ -104,9 +106,9 @@ $\Pr(A) = \sum_n \Pr(A|B_n)\Pr(B_n)$ (discrete case)
 
 $\Pr(A) = \int \Pr(A|B)\Pr(B) dB$ (continuous case)
 
-##Chain rule of probability
+##Intution about the chain rule of probability
 
-Board work
+Move to course Jamboard
 
 ## The Chain Rule of Probability 
 
@@ -143,9 +145,9 @@ Why is factoring useful?
 - Any node at the tail of an arrow without an arrow leading into it must be expressed unconditionally.
 - Nodes at heads of arrows are called "children"; at tails, "parents."
 
-## Factoring joint probabilities
+## Factoring joint probabilities using DAGs
 
-Illustrate with simple regression model on board.
+Move to course Jamboard
 
 ## Work on lab
 
