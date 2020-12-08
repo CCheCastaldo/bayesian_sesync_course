@@ -106,7 +106,7 @@ $\Pr(A) = \sum_n \Pr(A|B_n)\Pr(B_n)$ (discrete case)
 
 $\Pr(A) = \int \Pr(A|B)\Pr(B) dB$ (continuous case)
 
-##Intution about the chain rule of probability
+## Intution about the chain rule of probability
 
 Move to course Jamboard
 
