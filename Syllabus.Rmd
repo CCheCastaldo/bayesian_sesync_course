@@ -42,7 +42,7 @@ Review Hobbs and Hooten chapters 1-3.
 2. [Probability Lab 3](content/labs/ProbabilityLab3.html)
 
 ##### **Day 3 (12/9), Session 2 (3 - 6 PM EST): Moment Matching**
-1. [Moment Matching](content/lectures/ProbabilityConceptsDistributions.pdf)
+1. [Moment Matching](content/lectures/MomentMatching.pdf)
 2. [Probability Lab 4](content/labs/ProbabilityLab4.html)
 
 Review Hobbs and Hooten chapters 1-3.
