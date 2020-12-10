@@ -98,12 +98,12 @@ writeLines(lines, con = "tempPlot2.tex")
 \end{center}
 
 - Likelihood allows us to compare alternative parameter values by calculating the probability (or probability density) of the data conditional on parameters $[\, y \mid \theta]$. 
-- As you will see, all evidence based on likelihood is relative.
 
 ## The key idea in likelihood
 
 - In a probability mass or density function, the parameter $\theta$ is constant (fixed) and the outcomes $\bm{y}$ vary (these outcomes represent data we may observe). The function sums or integrates to 1 over its support. 
 - In a likelihood function, the data $\bm{y}$ are constant (fixed) and the parameter $\theta$ varies. We use $[\, y \mid \theta]$ to assess the likelihood of different values of $\theta$ in light of the data. In this case, the function does not sum or integrate to one over all possible values of the parameter.
+- As you will see, all evidence based on likelihood is relative.
 
 $$
 \underbrace{L\left({\theta \mid y}\right)}_{{\text{likelihood function}}} \propto \underbrace{[\, y \mid \theta]}_{\text{PDF or PMF}}
