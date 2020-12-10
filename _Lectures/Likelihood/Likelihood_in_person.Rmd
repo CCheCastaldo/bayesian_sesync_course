@@ -1,0 +1,529 @@
+---
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "../../content/lectures/")})
+title: "Likelihood"
+author: "`r readChar('../../_HeadersEtc/SESYNCBayes/Authors.txt', file.info('../../_HeadersEtc/SESYNCBayes/Authors.txt')$size)`"
+subtitle: "`r readChar('../../_HeadersEtc/SESYNCBayes/Title.txt', file.info('../../_HeadersEtc/SESYNCBayes/Title.txt')$size)`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  beamer_presentation:
+    includes:
+      in_header: ../../_HeadersEtc/SESYNCBayes/header.tex
+theme: Boadilla
+latex_engine: xelatex
+transition: fastest
+---
+
+``` {r, eval = TRUE, echo = FALSE}
+
+if('pacman' %in% rownames(installed.packages()) == FALSE) {
+
+  install.packages('pacman', repos = "http://cran.case.edu")
+
+}
+
+pacman::p_load(shape, pBrackets, tikzDevice, knitr, rmarkdown)
+
+# shape for arrows on plots (Arrow)
+# pBrackets for brackets on plot (bracket)
+# tikzDevice for putting latex fonts and math into R plots
+
+```
+
+## Why Likelihood?
+
+- Likelihood is a component of all Bayesian models.
+- Maximum likelihood is an important statistical approach in its own right.
+
+## Learning objectives for lecture and lab
+
+- Understand the concept of likelihood and its relationship to the probability of data conditional on parameters.
+- Describe a likelihood profile and how it differs from a probability density function.
+- Understand how to compose likelihoods for multiple parameters and multiple observations.
+
+## Data conditional on a parameter: $[\, y \mid \theta]$
+
+Prevalence is a term used in disease ecology to indicate the proportion of a population that is infected. The true prevalence, $\theta$, of chronic wasting disease in male mule deer on the winter range north of Fort Collins is 12%. If you collected a sample of 24 male mule deer, what would be the probability of observing 4 infected individuals?
+
+## Parameter conditional the data: $[\theta \mid y]$
+
+We obtain a new sample of 24 male mule deer on the winter range north of Fort Collins that includes 4 infected individuals. In light of these data, what is the probability that the true value of prevalence, $\theta$, is found in $q_{L} \le \theta \le q_{U}$? 
+
+## Bayesian inference is based on $[\theta \mid y]$
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(0, 1, length = 1000)
+y <- dnorm(x, mean = .5, sd = .1)
+tikz('tempPlot1.tex', width = 3.5, height = 3)
+plot(x, y, type = "l", lwd = 1, axes = FALSE, frame.plot = TRUE, xlab = "", ylab = "")
+mtext("$\\theta$", side = 1, line = 1, cex = 1.1)
+mtext("$[\\theta \\mid y ]$", side = 2, line = 1, cex = 1.1)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot1.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot1.tex")
+```
+
+\begin{center}
+\input{tempPlot1.tex}
+\end{center}
+
+## Inference from likelihood is based on $[\, y \mid \theta]$
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(0, 1, length = 1000)
+y <- dnorm(x, mean = .5, sd = .1)
+tikz('tempPlot2.tex', width = 3.5, height = 3)
+plot(x, y, type = "l", lwd = 1, frame.plot = TRUE, xlab = "", ylab = "", axes = "F")
+mtext("$\\theta$", side = 1, line = 1, cex = 1.1)
+mtext("$[\\, y \\mid \\theta]$", side = 2, line = 1, cex = 1.1)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot2.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot2.tex")
+```
+
+\begin{center}
+\input{tempPlot2.tex}
+\end{center}
+
+Likelihood allows us to compare alternative parameter values and models by calculating the probability (or probability density) of the data conditional on the parameters $[\, y \mid \theta]$. As you will see, all evidence based on likelihood is relative.
+
+## The key idea in likelihood
+
+- In a probability mass or probability density function, the parameter $\theta$ is constant (known) and the data $\bm{y}$ are random variables. The function sums or integrates to 1 over its support. 
+- In a likelihood function, the data are constant (known) and the parameter is unknown but fixed. We use $[\, y \mid \theta]$ to assess the likelihood of different values of $\theta$ in light of the data. In this case, the function does not sum or integrate to one over all possible values of the parameter.
+
+$$
+\underbrace{L\left({\theta \mid y}\right)}_{{\text{likelihood function}}} \propto \underbrace{[\, y \mid \theta]}_{\text{PDF or PMF}}
+$$
+\center Likelihood is \emph{proportional} to probability or probability density
+
+## Discuss notation
+
+\begin{eqnarray}
+L(\theta \mid y) & \propto & [\, y \mid \theta]\\
+L(\theta \mid y) & = & c[\, y \mid \theta]\\
+L(\theta \mid y) & = & [\, y \mid \theta]
+\end{eqnarray}
+
+## The parameter is known and the data are random
+
+\vspace*{1cm}
+
+\centerline{\includegraphics[height=5cm]{../../_Graphics/CanBeans.png}}
+
+- What are the possible outcomes? 
+- What probability mass function would you use to model theses data? 
+- What is the probability of each outcome? 
+- What is the sum of the individual probabilities?
+
+## The parameter is known and the data are random
+
+We draw three beans from a can with equal numbers of white and black beans. The possible outcomes are:
+
+\bigskip \center
+
+\begin{tabular}{|c|c|c|}
+\hline 
+
+$\theta$ & number of white beans, $y_{i}$ & $[\, y_{i} \mid \theta=?]$\tabularnewline
+\hline 
+\hline 
+ &  & \tabularnewline
+\hline 
+ &  & \tabularnewline
+\hline 
+ &  & \tabularnewline
+\hline 
+ &  & \tabularnewline
+\hline 
+& $\sum_{i=1}^{4}[\, y_{i} \mid \theta=?]$ & ?
+\tabularnewline
+\hline 
+\end{tabular}
+
+## The parameter is known and the data are random
+
+We draw three beans from a can with equal numbers of white and black beans. The possible outcomes are:
+
+\bigskip \center
+
+\begin{tabular}{|c|c|c|}
+\hline 
+
+$\theta$ & number of white beans, $y_{i}$ & $[\, y_{i} \mid \theta=.5]$\tabularnewline
+\hline 
+\hline 
+.5 & 0 & .125\tabularnewline
+\hline 
+.5 & 1 & .375\tabularnewline
+\hline 
+.5 & 2 & .375\tabularnewline
+\hline 
+.5 & 3 & .125\tabularnewline
+\hline 
+& $\sum_{i=1}^{4}[\, y_{i} \mid \theta=.5]$ & 1
+\tabularnewline
+\hline 
+\end{tabular}
+
+## The data are known and the parameter is random
+
+\vspace*{1cm}
+
+\centerline{\includegraphics[height=6.2cm]{../../_Graphics/CansBeans.png}}
+
+- What is the likelihood of each parameter value?
+
+## The data are known and the parameter is random
+
+We have three hypothesized parameter values, $(\nicefrac{5}{6}, \nicefrac{1}{2}, \nicefrac{1}{6})$. Data in hand are 2 white beans on three draws. The likelihood of each parameter value is:
+
+\bigskip \center
+
+\begin{tabular}{|c|c|c|}
+\hline 
+hypothesis, $\theta_{i}$ & number of white beans, $y$ & $[\, y=? \mid \theta_{i}]$\tabularnewline
+\hline 
+\hline 
+&  & \tabularnewline
+\hline 
+&  & \tabularnewline
+\hline 
+&  & \tabularnewline
+\hline 
+& $\sum_{i=1}^{3}[\, y=? \mid \theta_{i}]$ & ?\tabularnewline
+\hline 
+\end{tabular}
+
+## The data are known and the parameter is random
+
+We have three hypothesized parameter values, $(\nicefrac{5}{6}, \nicefrac{1}{2}, \nicefrac{1}{6})$. Data in hand are 2 white beans on three draws. The likelihood of each parameter value is:
+
+\bigskip \center
+
+\begin{tabular}{|c|c|c|}
+\hline 
+hypothesis, $\theta_{i}$ & number of white beans, $y$ & $[\, y=2 \mid \theta_{i}]$\tabularnewline
+\hline 
+\hline 
+$\theta_{1}=\nicefrac{5}{6}$ & 2 & 0.35\tabularnewline
+\hline 
+$\theta_{2}=\nicefrac{1}{2}$ & 2 & 0.38\tabularnewline
+\hline 
+$\theta_{3}=\nicefrac{1}{6}$ &  2 & 0.069\tabularnewline
+\hline 
+& $\sum_{i=1}^{3}[\, y=2 \mid \theta_{i}]$ & 0.79\tabularnewline
+\hline 
+\end{tabular}
+
+## A likelihood profile: 2 white beans on 3 draws
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(0, 1, length = 1000)
+y <- dbinom(2, 3, x)
+tikz('tempPlot3.tex', width = 4.5, height = 3.5)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, xlab = "", ylab = "", col = "blue", ylim = c(0, .5))
+axis(1, at = c(0, .2, .4, .6, .8, 1), cex.axis = .7)
+axis(2, at = c(0, .1, .2, .3, .4, .5), cex.axis = .5)
+mtext("$\\theta$", side = 1, line = 2.5, cex = 1.1)
+mtext("$[\\, y \\mid \\theta]$", side = 2, line = 2.5, cex = 1.1)
+segments(x0 = c(5/6, 1/2, 1/6), y0 = c(-.02, -.02, -0.02), y1 = c(dbinom(2, 3, 5/6), dbinom(2, 3, 1/2), dbinom(2, 3, 1/6)))
+Arrows(x0 = c(5/6, 1/2, 1/6), x1 = c(-.04, -.04, -0.04), y0 = c(dbinom(2, 3, 5/6), dbinom(2, 3, 1/2), dbinom(2, 3, 1/6)), y1 = c(dbinom(2, 3, 5/6), dbinom(2, 3, 1/2), dbinom(2, 3, 1/6)), arr.width = .15, arr.length = .3, arr.adj = 1)
+text(x = 5/6 + .04, y = .02, "$\\theta_{1}$", cex = 1.1)
+text(x = 1/2 + .04, y = .02, "$\\theta_{2}$", cex = 1.1)
+text(x = 1/6 + .04, y = .02, "$\\theta_{3}$", cex = 1.1)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot3.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot3.tex")
+```
+
+\begin{center}
+\input{tempPlot3.tex}
+\end{center}
+
+## Class exercise: Can of beans
+
+Have someone take a draw of 10 beans from one of the cans where the identity of the can is unknown.
+
+- Which of the three cans is the most likely to have produced this draw?
+- How much more likely is this can than the other two?
+
+## A likelihood profile: 4 white beans on 10 draws
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(0, 1, length = 1000)
+y <- dbinom(4, 10, x)
+tikz('tempPlot4.tex', width = 4.5, height = 3.5)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, xlab = "", ylab = "", col = "blue", ylim = c(0, .25), xlim = c(0, 1))
+axis(1, at = c(0, .2, .4, .6, .8, 1), cex.axis = .7)
+axis(2, at = c(0, .05, .1, .15, .2, .25), cex.axis = .5)
+mtext("$\\theta$", side = 1, line = 2.5, cex = 1.1)
+mtext("$[\\, y \\mid \\theta]$", side = 2, line = 2.5, cex = 1.1)
+segments(x0 = c(5/6, 1/2, 1/6), y0 = c(-.01, -.01, -0.01), y1 = c(dbinom(4, 10, 5/6), dbinom(4, 10, 1/2), dbinom(4, 10, 1/6)))
+Arrows(x0 = c(5/6, 1/2, 1/6), x1 = c(-.04, -.04, -0.04), y0 = c(dbinom(4, 10, 5/6), dbinom(4, 10, 1/2), dbinom(4, 10, 1/6)), y1 = c(dbinom(4, 10, 5/6), dbinom(4, 10, 1/2), dbinom(4, 10, 1/6)), arr.width = .15, arr.length = .3, arr.adj = 1)
+text(x = 5/6 + .04, y = .02, "$\\theta_{1}$", cex = 1.1)
+text(x = 1/2 + .04, y = .02, "$\\theta_{2}$", cex = 1.1)
+text(x = 1/6 + .04, y = .02, "$\\theta_{3}$", cex = 1.1)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot4.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot4.tex")
+```
+
+\begin{center}
+\input{tempPlot4.tex}
+\end{center}
+
+## Likelihood vs Probability:
+
+``` {r, eval = TRUE, echo = FALSE}
+tikz('tempPlot5.tex', width = 4.5, height = 2.5)
+par(mfrow = c(1, 2))
+par(mar = c(4,3,2,2))
+x <- seq(0, 10)
+y <- dbinom(x, 10, p = .4)
+plot(x, y, type = "h", lwd = 2, axes = FALSE, frame.plot = TRUE, ylim = c(0, .25), xlab = "", ylab = "", col = "blue", main = "Probability mass function", cex.main = .8)
+axis(1, at = c(0, 2, 4, 6, 8, 10), cex.axis = .7)
+axis(2, at = c(0, 0.05, 0.10, 0.15, 0.20, 0.25), cex.axis = .5)
+mtext("y", side = 1, line = 2.5, cex = 1.1)
+mtext(expression("$[\\, y \\mid \\theta]$"), side = 2, line = 2.5, cex = 1.1)
+
+par(mar = c(4,3,2,2))
+x <- seq(0, 1, length = 1000)
+y <- dbinom(4, 10, x)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, xlab = "", ylab = "", col = "blue", ylim = c(0, .25), main = "Likelihood profile", cex.main = .8)
+axis(1, at = c(0, .2, .4, .6, .8, 1), cex.axis = .7)
+axis(2, at = c(0, .05, .1, .15, .2, .25), cex.axis = .5)
+mtext("$\\theta$", side = 1, line = 2.5, cex = 1.1)
+mtext(expression("$[\\, y \\mid \\theta]$"), side = 2, line = 2.5, cex = 1.1)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot5.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot5.tex")
+```
+
+\begin{center}
+\input{tempPlot5.tex}
+\end{center}
+
+## How do we fit models with multiple parameters?
+
+In the example we had a single parameter, $\theta$, one set of observation, 4 successes on 10 draws, and a binomial likelihood. However, we could have made the likelihood a function of the \emph{predictions} of a model, and used any probability mass function or probability density function as a ``wrapper'' for the predictions, i.e.,
+
+\begin{eqnarray}
+\mu_{i} & = & g(\bm{\theta}, x_{i})\nonumber\\
+\textnormal{L}(\bm{\theta}, \sigma^{2} \mid y_{i}) & \propto & \underbrace{[y_{i} \mid \mu_{i},\sigma^{2}]}_{\text{PDF or PMF}}\nonumber
+\end{eqnarray}
+
+## Likelihood Surfaces
+
+\centerline{\includegraphics[width=9cm]{../../_Graphics/LikelihoodSurface.png}}
+
+\vspace*{1cm}
+
+Figure courtesy of \href{http://nesterko.com/lectures/stat221-2012/lecture8/\#/6}{\beamerbutton{Sergiy Nesterko}}.
+
+
+## How do we fit models with multiple parameters and multiple data points?
+
+The total likelihood is the product of the individual likelihoods, assuming the data are \emph{conditionally independent}: 
+\begin{eqnarray}
+\textnormal{L}(\bm{\mu}, \sigma^{2} \mid \mathbf{y}) & = & c\prod_{i=1}^{n}[y_{i} \mid g(\bm{\theta}, x_{i}),\sigma^{2}]\nonumber
+\end{eqnarray}
+
+## What does conditionally independent mean?
+
+Independence is an assumption! Remember from the chain rule:
+
+$$Pr(y_{1},\ldots,y_{n}) = Pr(y_{1} \mid y_2\dots y_{n})Pr(y_{2} \mid y_{3}\ldots y_{n})\ldots Pr(y_{n}).$$
+
+However, by assuming that these random variables are independent, you can simplyify the joint probability into:
+
+$$Pr(y_{1},\ldots,y_{n}) = Pr(y_{1})Pr(y_{2})\ldots Pr(y_{n}),$$
+
+such that the total likelihood a product of the individual likelihoods.
+
+## What does conditionally independent mean?
+
+We evaluate the independence assumption by examining the residuals $(\epsilon)$ from a model, where $(\epsilon_{i}=y_{i}-g(\bm{\theta},x_{i}))$.
+
+The independence assumption holds if knowing a residual tells you nothing about the other residuals. 
+
+We assess this by ensuring that the residuals:
+
+- do not show a trend, meaning they should be centered on 0 throughout the range of fitted values, 
+- and are not be autocorrelated.
+
+## Log likelihoods:
+
+We often use the sum of the log likelihoods to get the total log likelihood as a basis for fitting models:
+
+$$\log(\textnormal{L}(\bm{\theta}, \sigma^{2} \mid y))=\log(c)+\sum_{i=1}^{n}\log([y_{i}\mid g(\bm{\theta}, x_{i}),\sigma^{2}])$$
+
+## Class Exercise: Likelihood profile of $\lambda$ for tadpole counts
+
+Assume we have observed the following counts of tadpoles in funnel traps from 6 different ponds: 7, 11, 54, 12, 2, 1 individuals.
+
+Assuming these counts were generated using a Poisson process governed by $\lambda$, compute a likelihood profile using R. 
+
+Eyeball this profile to determine the MLE.
+
+## Likelihood profile of $\lambda$ for tadpole counts
+
+``` {r, eval = TRUE, echo = FALSE}
+lambda <- seq(0, 40, length = 1000)
+y <- NA
+for(i in 1:length(lambda)) {y[i] <- prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i]))}
+tikz('tempPlot9.tex', width = 4, height = 3)
+plot(lambda, y, type = "l", lwd = 2, axes = FALSE, ylim = c(0, 4.5E-29), frame.plot = TRUE, xlab = "", ylab = "", col = "blue")
+axis(1, at = c(0, 5, 10, 15, 20, 25, 30, 35, 40), cex.axis = .7)
+axis(2, at = c(0, 1E-29, 2E-29, 3E-29, 4E-29), cex.axis = .5)
+mtext("$\\lambda$", side = 1, line = 2.5, cex = 1.1)
+mtext("$\\textnormal{L}(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
+points(x = lambda[which(y == max(y))], y = max(y), pch = 16, cex = 1.25)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot9.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot9.tex")
+```
+
+\begin{center}
+\input{tempPlot9.tex}
+\end{center}
+
+\tiny
+``` {r, eval = FALSE, echo = TRUE}
+lambda <- seq(0, 40, length = 1000)
+y <- NA
+for(i in 1:length(lambda)) {y[i] <- prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i]))}
+```
+
+## Main points
+
+- Likelihood allows us to evaluate the relative strength of evidence for one parameter or model relative to another. 
+- The data are fixed and the parameters are variable in likelihood functions. These functions do not integrate or sum to one over the range of values of the parameter. 
+- The data are variable and the parameter are fixed in probability mass functions and probability density functions. These functions sum or integrate to one over the support of the random variable, $y$.
+
+## Looking ahead: likelihood vs.\ Bayes
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(0, 1, length = 1000)
+y <- dbinom(4, 10, x)
+tikz('tempPlot10.tex', width = 3.5, height = 2.5)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, xlab = "", ylab = "", col = "blue", ylim = c(0, .25), main = "", cex.main = .7)
+axis(1, at = c(0, .2, .4, .6, .8, 1), cex.axis = .7)
+axis(2, at = c(0, .05, .1, .15, .2, .25), cex.axis = .5)
+mtext("$\\theta$", side = 1, line = 2, cex = 1.1)
+mtext("$\\textnormal{L}(\\theta)$", side = 2, line = 2, cex = 1.1)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot10.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot10.tex")
+```
+
+\begin{center}
+\input{tempPlot10.tex}
+\end{center}
+
+- What must be done to insure that the area under the curve = 1?
+- If you do this, is this now a probability density function for $\theta$?
+
+## Likelihood ratio confidence intervals
+
+Find the upper and lower bounds of an interval where all $\lambda$ values within that interval are as consistent with the data as $\lambda_{MLE}$.
+
+We compute the likelihood ratio statistic:
+
+$$\textnormal{R} = 2\log\Big(\frac{\textnormal{L}(\lambda_{MLE} \mid y)}{\textnormal{L}(\lambda_{0}\mid y)}\Big)  \sim \chi_{k=1}^{2}$$
+
+which is distributed $\chi^{2}$ with 1 degree of freedom. Note that we fail to reject $H_{0}$ that $\lambda = \lambda_{0}$ if $\textnormal{R} < \chi_{k=1}^{2}(1 - \alpha)$. 
+
+## Likelihood ratio confidence intervals
+
+We determine the $(1-\alpha = 0.95)$ likelihood ratio confidence interval by finding the upper and lower bounds for all values of $\lambda_{0}$ where we would fail to reject $H_{0}$.
+
+\begin{eqnarray*}
+2\log\Big(\frac{\textnormal{L}(\lambda_{MLE} \mid y)}{\textnormal{L}(\lambda\mid y)}\Big) < \chi_{k=1}^{2}(0.95)\\
+L(\lambda_{MLE}) - \frac{3.84}{2} < L(\lambda\mid y)\\
+L(\lambda\mid y) > L(\lambda_{MLE}) - 1.92
+\end{eqnarray*}
+
+## Likelihood ratio confidence intervals
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(.03, 30, length = 1000)
+y <- log(dexp(.15, x))
+cutoff <- y[which(y == max(y))] - 1.92
+lL <- min(x[which(y >= cutoff)])
+uL <- max(x[which(y >= cutoff)])
+tikz('tempPlot8.tex', width = 4.25, height = 3.25)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, frame.plot = TRUE, ylim = c(-4, 2), xlab = "", ylab = "", col = "blue")
+axis(1, at = c(0, 5, 10, 15, 20, 25, 30), cex.axis = .7)
+axis(2, at = c(-4, -2, 0, 2), cex.axis = .7)
+mtext("$\\lambda$", side = 1, line = 2.5, cex = 1.1)
+mtext("$L(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
+points(x = x[which(y == max(y))], y = max(y), pch = 16, cex = 2)
+abline(h = cutoff, lwd = 3, lty = 2, col = "black")
+segments(x0 = c(lL, uL), x1 = c(lL, uL), y0 = c(-4, -4), y1 = c(cutoff, cutoff), lwd = 3, lty = 2, col = "red")
+Arrows(x0 = lL, x1 = uL, y0 = -3.5, y1 = -3.5, arr.width = .2, arr.length = .3, arr.adj = 3, code = 3)
+text(x = 15, y = -3.3, "confidence interval for $\\lambda$", cex = .8)
+text(x = 13, y = cutoff + .25, "region satisfying the log-likelihood inequality", cex = .8)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot8.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot8.tex")
+```
+
+\begin{center}
+\input{tempPlot8.tex}
+\end{center}
+
+Figure courtesy of the \href{https://www.unc.edu/courses/2010fall/ecol/563/001/docs/lectures/lecture8.htm\#constructing}{\beamerbutton{UNC Biology Department}}.
+
+## Likelihood profile of $\lambda$ for tadpoles
+
+``` {r, eval = TRUE, echo = FALSE}
+x <- seq(0, 40, length = 1000)
+y <- NA
+for(i in 1:length(x)) {y[i] <- log(prod(dpois(c(7, 11, 54, 12, 2, 1), x[i])))}
+cutoff <- y[which(y == max(y))] - 1.92
+lL <- min(x[which(y >= cutoff)])
+uL <- max(x[which(y >= cutoff)])
+tikz('tempPlot11.tex', width = 4, height = 3)
+plot(x, y, type = "l", lwd = 2, axes = FALSE, ylim = c(-500, 100), frame.plot = TRUE, xlab = "", ylab = "", col = "blue")
+axis(1, at = c(0, 5, 10, 15, 20, 25, 30, 35, 40), cex.axis = .7)
+axis(2, at = c(-500, -400, -300, -200, -100, 0, 100), cex.axis = .5)
+mtext("$\\lambda$", side = 1, line = 2.5, cex = 1.1)
+mtext("$L(\\lambda)$", side = 2, line = 2.5, cex = 1.1)
+points(x = x[which(y == max(y))], y = max(y), pch = 16, cex = 2)
+abline(h = cutoff, lwd = 3, lty = 2, col = "black")
+segments(x0 = c(lL, uL), x1 = c(lL, uL), y0 = c(-500, -500), y1 = c(cutoff, cutoff), lwd = 3, lty = 2, col = "red")
+Arrows(x0 = lL, x1 = uL, y0 = -400, y1 = -400, arr.width = .2, arr.length = .3, arr.adj = 3, code = 3)
+text(x = 15, y = 0, "95\\% CI for $\\lambda$", cex = .8)
+invisible(dev.off())
+lines <- readLines(con = "tempPlot11.tex")
+lines <- lines[-which(grepl("\\path\\[clip\\]*", lines, perl = F))]
+lines <- lines[-which(grepl("\\path\\[use as bounding box*", lines, perl = F))]
+writeLines(lines, con = "tempPlot11.tex")
+```
+
+\begin{center}
+\input{tempPlot11.tex}
+\end{center}
+
+\tiny
+``` {r, eval = FALSE, echo = TRUE}
+lambda <- seq(0, 40, length = 1000)
+y <- NA
+for(i in 1:length(lambda)) {y[i] <- log(prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i])))}
+```
