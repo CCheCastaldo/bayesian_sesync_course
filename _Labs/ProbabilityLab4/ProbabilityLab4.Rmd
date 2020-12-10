@@ -122,10 +122,14 @@ $$y_i \sim \textrm{lognormal}\bigg(\log(103)-\log\bigg(\sqrt{1+\frac{23^2}{103^2
 x <- 94 
 mu <- 103
 sd <- 23
-(alpha <- log(mu) - log((1 + (23^2/103^2))^.5))
-(beta <-  log(1 + (23^2/103^2))^.5)
+alpha = log(mu) - 1/2 * log((sd^2+mu^2)/mu^2)
+beta = sqrt(log((sd^2+mu^2)/mu^2))
 dlnorm(x, alpha, beta)
 
+#check the momment match
+y.sim = rlnorm(100000, alpha, beta)
+mean(y.sim)
+sd(y.sim)
 q <- c(110, 90)
 p.bound <- plnorm(q, alpha, beta)
 p.bound[1] - p.bound[2]
