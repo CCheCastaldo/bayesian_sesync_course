@@ -156,7 +156,7 @@ $$
 
 <br>
 
-4. Describe the correspondence between $y_{i}$, $\mu_{i}$, and $\sigma$ in equation 2 and the columns and cells in your spreadsheet.  
+4. Describe the correspondence between $y_{i}$, $\mu_{i}$, and $\sigma$ from the equation you wrote for the previous question and the columns and cells in your spreadsheet.  
 
 <button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
 
@@ -323,7 +323,7 @@ Incorporate these prior data in your MLE estimate of $\alpha$. Hint: create a li
 
 <br>
 
-The estimate of $\alpha$represents a compromise between the estimate based on the data and the prior distribution of $\alpha$.
+The estimate of $\alpha$ represents a compromise between the estimate based on the data and the prior distribution of $\alpha$.
 
 </div>
 
