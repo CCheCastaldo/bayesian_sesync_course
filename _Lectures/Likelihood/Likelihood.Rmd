@@ -346,15 +346,17 @@ writeLines(lines, con = "tempPlot5.tex")
 
 $$[\,y \mid \theta\,] = {10 \choose y} \theta^y(1-\theta\,)^{n-y}$$
 
-## How do we fit models with multiple parameters?
+## How do we compute likelihoods for multiple parameters?
 
 - In the example we had a single parameter, $\theta$, one set of observation, 4 successes on 10 draws, and a binomial likelihood. 
 
-- However, we could have made the likelihood a function of the \emph{predictions} of a model, and used any probability mass function or probability density function as a ``wrapper'' for the predictions, i.e.,
+- However, we could have $\theta$ a function of covariates. Procedurally, we could replace $\theta$ with $g(\bm{\beta}, x_{i})$, which would allow $\theta$ to vary with respect to $x_{i}$. 
+
+- More generally, we often wish to predict the mean response of an RV and then embed this mean function in a probability mass or density function, either directly or using moment matching.
 
 \begin{eqnarray}
-\mu_{i} & = & g(\bm{\theta}, x_{i})\nonumber\\
-\textnormal{L}(\bm{\theta}, \sigma^{2} \mid y_{i}) & \propto & \underbrace{[y_{i} \mid \mu_{i},\sigma^{2}]}_{\text{PDF or PMF}}\nonumber
+\mu_{i} & = & g(\alpha, x_{i})\nonumber\\
+\textnormal{L}(\alpha, \sigma^{2} \mid y_{i}) & \propto & \underbrace{[y_{i} \mid \mu_{i},\sigma^{2}]}_{\text{PDF or PMF}}\nonumber
 \end{eqnarray}
 
 ## Likelihood Surfaces
@@ -366,7 +368,7 @@ $$[\,y \mid \theta\,] = {10 \choose y} \theta^y(1-\theta\,)^{n-y}$$
 Figure courtesy of \href{http://nesterko.com/lectures/stat221-2012/lecture8/\#/6}{\beamerbutton{Sergiy Nesterko}}.
 
 
-## How do we fit models with multiple parameters and multiple data points?
+## How do we compute likelihoods for multiple parameters and multiple data points?
 
 The total likelihood is the product of the individual likelihoods, assuming the data are \emph{conditionally independent}: 
 \begin{eqnarray}
@@ -436,6 +438,10 @@ for(i in 1:length(lambda)) {y[i] <- prod(dpois(c(7, 11, 54, 12, 2, 1), lambda[i]
 - Likelihood is a component of all Bayesian models.
 - The data are fixed and the parameters are variable in likelihood functions. These functions do not integrate or sum to one over the range of values of the parameter. 
 - The outcomes are variable and the parameters are fixed in probability mass functions and density functions. These functions sum or integrate to one over the support of the random variable.
+
+## End of Lecture
+
+The remaining slides are in anticipation of questions or to provide additional information.
 
 ## Looking ahead: Bayesian inference is based on $[\theta \mid y]$
 
