@@ -49,25 +49,35 @@ Review Hobbs and Hooten chapters 1-3.
 
 ---
 
+##### **Day 4 (12/10), Session 1 (12 - 3 PM EST): Lab Catchup**
+1. Catch up on previous labs
+
 ##### **Day 4 (12/10), Session 1 (12 - 3 PM EST): Likelihood **
 1. [Likelihood](content/lectures/Likelihood.pdf)
 2. [Likelihood Lab](content/labs/LikelihoodLab.html)
 3. [Likelihood Lab Excel File](content/handouts/HemlockLightLikelihood.xlsx) & [Answer](content/handouts/HemlockLightLikelihoodAnswers.xlsx)
 
-##### **Day 4 (12/10), Session 2 (3 - 6 PM EST): Bayes Theorem**
-1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf)
-2. [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
-
 Review Hobbs and Hooten chapters 3.5-4.
 
 ---
 
-##### **Day 5 (12/11), Session 1 (12 - 3 PM EST): Priors**
+##### **Day 5 (12/11), Session 1 (12 - 3 PM EST): Bayes Theorem**
+1. [Bayes' Theorem](content/lectures/BayesTheorem.pdf)
+2. [Bayes' Theorem Lab](content/labs/BayesTheoremLab.html) 
+
+##### **Day 5 (12/11), Session 2 (3 - 6 PM EST): Writing Models**
+1. Writing Models Boardwork
+
+Review Hobbs and Hooten chapters 5.
+
+---
+
+##### **Day 6 (12/14), Session 1 (12 - 3 PM EST): Priors**
 1. [More about Priors I](content/lectures/MoreAboutPriors1.pdf)
 2. [Priors Lab 1](content/labs/ConjugatePriorsLab.html) 
 3. [Beta-binomial Conjugacy Derivation](content/handouts/DerivationBetaBinomialConjugate.pdf)
 
-##### **Day 5 (12/11), Session 2 (3 - 6 PM EST): Markov chain Monte Carlo**
+##### **Day 6 (12/14), Session 2 (3 - 6 PM EST): Markov chain Monte Carlo**
 1. [MCMC Gibbs Sampling](content/lectures/MCMC1.pdf)
 2. [MCMC Lab 1](content/labs/MCMCLab1.html)
 3. [MCMC Gibbs Sampling Math](content/handouts/MCMCMath1.pdf)
@@ -76,17 +86,17 @@ Review Hobbs and Hooten chapters 5 and 7.
 
 ---
 
-##### **Day 6 (12/14): JAGS Primer**
+##### **Day 7 (12/15): JAGS Primer**
 1. Introduction to MCMC software / Group Session Review
 2. [JAGS Primer](content/lectures/JAGSPrimerMCMCVis.pdf) & [Lab Answers](content/labs/JAGSPrimerLab.html)
 
 ---
 
-##### **Day 7 (12/15), Session 1 (12 - 3 PM EST): Model Inference**
+##### **Day 8 (12/16), Session 1 (12 - 3 PM EST): Model Inference**
 1. [Inference From a Single Model](content/lectures/InferenceFromSingleModel.pdf)
 2. [JAGS Problems Lab](content/labs/JAGSProblemsLab.html) 
 
-##### **Day 7 (12/15), Session 2 (3 - 6 PM EST): Bayesian Regression**
+##### **Day 8 (12/16), Session 2 (3 - 6 PM EST): Bayesian Regression**
 1. [Bayesian Regression](content/lectures/BayesianRegression.pdf)
 2. Lab Catch Up!
 
@@ -94,21 +104,21 @@ Review Hobbs and Hooten chapter 7-8.
 
 ---
 
-##### **Day 8 (12/16), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
+##### **Day 9 (12/17), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
 1. [Multi-Level Modeling](content/lectures/MultiLevelRegression.pdf)
 
-##### **Day 8 (12/16), Session 2 (3 - 6 PM EST): Multi-Level Modeling**
+##### **Day 9 (12/17), Session 2 (3 - 6 PM EST): Multi-Level Modeling**
 2. [Multi-Level Modeling Lab](content/labs/MultiLevelModelingLab.html)
 
 Review Hobbs and Hooten chapters 6, 10-12.
 
 ---
 
-##### **Day 9 (12/17), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
+##### **Day 10 (12/18), Session 1 (12 - 3 PM EST): Multi-Level Modeling**
 2. [Writing Hierarchical Models](content/lectures/WritingHierarchicalModels.pdf)
 2. [Writing Hierarchical Models Lab](content/labs/ModelBuildingLab.html)
 
-##### **Day 9 (12/17), Session 2 (3 - 6 PM EST): Model Checking**
+##### **Day 10 (12/18), Session 2 (3 - 6 PM EST): Model Checking**
 1. [Model Checking](content/lectures/ModelChecking.pdf)
 2. [Model Checking Lab](content/labs/MultiLevelModelingLab.html)
 3. [Course Evaluation Survey](https://docs.google.com/forms/d/e/1FAIpQLSf4uvntNIaDYeqmV5g-Wh-YjgdtVIA7yrCz3)
@@ -117,29 +127,14 @@ Review Hobbs and Hooten chapters 6, 10-12.
 
 ---
 
-##### **Day 10 (12/18), Session 1A (12 - 3 PM EST): Mixture Models**
-1. [Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf)
-2. [Mixture Models Lab](content/labs/MixtureModelsLab.html)
+##### **Additional Topics**
 
-##### **Day 10 (12/18), Session 1B (12 - 3 PM EST): Model Selection**
-1. [Model Selection](content/lectures/ModelSelection.pdf)
-2. [Model Selection Lab](content/labs/ModelSelectionLab1.html)
-3. [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)
-
-##### **Day 10 (12/18), Session 2A (3 - 6 PM EST): Ordinal Regression**
-1. [Ordinal Models](content/lectures/OrdinalModels.pdf)
-2. [Ordinal Regression Lab](content/labs/OrdinalLab.html)
-
-##### **Day 10 (12/18), Session 2B (3 - 6 PM EST): Dynamic Models**
-1. [Dynamic Models](content/lectures/DynamicModels.pdf)
-2. [Lynx Lab](content/labs/LynxLab.html)
-
-<br>
-
-##### **Topics We Did Not Get To Cover**
-
-1. [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
-2. [Designed Experiments](content/lectures/DesignedExperimentsCCC.pdf)
-3. [Missing Data and Ignorability](content/lectures/MissingData.pdf)
-4. [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & [Spatial Lab](content/labs/SpatialLab1.html)
-5. [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) (optional)
+- [Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html) & [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
+- [Model Selection](content/lectures/ModelSelection.pdf) & [Lab](content/labs/ModelSelectionLab1.html)
+- [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)
+- [Ordinal Models](content/lectures/OrdinalModels.pdf) & [Lab](content/labs/OrdinalLab.html)
+- [Dynamic Models](content/lectures/DynamicModels.pdf) & [Lynx Lab](content/labs/LynxLab.html)
+- [Designed Experiments](content/lectures/DesignedExperimentsCCC.pdf)
+-[Missing Data and Ignorability](content/lectures/MissingData.pdf)
+- [Spatial Modeling for Continuous Data](content/lectures/ContinuousSpatialModels.pdf) & [Spatial Lab](content/labs/SpatialLab1.html)
+- [Spatial Modeling for Areal Data](content/lectures/ArealSpatialModels.pdf) 
