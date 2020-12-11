@@ -135,7 +135,9 @@ Fitting model predictions by eye is a useful way to find reasonable intial value
 
 <br>
 
-By calculating the standard deviation as $\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$.
+By calculating the standard deviation as:
+
+$$\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$$.
 
 </div>
 
@@ -164,7 +166,7 @@ $$
 
 <br>
 
-The $y_{i}$ are the cells in column B, $\mu_{i}$ are the predictions of the model for each light level in column C, and $\sigma$ is one of the parameters to be estimated in cell I5.
+The y<sub>i</sub> are the cells in column B, mu<sub>i</sub> are the predictions of the model for each light level in column C, and sigma is one of the parameters to be estimated in cell I5.
 
 </div>
 
@@ -266,7 +268,7 @@ Put the cell containing the sum of the log likelihoods in the **Set Objective** 
 
 <br>
 
-You could use the squared error column D to compute $\sigma$ just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.
+You could use the squared error column D to compute sigma just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.
 
 </div>
 
@@ -323,7 +325,7 @@ Incorporate these prior data in your MLE estimate of $\alpha$. Hint: create a li
 
 <br>
 
-The estimate of $\alpha$ represents a compromise between the estimate based on the data and the prior distribution of $\alpha$.
+The estimate of alpha represents a compromise between the estimate based on the data and the prior distribution of alpha.
 
 </div>
 
@@ -337,7 +339,7 @@ The estimate of $\alpha$ represents a compromise between the estimate based on t
 
 <br>
 
-The effect of the prior distribution of $\alpha$ depends on its standard deviation.  Small values cause the current estimate of $\alpha$ to more closely resemble the prior mean.
+The effect of the prior distribution of alpha depends on its standard deviation.  Small values cause the current estimate of alpha to more closely resemble the prior mean.
 
 </div>
 
@@ -351,7 +353,7 @@ The effect of the prior distribution of $\alpha$ depends on its standard deviati
 
 <br>
 
-The prior distribution might have been based on thousands of data points.  The prior distribution can overwhelm the data when it has a very small variance relative to the variance in the likelihood profile for $\alpha$. The data can overwhelm the prior when the likelihood profile of $\alpha$ has a much lower variance than the variance of the prior. 
+The prior distribution might have been based on thousands of data points.  The prior distribution can overwhelm the data when it has a very small variance relative to the variance in the likelihood profile for alpha. The data can overwhelm the prior when the likelihood profile of $\alpha$ has a much lower variance than the variance of the prior. 
 
 </div>
 

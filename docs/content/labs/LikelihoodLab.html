@@ -578,7 +578,9 @@ Answers
 
 <br>
 
-By calculating the standard deviation as $\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$.
+By calculating the standard deviation as:
+
+$$\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$$.
 
 </div>
 <p><br></p>
@@ -607,7 +609,7 @@ Answers
 
 <br>
 
-The $y_{i}$ are the cells in column B, $\mu_{i}$ are the predictions of the model for each light level in column C, and $\sigma$ is one of the parameters to be estimated in cell I5.
+The y<sub>i</sub> are the cells in column B, mu<sub>i</sub> are the predictions of the model for each light level in column C, and sigma is one of the parameters to be estimated in cell I5.
 
 </div>
 <p><br></p>
@@ -703,7 +705,7 @@ Answers
 
 <br>
 
-You could use the squared error column D to compute $\sigma$ just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.
+You could use the squared error column D to compute sigma just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.
 
 </div>
 <p><br></p>
@@ -720,9 +722,9 @@ model = nls(y ~ a * (x - c)/(a/s + x - c), trace = TRUE, start = c(a = 50, s = 2
 ## 4088.196 :  38.533475  1.709875  5.528437
 ## 4062.427 :  38.532830  1.730386  4.741030
 ## 4062.413 :  38.484552  1.736337  4.743694
-## 4062.413 :  38.494950  1.735065  4.739385
+## 4062.413 :  38.494949  1.735065  4.739385
 ## 4062.413 :  38.492387  1.735386  4.740460
-## 4062.413 :  38.493030  1.735306  4.740190</code></pre>
+## 4062.413 :  38.493031  1.735305  4.740190</code></pre>
 <pre class="r"><code>summary(model)</code></pre>
 <pre><code>## 
 ## Formula: y ~ a * (x - c)/(a/s + x - c)
@@ -738,7 +740,7 @@ model = nls(y ~ a * (x - c)/(a/s + x - c), trace = TRUE, start = c(a = 50, s = 2
 ## Residual standard error: 7.409 on 74 degrees of freedom
 ## 
 ## Number of iterations to convergence: 6 
-## Achieved convergence tolerance: 4.741e-06</code></pre>
+## Achieved convergence tolerance: 4.751e-06</code></pre>
 <pre class="r"><code>p = (coef(model))
 a.hat = p[1]
 s.hat = p[2]
@@ -774,7 +776,7 @@ Answers
 
 <br>
 
-The estimate of $\alpha$ represents a compromise between the estimate based on the data and the prior distribution of $\alpha$.
+The estimate of alpha represents a compromise between the estimate based on the data and the prior distribution of alpha.
 
 </div>
 <p><br></p>
@@ -788,7 +790,7 @@ Answers
 
 <br>
 
-The effect of the prior distribution of $\alpha$ depends on its standard deviation.  Small values cause the current estimate of $\alpha$ to more closely resemble the prior mean.
+The effect of the prior distribution of alpha depends on its standard deviation.  Small values cause the current estimate of alpha to more closely resemble the prior mean.
 
 </div>
 <p><br></p>
@@ -802,7 +804,7 @@ Answers
 
 <br>
 
-The prior distribution might have been based on thousands of data points.  The prior distribution can overwhelm the data when it has a very small variance relative to the variance in the likelihood profile for $\alpha$. The data can overwhelm the prior when the likelihood profile of $\alpha$ has a much lower variance than the variance of the prior. 
+The prior distribution might have been based on thousands of data points.  The prior distribution can overwhelm the data when it has a very small variance relative to the variance in the likelihood profile for alpha. The data can overwhelm the prior when the likelihood profile of $\alpha$ has a much lower variance than the variance of the prior. 
 
 </div>
 <p><br></p>
