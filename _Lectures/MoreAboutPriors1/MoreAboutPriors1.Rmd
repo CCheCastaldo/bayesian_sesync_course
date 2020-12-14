@@ -22,7 +22,7 @@ The posterior distribution uses information from both the likelihood and prior d
 ## Outline
 
 - Informative priors
-- Vague priors
+- Vague/Flat priors
 - Conjugate priors
 
 ## Informative priors
@@ -70,21 +70,21 @@ Informative priors are distributions that are not difuse relative to the posteri
 
 \includegraphics[height=2.5in]{../../_Graphics/plottingInformativePriors}
 
-## Vague Priors
+## Vague/Flat Priors
 
 _A vague prior is a distribution with a range of uncertainty that is clearly wider than the range of reasonable values for the parameter_ (Gelman and Hill 2007:347).
 
-## Vague Priors
+## Vague/Flat Priors
 
 - Avoid calling a prior "uninformative" or "non-informative" rather:
-    + difuse
+    + diffuse
     + flat
     + automatic
     + nonsubjective
     + locally uniform
     + objective
     
-## Commonly used vague priors
+## Commonly Used Vague/flat Priors
 
 - gamma(.001, .001) for strictly non-negative quantities
 - inverse gamma(.001, .001) for variances
@@ -93,7 +93,7 @@ _A vague prior is a distribution with a range of uncertainty that is clearly wid
 
 **Important Note**: The uniform and normal must be scaled properly! For example $\beta_0 \sim \text{normal}(0, 1000)$ is extremely informative if $\beta_0 = 10000.$
 
-## Issues With Vague Priors
+## Issues With Vague/Flat Priors
 
 - Computational: failure to converge, slicer errors, failure to calculate log density, etc.
 - Sensitivity: changes in parameters of "vague" priors meaningfully changes the posterior when data sets are small or when they have high variance (e.g. $\tau \sim \operatorname{gamma}(.001,.001)$ can really be problematic, this will come up in the multilevel modeling lab)
@@ -109,53 +109,53 @@ _A vague prior is a distribution with a range of uncertainty that is clearly wid
 1. Conjugacy minimizes computational work and, in more complicated cases, allows us to break down calculations into manageable chunks.
 2. Conjugacy plays an important role in Markov chain Monte Carlo (more on this later).
 
-## Deriving the Beta-Binomial Conjugacy Relationship
+<!-- ## Deriving the Beta-Binomial Conjugacy Relationship -->
 
-We know that the beta distribution is a conjugate prior for the binomial likelihood.
+<!-- We know that the beta distribution is a conjugate prior for the binomial likelihood. -->
 
-- Consider calculating the posterior distribution for the parameter $\theta$.
-- $\theta$ is the probability of a success conditional on $n$ trials and $y$ observed successes.
+<!-- - Consider calculating the posterior distribution for the parameter $\theta$. -->
+<!-- - $\theta$ is the probability of a success conditional on $n$ trials and $y$ observed successes. -->
 
-## Deriving the Beta-Binomial Conjugacy Relationship
+<!-- ## Deriving the Beta-Binomial Conjugacy Relationship -->
 
-Using Bayes theorem:
+<!-- Using Bayes theorem: -->
 
-$$[\phi \mid y,n] \propto \underbrace{{\binom{n}{y}} \phi^y (1- \phi)^{n-y} }_\text{binomial likelihood} \underbrace{\frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1}}_\text{beta prior}$$
+<!-- $$[\phi \mid y,n] \propto \underbrace{{\binom{n}{y}} \phi^y (1- \phi)^{n-y} }_\text{binomial likelihood} \underbrace{\frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1}}_\text{beta prior}$$ -->
 
-where $\alpha$ and $\beta$ are beta prior parameters.
+<!-- where $\alpha$ and $\beta$ are beta prior parameters. -->
 
-## Deriving the Beta-Binomial Conjugacy Relationship
+<!-- ## Deriving the Beta-Binomial Conjugacy Relationship -->
 
-$$[\phi \mid y,n] \propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1}$$
+<!-- $$[\phi \mid y,n] \propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1}$$ -->
 
-## Deriving the Beta-Binomial Conjugacy Relationship
+<!-- ## Deriving the Beta-Binomial Conjugacy Relationship -->
 
-\begin{align}
-[\phi\mid y,n] &\propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber \\[10pt]
-[\phi\mid y,n] &\propto \phi^y (1- \phi)^{n-y} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber
-\end{align}
+<!-- \begin{align} -->
+<!-- [\phi\mid y,n] &\propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber \\[10pt] -->
+<!-- [\phi\mid y,n] &\propto \phi^y (1- \phi)^{n-y} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber -->
+<!-- \end{align} -->
 
-## Deriving the Beta- Binomial Conjugacy Relationship
+<!-- ## Deriving the Beta- Binomial Conjugacy Relationship -->
 
-\begin{align}
-[\phi \mid y,n] &\propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber \\[10pt]
-[\phi \mid y,n] &\propto \phi^y (1- \phi)^{n-y} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber\\[10pt]
-[\phi \mid y,n] &\propto \phi^{y+\alpha-1}(1-\phi)^{\beta+n-y-1} \nonumber
-\end{align}
+<!-- \begin{align} -->
+<!-- [\phi \mid y,n] &\propto {\binom{n}{y}} \phi^y (1- \phi)^{n-y} \frac{\gamma(\alpha + \beta)}{\gamma(\alpha)\gamma(\beta)} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber \\[10pt] -->
+<!-- [\phi \mid y,n] &\propto \phi^y (1- \phi)^{n-y} \phi^{\alpha - 1} (1- \phi)^{\beta - 1} \nonumber\\[10pt] -->
+<!-- [\phi \mid y,n] &\propto \phi^{y+\alpha-1}(1-\phi)^{\beta+n-y-1} \nonumber -->
+<!-- \end{align} -->
 
-## Deriving the Beta-Binomial Conjugacy Relationship
+<!-- ## Deriving the Beta-Binomial Conjugacy Relationship -->
 
-$$[\phi \mid y,n] \propto \phi^{y+\alpha-1}(1-\phi)^{\beta+n-y-1}$$
+<!-- $$[\phi \mid y,n] \propto \phi^{y+\alpha-1}(1-\phi)^{\beta+n-y-1}$$ -->
 
-Let $\alpha_{new} = y + \alpha$ and $\beta_{new} = \beta + n-y$. Multiply by normalizing constant: 
+<!-- Let $\alpha_{new} = y + \alpha$ and $\beta_{new} = \beta + n-y$. Multiply by normalizing constant:  -->
 
-$$\frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})},$$
+<!-- $$\frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})},$$ -->
 
-and the posterior of $\phi$ is a beta distribution:
+<!-- and the posterior of $\phi$ is a beta distribution: -->
 
-$$[\phi\mid y,n] = \frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})}\phi^{\alpha_{new}-1}(1-\phi)^{\beta_{new}-1},$$
+<!-- $$[\phi\mid y,n] = \frac{\gamma(\alpha_{new} + \beta_{new})}{\gamma(\alpha_{new})\gamma(\beta_{new})}\phi^{\alpha_{new}-1}(1-\phi)^{\beta_{new}-1},$$ -->
 
-with parameters $\alpha_{new}$ and $\beta_{new}$.
+<!-- with parameters $\alpha_{new}$ and $\beta_{new}$. -->
 
 ## Conjugate priors
 
