@@ -75,10 +75,9 @@ hist(y, freq = FALSE, breaks = 10, main = "Histogram of data", col = "gray")
 
 library(dplyr)
 
-z <- data.frame(y) %>% count(y) %>% mutate(prop = prop.table(n))
-
 discrete_hist <- function(y) {
   
+  z <- data.frame(y) %>% count(y) %>% mutate(prop = prop.table(n))
   plot(z$y, z$prop, type = "h", ylab = "Probability", xlab = "y", main = "Improved histogram of data", 
   frame = T, xaxt = "n", lwd = 3, col = "blue")
   x <- seq(min(z$y), max(z$y), 1)
