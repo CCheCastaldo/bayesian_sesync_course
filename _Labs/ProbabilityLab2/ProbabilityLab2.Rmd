@@ -7,8 +7,6 @@ output:
     theme: paper
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -37,10 +35,8 @@ $$\big[y_i \mid g\big(\mathbf\theta,x_i\big),\sigma^2\big],$$
 
 which represents the probability of obtaining the observation $y_i$ given that our model predicts the mean of a distribution $g(\mathbf\theta,x_i)$ with variance $\sigma^2$. Assume we have count data. What distribution would be a logical choice to model these data? Write out a model for the data.    
 
-<button class="button" onclick="toggle_visibility('myDIV7');">Answer</button>
-
-<div id="myDIV7", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 The Poisson is a logical choice. We predict the mean of the Poisson for each $x_i$, i.e. $\lambda_i = g\big(\mathbf\theta,x_i\big)$, which also controls the uncertainty because in the Poisson distribution the variance equals the mean.A model for the data is:
@@ -60,11 +56,9 @@ $$ y_i \sim \textrm{Poisson}\big(g\big(\mathbf\theta,x_i\big)\big).$$
 * The number of diseased individuals in a sample of 100.
 * The political party affiliation (democrat, republican, independent) of a voter. 
 
-<button class="button" onclick="toggle_visibility('myDIV8');">Answer</button>
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
-
-<div id="myDIV8", style="display:none">
 
 <center>
 Random variable  | Distribution | Justification 
@@ -83,10 +77,8 @@ The political party affiliation (democrat, republican, independent) of a voter. 
 
 3. Find the mean, variance, and 95% quantiles of 10000 random draws from a Poisson distribution with $\lambda=33$.
 
-<button class="button" onclick="toggle_visibility('myDIV14');">Answer</button>
-
-<div id="myDIV14", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, include = TRUE}
@@ -110,10 +102,8 @@ c.  Neither agree nor disagree = .15
 d.  Agree = .23
 e.  Strongly agree = .42
 
-<button class="button" onclick="toggle_visibility('myDIV9a');">Answer</button>
-
-<div id="myDIV9a", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -130,10 +120,8 @@ rmultinom(n, size, prob)
 
 5. The average above ground biomass in a 1 km^2^ of sagebrush grassland is 103 g/m^2^, with a standard deviation of 23. You clip a 1 m^2^ plot. Write out the model for the probability density of the data point.  What is the probability density of an observation of 94 assuming the data are normally distributed? Is there a problem using normal distribution?  What is the probability that your plot will contain between 90 and 110 gm of biomass?
 
-<button class="button" onclick="toggle_visibility('myDIV9');">Answer</button>
-
-<div id="myDIV9", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
 The normal distribution isn't an ideal choice because it extends below 0, which isn't possible for measurements of above ground biomass. Nonetheless:
@@ -156,10 +144,8 @@ p.bound[1] - p.bound[2]
 
 6. The prevalence of a disease in a population is the proportion of the population that is infected with the disease. The prevalence of chronic wasting disease in male mule deer on winter range near Fort Collins, CO is 12 percent. A sample of 24 male deer included 4 infected individuals. Write out a model that represents how the data arise. What is the probability of obtaining these data conditional on the given prevalence (p=0.12)?
 
-<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
-
-<div id="myDIV10", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 $$y_i \sim \textrm{binomial}(24, 0.12)$$
@@ -183,10 +169,8 @@ b.  Yearling males (count = 4)
 c.  Bulls (count = 25)
 d.  Calves (count = 26)
 
-<button class="button" onclick="toggle_visibility('myDIV9b');">Answer</button>
-
-<div id="myDIV9b", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -202,10 +186,8 @@ dmultinom(x = y, prob = p)
 
 8. Nitrogen fixation by free-living bacteria occurs at a rate of 1.9 g/N/ha/yr with a standard deviation ($\sigma$) of 1.4. What is the lowest fixation rate that exceeds 2.5% of the distribution?  Use a normal distribution for this problem, but discuss why this might not be a good choice. 
 
-<button class="button" onclick="toggle_visibility('myDIV9c');">Answer</button>
-
-<div id="myDIV9c", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -245,10 +227,8 @@ where $z$ is the discrete random variable representing the number of failures th
 
 Simulate 100,000 observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
 
-<button class="button" onclick="toggle_visibility('myDIV19');">Answer</button>
-
-<div id="myDIV19", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
