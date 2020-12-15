@@ -281,7 +281,7 @@ for (i in 1:n){
 \noindent The key is to look at the index of the quantity of interest and be sure that the \texttt{for} expressions span all values of the subscript.  You can use the \texttt{length() \index{length()@\texttt{length()}}} function as an alternative to giving an explicit argument for the number of iterations (e.g., \texttt{n} and \texttt{m} above),. For example we could use:
 
 \begin{Verbatim}
-for (1 in 1:length(x[])){
+for (i in 1:length(x[])){
   mu[i] <- r - r/K * x[i]
   y[i] ~ dnorm(mu[i], tau)
 }
