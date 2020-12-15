@@ -9,8 +9,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -64,10 +62,8 @@ We will return to this model several times during the course.
 
 1. Assume that growth increment can be any real number.  It can negative because moose can eat the tops of saplings.  Write a model for the data.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 $$\mu_{i}=\cfrac{\alpha\big(L_{i}-c\big)}{\cfrac{\alpha}{\gamma} + \big(L_{i}-c\big)}$$
@@ -115,13 +111,11 @@ Answer the following questions before proceeding.
 
 1. How could you use the data to help you find good initial conditions for model parameters? 
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
-Fitting model predictions by eye is a useful way to find reasonable intial values. You can get reasonable guesses for $c$ and $\alpha$ by simply looking at the plot of the data.
+Fitting model predictions by eye is a useful way to find reasonable initial values. You can get reasonable guesses for $c$ and $\alpha$ by simply looking at the plot of the data.
 
 </div>
 
@@ -129,10 +123,8 @@ Fitting model predictions by eye is a useful way to find reasonable intial value
 
 2. Adjust the values for $\alpha$, $\gamma$, and $c$ until you get predictions that look reasonable in your plot.  How could we get a better initial value for $\sigma$?
 
-<button class="button" onclick="toggle_visibility('myDIV2A');">Answers</button>
-
-<div id="myDIV2A", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 By calculating the standard deviation as:
@@ -145,10 +137,8 @@ $$\sqrt{\sum_1^n\frac{1}{n}(y_i-\mu_i)^2}$$.
 
 3. Write the mathematics (the full equation) that is implemented in the formula in column E.
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 $$
@@ -160,13 +150,11 @@ $$
 
 4. Describe the correspondence between $y_{i}$, $\mu_{i}$, and $\sigma$ from the equation you wrote for the previous question and the columns and cells in your spreadsheet.  
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
-The y<sub>i</sub> are the cells in column B, mu<sub>i</sub> are the predictions of the model for each light level in column C, and sigma is one of the parameters to be estimated in cell I5.
+The y<sub>i</sub> are the cells in column B, $\mu_{i}$ are the predictions of the model for each light level in column C, and $\sigma$ is one of the parameters to be estimated in cell I5.
 
 </div>
 
@@ -174,10 +162,8 @@ The y<sub>i</sub> are the cells in column B, mu<sub>i</sub> are the predictions 
 
 5. What is the reason for the argument “FALSE” in the Excel formula in column E?
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 It toggles the function from the CDF when the argument is "TRUE" to the PDF when it is false.
@@ -188,10 +174,8 @@ It toggles the function from the CDF when the argument is "TRUE" to the PDF when
 
 6. What does the function return when that argument is “TRUE”? 
 
-<button class="button" onclick="toggle_visibility('myDIV6');">Answers</button>
-
-<div id="myDIV6", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 See answer to 5.
@@ -202,10 +186,8 @@ See answer to 5.
 
 7. In column F we take the logs of the likelihoods, which are summed in cell K2.  If we had not taken the logs and instead, worked directly with the likelihoods, what formula would we use in K2?
 
-<button class="button" onclick="toggle_visibility('myDIV7');">Answers</button>
-
-<div id="myDIV7", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
 <br>
 
 The product.
@@ -216,10 +198,8 @@ The product.
 
 8. What are some potential computational problems with using the individual likelihoods rather than the log likelihoods to estimate the total likelihood? 
 
-<button class="button" onclick="toggle_visibility('myDIV8');">Answers</button>
-
-<div id="myDIV8", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
 <br>
 
 Underflow.
@@ -230,10 +210,8 @@ Underflow.
 
 9. This model violates a fundamental assumption of traditional regression analysis.  What is that assumption?  How might you fix the problem? (Hint: think about what we are assuming about the covariate, light availability.)
 
-<button class="button" onclick="toggle_visibility('myDIV9');">Answers</button>
-
-<div id="myDIV9", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV10"> Answer </button>  
+<div id="myDIV10" class="collapse"> 
 <br>
 
 We are assuming that the predictor variables are measured without error. However, what we are actually interested in is the light seen by the tree.  The x-values are an imperfect approximation of this unobserved quantity.
@@ -262,10 +240,8 @@ Put the cell containing the sum of the log likelihoods in the **Set Objective** 
 
 10. How might you use the squared error column D to compute $\sigma$? Make this computation and compare with your maximum likelihood estimate of $\sigma$ obtained using Solver.
 
-<button class="button" onclick="toggle_visibility('myDIV9A');">Answers</button>
-
-<div id="myDIV9A", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV11"> Answer </button>  
+<div id="myDIV11" class="collapse"> 
 <br>
 
 You could use the squared error column D to compute sigma just as you did above for question 2. In this case, they should be very similar to one another as these are really measuring the same quantity of interest, where one is an empirical realization of the other, which is a parameter.
@@ -303,10 +279,8 @@ lines(x, yhat, col = "red")
 
 Suppose that a previous study reported a mean value of $\alpha$ = 35 with a standard deviation of the mean =  4.25.You may use a normal distribution to represent the prior information on $\alpha$. Write  a model for the data that includes the prior information.
 
-<button class="button" onclick="toggle_visibility('myDIV11');">Answers</button>
-
-<div id="myDIV11", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV11A"> Answer </button>  
+<div id="myDIV11A" class="collapse"> 
 <br>
 
 $$L(\alpha, \gamma, c,\sigma \mid \mathbf{y}) =\prod_{i=1}^n\big(\text{normal}(g(\alpha,\gamma,c,L_i),\sigma^2)\big)\text{normal}(\alpha \mid 35,4.25)$$
@@ -319,10 +293,8 @@ Incorporate these prior data in your MLE estimate of $\alpha$. Hint: create a li
 
 11. Describe what happens to the estimate of α relative to the one you obtained earlier. What is going on? 
 
-<button class="button" onclick="toggle_visibility('myDIV12');">Answers</button>
-
-<div id="myDIV12", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV12"> Answer </button>  
+<div id="myDIV12" class="collapse"> 
 <br>
 
 The estimate of alpha represents a compromise between the estimate based on the data and the prior distribution of alpha.
@@ -333,10 +305,8 @@ The estimate of alpha represents a compromise between the estimate based on the 
 
 12. What is the effect of increasing the prior standard deviation on the new estimate? What happens when it shrinks?
 
-<button class="button" onclick="toggle_visibility('myDIV13');">Answers</button>
-
-<div id="myDIV13", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV13"> Answer </button>  
+<div id="myDIV13" class="collapse"> 
 <br>
 
 The effect of the prior distribution of alpha depends on its standard deviation.  Small values cause the current estimate of alpha to more closely resemble the prior mean.
@@ -347,10 +317,8 @@ The effect of the prior distribution of alpha depends on its standard deviation.
 
 13.  There is a single log likelihood for the prior distribution but the sum of many for the data. This seems "unfair."  Explain how the prior distribtion can overwhelm the data and vice versa.
 
-<button class="button" onclick="toggle_visibility('myDIV14');">Answers</button>
-
-<div id="myDIV14", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV14"> Answer </button>  
+<div id="myDIV14" class="collapse"> 
 <br>
 
 The prior distribution might have been based on thousands of data points.  The prior distribution can overwhelm the data when it has a very small variance relative to the variance in the likelihood profile for alpha. The data can overwhelm the prior when the likelihood profile of $\alpha$ has a much lower variance than the variance of the prior. 
