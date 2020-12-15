@@ -7,8 +7,6 @@ output:
     theme: paper
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -51,9 +49,8 @@ It follows that understanding the laws of probability and statistical distributi
 
 1\. Use the chain rule of probability to factor the joint distribution $\Pr(\theta_1,\theta_2, \theta_3,\theta_4)$ into a joint conditional distribution.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
-
-<div id="myDIV1", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 
 \begin{align}
 \Pr\big(\theta_1,\theta_2,\theta_3,\theta_4\big)=\\
@@ -83,9 +80,8 @@ as are many other variations.
 $$\Pr\big(\theta,w,\eta,\alpha\big)=\Pr\big(\alpha \mid w,\eta,\theta\big)\Pr\big(w \mid \eta,\theta\big)\Pr\big(\eta \mid \theta\big)\Pr\big(\theta\big)$$
 Simplify this equation using the knowledge that $\eta$ and $\theta$ are independent and that $w$ and $\theta$ are independent.
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
-
-<div id="myDIV2", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 
 $$\Pr\big(\theta,w,\eta,\alpha\big)=\Pr\big(\alpha \mid w,\eta,\theta\big)\Pr\big(w \mid \eta\big)\Pr\big(\eta\big)\Pr\big(\theta\big)$$
 
@@ -112,11 +108,9 @@ Write the joint and conditional distributions for the following Bayesian network
 <img src="../../_Graphics/DAG5.png" style="float: left; width: 34%; margin-right: 5%; margin-bottom: 0.5em;">
 <p style="clear: both;">
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
-
-<div id="myDIV3", style="display:none">
 
 \begin{eqnarray}
 & &\textrm{1.}\quad\big[a,b,c,d,e\big]  = 
@@ -150,10 +144,8 @@ Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
 
 <br>
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 <center>
@@ -171,11 +163,9 @@ Draw Bayesian networks (DAGs) for the joint and conditional distributions below.
 Simplify the expression below, given that $z_2$ and $z_3$ are independent random variables. 
 $$ \Pr\big(z_1,z_2,z_3\big)=\Pr\big(z_1\mid z_2,z_3\big)\Pr\big(z_2 \mid z_3\big)\Pr\big(z_3\big)$$
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
-
-<div id="myDIV5", style="display:none">
 
 The expression simplifies to 
 $$ \Pr\big(z_1,z_2,z_3\big)=\Pr(z_1\mid z_2,z_3\big)\Pr\big(z_2\big)\Pr\big(z_3\big)$$
@@ -189,11 +179,9 @@ because $\Pr\big(z_2\mid z_3\big) = \Pr\big(z_2\big)$ if $z_2$ and $z_3$ are ind
 
 The probability of an observation $y$ depends on a true ecological state of interest, $z$, and the parameters in a data model, $\pmb\theta_d$. The probability of the true state $z$ depends on the parameters in an ecological process model, $\pmb\theta_p$. We know that $\pmb\theta_d$ and $\pmb\theta_p$ are independent.  Write out a factored expression for the joint distribution, $\Pr\big(y,z,\pmb\theta_d,\pmb\theta_p\big)$. Drawing a Bayesian network will help.
 
-<button class="button" onclick="toggle_visibility('myDIV6');">Answer</button>
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
-
-<div id="myDIV6", style="display:none">
 
 $$\Pr\big(y,z,\pmb\theta_d,\pmb\theta_p\big) = \Pr\big(y \mid z,\pmb\theta_d\big)\Pr\big(z \mid \pmb\theta_p\big)\Pr\big(\theta_d\big)\Pr\big(\pmb\theta_p\big)$$
 <div style="width:200px; height=200px; margin:0 auto;">
