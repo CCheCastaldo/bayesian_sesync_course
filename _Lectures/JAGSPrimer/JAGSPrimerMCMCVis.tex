@@ -447,7 +447,7 @@ zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"),
 n.iter = n.iter, n.thin = 1)
 \end{Verbatim}
 
-\noindent There is a quite a bit to learn here, so if your attention is fading, go get an espresso. First, we need to load the package \texttt{rjags}. Remember that MCMC required generating random numbers, so we use \texttt{set.seed(1)} to assure that our results are exactly reproducible.\footnote{With enough iterations, this is not really necessary, but it is nice for teaching.} We then specify 3 scalars, \texttt{n.adapt},  \texttt{n.update}, and \texttt{n.iter}. These tell JAGS the number of iterations in the chain for adaptation (\texttt{n.adapt}), burn-in (\texttt{n.udpate}) and the number to keep in the final chain (\texttt{n.iter}). The first one, \texttt{n.adapt}, may not be familiar -- it is the number of iterations that JAGS will use to choose the sampler and to assure optimum mixing of the MCMC chain.\footnote{Remember the tuning parameter in Metropolis Hastings?} The second, \texttt{n.update}, is the number of iterations that will be discarded to allow the chain to converge before iterations are stored (aka, burn-in). The final one, \texttt{n.iter}, is the number of iterations that will be stored in the chain as samples from the posterior distribution -- it forms the \enquote{rug}.
+\noindent There is a quite a bit to learn here, so if your attention is fading, go get an espresso. First, we need to load the package \texttt{rjags}. Remember that MCMC required generating random numbers, so we use \texttt{set.seed(1)} to assure that our results are exactly reproducible.\footnote{With enough iterations, this is not really necessary, but it is nice for teaching.} We then specify 3 scalars, \texttt{n.adapt},  \texttt{n.update}, and \texttt{n.iter}. These tell JAGS the number of iterations in the chain for adaptation (\texttt{n.adapt}), burn-in (\texttt{n.update}) and the number to keep in the final chain (\texttt{n.iter}). The first one, \texttt{n.adapt}, may not be familiar -- it is the number of iterations that JAGS will use to choose the sampler and to assure optimum mixing of the MCMC chain.\footnote{Remember the tuning parameter in Metropolis Hastings?} The second, \texttt{n.update}, is the number of iterations that will be discarded to allow the chain to converge before iterations are stored (aka, burn-in). The final one, \texttt{n.iter}, is the number of iterations that will be stored in the chain as samples from the posterior distribution -- it forms the \enquote{rug}.
 
 The \texttt{jm = jags.model\index{jags.model@\texttt{jags.model}}...} statement sets up the MCMC chain. Its first argument is the name of the file containing the JAGS code. Note that  the file resided in the current working directory in this example. Otherwise, you would need to specify the full path name. The next two expressions specify where the data come from, where to get the initial values, and how many chains to create (i.e., the length of the list inits). Finally, it specifies the burn-in how many samples to throw away before beginning to save values in the chain. Thus, in this case, we will throw away the first 10,000 values.
 
@@ -580,7 +580,7 @@ attr(,"class")
 \end{exercise}
 \belowcaptionskip=0pt
 
-It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is describe in Box 1.
+It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is described in Box 1.
 
 \begin{mdframed}[frametitle={Box 1: Using R to calculate derived quantities from MCMC objects}, backgroundcolor=black!10]
 One of the most powerful benefits of Bayesian analysis using MCMC is the ability to make inference on \emph{derived} quantities using what is called the equivariance principle (Hobbs and Hooten \citeyearpar{hobbs2015bayesian} page 194), which simply says that any function of a random variable becomes a random variable with its own marginal posterior distribution. This principle allows you to write simple functions in your JAGS code and make inference on quantities that are calculated from the random variables included in the model (e.g., $r$, $K$, $\sigma)$ as you will soon see in the exercises associated with this lab. 
@@ -595,7 +595,7 @@ Manipulating and summarizing coda objects manually can be tedious work prone to 
 
 This is the first year we have used \texttt{MCMCvis} in teaching, although Chris has used it in his work for some time now.  We are adopting it for two reasons.  First, it will work with coda objects produced by any of the flavors of MCMC software, JAGS, OpenBUGS, WinBUGS and Stan, or for matrices produce from your own MCMC samplers. It allows you to run chains in parallel and make useful inference on the parallel output, which must be a coda object.  A related advantage is the you will need to produce only a single inferential object while the past, we produced two (coda objects and jags objects), almost doubling the computation time.
 
-We cover the essential elements here, but you should must work through the  full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
+We cover the essential elements here, but you should work through the full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
 
  \texttt{MCMCvis} includes five functions that we will use a lot:
 \begin{itemize}
@@ -645,7 +645,7 @@ We will learn easier, less error-prone ways to do this below.
 sigma 0.03  0 0.02 0.03  0.04    1
 \end{Verbatim}
 
-There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{signif = }) or the number of decimal places (\texttt{digits =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
+There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{digits = }) or the number of decimal places (\texttt{round =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
 
 \bigskip
 \belowcaptionskip=-20pt
@@ -698,7 +698,7 @@ There are some particularly useful options for this function.  You can control t
 \begin{enumerate}
 \item Extract the chains for \texttt{r} and \texttt{sigma} as a data frame using \texttt{MCMCchains} and compute their .025 and .975 quantiles from the extracted object.  Display three significant digits.
 \item Make a publication quality histogram for the chain for \texttt{sigma}. Indicate the .025 and .975 Bayesian equal-tailed credible interval value with  vertical red lines.
-\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDinterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
+\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDInterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
 \end{enumerate}
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
