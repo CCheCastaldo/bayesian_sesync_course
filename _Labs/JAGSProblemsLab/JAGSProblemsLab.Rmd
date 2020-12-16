@@ -9,8 +9,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -83,10 +81,8 @@ You will now do a series of problems to estimate these quantities of interest. S
 
 1. Approximate the marginal posterior distribution the population size where the population growth rate is maximum and plot its posterior density. You may use the work you have already done in the JAGS Primer to speed this along.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -165,10 +161,8 @@ rug(N_at_maxdNdt, col = "red")
 
 2. Plot the median growth rate of the *population* (not the per-capita rate) rate and a 95% highest posterior density interval as a function of $N$. What does this curve tell you about the difficulty of sustaining harvest of populations?
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 5, fig.height = 5, fig.align = 'center'}
@@ -189,10 +183,8 @@ There is far greater uncertainty about the population growth rate when the popul
 
 3. What is the probability that the intrinsic rate of increase $(r)$ exceeds 0.22? What is the probability that $r$ falls between 0.18 and 0.22? 
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -216,10 +208,8 @@ $$g(a,b,x_i)=\frac{e^{a+bx_i}}{1+e^{a+bx_i}},$$
 
 where $x_{i}$ is the perimeter to area ratio of the $i^{th}$ island. So, now that you have the deterministic model, the challenge is to choose the proper likelihood to link the data to the model. How do the data arise? What likelihood function is needed to represent the data? 
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 The data arise as presence/absence draws from a Bernoulli distribution whose probability of presence is a function of the perimeter to area ratio as specified above.
@@ -230,9 +220,9 @@ The data arise as presence/absence draws from a Bernoulli distribution whose pro
 
 2. Write the expression for the posterior and joint distribution of the parameters and data, as we have learned how to do in lecture. Use the joint distribution as a basis for JAGS code needed to estimate the posterior distribution of $a$ and $b$.  Assume vague priors on the intercept and slope, e.g., $\beta_0 \sim \text{normal}(0,10000),\, \beta_1 \sim \text{normal}(0,10000)$.  Draw a DAG if you like.  There doesn't appear to be any variance term in this model. How can that be?
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
-
-<div id="myDIV5", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
+<br>
 
 \begin{align}
 \big[a, b \mid \textbf{y}\big] & \propto 
@@ -282,10 +272,8 @@ To overcome this, try the following:
 * Standardize the the perimeter to area ratio covariate using the ``scale`` function in R, which subtracts the mean of the data from every data point and divides by the standard deviation of the data.  You want the default arguments for `center` and `scale` in this function.
 * Choose initial values for $a$ and $b$ so that $\textrm{inverse logit}\big(a + b\,\text{standardized}(x_{i})\big)$ is between .01 and .99. 
 
-<button class="button" onclick="toggle_visibility('myDIV6');">Answers</button>
-
-<div id="myDIV6", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -317,10 +305,8 @@ zm = coda.samples(jm, variable.names = c("a", "b"), n.iter = n.iter, n.thin = 1)
 
 4. Do a summary table, a plot of the marginal posterior densities of  of the posterior density and a trace of the chain for parameters $a$ and $b$. Does the trace indicate convergence? How can you tell? Use Gelman and Heidel diagnostics to check for convergence.
 
-<button class="button" onclick="toggle_visibility('myDIV7');">Answers</button>
-
-<div id="myDIV7", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
@@ -336,10 +322,8 @@ heidel.diag(zm)
 
 5. Plot the data as points. Overlay a line plot of the median and 95% highest posterior density intervals of the predicted probability of occurrence as a function of island perimeter to area ratios ranging from 1-60. Hint--create a vector of 1-60 in R, and use it as $x$ values for an equation making predictions in your JAGS code. The curve is jumpy if you simply plot the predictions at the island perimeter to area data points. Remember, however, that the x's have been standardized to fit the coefficients, so you need to make predictions using standardized values in the sequence you create.  You may plot these predictions against the un-standardized perimeter to area ratios, a plot that is more easily interpreted than plotting against the standardized ratios. 
 
-<button class="button" onclick="toggle_visibility('myDIV8');">Answers</button>
-
-<div id="myDIV8", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -414,10 +398,8 @@ lines(seq(1,60,.5), pHPDI$pHat[,2], lty = "dashed")
 
 6. Assume you are interested in 2 islands, one that has a perimeter to area ratio of 10, the other that has a perimeter to area ratio of 20. What is the 95% highest posterior density interval on the difference in the probability of occupancy of the two islands based on the analysis you did above? What is the probability that the difference exceeds 0? Remember that the data are standardized when you do this computation.
 
-<button class="button" onclick="toggle_visibility('myDIV9');">Answers</button>
-
-<div id="myDIV9", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
@@ -482,10 +464,8 @@ plot(density(diff), main = "", xlab = "Difference between PA ratio 10 - 20", yla
 
 7. What fundamentally important source of error are we sweeping under the rug in all of these fancy calculations? What are the consequences of failing to consider this error for our estimates? Do you have some ideas about how we might cope with this problem? 
 
-<button class="button" onclick="toggle_visibility('myDIV10');">Answers</button>
-
-<div id="myDIV10", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV10"> Answer </button>  
+<div id="myDIV10" class="collapse"> 
 <br>
 
 We are ignoring detection, which can bias p upwards if detection < 1 or bias $a$ and $b$ if detection depends on island's perimeter to area ratio. If you have replicated lizard surveys at each island within a time frame where you can assume "true" lizard presence or absence does not change (this is called the closure assumption) or you have informed priors on detection rates, you can use latent states to model the detection process simultaneously with the occupancy process. We will do this later in the course so stay tuned.
@@ -496,7 +476,7 @@ We are ignoring detection, which can bias p upwards if detection < 1 or bias $a$
 
 ----
 
-ADVANCED
+#### ADVANCED
 
 ----
 
@@ -506,10 +486,8 @@ The priors you chose above were vague for the intercept and slope in the logisti
 
 1. Write a function that takes an argument for the variance $\sigma^2$.  The function should 1) simulate 10000 draws from a normal distribution with mean 0 and variance $\sigma^2$ representing a prior on $a$, remembering, of course, that the argument to `rnorm` is the standard deviation. 2) Plot histograms of the draws for $a$.  3) Plot a histogram of the inverse logit of the random draws, representing a "prior" on $p$ at the mean of $x$ (i.e., where the scaled value of x = 0). Plotting these in side by side panels will facilitate comparison. Use your function to explore the effect of different variances ranging from 1 to 10000 on the priors for $a$ and $p$. Find a value for the variance that produces a flat "prior" on $p$. The `boot` library contains an inverse logit function or you can write your own.
 
-<button class="button" onclick="toggle_visibility('myDIV11');">Answers</button>
-
-<div id="myDIV11", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV11"> Answer </button>  
+<div id="myDIV11" class="collapse"> 
 <br>
 
 ```{r, eval=TRUE, echo = TRUE, fig.width = 8, fig.height = 5, fig.align = 'center'}
@@ -532,10 +510,8 @@ hist_p(var = 2.71, 50, 50)
 
 2. Rerun your analysis using priors on the coefficients that are vague for inference on $p$ based on what you learned in Hobbs and Hooten section 5.4.1 and in the previous exercise.  (Be careful to convert variances to precision)  Plot the probability of occupancy as a function of perimeter to area ratio using these priors and compare with the plot you obtained in exercise 5, above. You will see that the means of the $p_{i}$ changes and uncertainty about $p_{i}$ increases when you use appropriately vague priors for $p$.
 
-<button class="button" onclick="toggle_visibility('myDIV12');">Answers</button>
-
-<div id="myDIV12", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV12"> Answer </button>  
+<div id="myDIV12" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE}
