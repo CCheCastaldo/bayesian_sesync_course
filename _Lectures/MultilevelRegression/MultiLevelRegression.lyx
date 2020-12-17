@@ -105,7 +105,7 @@ sweave
 \use_refstyle 0
 \use_minted 0
 \branch Answers
-\selected 1
+\selected 0
 \filename_suffix 0
 \color #ffffff
 \end_branch
@@ -230,14 +230,72 @@ group level slopes and intercepts
 an essential coding trick
 \end_layout
 
+\begin_layout Itemize
+prediction across groups
+\end_layout
+
 \end_deeper
 \begin_layout Itemize
-Priors on group level variances
+Priors on group level variances: See lecture 
+\begin_inset Quotes eld
+\end_inset
+
+More about priors 2.
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \end_deeper
 \begin_layout Section
 Big picture
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Recall that
+\end_layout
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula 
+\begin{eqnarray*}
+\underbrace{[\bm{\theta},\sigma^{2}|y_{i}]}_{\text{posterior}} & \propto & \overbrace{[y_{i},\bm{\theta},\sigma^{2}]}^{\text{joint}}\\
+\underbrace{[\bm{\theta},\sigma^{2}|y_{i}]}_{\text{posterior}} & = & c\overbrace{[y_{i},\bm{\theta},\sigma^{2}]}^{\text{joint}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Frame
+MCMC allows us to discover the 
+\begin_inset Formula $c$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
 \end_layout
 
 \begin_layout Frame
@@ -325,45 +383,24 @@ Stochastic model:
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
 \begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Recall that
-\end_layout
-
-\end_inset
-
-
-\begin_inset Separator latexpar
-\end_inset
-
-
+The factored, joint distribution (aka joint conditional) provides a detailed
+ blueprint for
 \end_layout
 
 \begin_deeper
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\underbrace{[\bm{\theta},\sigma^{2}|y_{i}]}_{\text{posterior}}\propto\overbrace{[y_{i},\bm{\theta},\sigma^{2}]}^{\text{joint}}
-\]
+\begin_layout Enumerate
+Writing the full conditionals as the basis for Gibbs (for conjugate full
+ conditionals) or Metropolis-Hastings sampling (for any full conditional).
+\end_layout
 
-\end_inset
-
-
+\begin_layout Enumerate
+Writing JAGS code.
 \end_layout
 
 \end_deeper
 \begin_layout Standard
-\begin_inset Separator parbreak
+\begin_inset Separator plain
 \end_inset
 
 
@@ -819,11 +856,64 @@ http://www.theanalysisfactor.com/covariance-matrices/
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Frame
-If we multiply this correlation matrix times 
+Let 
+\begin_inset Formula $i$
+\end_inset
+
+ index rows and 
+\begin_inset Formula $j$
+\end_inset
+
+ index columns.
+ Recall that the correlation between two random variables is simply their
+ covariance divided by the standard deviation of both variables, 
+\begin_inset Formula $\rho_{ij}=\frac{\text{cov}_{ij}}{\sigma_{i}\sigma_{j}}$
+\end_inset
+
+.
+ It is the 
+\emph on
+standardized
+\emph default
+ covariance.
+ Standardization means it can take on values between -1 and 1.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Modeling intercepts and slopes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Let 
+\begin_inset Formula $i$
+\end_inset
+
+ index rows and 
+\begin_inset Formula $j$
+\end_inset
+
+ index columns.
+ If we multiply this correlation matrix times 
 \begin_inset Formula $\sigma_{i}\sigma_{j}$
 \end_inset
 
@@ -831,7 +921,37 @@ If we multiply this correlation matrix times
 \emph on
 covariance 
 \emph default
-matrix.
+matrix:
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename ../../_Graphics/Covar_matrix.png
+	width 70page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+Covariance ranges from 
+\begin_inset Formula $-\infty$
+\end_inset
+
+ to 
+\begin_inset Formula $+\infty$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Frame
@@ -867,7 +987,7 @@ Imagine a vector of 3 random variables,
 \end_inset
 
  The covariance between any two of these random variables is simply an unstandar
-dized version of the correlation between them– it is correlation measured
+dized version of the correlation between them: it is correlation measured
  in the units of the random variables.
  The covariance matrix (aka variance covariance matrix) of the random variable
  is:
@@ -966,7 +1086,7 @@ Imagine that we have
 \begin_inset Formula $\bm{\beta}.$
 \end_inset
 
- It is easy to see that we can calculate the variance for each vector 
+ We can calculate the variance for each vector 
 \begin_inset Formula $(\sigma_{\alpha}^{2},\sigma_{\beta}^{2})$
 \end_inset
 
@@ -1359,7 +1479,7 @@ The Wishart distribution is an easy, useful way to impose reasonably vague
 \begin_deeper
 \begin_layout Itemize
 My experience with simulated data is that these priors are vague for the
- means but weakly informative for the variances and for the correlation.
+ means but somewhat informative for the variances and for the correlation.
 \end_layout
 
 \begin_layout Itemize
@@ -1368,6 +1488,11 @@ STAN has a distribution for priors on covariance matrices that appears to
 \end_layout
 
 \end_deeper
+\begin_layout Itemize
+It is also entirely feasible, if somewhat tedious, to simply expand the
+ two parameter case (done in lab) to include more than one slope.
+\end_layout
+
 \end_deeper
 \begin_layout Frame
 \begin_inset Argument 4

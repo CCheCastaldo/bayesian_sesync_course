@@ -175,14 +175,14 @@ DrawRates = function(n, int,int.sd, inf, inf.sd, rho.rates) {
 }
 
 mu.int = .0531
-sd.int = .0746
+sd.int = .7 #.0746
 mu.inf = .03
-sd.inf = .015
+sd.inf = .15 #.015
 rho=.5
 n = 10000
 
 x = DrawRates(n = n, int = mu.int, int.sd = sd.int, inf = mu.inf, inf.sd = sd.inf, rho.rates = rho)
-
+par(mfrow=c(1,1))
 plot(x[, 1], x[, 2], pch = 19, cex = .05, xlab = "Rate of return", ylab = "Rate of inflation")
 ```
 
@@ -200,6 +200,13 @@ Show an approximate plot of the marginal distribution of each random variable. I
 par(mfrow = c(1, 2))
 hist(x[, 1], xlab = "Interest Rate", main = "", freq = FALSE, breaks = 100)
 hist(x[, 2], xlab = "Inflation Rate", main = "", freq = FALSE, breaks = 100)
+
+
+library(ggplot2)
+library(ggExtra)
+p <- ggplot(NULL, aes(x=x[, 1], y=x[, 2]))+
+  geom_point()
+ggMarginal(data = NULL, p = p, x=x[, 1], y=x[, 2], type = "histogram" )
 ```
 
 </div>
