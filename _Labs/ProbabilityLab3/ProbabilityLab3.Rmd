@@ -7,8 +7,6 @@ output:
     theme: paper
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -73,10 +71,8 @@ Total | 32
   b.  What is the sum of the marginal columns?
   c.  Why?  Note, when we marginalize over $R$ we are effectively eliminating $S$ and vice versa.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 <center>
@@ -107,10 +103,8 @@ Marginal | $\Pr\big(S\big)=\frac{20}{32}$ | $Pr\big(S^c\big)=\frac{12}{32}$ | $=
 
 2. Use the data in Table 1 and the probabilities in Table 2 to illustrate the rule for the union of two events, the probability that an island contains either species, $\Pr\big(R\cup S\big)$. You will need to derive the formula for the probability of event A or B to solve this problem.  A Venn diagram might help you do so.
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 \begin{eqnarray}
@@ -127,10 +121,8 @@ Marginal | $\Pr\big(S\big)=\frac{20}{32}$ | $Pr\big(S^c\big)=\frac{12}{32}$ | $=
 
 3. Use the marginal probabilities in Table 2 to calculate the probability that an island contains both species i.e., $\Pr\big(R,S\big)$, assuming that $R$ and $S$ are independent.  Compare the results from those calculations with the probability that both species occur on an island calculated directly from the data in Table 1. Interpret the results ecologically.  What is $\Pr\big(R\mid S\big)$? What is $\Pr\big(S\mid R\big)$?
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 If the probabilities are independent, then:
@@ -190,10 +182,8 @@ What would this cloud look like if the rates were not correlated?
 
 Show an approximate plot of the marginal distribution of each random variable. It turns out this is the way we will do it with MCMC. 
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 ```{r eval = TRUE, echo = TRUE, fig.align = 'center', fig.width = 10}

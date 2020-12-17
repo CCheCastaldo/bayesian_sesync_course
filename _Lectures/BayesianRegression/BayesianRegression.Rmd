@@ -19,65 +19,69 @@ knitr::opts_chunk$set(dev = 'pdf')
 
 ## Outline
 
-- Be able to write proper Bayesian regression models for different types of data.
+- Be able to write models for different types of data.
 - Appreciate one-to-one relationship between math and JAGS code.
 - Be able to interpret coefficients of general linear models.
 
-## Where are we?
-\centerline{
-\includegraphics[width=.9\textwidth]{../../_Graphics/DeterministicModelsAndTypesOfData.png}
-}
-
-## A great follow-up
-This book should be in your library:
-
-\vspace{-1 cm}
-\centerline{
-\includegraphics[width=.65 \textwidth]{../../_Graphics/GelmanBlackBook.pdf}
-}
-
 ## The general Bayesian set-up
 
-Recall that the posterior distribution of the unobserved quantities conditional on the observed ones is proportional to their joint distribution:
+Recall that the posterior distribution is proportional to their joint distribution:
 $$[\theta|y]\propto[\theta,y].$$
 
-The joint distribution can be factored into a likelihood and priors for simple Bayesian models:
+The joint distribution can be factored into a likelihood and priors:
 
 $$\big[\theta, \sigma^{2}\big]= \big[y \mid \theta, \sigma^{2}\big]\big[\theta\big]\big[\sigma^{2}\big]$$
+We often wish to model the mean response to $y$. To do this we embed some ecological or socio-environmental deterministic function $g\big(\boldsymbol{\beta},x\big)$ into the likelihood like this....
 
-A deterministic model of an ecological or socioenvironmental process is embedded in the likelihood like this...
+$$\big[\boldsymbol{\theta}, \sigma^{2}\big]\propto \big[y \mid g\big(\boldsymbol{\beta},x\big), \sigma^{2}\big]\big[\boldsymbol{\beta}\big]\big[\sigma^{2}\big]$$
 
-$$\big[\boldsymbol{\theta}, \sigma^{2}\big]\propto \big[y \mid g\big(\boldsymbol{\theta},x\big), \sigma^{2}\big]\big[\boldsymbol{\theta}\big]\big[\sigma^{2}\big]$$
+## A simple example with an old friend
 
-## Simple Bayesian regression models 
+\centerline{
+\includegraphics[width=.5\textwidth]{../../_Graphics/data.pdf}
+}
+\vspace{-1cm}
 
-As always, we start with a deterministic model:
-$$\mu_{i}=\underbrace{g\big(\boldsymbol{\beta},x_{i}\big)}_{\mathclap{\text{deterministic model}}}$$
-where $\boldsymbol{\beta}$ is a vector of regression coefficients and $\mathbf{x}_i$ is a vector or predictor variables. We use likelihood to connect the predictions of our model to data:
-$$\underbrace{[y_i\mid\mu_i,\sigma^2]}_\text{stochastic model}$$
-$$\big[\boldsymbol{\beta} ,\sigma^{2}\mid \mathbf{y}\big]\propto \prod_{i=1}^n\big[y_i \mid g\big(\boldsymbol{\beta},x_i\big), \sigma^{2}\big]\big[\boldsymbol{\theta}\big]\big[\sigma^{2}\big]$$
+\begin{align*}
+g\left(\boldsymbol{\beta,}x_{i}\right) = & \beta_{0}+\beta_{1}x_{i}\\
+\left[\boldsymbol{\beta},\sigma^{2}|\boldsymbol{y}\right] \propto & \prod_{i=1}^{15}\textrm{normal}\left(y_{i}|g\left(\boldsymbol{\beta,}x_{i}\right),\sigma^{2}\right)\textrm{normal}\left(\beta_{0}|0,1000\right)\times\\
+ &  \textrm{normal}\left(\beta_{1}|0,1000\right)\times\\
+ &  \textrm{inverse gamma}\left(\sigma^{2}|0.001,0.001\right)\\
+\end{align*}
 
-We choose appropriate deterministic functions (linear or non-linear) and appropriate probability distributions to compose specific models. 
+## Lots of flexibility as a modeler
 
-##Identical notation
+Bayesian regression models are building blocks for more complex models. For example, the continent-wide Adélie penguin population dynamics:
 
-$$y_i=g(\boldsymbol{\beta},x_i)+\epsilon_i$$
-$$\epsilon_i\sim\text{normal}(0,\sigma^2)$$
+\vspace{-4mm}
 
-is the same as:
+\begin{eqnarray*}
+z_{s,y} &\sim& \textrm{lognormal} \big( z_{s,y} \mid g(\beta_{1}, \beta_{2}, z_{s,y-1}), \sigma^{2} \big)\\
+g(\theta) &=& \textrm{log}\big(z_{s,y-1}e^{\,\beta_{1} \,+\, \beta_{2}\textrm{wsic}_{s,y} \,+\, \beta_{3}\textrm{ssic}_{s,y}}\big)
+\end{eqnarray*}
 
-$$y_i\sim\text{normal}\big(g(\boldsymbol{\beta},x_i),\sigma^2\big),$$
+\vspace{2mm}
 
-but the second notation is much more flexible because it doesn't require additive errors. 
+\centerline{
+\includegraphics[width=.45\textwidth]{../../_Graphics/LambdaMap.pdf}
+\includegraphics[width=.45\textwidth]{../../_Graphics/AdeliePenguin.jpg}
+}
 
-## A graphical representation
+\vspace{4mm}
+\tiny{Photo c/o Heather J. Lynch}
 
-```{r, include = TRUE, echo = FALSE, fig.height=4, fig.width=5, out.width='.8\\linewidth', dev='pdf', fig.align='center'}
-y <- rnorm(1000000, 0, 1)
-par(mar = c(5,6,4,2))
-plot(density(y), main = "", xlab = "y", ylab = expression(paste("[ y | g(", theta, ", x), ", sigma^2," ]")))
-abline(v = 0, lwd = 2)
-```
+## What about other kinds of data?
+
+\centerline{
+\includegraphics[width=.6\textwidth]{../../_Graphics/DeterministicModelsAndTypesOfData.png}
+}
+
+\vspace{-1cm}
+
+Two considerations:
+
+- Moment matching (which you are familiar with)
+- Mapping our deterministic model $g\big(\boldsymbol{\beta},x\big) = \beta_{0} + ... + \beta_{n}x_{n}$ from $(-\infty, \infty)$ to a range appropriate for the likelihood in our model
 
 ## You don't have to be normal!
 
@@ -102,26 +106,6 @@ continuous, strictly positive, constant variance & gamma & $\mu = e^{\beta_{0} +
 \end{tabular}
 \end{table}
 
-## Lots of flexibility as a modeler
-
-Bayesian regression models are building blocks for more complex models. For example, the continent-wide Adélie penguin population dynamics:
-
-\vspace{-4mm}
-
-\begin{eqnarray*}
-z_{s,y} &\sim& \textrm{lognormal} \big( z_{s,y} \mid g(\beta_{1}, \beta_{2}, z_{s,y-1}), \sigma^{2} \big)\\
-g(\theta) &=& \textrm{log}\big(z_{s,y-1}e^{\,\beta_{1} \,+\, \beta_{2}\textrm{wsic}_{s,y} \,+\, \beta_{3}\textrm{ssic}_{s,y}}\big)
-\end{eqnarray*}
-
-\vspace{2mm}
-
-\centerline{
-\includegraphics[width=.45\textwidth]{../../_Graphics/LambdaMap.pdf}
-\includegraphics[width=.45\textwidth]{../../_Graphics/AdeliePenguin.jpg}
-}
-
-\vspace{4mm}
-\tiny{Photo c/o Heather J. Lynch}
 
 ## Normal data, continuous and real valued
 
@@ -378,13 +362,5 @@ for(i in 2:length(y)){
   y[i] ~ dlnorm(log(mu[i]), tau)
 }
 ```
-
-## Nonlinear regression
-
-\centerline{\includegraphics[height=1.1in]{../../_Graphics/Bolker1.pdf}}
-\centerline{\includegraphics[height=1.1in]{../../_Graphics/Bolker2.pdf}}
-
-\vspace{10mm}
-\tiny{Figures c/o Bolker, B. 2008. \emph{Ecological Models and Data in R}. Princeton University Press, Princeton, NJ.  USA.}
 
 

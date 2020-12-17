@@ -1,6 +1,6 @@
-\contentsline {algorithm}{\numberline {1}{\ignorespaces Linear regression example\relax }}{10}{algorithm.caption.5}
-\contentsline {algorithm}{\numberline {2}{\ignorespaces Refined linear regression example\relax }}{18}{algorithm.caption.8}
-\contentsline {algorithm}{\numberline {3}{\ignorespaces R code for running logistics JAGS script\relax }}{19}{algorithm.caption.9}
-\contentsline {algorithm}{\numberline {4}{\ignorespaces Example of code for inserting JAGS code within R script}}{23}{algorithm.caption.10}
-\contentsline {algorithm}{\numberline {5}{\ignorespaces R code for running logistics JAGS script in parallel with random initial values\relax }}{42}{algorithm.caption.18}
-\contentsline {algorithm}{\numberline {6}{\ignorespaces R code for running logistics JAGS script in parallel with fixed initial values\relax }}{45}{algorithm.caption.19}
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Linear regression example\relax }}{10}{algorithm.caption.5}%
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Refined linear regression example\relax }}{18}{algorithm.caption.8}%
+\contentsline {algorithm}{\numberline {3}{\ignorespaces R code for running logistics JAGS script\relax }}{19}{algorithm.caption.9}%
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Example of code for inserting JAGS code within R script}}{23}{algorithm.caption.10}%
+\contentsline {algorithm}{\numberline {5}{\ignorespaces R code for running logistics JAGS script in parallel with random initial values\relax }}{42}{algorithm.caption.18}%
+\contentsline {algorithm}{\numberline {6}{\ignorespaces R code for running logistics JAGS script in parallel with fixed initial values\relax }}{45}{algorithm.caption.19}%

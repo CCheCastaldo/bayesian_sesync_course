@@ -48,7 +48,7 @@
 \author[2]{Christian Che-Castaldo}
 
 \affil[1]{Natural Resource Ecology Laboratory, Department of Ecosystem Science and Sustainability, and Graduate Degree Program in Ecology, Colorado State University, Fort Collins CO, 80523}
-\affil[2]{Mount St.\ Helens Institute, Amboy WA, 98601}
+\affil[2]{Institute for Advanced Computational Science, Stony Brook University, Stony Brook, NY 11794}
 
 \maketitle
 
@@ -281,7 +281,7 @@ for (i in 1:n){
 \noindent The key is to look at the index of the quantity of interest and be sure that the \texttt{for} expressions span all values of the subscript.  You can use the \texttt{length() \index{length()@\texttt{length()}}} function as an alternative to giving an explicit argument for the number of iterations (e.g., \texttt{n} and \texttt{m} above),. For example we could use:
 
 \begin{Verbatim}
-for (1 in 1:length(x[])){
+for (i in 1:length(x[])){
   mu[i] <- r - r/K * x[i]
   y[i] ~ dnorm(mu[i], tau)
 }
@@ -447,7 +447,7 @@ zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "tau"),
 n.iter = n.iter, n.thin = 1)
 \end{Verbatim}
 
-\noindent There is a quite a bit to learn here, so if your attention is fading, go get an espresso. First, we need to load the package \texttt{rjags}. Remember that MCMC required generating random numbers, so we use \texttt{set.seed(1)} to assure that our results are exactly reproducible.\footnote{With enough iterations, this is not really necessary, but it is nice for teaching.} We then specify 3 scalars, \texttt{n.adapt},  \texttt{n.update}, and \texttt{n.iter}. These tell JAGS the number of iterations in the chain for adaptation (\texttt{n.adapt}), burn-in (\texttt{n.udpate}) and the number to keep in the final chain (\texttt{n.iter}). The first one, \texttt{n.adapt}, may not be familiar -- it is the number of iterations that JAGS will use to choose the sampler and to assure optimum mixing of the MCMC chain.\footnote{Remember the tuning parameter in Metropolis Hastings?} The second, \texttt{n.update}, is the number of iterations that will be discarded to allow the chain to converge before iterations are stored (aka, burn-in). The final one, \texttt{n.iter}, is the number of iterations that will be stored in the chain as samples from the posterior distribution -- it forms the \enquote{rug}.
+\noindent There is a quite a bit to learn here, so if your attention is fading, go get an espresso. First, we need to load the package \texttt{rjags}. Remember that MCMC required generating random numbers, so we use \texttt{set.seed(1)} to assure that our results are exactly reproducible.\footnote{With enough iterations, this is not really necessary, but it is nice for teaching.} We then specify 3 scalars, \texttt{n.adapt},  \texttt{n.update}, and \texttt{n.iter}. These tell JAGS the number of iterations in the chain for adaptation (\texttt{n.adapt}), burn-in (\texttt{n.update}) and the number to keep in the final chain (\texttt{n.iter}). The first one, \texttt{n.adapt}, may not be familiar -- it is the number of iterations that JAGS will use to choose the sampler and to assure optimum mixing of the MCMC chain.\footnote{Remember the tuning parameter in Metropolis Hastings?} The second, \texttt{n.update}, is the number of iterations that will be discarded to allow the chain to converge before iterations are stored (aka, burn-in). The final one, \texttt{n.iter}, is the number of iterations that will be stored in the chain as samples from the posterior distribution -- it forms the \enquote{rug}.
 
 The \texttt{jm = jags.model\index{jags.model@\texttt{jags.model}}...} statement sets up the MCMC chain. Its first argument is the name of the file containing the JAGS code. Note that  the file resided in the current working directory in this example. Otherwise, you would need to specify the full path name. The next two expressions specify where the data come from, where to get the initial values, and how many chains to create (i.e., the length of the list inits). Finally, it specifies the burn-in how many samples to throw away before beginning to save values in the chain. Thus, in this case, we will throw away the first 10,000 values.
 
@@ -567,7 +567,7 @@ attr(,"class")
 \item Look at the first six rows of the data frame.
 \item Find the maximum value of \texttt{sigma}.
 \item Find the mean of \texttt{r} for the first 1000 iterations.
-\item Find the mean of \texttt{r} after the first 1000 iterations.
+\item Find the mean of \texttt{r} after the last 1000 iterations.
 \item Make two publication quality plots of the marginal posterior density of \texttt{K}, one as a smooth curve and the other as a histogram.
 \item Compute the probability that \texttt{K} > 1600. Hint: what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function \texttt{ecdf()}.
 \item Compute the probability that 1000 < \texttt{K} < 1300.
@@ -580,7 +580,7 @@ attr(,"class")
 \end{exercise}
 \belowcaptionskip=0pt
 
-It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is describe in Box 1.
+It is important that you be able to manipulate the MCMC output stored in coda objects. Why would you want to do that? There are two reasons. By dissecting the coda object, you can see the MCMC process that we worked so hard to understand earlier. A more useful reason is described in Box 1.
 
 \begin{mdframed}[frametitle={Box 1: Using R to calculate derived quantities from MCMC objects}, backgroundcolor=black!10]
 One of the most powerful benefits of Bayesian analysis using MCMC is the ability to make inference on \emph{derived} quantities using what is called the equivariance principle (Hobbs and Hooten \citeyearpar{hobbs2015bayesian} page 194), which simply says that any function of a random variable becomes a random variable with its own marginal posterior distribution. This principle allows you to write simple functions in your JAGS code and make inference on quantities that are calculated from the random variables included in the model (e.g., $r$, $K$, $\sigma)$ as you will soon see in the exercises associated with this lab. 
@@ -595,7 +595,7 @@ Manipulating and summarizing coda objects manually can be tedious work prone to 
 
 This is the first year we have used \texttt{MCMCvis} in teaching, although Chris has used it in his work for some time now.  We are adopting it for two reasons.  First, it will work with coda objects produced by any of the flavors of MCMC software, JAGS, OpenBUGS, WinBUGS and Stan, or for matrices produce from your own MCMC samplers. It allows you to run chains in parallel and make useful inference on the parallel output, which must be a coda object.  A related advantage is the you will need to produce only a single inferential object while the past, we produced two (coda objects and jags objects), almost doubling the computation time.
 
-We cover the essential elements here, but you should must work through the  full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
+We cover the essential elements here, but you should work through the full \texttt{MCMCvis} tutorial  to get maximum benefit of these powerful functions.  We suggest that you have the tutorial open in the help window of R studio as you work through the exercises below.\footnote{Go to R help, packages, MCMCvis, User guides, package vignettes and other documentation, MCMCvis::MCMCvis.}
 
  \texttt{MCMCvis} includes five functions that we will use a lot:
 \begin{itemize}
@@ -645,7 +645,7 @@ We will learn easier, less error-prone ways to do this below.
 sigma 0.03  0 0.02 0.03  0.04    1
 \end{Verbatim}
 
-There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{signif = }) or the number of decimal places (\texttt{digits =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
+There are some particularly useful options for this function.  You can control the number of significant digits (\texttt{digits = }) or the number of decimal places (\texttt{round =}).  You can also specify the convergence diagnostics \texttt{Rhat} and \texttt{n.eff}.  See the MCMCvis tutorial and sections \ref{Gelman} and \ref{n.eff}  in this document or more explanation.
 
 \bigskip
 \belowcaptionskip=-20pt
@@ -698,7 +698,7 @@ There are some particularly useful options for this function.  You can control t
 \begin{enumerate}
 \item Extract the chains for \texttt{r} and \texttt{sigma} as a data frame using \texttt{MCMCchains} and compute their .025 and .975 quantiles from the extracted object.  Display three significant digits.
 \item Make a publication quality histogram for the chain for \texttt{sigma}. Indicate the .025 and .975 Bayesian equal-tailed credible interval value with  vertical red lines.
-\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDinterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
+\item Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package \texttt{HDInterval}, enter \texttt{?HDInterval} at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
 \end{enumerate}
 \end{mdframed}
 \captionsetup{textformat=empty, labelformat=empty}
@@ -711,7 +711,7 @@ There are some particularly useful options for this function.  You can control t
 
 The coda object is strictly tabular -- it is a list of matrices with the number of elements of the list equal to the number of chains. So, for example three chains will produce a list of three matrices.  The columns of  each matrix include the variables specified in the \texttt{variable.names = ...} argument of \texttt{coda.samples}. The rows hold the output of individual iterations. This is fine when the parameters you are estimating are entirely scalar, but sometimes you want posterior distributions for all of the elements of vectors or matrices and in this case, the coda object can be quite cumbersome because the elements of vectors and matrices loose their structure, being shoe-horned into rows an a matrix.
 
-We have been working with scalars, \texttt{r, K,} and \texttt{sigma} up to now.  We will often seek inference on vectors, particularly when we want to make predictions.  These predictions can be made at the in-sample $x's$ of for out-of-sample $x's$ that we specify. For example, take a look at your JAGS model.  The quantity \texttt{mu[i]} is a the prediction of our deterministic model for each of the \texttt{x[i]}.  The quantity \texttt{mu} is a vector, a \emph{derived quantity}.  We call it a derived quantity because it is a function of random variables in the model. The equivariance property of MCMC means that any quantity that is a function of random variables becomes a random variable with its own marginal posterior distribution.
+We have been working with scalars, \texttt{r, K,} and \texttt{sigma} up to now.  We will often seek inference on vectors, particularly when we want to make predictions.  These predictions can be made at the in-sample $x's$ of for out-of-sample $x's$ that we specify. For example, take a look at your JAGS model.  The quantity \texttt{mu[i]} is the prediction of our deterministic model for each of the \texttt{x[i]}.  The quantity \texttt{mu} is a vector, a \emph{derived quantity}.  We call it a derived quantity because it is a function of random variables in the model. The equivariance property of MCMC means that any quantity that is a function of random variables becomes a random variable with its own marginal posterior distribution.
 
 Presume you would like to get posterior distributions on the \emph{predictions} of your regression model for each of the \texttt{x} values. Note in the JAGS code that we make this prediction as \texttt{ mu[i] <- r - r / K * x[i]}. Making predictions requires no more than adding \texttt{mu} to the list of random variables being monitored by changing your \texttt{coda.samples} statement to read:
 
@@ -880,7 +880,7 @@ initsP = function() {list(K = runif(1, 10, 4000), r = runif(1, .01, 2),
   .RNG.seed = runif(1, 1, 2000))}
 }\end{Verbatim}
 
-\noindent There are a few things worth noting in this function, so study it carefully. The usual \texttt{inits} list has been replaced with a a function that uses \texttt{runif()} to generate random initial values. You need to specify the parameters to be initialized here and some reasonable ranges for their starting values (this is done with the parameters governing the \texttt{runif()} functions themselves). Every time \texttt{initP()} is invoked, it will produce a new set of initial values. 
+\noindent There are a few things worth noting in this function, so study it carefully. The usual \texttt{inits} list has been replaced with a function that uses \texttt{runif()} to generate random initial values. You need to specify the parameters to be initialized here and some reasonable ranges for their starting values (this is done with the parameters governing the \texttt{runif()} functions themselves). Every time \texttt{initP()} is invoked, it will produce a new set of initial values. 
 
 Even if we make sure that the initial values are different for each chain running in parallel, we need to consider how JAGS handles randomization\footnote{In R random numbers are not truly random. Instead, they are generated using a seed value (set.seed) and a pseudo-random number generator or RNG (the default in R is Mersenne-Twister, but others exist). This RNG is a function that uses the seed to generate a deterministic sequence of numbers that approximates a sequence of truly random numbers, which is stored in a vector called \texttt{.Random.seed}. The first value of \texttt{.Random.seed} identifies the RNG. The length and structure of the remaining portion of the vector depends on the RNG itself. For Mersenne-Twister, the total vector is 625 elements long, the second of which identifies how many of the 623 values have been \q{used up} in creating output from functions that call \texttt{.Random.seed} (runif, rnorm, sample, etc). Once the end of the vector is reached, a fresh set of 623 values replace the first set and the position counter is set to 1. Oddly the initial position counter starts on the 623rd value of the RNG output when first created with set.seed. Invoke set.seed again with a new seed value and you will get an entirely new \texttt{.Random.seed} starting at position 624 (the end of the first set). Invoke \texttt{set.seed} with the same seed value and you will recreate \texttt{.Random.seed} from the beginning.}. JAGS sets its own seed based on the time (based on the time the model was implemented) and random number generator, or RNG (JAGS defaults to Mersenne-Twister just as R does), independently from the RNG and seed specified for its worker. If each worker implements the model at the same time then each chain will have the same \texttt{.Random.seed} vector when performing MCMC. If you have different initial values (or at least one different initial initial value for a free parameter in your model) then the chains will not be identical, even though all chains will have used the same random draws at each step (thanks to the the identical \texttt{.Random.seed}). Is that enough randomization between chains? We are not sure, but a safe approach is to specify the seed and RNG (this is required by JAGS when setting the seed, but you can use the same RNG) for each chain, as well as the initial values. Fortunately, this is easy. We do this by adding \texttt{.RNG.seed} and \texttt{.RNG.name} arguments to the list of initial values for each chain. Here we assign each chain the Mersenne-Twister RNG and select the seed at random in the same fashion as we do the initial values themselves.
 

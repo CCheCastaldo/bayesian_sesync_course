@@ -9,8 +9,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -48,13 +46,10 @@ d. Comment on the informative nature of the prior in terms of its relationship t
 
 ### **Scenarios**
 
-1. *Climate Referendum Voting (small sample)*: You are conducting a political opinion poll and poll a small number of voters at random, $n=10$. You ask each voter whether he or she will vote "yes" in an upcoming referendum on funding for local climate adaptation. Seven voters say they intend to vote "no"" and 3 report intending to vote "yes". Little is known about how people might vote.  Assuming a vague prior on the probability that a person votes "yes", answer questions a-d. In addition,
-estimate the probability that the referendum passes as $\textrm{Pr}\big(\phi \geq .5\big)$. 
+1. *Climate Referendum Voting (small sample)*: You are conducting a political opinion poll and poll a small number of voters at random, $n=10$. You ask each voter whether he or she will vote "yes" in an upcoming referendum on funding for local climate adaptation. Seven voters say they intend to vote "no"" and 3 report intending to vote "yes". Little is known about how people might vote.  Assuming a vague prior on the probability that a person votes "yes", answer questions a-d. In addition, estimate the probability that the referendum passes as $\textrm{Pr}\big(\phi \geq .5\big)$. 
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 \begin{eqnarray}
@@ -105,10 +100,8 @@ bounds95
 * Instead of using the binomial-beta conjugate for this problem, try a Bernoulli-beta. 
 * Try using a vague prior for $\phi$. Does your posterior distribution change much? Why or why not?
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 \begin{eqnarray}
@@ -158,10 +151,8 @@ bounds95
 
 3. *Lobster Catch*: A group of fishermen go lobster fishing for an hour. The fishermen catch 15, 8, 6, 11, and 4 lobster. Estimate average catch, given that, prior to this fishing trip, we believed fishermen catch an average of 3 lobsters per hour $(\mu=3)$ an hour with a standard deviation of 1.5 lobsters per hour $(\sigma=1.5)$.
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 First use moment-matching to convert $\mu$ and $\sigma$ to $a_{prior}$ and $b_{prior}$.
@@ -210,10 +201,8 @@ bounds95
 
 4. *Solstice temperature:* You have collected temperature data on the December solstice for the last 50 years in Maryland (saved on the `SolsticeTemp` data frame from the `SESYNCBayes` package).  The *known* standard deviation for these measurements is $\sigma=15$.  In a previous study researchers found mean temperature to be 30 $(\mu_{prior}=30)$ with a standard deviation of 12 $(\sigma_{prior}=12)$. Given this prior information, answer questions a-d.
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 \begin{eqnarray}
@@ -255,10 +244,8 @@ bounds95
 
 5. *Chromium exposure in the workplace*: Hexavalent chromium is used in textile dyes, wood preservation, anti-corrosion products, chromate conversion coatings, and a variety of niche uses. Industrial uses of hexavalent chromium compounds include chromate pigments in dyes, paints, inks, and plastics; chromates added as anticorrosive agents to paints, primers, and other surface coatings; and chromic acid is electroplated onto metal parts to provide a decorative or protective coating. Inhaled hexavalent chromium is recognized as a human carcinogen. You have data on the airborne chromium concentration in 100 stainless-steel welding workplaces saved on the `Chrome` data frame from the `SESYNCBayes` package. You also know that in a typical stainless-steel welding workplace, airbourne concentrations have a *known* mean of 225 μg/m3 ($\mu=225$). Given this prior information, answer questions a-d. Hint: the R library `actuar` has the function `dinvgamma()` for calculating probability densities of the inverse gamma distribution.
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
 \begin{eqnarray}
@@ -289,7 +276,7 @@ plot(post, 0, 4000, add = TRUE, col = "red", lwd = 2)
 
 ```{r echo = TRUE}
 bounds <- c(0.025, 0.975)
-bounds95 <- qinvgamma(bounds, alphaPost, betaPost)
+bounds95 <- qinvgamma(bounds, alphaPost, scale = betaPost)
 bounds95
 ```
 

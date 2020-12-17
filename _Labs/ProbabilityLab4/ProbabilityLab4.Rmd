@@ -7,8 +7,6 @@ output:
     theme: paper
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -45,10 +43,8 @@ z \sim  \textrm{lognormal}\big(\alpha,\beta\big)\\
 
 1. Simulate 10,000 data points from a normal distribution with mean 0 and standard deviation 1 and another 10,000 data points from a log normal distribution with first parameter (the mean of the random variable on the log scale) = 0 and second parameter (the standard deviation of the parameter on the log scale) = 1. Display side-by-side histograms scaled to the density. Find the mean and variance of the lognormal distribution using moment matching. Check your moment-matched values empirically with the simulated data. The moment-matched values and the empirical values are close for the mean, but less so for the variance.  Why?  What happens when you increase the number or draws? Explore the two distributions by repeating with different means and standard deviations of your choice.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
@@ -91,10 +87,8 @@ var(log.y)
 
 2. The average above ground biomass in a 1 km^2^ of sagebrush grassland is 103 g/m^2^, with a standard deviation of 23. You clip a 1 m^2^ plot. You assumed a normal distribution for this problem in Probability Lab #2. Now redo the problem with a more appropriate distribution. Write out the model for the probability density of the data point. What is the probability density of an observation of 94 assuming the data are gamma distributed? What is the probability that your plot will contain between 90 and 110 gm of biomass? Now assume the data are lognormally distributed and redo this problem. Compare to the results where you assumed a gamma distribution.
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 $$y_i \sim \textrm{gamma}\bigg(\frac{103^{2}}{23^{2}}, \frac{103}{23^{2}}\bigg)$$
@@ -141,10 +135,8 @@ p.bound[1] - p.bound[2]
 
 3. We are interested in the proportion ($\phi$) of Maryland counties that contain a coal fired power plant. Existing literature shows that that this proportion has a mean of $\mu = 0.04$ with a standard deviation of $\sigma = 0.01$. Write out a model for the distribution of $\phi$, conditional on $\mu$ and $\sigma$. The challenge here is to use moment matching for a random variable with support between 0-1. Plot the probability distribution of $\phi$.  
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 $$
@@ -178,10 +170,8 @@ plot(x, y,type = 'l', ylab = expression(paste("[",phi,"]")), xlab = expression(p
 
 4. If you visited 50 counties, what is the probability that 5 would contain a plant, conditional on the hypothesis that $\phi=0.04$? 
 
-<button class="button" onclick="toggle_visibility('myDIV3A');">Answer</button>
-
-<div id="myDIV3A", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 $$\Pr(y=5 \mid \phi, n=50) = \textrm{binomial}\big(y=5\mid \phi=0.04,n=50\big) =\binom{50}{5}0.04^5(1-0.04)^{50-5}$$
@@ -199,10 +189,8 @@ dbinom(x = x, p = phi, size = n)
 
 5. Plot the probability of the data for y = 1...50 counties with coal plants out of 50 counties visited conditional on the hypothesis $\phi=0.04$.
 
-<button class="button" onclick="toggle_visibility('myDIV3B');">Answer</button>
-
-<div id="myDIV3B", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}
@@ -217,10 +205,8 @@ plot(x, y, type = 'h', ylab = expression(paste("Pr(y|",phi,")"),), xlab = expres
 
 6. What is the probability that at least 5 counties have a coal plant, conditional on the hypothesis that $\phi=0.04$?  
 
-<button class="button" onclick="toggle_visibility('myDIV3C');">Answer</button>
-
-<div id="myDIV3C", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 $$\begin{align*}
@@ -241,10 +227,8 @@ n <- 50
 
 7. Plot the probability that fewer than $y$ counties contain plants where $y$ takes on values between 1 and 10. Condition of the probability of occupancy $\phi=0.04$.
 
-<button class="button" onclick="toggle_visibility('myDIV3D');">Answer</button>
-
-<div id="myDIV3D", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 7, fig.height = 5, fig.align = 'center'}
@@ -260,10 +244,8 @@ plot(x, y, ylab = expression(paste("P(",Y <= y," | ",phi,")")), xlab = expressio
 
 8. Simulate data for 75 counties (no coal plant = 0, coal plant = 1).
     
-<button class="button" onclick="toggle_visibility('myDIV3E');">Answer</button>
-
-<div id="myDIV3E", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
 <br>
 
 $$
@@ -286,9 +268,9 @@ phi <- 0.04
 - Soil water, the $x$ value, varies randomly and uniformly between $0.01$ and $0.2$ 
 - $\beta_0 = 0.01$ and $\beta_1 = 0.9$ and the standard deviation of the model prediction is $\sigma = 0.03$  
 
-<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
-
-<div id="myDIV10", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
+<br>
 
 \begin{eqnarray}
 \mu_i &=& \beta_0 + \beta_1x_1\\
@@ -336,10 +318,8 @@ where $z$ is the discrete random variable representing the number of failures th
 
 Simulate $100,000$ observations from a negative binomial distribution with mean of $\mu = 100$ and variance of $\sigma^2 = 400$ using the **first** parameterization that has a mean and a dispersion parameter (remember to moment match). Do the same simulation using the **second** parameterization. Plot side-by-side histograms of the simulated data.
 
-<button class="button" onclick="toggle_visibility('myDIV12');">Answer</button>
-
-<div id="myDIV12", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV10"> Answer </button>  
+<div id="myDIV10" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 10, fig.height = 5, fig.align = 'center'}

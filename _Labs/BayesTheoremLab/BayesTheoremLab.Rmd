@@ -9,8 +9,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -61,10 +59,8 @@ You are interested in estimating the posterior distribution for the mean number 
 
 3. Set values for the prior mean (`mu.prior`) and standard deviation (`sigma.prior`).
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 ```{r fig.widght = 6, fig.height = 5, fig.align = 'center', echo = TRUE}
@@ -97,10 +93,8 @@ sigma.prior <- 0.5
 
 4. Set up a vector containing a sequence of values for $\theta$, the mean number of invasive plants, You want this vector to approximate a continuous $\theta$, so be sure it contains values that are not too far apart. Use code like this: `theta = seq(0,15,step)` where you set `step = .01`. Setting a value for `step` with global scope is important. You will use it later when you integrate.
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -122,9 +116,9 @@ theta <- seq(0, 15, step)
 prior <- function(theta, mu = mu.prior, sigma = sigma.prior){#your code implementing function}
 ```
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
-
-<div id="myDIV3", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
+<br>
 
 $[\theta]=\text{gamma}\left(\theta \biggm{|}\frac{10.2^{2}}{.5^{2}},\frac{10.2}{.5^{2}}\right)$
 
@@ -140,10 +134,8 @@ prior <- function(theta, mu = mu.prior, sigma = sigma.prior) dgamma(theta, mu^2 
 
 6. Plot the prior distribution of $\theta$, the probability density of $\theta$ as a function of the values of $\theta$.
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 ```{r fig.widght = 6, fig.height = 5, fig.align = 'center', echo = TRUE}
@@ -157,10 +149,8 @@ plot(theta, prior(theta), type = "l", ylab = expression(paste("[", theta, "]")),
 
 7. Check your moment matching by generating 100,000 random variates from a gamma distribution with parameters matched to the prior mean and standard deviation. Now compute the mean and standard deviation of the random variates. They should be very close to 10.2 and .5.
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
 ```{r echo = TRUE}
@@ -182,10 +172,8 @@ mean(rgamma(100000, mu.prior^2 / sigma.prior^2, mu.prior / sigma.prior^2))
 like <- function(theta, y){#your code to calculate total likelihood of the data conditional on each value of theta}
 ```
 
-<button class="button" onclick="toggle_visibility('myDIV6');">Answer</button>
-
-<div id="myDIV6", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 ```{r echo = TRUE}
@@ -204,10 +192,8 @@ like <- function(theta, y){
 
 9. Plot the likelihood $[\mathbf{y} \mid \theta_{i}]$ holding the data constant and varying $\theta$. What is this plot called? Can you say anything about the area under the curve? What happens to the inference we can make based on likelihood alone if we multiply the curve by a constant?
 
-<button class="button" onclick="toggle_visibility('myDIV7');">Answer</button>
-
-<div id="myDIV7", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 The plot is called a likelihood profile. There is nothing we can say about the area under the curve except that it is not equal to one.  The inference based on the likelihood profile remains the same regardless of the value of the constant multiplier because all evidence in likelihood is relative.
@@ -227,10 +213,8 @@ plot(theta, like(theta, y = y), type = "l", xlim = c(5, 15), main = "Likelihood"
 
 10. What is the mathematical expression for the joint distribution $[\theta,\mathbf{y}]$? Your answer should be as specific as possible.  I am not looking for the non-specific equation $[\theta,\mathbf{y}]=[\mathbf{y}|\theta][\theta]$. Create an R function for the joint distribution of the parameters and the data as the product of the prior and the likelihood functions.  Call this function joint. The function should simply call the previous two functions and multiply them.  Plot `joint(theta)` as a function of `theta`. Does this seem reasonable? Why are the values on the y axis so small? Think about what is going on here.
 
-<button class="button" onclick="toggle_visibility('myDIV8');">Answer</button>
-
-<div id="myDIV8", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
 <br>
 
 $$[\mathbf{y},\theta] =\prod_{i=1}^{50}\text{Poisson}(y_{i}|\theta)\,\text{gamma}\left(\theta \biggm{|}\frac{10.2^{2}}{.5^{2}},\frac{10.2}{.5^{2}}\right)$$
@@ -253,9 +237,9 @@ plot(theta, joint(theta), type = "l",  main = "Joint", xlim = c(5, 15), xlab = e
 
 11. What is the mathematical expression for the marginal probability of the data $[\mathbf{y}]$? Again, be as specific as possible with the information you have been given. Approximate the marginal probability of the data, the integral of the likelihood multiplied by the prior, to obtain a normalization constant $[\mathbf{y}]$. How would you accomplish this integration?  (Hint--Recall the first principles definition of the definite integral.)   Explain the output of this integration, a scalar. Why do we call $[\mathbf{y}]$ a "distribution" if it evaluates to a scalar?
 
-<button class="button" onclick="toggle_visibility('myDIV9');">Answer</button>
-
-<div id="myDIV9", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
+<br>
 
 $$[\mathbf{y}]=\int\prod_{i=1}^{50}\text{Poisson}(y_{i}|\theta)\,\text{gamma}\left(\theta \biggm{|}\frac{10.2^{2}}{.5^{2}},\frac{10.2}{.5^{2}}\right)d\theta$$
 
@@ -276,9 +260,9 @@ Py <- sum(like(theta, y = y) * prior(theta) * step)
 
 12. What is the mathematical expression for the posterior distribution $[\theta \mid \mathbf{y}]$?  Be as specific as possible using the information you have been given. Compute the posterior distribution by dividing each element of the vector of output produced by the joint function by the integral of the joint function. Plot the posterior as a function of $\theta$.
 
-<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
-
-<div id="myDIV10", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV10"> Answer </button>  
+<div id="myDIV10" class="collapse"> 
+<br>
 
 $$[\theta \mid \mathbf{y}]=\frac{\prod_{i=1}^{50}\text{Poisson}(y_{i}|\theta)\,\text{gamma}\left(\theta \biggm{|}\frac{10.2^{2}}{.5^{2}},\frac{10.2}{.5^{2}}\right)}{\int\prod_{i=1}^{50}\text{Poisson}(y_{i}|\theta)\,\text{gamma}\left(\theta \biggm{|}\frac{10.2^{2}}{.5^{2}},\frac{10.2}{.5^{2}}\right)d\theta}$$
 
@@ -317,10 +301,8 @@ plot(theta, p.theta, type = "l", xlim = c(5, 15), main = "Posterior", xlab = exp
   ylab = expression(paste("[ ", theta, " | y]")))
 ```
 
-<button class="button" onclick="toggle_visibility('myDIV15');">Answer</button>
-
-<div id="myDIV15", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV11"> Answer </button>  
+<div id="myDIV11" class="collapse"> 
 <br>
 
 ```{r eval = FALSE, eval = FALSE, echo = TRUE}
@@ -345,10 +327,8 @@ plot(theta, p.theta, type = "l", xlim = c(5, 15), main = "Posterior", xlab = exp
 
 14. Overlay the prior, the likelihood, and the posterior on a single plot. To do this, you will need to rescale the likelihood, which of course is OK because it is defined up to an arbitrary, multiplicative constant, i.e., $[\mathbf{y} \mid \theta] = cL\left(\theta \mid \mathbf{y}\right)$. It doesn't matter what c is. We can rescale the likelihood to any value we like and the inference doesn't change because all evidence is relative in the likelihood framework. Do the following to obtain a scaled likelihood that can be plotted in a revealing way next to the posterior distribution. Divide each element in the likelihood vector by the maximum likelihood (thus, the maximum becomes 1). Multiply the resulting vector by the maximum value of the posterior density. 
 
-<button class="button" onclick="toggle_visibility('myDIV12');">Answer</button>
-
-<div id="myDIV12", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV12"> Answer </button>  
+<div id="myDIV12" class="collapse"> 
 <br>
 
 ```{r fig.widght = 6, fig.height = 5, fig.align = 'center', echo = TRUE}
@@ -369,10 +349,8 @@ legend(11, 1, c("Scaled likelihood","Posterior", "Prior"), lty = rep("solid",3),
   
 15. Check to be sure that everything is correct using the gamma-Poisson *conjugate* relationship. A gamma distribution is the conjugate for the Poisson likelihood, which means if we have a gamma prior and a Poisson likelihood, then the posterior is a gamma distribution with parameters $\alpha\,+\,\sum_{i=1}^{n}y_{i}$ and $\beta\,+\,n$, where $\alpha$ and $\beta$ are the parameters of the gamma prior, and we have $n$ observations $(\,y_{i}\,)$ of new data.  Overlay a plot of the posterior obtained using the conjugate on the plot of the posterior obtained by integration. Your plot should look like the one below. Take a look at your scaled overlay of the posterior, the likelihood, and the prior. The likelihood profile for $\theta$ is based on the data but it shows much less dispersion than the distribution of the data shown in the histogram you constructed. Why?
 
-<button class="button" onclick="toggle_visibility('myDIV16');">Answer</button>
-
-<div id="myDIV16", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV13"> Answer </button>  
+<div id="myDIV13" class="collapse"> 
 <br>
 
 The likelihood profile is narrower than the histogram because the likelihood profile reflects the  the distribution of the *mean* of the data, while the histogram reflects the distribution of the data.

@@ -6,8 +6,6 @@ output:
     theme: paper
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -52,10 +50,8 @@ Best of all, ``knitr`` can produce beautiful html files as output, which can be 
 
 There is no **x** in the posterior distribution in equation 4. What are assuming if x is absent? Draw the Bayesian network, or DAG, for this model. Use the chain rule to fully factor the joint distribution into sensible parts then simplify by assuming that $r$, $K$ and $\tau$ are independent.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 There is no $x$ because we are assuming it is measured without error.
@@ -90,10 +86,8 @@ We would obtain the same result by inspecting the DAG and using the rules:
 
 A recurring theme in this course will be to use priors that are informative whenever possible. The gamma priors in equation 4 of the JAGS Primer include *the entire number line $>0$.* Don't we know more about population biology than that? Lets, say for now that we are modeling the population dynamics of a large mammal. How might you go about making the priors on population parameters more informative?
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 A great source for priors in biology are allometric scaling relationships that predict all kinds of biological quantities based on the mass organisms (Peters, 1983; Pennycuick,1992). If you know the approximate mass of the animal, you can compute broad but nonetheless informative priors on $r$ and $K$. This might leave out the social scientists, but I would trust the scaling of $r$ for people if not $K$. 
@@ -116,10 +110,8 @@ A. Gelman and J. Hill. *Data analysis using regression and multilievel / hierarc
 
 Write a code fragment to set vague normal priors for 5 regression coefficients -- `dnorm(0, 10E-6)` -- stored in the vector **b**.
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 ```{r echo = TRUE, include = TRUE}
@@ -144,10 +136,8 @@ Write R code (algorithm 3) to run the JAGS model (algorithm 3) and estimate the 
 \left[r,K,\sigma\mid\mathbf{y}\right] & \propto & \prod_{i=1}^{n}\textrm{normal}\left(y_{i} \mid \mu_{i},\tau\right)\textrm{uniform}\left(K\mid 0,4000\right) \textrm{uniform}\left(\sigma\mid 0, 5\right) \textrm{uniform}\left(r\mid 0,2\right)\textrm{.}\nonumber\\
 \end{eqnarray}
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 We use the `sink()` command to create a JAGS script from our joint distribution. This file is created within R and saved in the working directory. Please note that the outer set of brackets are only required when running this code within an R markdown document (as we did to make this answer key). If you are running them in a plain R script, they are not needed.
@@ -217,17 +207,15 @@ MCMCsummary(zm)
 
 1) Look at the first six rows of the data frame.
 2) Find the maximum value of $\sigma$.
-3) Find the mean of `r` for the first 1000 iterations.
-4) Find the mean of $r$ after the first 1000 iterations.
+3) Find the mean of $r$ for the first 1000 iterations.
+4) Find the mean of $r$ after the last 1000 iterations.
 5) Make two publication quality plots of the marginal posterior density of `K`, one as a smooth curve and the other as a histogram.
 6) Compute the probability that `K` > 1600. Hint: what type of probability distribution would you use for this computation?  Investigate the the dramatically useful R function `ecdf()`.
 7) Compute the probability that 1000 < `K` < 1300.
 8) Compute the .025 and .975 quantiles of `K`.  Hint--use the R `quantile()` function.
 
-<button class="button" onclick="toggle_visibility('myDIV6');">Answers</button>
-
-<div id="myDIV6", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
 ``` {r, fig.width = 5, fig.height = 5, fig.align = 'center', fig.cap = "Fig. 2. Posterior density of K.", eval = TRUE, echo = TRUE}
@@ -269,10 +257,8 @@ quantile(df$K, c(.025, .975))
 
 Summarize the coda output from the logistic model with 4 significant digits. Include Rhat and effective sample size diagnostics (more about these soon). Summarize the coda output for $r$ alone.
 
-<button class="button" onclick="toggle_visibility('myDIV7');">Answer</button>
-
-<div id="myDIV7", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 ```{r}
@@ -290,10 +276,8 @@ MCMCsummary(zm, params = "r", round = 4, n.eff = TRUE)
 
 Extract the chains for `r` and `sigma` as a data frame using `MCMCchains` and compute their .025 and .975 quantiles from the extracted object.  Display three significant digits. Make a publication quality histogram for the chain for `sigma`. Indicate the .025 and .975 Bayesian equal-tailed credible interval value with  vertical red lines. Overlay the .95 highest posterior density interval with vertical lines in blue. This is a "learn on your own" problem intended to allow you to rehearse the most important goal of this class: being sufficiently confident to figure things out.  Load the package `HDinterval`, enter `HDInterval` at the console and follow your nose. Also see Hobbs and Hooten Figure 8.2.1.  
 
-<button class="button" onclick="toggle_visibility('myDIV8');">Answer</button>
-
-<div id="myDIV8", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE, fig.height = 5, fig.height = 5, fig.align = 'center'}
@@ -325,10 +309,8 @@ For the logistic model:
 6. What do the dashed lines represent?  What inferential statement can we make about  relative these lines?
 
 
-<button class="button" onclick="toggle_visibility('myDIV9');">Answer</button>
-
-<div id="myDIV9", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
 <br>
 
 ``` {r, fig.width = 10, fig.height = 5, fig.align = 'center', fig.cap = "Fig. 4. Median and 95% credible intervals for predicted growth rate and posterior density of K.", eval = TRUE, include = TRUE, echo = TRUE}
@@ -357,10 +339,8 @@ The intervals are exactly overlapping in this particular case. Such overlap will
 
 Use the MCMCplot function to create caterpillar plots to visualize the posterior densities for $r$, and $\sigma$ using the coda object `zm` from earlier. Then use `MCMCplot()` to explore different plotting options. There are lots of these options, including ways to make the plots publication quality, show overlap with zero, etc.
 
-<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
-
-<div id="myDIV10", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
 <br>
 
 ```{r, fig.width = 8, fig.height = 12, fig.align = 'center'}
@@ -382,10 +362,8 @@ Rerun the logistic model with ``n.adapt = 100``. Then do the following:
 3. Repeat steps 1 and 2 until you feel you have reached convergence.
 4. Change the adapt phase to zero and repeat steps 1 -- 4. What happens?
 
-<button class="button" onclick="toggle_visibility('myDIV11');">Answer</button>
-
-<div id="myDIV11", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV10"> Answer </button>  
+<div id="myDIV10" class="collapse"> 
 <br>
 
 ``` {r, fig.align = 'center'}
@@ -429,10 +407,8 @@ raftery.diag(zm.short)
 
 Append R code (algorithm 5) to the script you made in exercise 4 to run the JAGS model (algorithm 2) in parallel and estimate the parameters, $r$, $K$ $\sigma$, and $\tau$. Use the `proc.time()` function in R to compare the time required for the sequential and parallel JAGS run. If your computer has 3 threads, try running only 2 chains in parallel when doing this exercise. If you have fewer than 3 threads, work with a classmate that has at least 3 threads. 
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV11"> Answer </button>  
+<div id="myDIV11" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, include = TRUE}
@@ -483,10 +459,8 @@ Looks as if the parallel model runs `r round(SequentialTime[3]/ParallelTime[3],2
 
 You might be very tempted, in the name of reproducible science, to set the seed inside each worker to the same value. What happens when you do this? Compare the results from this run to the previous run using `MCMCsummary()` and `MCMC(trace)`.
 
-<button class="button" onclick="toggle_visibility('myDIV5B');">Answer</button>
-
-<div id="myDIV5B", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV12"> Answer </button>  
+<div id="myDIV12" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.height = 5, fig.align = 'center'}
@@ -524,10 +498,8 @@ MCMCtrace(zmP, pdf = FALSE)
 
 Repeat this exercise with fixed initial values using algorithm 6.
 
-<button class="button" onclick="toggle_visibility('myDIV5C');">Answer</button>
-
-<div id="myDIV5C", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV13"> Answer </button>  
+<div id="myDIV13" class="collapse"> 
 <br>
 
 ``` {r, eval = TRUE, echo = TRUE, include = TRUE, fig.height = 5, fig.align = 'center'}
