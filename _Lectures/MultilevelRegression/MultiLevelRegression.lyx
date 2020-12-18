@@ -435,10 +435,10 @@ modeling parameters
 \begin_layout Standard
 \begin_inset Formula 
 \begin{eqnarray*}
-[\theta_{1},\bm{\theta}_{2},\bm{\alpha},\bm{\sigma}^{2}\mid y_{ij}] & \propto & [\theta_{1},\bm{\theta}_{2},\bm{\alpha},\bm{\sigma}^{2},y_{ij}]\\{}
-[\theta_{1},\bm{\theta}_{2},\bm{\alpha},\bm{\sigma}^{2}\mid y_{ij}] & \propto & [y_{ij}|g(\theta_{1,}\theta_{2,j},x_{ij}),\sigma_{1}^{2}]\\
+[\theta_{1},\theta_{2},\alpha_{1},\alpha_{2},\sigma_{1}^{2},\sigma_{2}^{2}\mid y_{ij}] & \propto & [\theta_{1},\theta_{2},\alpha_{1},\alpha_{2},\sigma_{1}^{2},\sigma_{2}^{2},y_{ij}]\\{}
+[\theta_{1},\theta_{2},\alpha_{1},\alpha_{2},\sigma_{1}^{2},\sigma_{2}^{2}\mid y_{ij}] & \propto & [y_{ij}|g(\theta_{1,}\theta_{2,j},x_{ij}),\sigma_{1}^{2}]\\
  & \times & [\theta_{2,j}|h(\alpha_{1,}\alpha_{2},u_{j}),\sigma_{2}^{2}]\\
- & \times & [\theta_{1}],[\alpha_{1}],[\alpha_{2}][\sigma_{1}^{2}][\sigma_{2}^{2}]
+ & \times & [\theta_{1}][\alpha_{1}][\alpha_{2}][\sigma_{1}^{2}][\sigma_{2}^{2}]
 \end{eqnarray*}
 
 \end_inset
@@ -704,7 +704,7 @@ center
 
 
 \begin_inset Graphics
-	filename ../../_Graphics/Random_effect_notation.pdf
+	filename ../../_Graphics/RandomEffectsNotation.pdf
 	width 30page%
 
 \end_inset
