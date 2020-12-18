@@ -230,8 +230,8 @@ g\big(\beta_{0},\beta_{1},x_{i})& = &\cfrac{e^{\beta_{0}+\beta_{1}x_{i}}}{e^{\be
 \end{eqnarray}
 
 ```{r, include = TRUE, echo = TRUE, eval= FALSE}
-b0 ~ dnorm(0, .37)
-b1 ~ dnorm(0, .37)
+b0 ~ dnorm(0, 0.37)
+b1 ~ dnorm(0, 0.37)
 for(i in 1:length(y)){
   logit(p[i]) <- b0 + b1 * x[i]
  	y[i] ~ dbern(p[i]) 

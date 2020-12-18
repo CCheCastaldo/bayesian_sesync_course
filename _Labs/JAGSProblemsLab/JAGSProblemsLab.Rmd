@@ -151,7 +151,7 @@ zm = coda.samples(jm, variable.names = c("K", "r", "sigma", "N_at_maxdNdt", "dNd
 
 ``` {r, eval = TRUE, echo = TRUE, fig.width = 5, fig.height = 5, fig.align = 'center'}
 N_at_maxdNdt = MCMCchains(zm, params = c("N_at_maxdNdt"))
-plot(density(N_at_maxdNdt), main = "", xlab ="Population size with maximum growth rate", ylab = "Proability density")
+plot(density(N_at_maxdNdt), main = "", xlab ="Population size with maximum growth rate", ylab = "Probability density")
 rug(N_at_maxdNdt, col = "red")
 ```
 
@@ -224,12 +224,14 @@ The data arise as presence/absence draws from a Bernoulli distribution whose pro
 <div id="myDIV5" class="collapse"> 
 <br>
 
+$$
 \begin{align}
 \big[a, b \mid \textbf{y}\big] & \propto 
-\prod_{i = 1}^{19}\textrm{Bernoulli}\big(y_{i}\mid g(a,b,x_i)\big)\,\textrm{normal}\big(a\mid,0,10000\big)
+\prod_{i = 1}^{19}\textrm{Bernoulli}\big(y_{i}\mid g(a,b,x_i)\big)\,\textrm{normal}\big(a\mid 0,10000\big)
 \textrm{normal}\big(b\mid 0,10000\big)\\\
 p&=g(a,b,x_i)  = \textrm{inverse logit}\big(a + bx_{i}\big) = \frac{\exp{\big(a + bx_{i}\big)}}{1+\exp\big(a + bx_{i}\big)}
 \end{align}
+$$
 
 The variance of a Bernoulli distribution is $p(1-p)$. It is implicit in the model in the same way that variance is implicit in the Poisson distribution. 
 

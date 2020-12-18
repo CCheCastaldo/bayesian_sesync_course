@@ -98,7 +98,7 @@ Review Hobbs and Hooten chapters 5 and 7.
 
 ##### **Day 8 (12/16), Session 2 (3 - 6 PM EST): Bayesian Regression**
 1. [Bayesian Regression](content/lectures/BayesianRegression.pdf)
-2. Lab Catch Up!
+2. [Lognormal Explanation](content/handouts/lognormalExplanation.pdf) 
 
 Review Hobbs and Hooten chapter 7-8.
 
@@ -128,7 +128,7 @@ Review Hobbs and Hooten chapters 6, 10-12.
 ---
 
 ##### **Additional Topics**
-
+- [More about Priors 2](content/lectures/MoreAboutPriors2.pdf)
 - [Mixture Models, Zero Inflation & Occupancy](content/lectures/MixtureModels.pdf) & [Lab](content/labs/MixtureModelsLab.html) & [Swiss Birds Lab](content/labs/SwissBirdsLab.html)
 - [Model Selection](content/lectures/ModelSelection.pdf) & [Lab](content/labs/ModelSelectionLab1.html)
 - [Model Selection Lab Math](content/handouts/ModelSelectionMath.pdf)

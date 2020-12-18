@@ -9,8 +9,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -31,7 +29,7 @@ library(HDInterval)
 library(SESYNCBayes)
 library(reshape2)
 library(tidyverse)
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = TRUE, cache.lazy = FALSE)
 #, cache.lazy = FALSE)
 set.seed(10)
 ```
@@ -121,13 +119,11 @@ $$
 
 1. Interpret the coefficients $\alpha$, $\beta$, and $\gamma$ in this model.
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answer</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
-Power functions are often used in modeling scaling relationships between quantities of interest. Here we would like to model N~2~O emission as a function of the amount of soil fertilizer added, while potentially allowing this relationship to change as the amount of fertilizer being added changes. In this power function, $\gamma$ is the conversion factor between fertilizer input and N~2~O emission. In the simplest case when $\beta$ is 0, N~2~O emission is invariant with respect to fertilizer input. When $\beta=1$, N~2~O emission increases linearly with respect to fertilizer input and this relationship remains consistent over all amounts of fertilizer added.You can think of $\gamma$ here as the slope of the line where the intercept is 0. If you haven't already guessed, the parameter $\beta$ is the exponent that controls how this conversion between fertilizer input and N~2~O output changes with respect to the amount of fertilizer added. When $0<b<1$, it means that as the amount of fertilizer added to the soil increases, N~2~O emission also increases, but it increases more and more slowly. Conversely when $\beta>1$, as more fertilizer is added to the soil the N~2~O emission increases at a faster and faster rate. Power functions are a mainstay of metabolic scaling theory and here is a [great simple tutorial](https://mathbench.umd.edu/modules/misc_scaling/page01.htm) for better understanding their behavior.
+Power functions are often used in modeling scaling relationships between quantities of interest. Here we would like to model N~2~O emission as a function of the amount of soil fertilizer added, while potentially allowing this relationship to change as the amount of fertilizer being added changes. In this power function, $\gamma$ is the conversion factor between fertilizer input and N~2~O emission. In the simplest case when $\beta$ is 0, N~2~O emission is invariant with respect to fertilizer input. When $\beta=1$, N~2~O emission increases linearly with respect to fertilizer input and this relationship remains consistent over all amounts of fertilizer added.You can think of $\gamma$ here as the slope of the line where the intercept is 0. If you haven't already guessed, the parameter $\beta$ is the exponent that controls how this conversion between fertilizer input and N~2~O output changes with respect to the amount of fertilizer added. When $0<\beta<1$, it means that as the amount of fertilizer added to the soil increases, N~2~O emission also increases, but it increases more and more slowly. Conversely when $\beta>1$, as more fertilizer is added to the soil the N~2~O emission increases at a faster and faster rate. Power functions are a mainstay of metabolic scaling theory and here is a [great simple tutorial](https://mathbench.umd.edu/modules/misc_scaling/page01.htm) for better understanding their behavior.
 
 Power functions can be logged, which makes fitting easier since the deterministic model is now linear. In this case the $\gamma$ is replaced with $\alpha=\log(\gamma)$. Now, $\alpha$ is the log N~2~O emission when the log of fertilizer addition is zero (or as you will see in the case below where we center the data, the mean fertilizer rate across the study). While parameter $\beta$ still has the identical interpretation as above (thanks to the rules of logarithms), it can also be viewed as the change in log N~2~O emission per unit change in log fertilizer addition.
 
@@ -135,13 +131,10 @@ Power functions can be logged, which makes fitting easier since the deterministi
 
 <br>
 
-2. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N2O emission ($y_{i}$
-) on fertilizer addition ($x_{i}$) for a single observation.
+2. Draw a Bayesian network for a linear regression model of N~2~O emission ($y_{i}$) on fertilizer addition ($x_{i}$).
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answer</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 <center>
@@ -154,16 +147,14 @@ include_graphics("../../_Graphics/DAG1_ml.png")
 
 <br>
 
-3. Write out the joint distribution for a linear regression model of N~2~O emission ($y$) on fertilizer addition ($x$) for a single observation. Start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing, of course, that you might need moment matching when you choose a specific distribution.  
+3. Write out the joint distribution for a linear regression model of N~2~O emission ($y_{i}$) on fertilizer addition ($x_{i}$). Start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing that you might need moment matching when you choose a specific distribution.  
 
-<button class="button" onclick="toggle_visibility('myDIV1A');">Answer</button>
-
-<div id="myDIV1A", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 $$
-\big[\alpha,\beta,\sigma \mid y_{i}\big] \propto  \big[\log(y_{i})\mid g\big(\alpha,\beta,\log(x_i)\big),\sigma^{2}\big][\alpha]\big[\beta\big]\big[\sigma \big]
+\big[\alpha,\beta,\sigma \mid \boldsymbol{y}\big] \propto \prod_{i=1}^{n} \big[\log(y_{i})\mid g\big(\alpha,\beta,\log(x_i)\big),\sigma^{2}\big][\alpha]\big[\beta\big]\big[\sigma \big]
 $$
 
 </div>
@@ -172,15 +163,15 @@ $$
 
 4. Finish by choosing specific distributions for likelihoods and priors. You will use the math in the answer as a template to code your model in the subsequent exercises. What are assuming about the distribution of the untransformed $\mu_i$? 
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answer</button>
-
-<div id="myDIV3", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
+<br>
 
 $$
 \begin{align*}
-[\alpha,\beta,\sigma \mid \mathbf{y}]&\propto\prod_{i=1}^{n}\text{normal}\big(\log(y_i)\mid g\big(\alpha,\beta,\log(x_i),\sigma^2\big)\\
-&\times\text{normal}(\alpha\mid 0,10000)\text{normal}(\beta \mid 0,10000)\\
-&\times\text{uniform}(\sigma\mid0,200)
+[\alpha,\beta,\sigma \mid \mathbf{y}]&\propto\prod_{i=1}^{n}\text{normal}\big(\log(y_i)\mid g\big(\alpha,\beta,\log(x_i)\big),\sigma^2\big)\\
+&\times\text{normal}(\alpha\mid 0,10000)\,\text{normal}(\beta \mid 0,10000)\\
+&\times\text{uniform}(\sigma\mid0,100)
 \end{align*}
 $$
 If you are choosing the normal distribution for logged N~2~O emission, then the distribution of the untransformed $\mu_i$ is lognormal. This will have consequences for your predicted emission rates as well will see in later sections.
@@ -191,13 +182,11 @@ If you are choosing the normal distribution for logged N~2~O emission, then the 
 
 5. What is the hypothesis represented by this model?
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answer</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
-The model $g\big(\alpha,\beta,x_{i}\big)$ represents the hypothesis that the log of emissions increases in direct proportion to the log of fertilizer additions and that this increase is the same for all sites and fertilizer types (we will remedy this brave assumption later). We could also say that the model represents the hypothesis that emissions increase as a power function of fertilizer additions and that the intercept $\alpha$ and exponent $\beta$ do not vary among sites. 
+The model $g\big(\alpha,\beta,\log(x_{i})\big)$ represents the hypothesis that the log of emissions increases in direct proportion to the log of fertilizer additions and that this increase is the same for all sites and fertilizer types (we will remedy this brave assumption later). We could also say that the model represents the hypothesis that emissions increase as a power function of fertilizer additions and that the intercept $\alpha$ and exponent $\beta$ do not vary among sites. 
 
 </div>
 
@@ -255,10 +244,8 @@ inits = list(
 
 6. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters.  Produce a summary table and caterpillar plot for the parameters and tests for convergence including the effective sample size.
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answer</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV6"> Answer </button>  
+<div id="myDIV6" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -373,12 +360,10 @@ $$
 
 <br>
 
-1. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) for a single observation. 
+1. Draw a Bayesian network for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$). 
 
-<button class="button" onclick="toggle_visibility('myDIV6');">Answer</button>
-
-<div id="myDIV6", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV7"> Answer </button>  
+<div id="myDIV7" class="collapse"> 
 <br>
 
 <center>
@@ -391,16 +376,14 @@ include_graphics("../../_Graphics/DAG1A_ml.png")
 
 <br>
 
-2. For the joint distribution, start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing, of course, that you might need moment matching when you choose a specific distribution.  
+2. Write out the joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$). Start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing that you might need moment matching when you choose a specific distribution.  
 
-<button class="button" onclick="toggle_visibility('myDIV7');">Answer</button>
-
-<div id="myDIV7", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2A"> Answer </button>  
+<div id="myDIV2A" class="collapse"> 
 <br>
 
 $$
-\big[\boldsymbol{\alpha},\beta,\sigma \mid y_{ij}\big] \propto  \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij})\big),\sigma^{2}\big][\boldsymbol{\alpha}]\big[\beta\big]\big[\sigma \big]
+\big[\boldsymbol{\alpha},\beta,\sigma \mid \boldsymbol{y}\big] \propto \propto\prod_{i=1}^{n}\prod_{j=1}^{J} \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij})\big),\sigma^{2}\big][\alpha_{j}]\big[\beta\big]\big[\sigma \big]
 $$
 
 </div>
@@ -409,15 +392,15 @@ $$
 
 3. Finish by choosing specific distributions for likelihoods and priors. You will use the math in the answer as a template to code your model in the subsequent exercises. 
 
-<button class="button" onclick="toggle_visibility('myDIV8');">Answer</button>
-
-<div id="myDIV8", style="display:none">
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV8"> Answer </button>  
+<div id="myDIV8" class="collapse"> 
+<br>
 
 $$
 \begin{align*}
-[\boldsymbol{\alpha},\beta,\sigma \mid \mathbf{y}]&\propto\prod_{i=1}^{n}\prod_{j=1}^{J}\text{normal}\big(\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij}),\sigma^2\big)\\
-&\times\text{normal}(\alpha_{j}\mid 0,10000)\text{normal}(\beta \mid 0,10000)\\
-&\times\text{uniform}(\sigma\mid0,200)
+[\boldsymbol{\alpha},\beta,\sigma \mid \mathbf{y}]&\propto\prod_{i=1}^{n}\prod_{j=1}^{J}\text{normal}\big(\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij})\big),\sigma^2\big)\\
+&\times\text{normal}(\alpha_{j}\mid 0,10000)\,\text{normal}(\beta \mid 0,10000)\\
+&\times\text{uniform}(\sigma\mid0,100)
 \end{align*}
 $$
 
@@ -427,13 +410,11 @@ $$
 
 4. What is the hypothesis represented by this model?
 
-<button class="button" onclick="toggle_visibility('myDIV9');">Answer</button>
-
-<div id="myDIV9", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV9"> Answer </button>  
+<div id="myDIV9" class="collapse"> 
 <br>
 
-The model $g\big(\alpha_{j},\beta,x_{ij}\big)$ represents the hypothesis that the log of emissions increases in direct proportion to the log of fertilizer additions and that this increase is the same for all sites and fertilizer types (we will remedy this brave assumption later). We could also say that the model represents the hypothesis that emissions increase as a power function of fertilizer additions and that the intercept $\alpha$ varies among sites while the exponent $\beta$ does not. We also assume that each site is independent from one another with respect to the mean log N~2~O emission when fertilizer input is 0 (or the mean value if we center the predictor).
+The model $g\big(\alpha_{j},\beta,\log(x_{ij})\big)$ represents the hypothesis that the log of emissions increases in direct proportion to the log of fertilizer additions and that this increase is the same for all sites and fertilizer types (we will remedy this brave assumption later). We could also say that the model represents the hypothesis that emissions increase as a power function of fertilizer additions and that the intercept $\alpha$ varies among sites while the exponent $\beta$ does not. We also assume that each site is independent from one another with respect to the mean log N~2~O emission when fertilizer input is 0 (or the mean value if we center the predictor).
 
 </div>
 
@@ -482,10 +463,8 @@ inits = list(
 
 5. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters, excluding $\boldsymbol{\alpha}$ and a summary table of these same parameters.  Assess convergence and look at the effective sample sizes for each of these parameters. Do you think any of the chains need to be run for longer and if so why? Make a horizontal caterpillar plot for the the $\boldsymbol{\alpha}$.
 
-<button class="button" onclick="toggle_visibility('myDIV10');">Answer</button>
-
-<div id="myDIV10", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV10"> Answer </button>  
+<div id="myDIV10" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -548,10 +527,8 @@ MCMCsummary(zc.nopooled, params = c("beta", "sigma"), n.eff = TRUE, round = 3)
 
 6. How is the model able to estimate intercepts for sites where there is only a single $x$ value, or even sites where there is only a single observation at all?
 
-<button class="button" onclick="toggle_visibility('myDIV11');">Answer</button>
-
-<div id="myDIV11", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV11"> Answer </button>  
+<div id="myDIV11" class="collapse"> 
 <br>
 
 So as long as a site as even as single point the intercept can be estimated for that site since $\beta$ (the slope of the logged data) is calculated across all sites. This would not work if we were fitting separate slopes and intercepts for each site in the no pool model.
@@ -607,12 +584,10 @@ rm(pred2.df)
 
 So far you have either ignored site completely (the pooled model) or treated all the site intercepts as independent from one another (the no-pool model). Now you are going to treat the site intercepts as partially pooled, meaning you will model them as coming from a common distribution. In other words, you will treat these intercepts in your model as a group level effect (aka, random effect). Hence, this model is often called a random-intercepts model. Like in the no-pool model, the deterministic portion of this model remains a linearized power function, but two subscripts are required: $i$ which indexes the measurement within sites and $j$ which indexes site itself. However, unlike the no-pool model, assume that these intercepts are drawn from a distribution with mean $\mu_{\alpha}$ and variance $\varsigma_{\alpha}^2$.
 
-1. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) for a single observation. 
+1. Draw a Bayesian network for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$). 
 
-<button class="button" onclick="toggle_visibility('myDIV13');">Answer</button>
-
-<div id="myDIV13", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV12"> Answer </button>  
+<div id="myDIV12" class="collapse"> 
 <br>
 
 <center>
@@ -625,18 +600,16 @@ include_graphics("../../_Graphics/DAG2_ml.png")
 
 <br>
 
-2. For the joint distribution, start by using generic $[\,]$. Use $\sigma^{2}$ to represent the uncertainty in your model realizing, of course, that you might need moment matching when you choose a specific distribution.  
+2. Write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$). Start by using generic $[\,]$. Use $\sigma^{2}$ and $,\varsigma^{2}$ to represent the uncertainty in your model realizing that you might need moment matching when you choose a specific distribution.  
 
-<button class="button" onclick="toggle_visibility('myDIV14');">Answer</button>
-
-<div id="myDIV14", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV13"> Answer </button>  
+<div id="myDIV13" class="collapse"> 
 <br>
 
 $$
 \begin{align*}
 g\big(\alpha_{j},\beta,\log(x_{ij})\big)&= \alpha_{j}+\beta\big(\log(x_{ij})\big)\\
-\big[\alpha_{j},\beta,\mu_{\alpha},\sigma,\varsigma_{\alpha}\mid y_{ij}\big] & \propto  \big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij}\big),\sigma^{2}\big]\big[\alpha_{j}\mid\mu_{\alpha},\varsigma_{\alpha}^{2}\big]\big[\beta\big]\big[\sigma\big]\big[\mu_{\alpha}\big]\big[\varsigma_{\alpha}\big]
+\big[\alpha_{j},\beta,\mu_{\alpha},\sigma,\varsigma_{\alpha}\mid y_{ij}\big] & \propto  \prod_{i=1}^{n_j} \prod_{j=1}^{J}\big[\log(y_{ij})\mid g\big(\alpha_{j},\beta,\log(x_{ij})\big),\sigma^{2}\big]\big[\alpha_{j}\mid\mu_{\alpha},\varsigma_{\alpha}^{2}\big]\big[\beta\big]\big[\sigma\big]\big[\mu_{\alpha}\big]\big[\varsigma_{\alpha}\big]
 \end{align*}
 $$
 
@@ -646,18 +619,16 @@ $$
 
 3. Finish by choosing specific distributions for likelihoods and priors. You will use the math in the answer as a template to code your model in the subsequent exercises. 
 
-<button class="button" onclick="toggle_visibility('myDIV15');">Answer</button>
-
-<div id="myDIV15", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV14"> Answer </button>  
+<div id="myDIV14" class="collapse"> 
 <br>
 
 $$
 \begin{align*}
-[\boldsymbol{\alpha},\beta,\sigma,\mu_\alpha,\varsigma_\alpha \mid \mathbf{y}]&\propto \prod_{i=1}^{n_j} \prod_{j=1}^{J}\text{normal}(\log(y_{ij})\mid g\big(\alpha_j,\beta,\log(x_{ij}),\sigma^2\big)\\
+[\boldsymbol{\alpha},\beta,\sigma,\mu_\alpha,\varsigma_\alpha \mid \mathbf{y}]&\propto \prod_{i=1}^{n_j} \prod_{j=1}^{J}\text{normal}(\log(y_{ij})\mid g\big(\alpha_j,\beta,\log(x_{ij})\big),\sigma^2\big)\\
 &\times \text{normal}(\alpha_j \mid\mu_{\alpha},\varsigma_{\alpha})\\
-&\times\text{normal}(\mu_{\alpha}\mid 0,10000)\text{uniform}(\varsigma(0,100)\\
-&\times\text{normal}(\beta \mid 0,10000)\text{uniform}(\sigma\mid0,100)
+&\times\text{normal}(\mu_{\alpha}\mid 0,10000)\,\text{uniform}(\varsigma \mid 0,100)\\
+&\times\text{normal}(\beta \mid 0,10000)\,\text{uniform}(\sigma\mid0,100)
 \end{align*}
 $$
 </div>
@@ -691,10 +662,8 @@ inits = list(
 
 5. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters, excluding $\boldsymbol{\alpha}$ and a summary table of these same parameters.  Assess convergence and look at the effective sample sizes for each of these parameters. Do you think any of the chains need to be run for longer and if so why? Make a horizontal caterpillar plot for the the $\boldsymbol{\alpha}$.
 
-<button class="button" onclick="toggle_visibility('myDIV16');">Answer</button>
-
-<div id="myDIV16", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV15"> Answer </button>  
+<div id="myDIV15" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -705,7 +674,7 @@ model{
 
   # hyperpriors
   mu.alpha ~ dnorm(0,.00001)  
-  sigma.alpha ~ dunif(0,200) #notated as varsigma in model documentation
+  sigma.alpha ~ dunif(0,100) # notated as varsigma in model documentation
   tau.alpha <- 1 / sigma.alpha^2
 
   # priors
@@ -748,8 +717,8 @@ sink()
 
 ```{r, echo = TRUE}
 n.adapt = 3000
-n.update = 5000
-n.iter = 5000
+n.update = 10000
+n.iter = 10000
 jm.randomint = jags.model(file="RandomInterceptJAGS.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
 update(jm.randomint, n.iter = n.update)
 zc.randomint = coda.samples(jm.randomint, variable.names = c("alpha", "beta", "sigma", "mu.alpha", "sigma.alpha", 
@@ -776,10 +745,8 @@ MCMCsummary(zc.randomint, params = c("beta", "sigma", "mu.alpha", "sigma.alpha")
 
 6. Modify code from the pooled and no-pool models to visualize the model predictions. For the site-level predictions, add a dotted line showing the posterior median of N~2~O emission from the no-pool model.
 
-<button class="button" onclick="toggle_visibility('myDIV17');">Answer</button>
-
-<div id="myDIV17", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV16"> Answer </button>  
+<div id="myDIV16" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -829,10 +796,8 @@ g2 +
 
 7. **ADVANCED** Why do the intercepts differ for some sites between the no-pool model and the random-intercepts model? Is this behavior consistent? Look closely at sites 51 and 56. 
 
-<button class="button" onclick="toggle_visibility('myDIV17A');">Answer</button>
-
-<div id="myDIV17A", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV17"> Answer </button>  
+<div id="myDIV17" class="collapse"> 
 <br>
 
 ```{r, fig.align = "center", fig.width = 10}
@@ -890,14 +855,14 @@ rm(lpred.snp.df)
 
 In the previous example, we assumed that the variation in the intercept was attributable to spatial variation among sites. We did not try to explain that variation, we simply acknowledged that it exists. Now we are going to "model a parameter" using soil carbon content data at the site-level to explain variation in the intercepts among sites. Modify the previous model to represent the effect of soil carbon on the intercept using the deterministic model below to predict $\alpha_j$. Here, we logit transform the carbon data to "spread them out" mapping 0-1 to all real numbers.
 
-$$g_2\big(\kappa,\eta,\text{logit}(w_j)\big)  =\kappa + \eta \text{logit}w_j$$ 
+$$
+g_2\big(\kappa,\eta,\text{logit}(w_j)\big)  =\kappa + \eta \text{logit}w_j
+$$ 
 
-8. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) for a single observation. 
+8. Draw a Bayesian network for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) and soil carbon content ($w_{j}$). 
 
-<button class="button" onclick="toggle_visibility('myDIV18');">Answer</button>
-
-<div id="myDIV18", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV18"> Answer </button>  
+<div id="myDIV18" class="collapse"> 
 <br>
 
 <center>
@@ -910,12 +875,10 @@ include_graphics("../../_Graphics/DAG3_ml.png")
 
 <br>
 
-9. Write out the posterior and joint distributions for the full dataset, which means you must include the proper products. Use $ij$ notation. You will need to notate that there are $n_{j}$ measurements of N~2~O emissions paired with fertilizer additions from site $j$. Choose appropriate distributions for each random variable. 
+9. Write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) and soil carbon content ($w_{j}$). Choose appropriate distributions for each random variable. 
 
-<button class="button" onclick="toggle_visibility('myDIV19');">Answer</button>
-
-<div id="myDIV19", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV19"> Answer </button>  
+<div id="myDIV19" class="collapse"> 
 <br>
 
 $$
@@ -927,8 +890,8 @@ g_{2}\big(\kappa,\eta,\text{logit}(w_{j})\big) &= \kappa+\eta\text{logit}\big(w_
  &\times \text{normal}\big(\beta \mid 0,1000\big)\\
  &\times \text{normal}\big(\eta \mid 0,1000\big)\\
  &\times \text{normal}\big(\kappa \mid 0,1000\big)\\
- &\times \text{uniform}\big(\sigma \mid 0,200\big)\\
- &\times \text{uniform}\big(\varsigma_{\alpha} \mid 0,200\big)\\
+ &\times \text{uniform}\big(\sigma \mid 0,100\big)\\
+ &\times \text{uniform}\big(\varsigma_{\alpha} \mid 0,100\big)\\
 \end{align*}
 $$
 
@@ -962,10 +925,8 @@ inits = list(
 
 10. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters, excluding $\boldsymbol{\alpha}$ and a summary table of these same parameters.  Assess convergence and look at the effective sample sizes for each of these parameters. Do you think any of the chains need to be run for longer and if so why? Make a horizontal caterpillar plot for the the $\boldsymbol{\alpha}$.
 
-<button class="button" onclick="toggle_visibility('myDIV20');">Answer</button>
-
-<div id="myDIV20", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV20"> Answer </button>  
+<div id="myDIV20" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -977,7 +938,7 @@ model{
   # priors
   kappa ~ dnorm(0,.00001)
   eta ~ dnorm(0, .000001)  
-  sigma.alpha ~ dunif(0,200) #notated as varsigma in model documentation
+  sigma.alpha ~ dunif(0,100) # notated as varsigma in model documentation
   tau.alpha <- 1 / sigma.alpha^2
   beta ~ dnorm(0, .0001)
   sigma ~ dunif(0, 100)
@@ -1014,8 +975,8 @@ sink()
 
 ```{r, echo = TRUE}
 n.adapt = 3000
-n.update = 5000
-n.iter = 5000
+n.update = 10000
+n.iter = 10000
 jm.randomintc = jags.model(file="RandomInterceptCarbonJAGS.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
 update(jm.randomintc, n.iter = n.update)
 zc.randomintc = coda.samples(jm.randomintc, variable.names = c("alpha", "beta", "sigma", "kappa", "eta", "sigma.alpha", 
@@ -1042,10 +1003,8 @@ MCMCsummary(zc.randomintc, params = c("beta", "sigma", "kappa", "eta", "sigma.al
 
 11. Use the code from the pooled to visualize the model predictions again. Compared to the random effects model, how does modeling site soil carbon affect the uncertainty in predicting N~2~O emissions for new sites? 
 
-<button class="button" onclick="toggle_visibility('myDIV21');">Answer</button>
-
-<div id="myDIV21", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV21"> Answer </button>  
+<div id="myDIV21" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE, fig.align = 'center', fig.width = 8, fig.height = 8}
@@ -1095,12 +1054,10 @@ Be careful here because the group level effects are formed for two **separate** 
 
 <br>
 
-1. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) for a single observation. 
+1. Draw a Bayesian network for a linear regression model of N~2~O emission ($y_{ijk}$) on fertilizer addition ($x_{ijk}$) and soil carbon content $(w_{j})$. 
 
-<button class="button" onclick="toggle_visibility('myDIV22');">Answer</button>
-
-<div id="myDIV22", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV22"> Answer </button>  
+<div id="myDIV22" class="collapse"> 
 <br>
 
 <center>
@@ -1113,15 +1070,14 @@ include_graphics("../../_Graphics/DAG4_ml.png")
 
 <br>
 
-2. Write out the posterior and joint distributions for the full dataset, which means you must include the proper products. Choose appropriate distributions for each random variable. 
+2. Write out the posterior and joint distributions for a linear regression model of N~2~O emission ($y_{ijk}$) on fertilizer addition ($x_{ijk}$) and soil carbon content ($w_{j}$). Choose appropriate distributions for each random variable. 
 
-<button class="button" onclick="toggle_visibility('myDIV23');">Answer</button>
-
-<div id="myDIV23", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV23"> Answer </button>  
+<div id="myDIV23" class="collapse"> 
 <br>
 
-$$\begin{align*}
+$$
+\begin{align*}
 g_{1}\big(\alpha_{j},\beta_{k},\log(x_{ijk})\big) &= \alpha_{j}+\beta_{k}\log(x_{ijk})\\
 g_{2}\big(\kappa,\eta,\text{logit}(w_{j})\big) &= \kappa+\eta\text{logit}(w_{j})\\
 \big[\boldsymbol{\alpha},\boldsymbol{\beta},\sigma,\varsigma_{\alpha},\kappa,\eta,\mu_{\beta,}\varsigma_{\beta}\mid\mathbf{y}\big] &\propto \prod_{j=1}^{J}\prod_{k=1}^{K_{j}}\prod_{i=1}^{n_{j}}\text{normal}\big(\log\big(y_{ijk}\big)\mid
@@ -1131,10 +1087,11 @@ g_{1}\big(\alpha_{j},\beta_{k},\log(x_{ijk})\big),\sigma^{2}\big)\\
  & \times \text{normal}\big(\eta\mid 0,1000\big)\\
  & \times \text{normal}\big(\kappa\mid 0,1000\big)\\
  & \times \text{uniform}\big(\sigma\mid 0,100\big)\\
- & \times \text{uniform}\big(\varsigma_{\alpha}\mid 0,200\big)\\
+ & \times \text{uniform}\big(\varsigma_{\alpha}\mid 0,100\big)\\
  & \times \text{normal}\big(\mu_{\beta}\mid 0,1000\big)\\
- & \times \text{uniform}\big(\varsigma_{\beta}\mid 0,200\big)
-\end{align*}$$
+ & \times \text{uniform}\big(\varsigma_{\beta}\mid 0,100\big)
+\end{align*}
+$$
 
 </div>
 
@@ -1170,10 +1127,8 @@ inits = list(
 
 3. Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters, excluding $\boldsymbol{\alpha}$ and a summary table of these same parameters.  Assess convergence and look at the effective sample sizes for each of these parameters. Do you think any of the chains need to be run for longer and if so why? Make a horizontal caterpillar plot for the the $\boldsymbol{\alpha}$.
 
-<button class="button" onclick="toggle_visibility('myDIV24');">Answer</button>
-
-<div id="myDIV24", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV24"> Answer </button>  
+<div id="myDIV24" class="collapse"> 
 <br>
 
 ```{r, echo = TRUE}
@@ -1185,9 +1140,9 @@ model{
   # priors
   kappa ~ dnorm(0,.00001)
   eta ~ dnorm(0, .000001)  
-  sigma.alpha ~ dunif(0,200) #notated as varsigma in model documentation
+  sigma.alpha ~ dunif(0,100) # notated as varsigma in model documentation
   tau.alpha <- 1 / sigma.alpha^2
-  sigma.beta ~ dunif(0,200) #notated as varsigma in model documentation
+  sigma.beta ~ dunif(0,100) # notated as varsigma in model documentation
   tau.beta <- 1 / sigma.beta^2
   sigma ~ dunif(0,100)
   tau.reg <- 1 / sigma^2
@@ -1222,8 +1177,8 @@ sink()
 
 ```{r, echo = TRUE}
 n.adapt = 3000
-n.update = 5000
-n.iter = 5000
+n.update = 10000
+n.iter = 10000
 jm.rancoef1 = jags.model(file="RandomCarbonFertJAGS.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
 update(jm.rancoef1, n.iter = n.update)
 zc.rancoef1 = coda.samples(jm.rancoef1, variable.names = c("alpha", "beta", "sigma", "kappa", "eta", "sigma.alpha", 
@@ -1250,10 +1205,8 @@ MCMCsummary(zc.rancoef1, params = c("sigma", "kappa", "eta", "sigma.alpha", "mu.
 
 4. How do you assess whether fertilizer type a good predictor of N~2~O emission?  How would we compare the slope for fertilizer type 1 to type 5?
 
-<button class="button" onclick="toggle_visibility('myDIV25');">Answer</button>
-
-<div id="myDIV25", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV25"> Answer </button>  
+<div id="myDIV25" class="collapse"> 
 <br>
 
 Look at the caterpillar plot of the $\boldsymbol{\beta}$ coefficients. While there is some variation, the credible intervals are quite similar suggesting that slope does not vary much with respect to fertilizer type. To compare fertilizer type 1 to 5 you can construct a derived quantity of their difference and then examine this derived quantities posterior to see how much overlaps 0. Try adding it to the model and then summarizing the posterior with `MCMCsummary` or `MCMCplot`. The JAGS code would be:
@@ -1274,7 +1227,8 @@ Last we return to the random intercepts model where you assumed that different s
 
 Represent the slope and intercept as a two element vector for each group and use a multivariate normal distribution in the same way you used a normal for the intercept. So the individual slopes ($\alpha_{j})$ and intercept ($\beta_{j})$ will be drawn from 
 
-$$\begin{align*}
+$$
+\begin{align*}
 \left(\begin{array}{c}
 \alpha_{j}\\
 \beta_{j}
@@ -1282,7 +1236,8 @@ $$\begin{align*}
 \mu_{\alpha}\\
 \mu_{\beta}
 \end{array}\right),\boldsymbol{\Sigma}\right)
-\end{align*}$$
+\end{align*}
+$$
 
 
 The second parameter in the multivariate normal is a variance-covariance matrix representing how the slope and intercept covary. It has variance terms on the diagonal, and covariance terms on the off-diagonal, i.e., 
@@ -1296,12 +1251,10 @@ $$\begin{align*}
 
 The covariance terms are defined as $\text{Cov}(\boldsymbol{\alpha},\boldsymbol{\beta})=\rho\varsigma_{\alpha}\varsigma_{\beta}$ where $\rho$ is the coefficient of correlation between $\boldsymbol{\alpha}$ and $\boldsymbol{\beta}$.
 
-5. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$) for a single observation. 
+5. Draw a Bayesian network and write out the posterior and joint distribution for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$). 
 
-<button class="button" onclick="toggle_visibility('myDIV26');">Answer</button>
-
-<div id="myDIV26", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV26"> Answer </button>  
+<div id="myDIV26" class="collapse"> 
 <br>
 
 <center>
@@ -1314,12 +1267,10 @@ include_graphics("../../_Graphics/DAG5_ml.png")
 
 <br>
 
-6. Write out the posterior and joint distributions for the full dataset, which means you must include the proper products. Choose appropriate distributions for each random variable. 
+6. Write out the posterior and joint distributions for a linear regression model of N~2~O emission ($y_{ij}$) on fertilizer addition ($x_{ij}$). Choose appropriate distributions for each random variable. 
 
-<button class="button" onclick="toggle_visibility('myDIV27');">Answer</button>
-
-<div id="myDIV27", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV27"> Answer </button>  
+<div id="myDIV27" class="collapse"> 
 <br>
 
 $$\begin{align*}
@@ -1428,8 +1379,8 @@ sink()
 
 ```{r, echo = TRUE}
 n.adapt = 3000
-n.update = 5000
-n.iter = 5000
+n.update = 20000
+n.iter = 10000
 jm.rancoef2 = jags.model(file="RandomCoefJAGS.R", data = data, n.adapt = n.adapt, inits = inits, n.chains = length(inits))
 update(jm.rancoef2, n.iter = n.update)
 zc.rancoef2 = coda.samples(jm.rancoef2, variable.names = c('mu.alpha', "mu.beta", "rho", "beta", "alpha", "sigma",
@@ -1503,10 +1454,8 @@ $$\sum_{i=1}^{n}(y_i-\mu_i)^2,$$
 
 where $\mu_i$ is the $i^{th}$ prediction of your model. Overlay the posterior distribution of the simulated data on the histogram of the read data (density on y axis, not frequency). What do you conclude?  Is there any indication of lack of fit?  Enough to discard the model?
 
-<button class="button" onclick="toggle_visibility('myDIV28');">Answer</button>
-
-<div id="myDIV28", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV29"> Answer </button>  
+<div id="myDIV29" class="collapse"> 
 <br>
 
 ```{r}

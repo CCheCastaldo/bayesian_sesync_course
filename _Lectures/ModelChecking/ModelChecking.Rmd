@@ -23,13 +23,13 @@ transition: fastest
 
 ## What is model checking?
 
-Model-based inference depends fundmentally on the assumption that your model can give rise to the data.  Model checking is the process of evaluating whether this assumption is true.
+Model-based inference depends fundamentally on the assumption that your model can give rise to the data.  Model checking is the process of evaluating whether this assumption is true.
 
 ##Recall the marginal distribution
 
 Recall, if the probability density function $[A,B]$ specifies the joint probability of the continuous random variables $A$ and $B$ then,
 
-- $\int [A,B]dB$ is the marginal probabilty of $A$ and 
+- $\int [A,B]dB$ is the marginal probability of $A$ and 
 - $\int [A,B]dA$ is the marginal probability of $B$.
 - This idea applies to any number of jointly distributed random variables. We simply integrate over all but one.
 
@@ -51,7 +51,7 @@ $$[y^{new} \mid y] = \underbrace{ \int_{\theta_1}...\int_{\theta_n}[y^{new}\mid\
 $$[y^{new} \mid y] = \underbrace{ \int_{\theta_1}...\int_{\theta_n}[y^{new}\mid\theta_1...\theta][\theta_1...\theta_n\mid y]d\theta_1...d\theta_n}_{\textbf{Posterior Predictive Distribution}}$$
 \bigskip
 \bigskip
-\center Can you derive this equation using the rules of probabilty?
+\center Can you derive this equation using the rules of probability?
 
 
 ## Consider,
@@ -67,11 +67,11 @@ y_i &\sim \textrm{normal}(\mu_i,\sigma^2)
 
 ## This is easier done than said.
 
-- We have a model $g(\theta,x)$ that predicts a response $y$. We approiximate the posterior distribtuion, $[\theta \mid y]$.
+- We have a model $g(\theta,x)$ that predicts a response $y$. We approximate the posterior distribution, $[\theta \mid y]$.
 - For any given value of $x_i$, we can simulate the posterior predictive distribution $y^{new}$ by making a draw from $[y^{new} \mid g(\theta,x),\sigma^2]$. 
 - In MCMC this means making draws from the data model at each iteration; each draw is conditional on the current parameter values.  
-- We can simulate a new dataset by repeating these draws for all values of the $x$.
-- Accumlating many of these draws defines the posterior predictive distribution in exactly the same way that many draws allow us to define the posterior distribution of the parameters.
+- We can simulate a new  by repeating these draws for all values of the $x$.
+- Accumulating many of these draws defines the posterior predictive distribution in exactly the same way that many draws allow us to define the posterior distribution of the parameters.
 
 ## 
 
@@ -79,9 +79,9 @@ y_i &\sim \textrm{normal}(\mu_i,\sigma^2)
 
 ## The Checking Part
 
-- $T (y,\theta)$ is a test statistic (e.g., mean, standard deviation, CV, quantile, or sums of squares discrepancy) calcuated from the observed data.
+- $T (y,\theta)$ is a test statistic (e.g., mean, standard deviation, CV, quantile, or sums of squares discrepancy) calculated from the observed data.
 - $T (y^{new},\theta)$ is the corresponding statistic from the simulated, which is generated  from the posterior predictive distribution. 
-- We calcuate:$$P_b=\Pr(T(y^{new},\theta)\geq T(y,\theta)\mid y)$$
+- We calculate:$$P_b=\Pr(T(y^{new},\theta)\geq T(y,\theta)\mid y)$$
 - If $P_B$ is very large or very small, then the difference between the observed data and the simulated data cannot be attributed to chance. **This indicates lack of fit**.
 
 ## Candidates for test statistics
@@ -106,7 +106,7 @@ We want to know (for some reason) the average number of ticks on sheep.
 
 By the way, what heroic assumption are we making here? What might be a better model that, theoretically, could obviate the need for this assumption?
 
-##Code
+## Code
 
 \centerline{\includegraphics[height=3in]{../../_Graphics/mod2.png}}
 
@@ -153,7 +153,7 @@ _Posterior predictive checks revealed little evidence of lack of fit between mod
 
 \centerline{\includegraphics[height=3in]{../../_Graphics/ppcHobbs.png}}
 
-##Aditional sources
+## Additional sources
 
 * A. Gelman and J. Hill. Data analysis using regression and multilievel / hierarchical modeling. Cambridge University Press, Cambridge, UK, 2009 Chapter 8
 
