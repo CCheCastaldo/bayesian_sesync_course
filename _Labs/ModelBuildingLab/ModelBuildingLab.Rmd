@@ -111,7 +111,7 @@ $$
 
 ### **Effects of Radon on cancer risk**
 
-You seek to understand how radon levels influence risk of cancer. You have data on the incidence of lung cancer in households (1 if cancer is present and 0 if no cancer) and radon levels (a continuous, non-negative number) for 1000 houses in each of 40 counties within a state. You also have data on the clay soil content at the county level. You heroically assume both clay content and radon levels are know without error. How would you model the effect of radon and soil type on the probability of lung cancer? Some hints:
+You seek to understand how radon levels influence risk of cancer. You have data on the incidence of lung cancer in households (1 if cancer is present and 0 if no cancer) and radon levels (a continuous, non-negative number) for 1000 houses in each of 40 counties within a state. You also have data on the clay soil content at the county level. You heroically assume both clay content and radon levels are known without error. How would you model the effect of radon and soil type on the probability of lung cancer? Some hints:
 
 1. What deterministic model would you use to predict the probability of cancer in a household as a function of radon level? 
 
