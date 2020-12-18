@@ -51,7 +51,7 @@ $$[y^{new} \mid y] = \underbrace{ \int_{\theta_1}...\int_{\theta_n}[y^{new}\mid\
 $$[y^{new} \mid y] = \underbrace{ \int_{\theta_1}...\int_{\theta_n}[y^{new}\mid\theta_1...\theta][\theta_1...\theta_n\mid y]d\theta_1...d\theta_n}_{\textbf{Posterior Predictive Distribution}}$$
 \bigskip
 \bigskip
-\center Can you derive this equation using the rules of probability?
+<!-- \center Can you derive this equation using the rules of probability? -->
 
 
 ## Consider,
