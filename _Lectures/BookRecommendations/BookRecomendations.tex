@@ -1,0 +1,74 @@
+%% LyX 2.3.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,american]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in,footskip=1cm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage[authoryear]{natbib}
+\doublespacing
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\makeatother
+\usepackage{graphicx}
+\usepackage{lineno,setspace}
+%\linenumbers
+\usepackage[small,compact]{titlesec}
+\usepackage[small,it]{caption}
+%\addtolength{\textfloatsep}{-20mm}
+%\doublespace
+\addtolength{\belowcaptionskip}{-3mm}
+%\addtolength{\abovecaptionskip}{-3mm}
+\usepackage{enumitem} % load the package
+\usepackage{bm}
+\usepackage{calc}
+\usepackage{rotating}
+\usepackage{hyperref}
+
+\addtolength{\intextsep}{-3mm}
+
+\usepackage{fancyheadings}
+\usepackage{url}
+%\usepackage[tablesfirst,notablist]{endfloat}
+
+\renewcommand{\bibsection}{\noindent{\textbf{{Literature Cited}}}}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\title{Bayesian Texts Reccomendations}
+
+\maketitle
+
+\section*{Tom}
+
+The text I use most these days is \citet{GelmanRedBook}, the widely
+used Bayesian text for graduate courses. The book I used to get started
+writing code is \citet{McCarthy_Bayes_book}. It is a great followup
+to this course. I also frequently refer to \citet{Gelman:2009fu}.
+The best book for population and community ecologists in my view is
+\citet{Royle:2008ud}. I also use code from \citet{Kery:2012uq} from
+time to time. My favorite text for understanding the complete data
+likelihood and finite population sampling is \citet{Link:2010qq}.
+This is also the best source for learning reversible jump MCMC, which
+is needed for approximating the probability of the model. And of course,
+my all time favorite is \citet{Hobbs_and_Hooten_2015}. Mevin and
+I will submit the manuscript for the second edition during the fall
+of 2021 (hope springs eternal). 
+
+\section*{Chris}
+
+The following books have been useful to me for learning Bayesian statistics. With the exception of the last one, all these books are geared towards practitioners with limited statistical training. First, of course, is \citet{Hobbs_and_Hooten_2015}. The strengths of this book is its clarity and approachability as well as the self-contained nature of the material. \cite{mcelreath2020statistical} (get the second edition) is a great complement to \citet{Hobbs_and_Hooten_2015}, as it covers many topics outside of \citet{Hobbs_and_Hooten_2015} while teaching the overlapping material in a somewhat different way. I found that the differences between these two books aided my overall understanding of Bayesian statistics. Richard McElreath has made the \href{https://xcelab.net/rm/statistical-rethinking/}{course materials} associated with \cite{mcelreath2020statistical} available online. The lecture videos are fun to watch. \citet{Gelman:2009fu} is a terrific resource with two caveats. The writing is quite terse and, as a result, can be somewhat opaque. Also, some of the material is now a bit outdated. Nonetheless, for a lot of Bayesian modeling questions I can usually find guidance from this book. Gelman et al. recently published \cite{gelman2020regression}, which is the first of two books that I believe are designed to replace \citet{Gelman:2009fu}. I haven't had much time with this new book yet but I still would recommend it without reservation. My last recommendation is a bit aspirational. \citet{GelmanRedBook} (affectionally known as BDA3) is a fantastic book but is geared to statistical students. My strategy has been to read chunks of  BDA3 periodically as a litmus test of my understanding derived from all these other books. Aki Vehtari, one of the authors of BDA3, has made his Bayesian Data Analysis course \href{https://avehtari.github.io/BDA_course_Aalto/}{course materials} available online, which I found to be helpful for probing its depths.
+
+\vspace{1cm}
+
+\bibliographystyle{ecology}
+\bibliography{BookRecommendations.bib}
+
+
+\end{document}

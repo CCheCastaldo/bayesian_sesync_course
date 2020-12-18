@@ -1,0 +1,54 @@
+\begin{thebibliography}{9}
+
+\bibitem[Gelman et~al.(2013)Gelman, Carlin, Stern, Dunson, Vehhtari, and
+  Rubin]{GelmanRedBook}
+Gelman, A., J.~B. Carlin, H.~S. Stern, D.~Dunson, A.~Vehhtari, and D.~B. Rubin,
+  2013.
+\newblock {B}ayesian data analysis.
+\newblock Chapman and Hall / CRC, London, UK.
+
+\bibitem[Gelman and Hill(2009)]{Gelman:2009fu}
+Gelman, A. and J.~Hill, 2009.
+\newblock Data analysis using regression and multilievel / hierarchical
+  modeling.
+\newblock Cambridge University Press, Cambridge, UK.
+
+\bibitem[Gelman et~al.(2020)Gelman, Hill, and Vehhtari]{gelman2020regression}
+Gelman, A., J.~Hill, and A.~Vehhtari, 2020.
+\newblock Regression and other stories.
+\newblock Cambridge University Press, Cambridge, UK.
+
+\bibitem[Hobbs and Hooten(2015)]{Hobbs_and_Hooten_2015}
+Hobbs, N.~T. and M.~B. Hooten, 2015.
+\newblock Bayesian models: A statistical primer for ecologists.
+\newblock Princeton University Press, Princeton New Jersey, USA.
+
+\bibitem[K\'{e}ry and Schaub(2012)]{Kery:2012uq}
+K\'{e}ry, M. and M.~Schaub, 2012.
+\newblock Bayesian population analysis using {WinBUGS}: A hierarchical
+  perspective.
+\newblock Academic Press, Waltham, MA, USA.
+
+\bibitem[Link and Barker(2010)]{Link:2010qq}
+Link, W.~A. and R.~J. Barker, 2010.
+\newblock {B}ayesian inference with ecological applications.
+\newblock Academic Press.
+
+\bibitem[McCarthy(2007)]{McCarthy_Bayes_book}
+McCarthy, M.~A., 2007.
+\newblock Bayesian methods for ecology.
+\newblock Cambridge University Press, Cambridge, UK.
+
+\bibitem[McElreath(2020)]{mcelreath2020statistical}
+McElreath, R., 2020.
+\newblock {Statistical Rethinking: A Bayesian Course with Examples in R and
+  STAN}.
+\newblock CRC Press, Boca Raton, Florida, second edition.
+
+\bibitem[Royle and Dorazio(2008)]{Royle:2008ud}
+Royle, J.~A. and R.~M. Dorazio, 2008.
+\newblock Hierarchical modeling and inference in ecology: the analysis of data
+  from populations, metapopulations, and communities.
+\newblock Academic Press, London, UK.
+
+\end{thebibliography}
