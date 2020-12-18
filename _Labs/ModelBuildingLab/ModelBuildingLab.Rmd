@@ -91,15 +91,17 @@ Define:
 <img src="../../_Graphics/InvasivesOnTransects.png" width="500">
 </center>
 
-$$\begin{align*}
-[\pmb{\beta}, \pmb{x} \mid, \pmb{w}, \pmb{y}] \propto & \prod_{i=1}^{N}[y_{i} \mid v_{i}, g(\beta_{0}, \beta_{1}, x_{i})][w_{i} \mid n_{i}, x_{i}][x_{i}][\beta_{0}][\beta_{1}]\\
+$$
+\begin{align*}
+[\pmb{\beta}, \pmb{x} \mid \pmb{w}, \pmb{y}] \propto & \prod_{i=1}^{N}[y_{i} \mid v_{i}, g(\beta_{0}, \beta_{1}, x_{i})][w_{i} \mid n_{i}, x_{i}][x_{i}][\beta_{0}][\beta_{1}]\\
 g(\beta_{0}, \beta_{1}, x_{i})=&\frac{e^{(\beta_{0} + \beta_{1} x_{i})}}{e^{(\beta_{0} + \beta_{1} x_{i})}+1}\\
 y_{i}\sim&\,\text{binomial}(v_{i}, g(\beta_{0}, \beta_{1}, x_{i}))\\
 w_{i}\sim&\,\text{binomial}(n_{i}, x_{i})\\
-x_{i}\sim&\,\text{unifomr}(0,1)\\
+x_{i}\sim&\,\text{uniform}(0,1)\\
 \beta_{0}\sim&\,\text{normal}(0, 2.7)\\
 \beta_{1}\sim&\,\text{normal}(0, 2.7)\\
-\end{align*}$$
+\end{align*}
+$$
 
 </div>
 
