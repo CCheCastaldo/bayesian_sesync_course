@@ -9,8 +9,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="../../_HeadersEtc/hideOutput.js"></script>
-
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -85,10 +83,8 @@ Define:
 
 6. $N$ = total number of transects
 
-<button class="button" onclick="toggle_visibility('myDIV1');">Answers</button>
-
-<div id="myDIV1", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV1"> Answer </button>  
+<div id="myDIV1" class="collapse"> 
 <br>
 
 <center>
@@ -97,7 +93,7 @@ Define:
 
 $$\begin{align*}
 [\pmb{\beta}, \pmb{x} \mid, \pmb{w}, \pmb{y}] \propto & \prod_{i=1}^{N}[y_{i} \mid v_{i}, g(\beta_{0}, \beta_{1}, x_{i})][w_{i} \mid n_{i}, x_{i}][x_{i}][\beta_{0}][\beta_{1}]\\
-g(\beta_{0}, \beta_{1}, x_{i})=&\frac{e^{(\beta_{0} + \beta_{1}, x_{i})}}{e^{(\beta_{0} + \beta_{1}, x_{i})}+1}\\
+g(\beta_{0}, \beta_{1}, x_{i})=&\frac{e^{(\beta_{0} + \beta_{1} x_{i})}}{e^{(\beta_{0} + \beta_{1} x_{i})}+1}\\
 y_{i}\sim&\,\text{binomial}(v_{i}, g(\beta_{0}, \beta_{1}, x_{i}))\\
 w_{i}\sim&\,\text{binomial}(n_{i}, x_{i})\\
 x_{i}\sim&\,\text{unifomr}(0,1)\\
@@ -121,10 +117,8 @@ You seek to understand how radon levels influence risk of cancer. You have data 
 
 3. Assume that the intercept in your deterministic model of the effect of radon level on probability of cancer in a household is a linear function of county level clay soil content.
 
-<button class="button" onclick="toggle_visibility('myDIV2');">Answers</button>
-
-<div id="myDIV2", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV2"> Answer </button>  
+<div id="myDIV2" class="collapse"> 
 <br>
 
 <center>
@@ -166,10 +160,8 @@ Define:
 
 4. $\mu_{i}=$ true measure of soil water content in the $i_{th}$ plot
 
-<button class="button" onclick="toggle_visibility('myDIV3');">Answers</button>
-
-<div id="myDIV3", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV3"> Answer </button>  
+<div id="myDIV3" class="collapse"> 
 <br>
 
 <center>
@@ -211,10 +203,8 @@ Define:
 
 5. $z_{i}=$ true proportion of herbaceous cover in the $i_{th}$ plot
 
-<button class="button" onclick="toggle_visibility('myDIV4');">Answers</button>
-
-<div id="myDIV4", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV4"> Answer </button>  
+<div id="myDIV4" class="collapse"> 
 <br>
 
 <center>
@@ -245,10 +235,8 @@ Define:
 
 4. $z_{ik}=$ true proportion of herbaceous cover in the $i_{th}$ plot in the $k_{th}$ stream reach
 
-<button class="button" onclick="toggle_visibility('myDIV5');">Answers</button>
-
-<div id="myDIV5", style="display:none">
-
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV5"> Answer </button>  
+<div id="myDIV5" class="collapse"> 
 <br>
 
 <center>
