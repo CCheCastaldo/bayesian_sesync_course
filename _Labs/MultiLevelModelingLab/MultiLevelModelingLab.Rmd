@@ -1324,6 +1324,9 @@ inits = list(
 
 Write the code for the model. Compile the model and execute the MCMC to produce a coda object. Produce trace plots of the chains for model parameters, excluding $\boldsymbol{\alpha}$ and a summary table of these same parameters.  Assess convergence and look at the effective sample sizes for each of these parameters. Do you think any of the chains need to be run for longer and if so why? Make a horizontal caterpillar plot for the the $\boldsymbol{\alpha}$.
 
+<button class="btn btn-primary" data-toggle="collapse" data-target="#myDIV50"> Answer </button>  
+<div id="myDIV50" class="collapse"> 
+<br>
 
 ```{r, echo = TRUE}
 {
@@ -1401,6 +1404,8 @@ MCMCplot(zc.rancoef2, params = "beta", sz_labels = .4, sz_med = .75, sz_thin = .
 MCMCtrace(zc.rancoef2, params = c("sigma", "mu.alpha", "sigma.alpha", "mu.beta", "sigma.beta", "rho"), pdf = FALSE)
 MCMCsummary(zc.rancoef2, params = c("sigma", "mu.alpha", "sigma.alpha", "mu.beta", "sigma.beta", "rho"), n.eff = TRUE, round = 3)
 ```
+
+</div>
 
 <br>
 
