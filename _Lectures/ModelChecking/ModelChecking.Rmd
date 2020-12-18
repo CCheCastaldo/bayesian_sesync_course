@@ -25,7 +25,7 @@ transition: fastest
 
 Model-based inference depends fundamentally on the assumption that your model can give rise to the data.  Model checking is the process of evaluating whether this assumption is true.
 
-##Recall the marginal distribution
+## Recall the marginal distribution
 
 Recall, if the probability density function $[A,B]$ specifies the joint probability of the continuous random variables $A$ and $B$ then,
 
