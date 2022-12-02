@@ -11,20 +11,27 @@
 
 
 
-<title>index.utf8</title>
+<title>index.knit</title>
 
-<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,11 +43,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -53,32 +55,8 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
@@ -89,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -109,40 +83,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 64px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
-.section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -170,7 +120,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -182,7 +132,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -192,11 +142,28 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.parent().addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -208,13 +175,12 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -222,16 +188,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -275,7 +234,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -298,7 +257,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -307,50 +266,132 @@ $(document).ready(function () {
 
 
 <p><br></p>
-<div id="special-thanks-to-sesync-and-the-national-science-foundation" class="section level4">
-<h4><strong>Special Thanks to SESYNC and the National Science Foundation</strong></h4>
-<p>We would like to thank the <a href="https://www.sesync.org">National Socio-Environmental Synthesis Center (SESYNC)</a> for hosting this course and for their logistical and financial support. Without their generosity, this course would not be possible. SESYNC is supported by National Science Foundation awards DBI-1052875 and DBI-1639145 to the University of Maryland, with additional support from University of Maryland, University of Maryland Center for Environmental Science, and Resources for the Future. We also wish to acknowledge support for preparation of these course materials from award DEB-1145200 from the Population and Community Ecology Program of the National Science Foundation to Colorado State University.</p>
+<div id="special-thanks-to-sesync-and-the-national-science-foundation"
+class="section level4">
+<h4><strong>Special Thanks to SESYNC and the National Science
+Foundation</strong></h4>
+<p>We would like to thank the <a href="https://www.sesync.org">National
+Socio-Environmental Synthesis Center (SESYNC)</a> for hosting this
+course and for their logistical and financial support. Without their
+generosity, this course would not be possible. SESYNC is supported by
+National Science Foundation awards DBI-1052875 and DBI-1639145 to the
+University of Maryland, with additional support from University of
+Maryland, University of Maryland Center for Environmental Science, and
+Resources for the Future. We also wish to acknowledge support for
+preparation of these course materials from award DEB-1145200 from the
+Population and Community Ecology Program of the National Science
+Foundation to Colorado State University.</p>
 <p><br></p>
 </div>
-<div id="bayesian-modeling-for-socio-environmental-data-short-course" class="section level4">
-<h4><strong>2020 Bayesian Modeling for Socio-Environmental Data Short Course</strong></h4>
-<p>Solutions to pressing environmental problems require understanding connections between human and natural systems. Analysis of these systems requires a model that can deal with complexity, is able to exploit data from multiple sources, and is honest about the uncertainty from multiple sources. Synthesis of results from multiple studies is often required. Bayesian hierarchical models provide a powerful approach to analysis of socio-environmental problems.</p>
-<p>Past participants of this short course have worked on research questions including the use of network analyses to understand measurement uncertainly in the context of extreme weather events, the study of governance effectiveness and fisheries biomass, the effect of changing climate on population dynamics of polar bears, and the relationship between advocacy group compositions and estuarine quality.</p>
+<div id="bayesian-modeling-for-socio-environmental-data-short-course"
+class="section level4">
+<h4><strong>2020 Bayesian Modeling for Socio-Environmental Data Short
+Course</strong></h4>
+<p>Solutions to pressing environmental problems require understanding
+connections between human and natural systems. Analysis of these systems
+requires a model that can deal with complexity, is able to exploit data
+from multiple sources, and is honest about the uncertainty from multiple
+sources. Synthesis of results from multiple studies is often required.
+Bayesian hierarchical models provide a powerful approach to analysis of
+socio-environmental problems.</p>
+<p>Past participants of this short course have worked on research
+questions including the use of network analyses to understand
+measurement uncertainly in the context of extreme weather events, the
+study of governance effectiveness and fisheries biomass, the effect of
+changing climate on population dynamics of polar bears, and the
+relationship between advocacy group compositions and estuarine
+quality.</p>
 <p>The goals of the course are to:</p>
 <ol style="list-style-type: decimal">
-<li><p>Provide a principles-based understanding of Bayesian methods needed to train students, evaluate papers and proposals, and solve research problems.</p></li>
-<li><p>Communicate the statistical concepts and vocabulary needed to foster collaboration between ecologists, social scientists, and statisticians.</p></li>
-<li><p>Provide the conceptual foundations and quantitative confidence needed for self-teaching modern analytic methods.</p></li>
+<li><p>Provide a principles-based understanding of Bayesian methods
+needed to train students, evaluate papers and proposals, and solve
+research problems.</p></li>
+<li><p>Communicate the statistical concepts and vocabulary needed to
+foster collaboration between ecologists, social scientists, and
+statisticians.</p></li>
+<li><p>Provide the conceptual foundations and quantitative confidence
+needed for self-teaching modern analytic methods.</p></li>
 </ol>
 <p><br></p>
 </div>
 <div id="short-course-overview" class="section level4">
 <h4><strong>Short Course Overview</strong></h4>
-<p>The course will include lectures and laboratory exercises. Labs will emphasize problem solving requiring programming in R and JAGS. The course will enable participants to:</p>
+<p>The course will include lectures and laboratory exercises. Labs will
+emphasize problem solving requiring programming in R and JAGS. The
+course will enable participants to:</p>
 <ol style="list-style-type: decimal">
-<li><p>Explain key principles of Bayesian statistics, including the concepts of joint, conditional, and marginal probabilities; posterior and prior distributions; likelihood; conjugacy; and the relationship between Bayesian and maximum likelihood approaches to inference.</p></li>
-<li><p>Use basic statistical distributions (e.g., binomial, Poisson, normal, log normal, multinomial, beta, Dirichlet, gamma, multivariate normal) to write joint and conditional posterior distributions for hierarchical Bayesian models that couple models of socio-ecological processes, models of data, and random effects.</p></li>
-<li><p>Explain how Markov chain Monte Carlo (MCMC) methods can be used to estimate the posterior distributions of parameters.</p></li>
-<li><p>Write algorithms and computer code in R implementing MCMC methods to estimate parameters in simple models.</p></li>
-<li><p>Use JAGS software to implement MCMC methods for estimating posterior distributions of parameters, latent states, and derived quantities.</p></li>
-<li><p>Evaluate model convergence and assess goodness of fit of models to data.</p></li>
-<li><p>Develop and implement hierarchical models that explicitly partition uncertainties.</p></li>
-<li><p>Understand the basis for statistical inference from single and multiple Bayesian models.</p></li>
-<li><p>Use Bayesian methods to synthesize results from multiple scientific studies.</p></li>
-<li><p>Understand Bayesian methods for modeling spatially structured data.</p></li>
+<li><p>Explain key principles of Bayesian statistics, including the
+concepts of joint, conditional, and marginal probabilities; posterior
+and prior distributions; likelihood; conjugacy; and the relationship
+between Bayesian and maximum likelihood approaches to
+inference.</p></li>
+<li><p>Use basic statistical distributions (e.g., binomial, Poisson,
+normal, log normal, multinomial, beta, Dirichlet, gamma, multivariate
+normal) to write joint and conditional posterior distributions for
+hierarchical Bayesian models that couple models of socio-ecological
+processes, models of data, and random effects.</p></li>
+<li><p>Explain how Markov chain Monte Carlo (MCMC) methods can be used
+to estimate the posterior distributions of parameters.</p></li>
+<li><p>Write algorithms and computer code in R implementing MCMC methods
+to estimate parameters in simple models.</p></li>
+<li><p>Use JAGS software to implement MCMC methods for estimating
+posterior distributions of parameters, latent states, and derived
+quantities.</p></li>
+<li><p>Evaluate model convergence and assess goodness of fit of models
+to data.</p></li>
+<li><p>Develop and implement hierarchical models that explicitly
+partition uncertainties.</p></li>
+<li><p>Understand the basis for statistical inference from single and
+multiple Bayesian models.</p></li>
+<li><p>Use Bayesian methods to synthesize results from multiple
+scientific studies.</p></li>
+<li><p>Understand Bayesian methods for modeling spatially structured
+data.</p></li>
 </ol>
 <p><br></p>
 </div>
 <div id="instructor-biographies" class="section level4">
 <h4><strong>Instructor Biographies</strong></h4>
-<p>Dr. Tom Hobbs has taught ecological modeling at Colorado State University for 16 years. His course has evolved over time; during the last eight years, it has emphasized Bayesian methods for gaining insight from models and data. He has also taught short courses for the U.S. Geological Survey, Conservation Science Partners, the Woods Hole Research Center, the Grimsö Wildlife Research Institute, and the Department of Ecology, Swedish Agricultural University. He is the author, with Mevin Hooten, of <em>Bayesian models: A statistical primer for ecologists</em> from Princeton University Press. Dr. Hobbs takes special pride in making challenging, quantitative concepts clear and accessible to students who never considered themselves to be particularly adept with mathematics and statistics.</p>
-<p>Dr. Mary Collins is an environmental social scientist and Assistant Professor of Environmental Health at the College of Environmental Science and Forestry at the State University of New York (SUNY-ESF). Dr. Collins uses hierarchical Bayesian models to assess inequalities in pollution generation between US-based industrial facilities and potential human health impacts. Currently, she is working on the temporal dimensions of hazardous waste generation as it relates to links between specific chemical exposures and rare cancers in New York State. Since participating in an earlier version of this course, she has been a co-instructor since 2015 and is specifically interested in the translation of concepts across disciplinary boundaries.</p>
-<p>Dr. Christian Che-Castaldo is a Postdoctoral Fellow at Stony Brooks University’s Institute for Advanced Computational Science. Working in conjunction with the USFS Pacific Northwest Research Station, Dr. Che-Castaldo uses hierarchical Bayesian models to explain and forecast the occupancy and population dynamics of the amphibian and small mammal species recolonizing Mount St. Helens after the 1980 eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he has been a co-instructor since 2015 and served as an external reviewer for <em>Bayesian models: A statistical primer for ecologists</em>.</p>
+<p>Dr. Tom Hobbs has taught ecological modeling at Colorado State
+University for 16 years. His course has evolved over time; during the
+last eight years, it has emphasized Bayesian methods for gaining insight
+from models and data. He has also taught short courses for the U.S.
+Geological Survey, Conservation Science Partners, the Woods Hole
+Research Center, the Grimsö Wildlife Research Institute, and the
+Department of Ecology, Swedish Agricultural University. He is the
+author, with Mevin Hooten, of <em>Bayesian models: A statistical primer
+for ecologists</em> from Princeton University Press. Dr. Hobbs takes
+special pride in making challenging, quantitative concepts clear and
+accessible to students who never considered themselves to be
+particularly adept with mathematics and statistics.</p>
+<p>Dr. Mary Collins is an environmental social scientist and Assistant
+Professor of Environmental Health at the College of Environmental
+Science and Forestry at the State University of New York (SUNY-ESF).
+Dr. Collins uses hierarchical Bayesian models to assess inequalities in
+pollution generation between US-based industrial facilities and
+potential human health impacts. Currently, she is working on the
+temporal dimensions of hazardous waste generation as it relates to links
+between specific chemical exposures and rare cancers in New York State.
+Since participating in an earlier version of this course, she has been a
+co-instructor since 2015 and is specifically interested in the
+translation of concepts across disciplinary boundaries.</p>
+<p>Dr. Christian Che-Castaldo is a Postdoctoral Fellow at Stony Brooks
+University’s Institute for Advanced Computational Science. Working in
+conjunction with the USFS Pacific Northwest Research Station,
+Dr. Che-Castaldo uses hierarchical Bayesian models to explain and
+forecast the occupancy and population dynamics of the amphibian and
+small mammal species recolonizing Mount St. Helens after the 1980
+eruption. Also a participant in one of Dr. Hobbs’ earlier workshops, he
+has been a co-instructor since 2015 and served as an external reviewer
+for <em>Bayesian models: A statistical primer for ecologists</em>.</p>
 <p><br></p>
 </div>
 <div id="questions" class="section level4">
 <h4><strong>Questions?</strong></h4>
-<p>Please email Dr. Mary Collins at: <a href="mailto:mbcollin@esf.edu" class="email">mbcollin@esf.edu</a> or Dr. Che-Castaldo at: <a href="mailto:christian.che-castaldo@stonybrook.edu" class="email">christian.che-castaldo@stonybrook.edu</a></p>
+<p>Please email Dr. Mary Collins at: <a href="mailto:mbcollin@esf.edu"
+class="email">mbcollin@esf.edu</a> or Dr. Che-Castaldo at: <a
+href="mailto:christian.che-castaldo@stonybrook.edu"
+class="email">christian.che-castaldo@stonybrook.edu</a></p>
 </div>
 
 
@@ -380,7 +421,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

@@ -7,6 +7,10 @@ output:
     theme: paper
 ---
 
+```{css, eval= TRUE, echo = FALSE}
+button.btn-primary{display: none;}
+```
+
 <img src="../../_HeadersEtc/SESYNCBayes/logo_plus_grants.png" style="position:relative;float:right;padding-top:10px;width:150px;height=150px" />
 
 ##### `r readChar("../../_HeadersEtc/SESYNCBayes/Title.txt", file.info("../../_HeadersEtc/SESYNCBayes/Title.txt")$size)`
@@ -20,7 +24,6 @@ output:
 library(knitr)
 
 knitr::opts_chunk$set(cache = FALSE)
-
 ```
 
 ----
