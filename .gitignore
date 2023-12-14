@@ -1,5 +1,6 @@
 .Rproj.user
 .Rhistory
+*.Rproj
 .RData
 .Ruserdata
 *.lock
@@ -34,6 +35,7 @@
 **/*_files
 !docs/content/package/*.gz
 Tom_material/**
+_Admin/*
 
 
 
