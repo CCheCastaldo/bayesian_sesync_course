@@ -1,0 +1,16 @@
+Loglikelihood forms the basis for many approximate confidence intervals and hypothesis tests, because it behaves in a predictable manner as the sample size grows. As n gets larger, two things are happening to the loglikelihood for theta. First, it is becoming more sharply peaked around the MLE. Second, the likelihood is becoming more symmetric about the MLE.
+
+This first fact is captured by the curvature of the loglikelihood at the MLE (i.e. the second derivative of the loglikelihood with respect to θ) is an important measure of statistical information about θ.
+
+The second point, that the loglikelihood function becomes more symmetric about the MLE as the sample size grows, forms the basis for constructing asymptotic (large-sample) confidence intervals for the unknown parameter. In a wide variety of problems, as the sample size grows the loglikelihood approaches a quadratic function (i.e. a parabola) centered at the MLE.
+
+The parabola is significant because that is the shape of the loglikelihood from the normal distribution.If we had a random sample of any size from a normal distribution with known variance σ2 and unknown mean μ, the loglikelihood for mu would be a perfect parabola centered at the MLE μˆ = x ̄ = Pni=1 xi/n.
+
+From elementary statistics, we know that if we have a sample from a normal distribution with known variance σ2, a 95% confidence interval for the mean μ is
+
+The quantity \sigma/n^.5 is called the standard error; it measures the variability of the sample mean x ̄ aboutthe true mean μ. The number 1.96 comes from a table of the standard normal distribution; the area under the standard normal density curve between −1.96 and 1.96 is .95 or 95%.
+
+The confidence interval (1) is valid because over repeated samples the estimate x ̄ is normally distributed about the true value μ with a standard deviation of σ/√
+
+But because in large samples the loglikelihood function l(θ ; x) approaches a parabola centered at θˆ, we will be able to use a method similar to (1) to form approximate confidence intervals for θ.
+
